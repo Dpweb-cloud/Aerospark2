@@ -132,27 +132,33 @@ export function SectionHeader({
 
 interface BadgeProps {
   children: React.ReactNode;
-  variant?: "default" | "blue" | "red" | "green";
+  variant?: "default" | "blue" | "orange" | "red" | "green";
   className?: string;
 }
 
-export function Badge({
-  children,
-  variant = "default",
-  className,
-}: BadgeProps) {
-  const variants: Record<NonNullable<BadgeProps["variant"]>, string> = {
-    default: "bg-surface-elevated text-text-secondary border-border-subtle",
-    blue: "bg-primary/10 text-primary border-primary/20",
-    red: "bg-red-500/10 text-red-400 border-red-500/20",
-    green: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+export function Badge({ children, variant = "default", className }: BadgeProps) {
+  // Using a helper function prevents dynamic string indexing entirely
+  const getVariantStyles = (type: "default" | "blue" | "orange" | "red" | "green") => {
+    switch (type) {
+      case "blue":
+        return "bg-primary/10 text-primary border-primary/20";
+      case "orange":
+        return "bg-secondary/10 text-secondary border-secondary/20";
+      case "green":
+        return "bg-emerald-500/10 text-emerald-400 border-emerald-500/20";
+      case "red":
+        return "bg-rose-500/10 text-rose-400 border-rose-500/20";
+      case "default":
+      default:
+        return "bg-surface-elevated text-text-secondary border-border-subtle";
+    }
   };
 
   return (
     <span
       className={cn(
         "inline-flex items-center px-2.5 py-0.5 text-xs font-medium rounded-full border",
-        variants[variant],
+        getVariantStyles(variant),
         className
       )}
     >
@@ -160,3 +166,5 @@ export function Badge({
     </span>
   );
 }
+
+
