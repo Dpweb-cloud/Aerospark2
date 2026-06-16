@@ -4,6 +4,7 @@
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 
+
 interface GlassCardProps {
   children: React.ReactNode;
   className?: string;
@@ -126,17 +127,7 @@ export function SectionHeader({
   );
 }
 
-// 1. Define the allowed keys strictly matching your variant prop types
-type VariantKeys = "default" | "blue" | "orange" | "green" | "red";
 
-// 2. Apply Record<VariantKeys, string> so TypeScript allows dynamic indexing
-const variants: Record<VariantKeys, string> = {
-  default: "bg-gray-100 text-gray-800 border-gray-200", // replace with your actual classes
-  blue: "bg-blue-100 text-blue-800 border-blue-200",
-  orange: "bg-orange-100 text-orange-800 border-orange-200",
-  green: "bg-green-100 text-green-800 border-green-200",
-  red: "bg-red-100 text-red-800 border-red-200", // 👈 Added the missing 'red' key here
-};
 
 
 interface BadgeProps {
@@ -145,11 +136,15 @@ interface BadgeProps {
   className?: string;
 }
 
-export function Badge({ children, variant = "default", className }: BadgeProps) {
-  const variants = {
+export function Badge({
+  children,
+  variant = "default",
+  className,
+}: BadgeProps) {
+  const variants: Record<NonNullable<BadgeProps["variant"]>, string> = {
     default: "bg-surface-elevated text-text-secondary border-border-subtle",
     blue: "bg-primary/10 text-primary border-primary/20",
-    orange: "bg-secondary/10 text-secondary border-secondary/20",
+    red: "bg-red-500/10 text-red-400 border-red-500/20",
     green: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
   };
 
