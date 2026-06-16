@@ -1,26 +1,244 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: var(--bg-main);
+  --color-foreground: var(--fg-main);
+  --color-aero-blue: var(--primary);
+  --color-aero-blue-fg: var(--primary-fg);
+  --color-aero-blue-dim: var(--primary-dim);
+  --color-aero-blue-glow: var(--primary-glow);
+  --color-aero-red: var(--secondary);
+  --color-aero-red-fg: var(--secondary-fg);
+  --color-aero-red-dim: var(--secondary-dim);
+  --color-surface: var(--surface);
+  --color-surface-elevated: var(--surface-elevated);
+  --color-surface-hover: var(--surface-hover);
+  --color-border-subtle: var(--border-subtle);
+  --color-border-default: var(--border-default);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Theme: Light Mode (Default) */
+:root {
+  --bg-main: #FFFFFF;
+  --fg-main: #0A0A0A;
+  --primary: #003087;
+  /* Duke Blue */
+  --primary-fg: #FFFFFF;
+  --primary-dim: #001A57;
+  --primary-glow: rgba(0, 48, 135, 0.1);
+  --secondary: #FF6600;
+  /* Vibrant Royal Orange */
+  --secondary-fg: #FFFFFF;
+  --secondary-dim: #E65C00;
+  --surface: #FFFFFF;
+  --surface-elevated: #FFF7ED;
+  /* Very subtle orange tint for elevation */
+  --surface-hover: #FFEDD5;
+  --border-subtle: rgba(255, 102, 0, 0.1);
+  /* Orange tinted borders */
+  --border-default: rgba(0, 48, 135, 0.1);
+  --text-primary: #003087;
+  --text-secondary: #475569;
+  --text-muted: #94A3B8;
+}
+
+/* Theme: Dark Mode (High Contrast Orange/Black/Navy) */
+:root.dark {
+  --bg-main: #000000;
+  --fg-main: #FFFFFF;
+  --primary: #FF6600;
+  /* Vibrant Orange */
+  --primary-fg: #000000;
+  --primary-dim: #E65C00;
+  --primary-glow: rgba(255, 102, 0, 0.2);
+  --secondary: #011F5B;
+  --secondary-fg: #FFFFFF;
+  --secondary-dim: #001540;
+  --surface: #121212;
+  /* Slightly lighter than pure black for visibility */
+  --surface-elevated: #1A1A1A;
+  --surface-hover: #262626;
+  --border-subtle: rgba(255, 255, 255, 0.05);
+  --border-default: rgba(255, 102, 0, 0.2);
+  --text-primary: #FFFFFF;
+  --text-secondary: #F8FAFC;
+  --text-muted: #94A3B8;
+}
+
+
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-default) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--border-default);
+  border-radius: 3px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--border-subtle);
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Glass panel effect */
+.glass-panel {
+  background: color-mix(in srgb, var(--surface) 70%, transparent);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--border-subtle);
+}
+
+.glass-panel-light {
+  background: color-mix(in srgb, var(--surface-elevated) 50%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-default);
+}
+
+/* Glow effects */
+.glow-blue {
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.05), 0 0 60px rgba(255, 255, 255, 0.02);
+}
+
+.glow-red {
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.03), 0 0 60px rgba(255, 255, 255, 0.01);
+}
+
+.text-glow-blue {
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-warm {
+  background: linear-gradient(135deg, var(--secondary) 0%, #FDBA74 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Radar grid background - very subtle */
+.radar-grid {
+  background-image:
+    linear-gradient(var(--border-subtle) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border-subtle) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* Animated gradient border */
+.animated-border {
+  position: relative;
+}
+
+.animated-border::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent, rgba(255, 255, 255, 0.05));
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+  pointer-events: none;
+}
+
+/* Card hover effects */
+.card-hover {
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card-hover:hover {
+  background: color-mix(in srgb, var(--surface-hover) 80%, transparent);
+  border-color: var(--border-default);
+  transform: translateY(-2px);
+}
+
+/* HUD overlay style */
+.hud-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+/* Section divider */
+.section-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-default), transparent);
+}
+
+/* Pulse animation for live indicators */
+@keyframes pulse-glow {
+
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+.pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+/* Scan line effect */
+@keyframes scan-line {
+  0% {
+    transform: translateY(-100%);
+  }
+
+  100% {
+    transform: translateY(100vh);
+  }
+}
+
+.scan-line {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-subtle), transparent);
+  animation: scan-line 10s linear infinite;
+  pointer-events: none;
+  z-index: 100;
 }
