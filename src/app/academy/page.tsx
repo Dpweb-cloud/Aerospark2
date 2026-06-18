@@ -61,7 +61,7 @@ export default function AcademyPage() {
           <div className="absolute inset-0 radar-grid opacity-50" />
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
             <SectionHeader
-              label="// Academy"
+              label="Academy"
               title="Aerospace Training Programs"
               description="Industry-grade courses designed by aerospace engineers, certified by regulatory bodies, and trusted by leading organizations."
             />

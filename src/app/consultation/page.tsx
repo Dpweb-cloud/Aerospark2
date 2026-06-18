@@ -55,7 +55,7 @@ export default function ConsultationPage() {
           <div className="absolute inset-0 radar-grid opacity-40" />
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
             <SectionHeader
-              label="// Consultation"
+              label="Consultation"
               title="Aerospace Engineering Consulting"
               description="Expert consulting services for UAS certification, quality systems, drone R&D, design simulation, and aerospace procurement."
             />

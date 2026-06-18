@@ -41,7 +41,7 @@ export function FeaturedCourses() {
     <section className="py-24 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeader
-          label="// Academy"
+          label="Academy"
           title="Featured Courses"
           description="Industry-grade aerospace training programs designed by engineering experts and validated by industry leaders."
         />
@@ -51,65 +51,75 @@ export function FeaturedCourses() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-50px" }}
-          className="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5"
+          className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-6"
         >
           {featured.map((course) => (
             <motion.div key={course.id} variants={staggerItem}>
               <GlassCard
-                className="h-full flex flex-col group cursor-pointer"
+                className="group cursor-pointer h-full"
                 glow="blue"
+                padding="lg"
               >
-                {/* Course Image Placeholder */}
-                <div className="relative h-40 rounded-lg bg-gradient-to-br from-surface-elevated to-surface mb-4 overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent z-10" />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <GraduationCap className="w-12 h-12 text-aero-blue/20" />
-                  </div>
-                  <div className="absolute top-3 left-3 z-20">
-                    <Badge variant={levelColors[course.level] as any}>
-                      {course.level}
-                    </Badge>
-                  </div>
-                </div>
-
-                {/* Content */}
-                <div className="flex-1 flex flex-col">
-                  <p className="text-xs text-aero-blue font-medium uppercase tracking-wider mb-2">
-                    {course.category}
-                  </p>
-                  <h3 className="text-base font-semibold text-foreground mb-2 group-hover:text-aero-blue transition-colors line-clamp-2">
-                    {course.title}
-                  </h3>
-                  <p className="text-sm text-text-secondary line-clamp-2 mb-4 flex-1">
-                    {course.description}
-                  </p>
-
-                  {/* Meta */}
-                  <div className="flex items-center gap-3 text-xs text-text-muted mb-4">
-                    <span className="flex items-center gap-1">
-                      <Clock className="w-3 h-3" />
-                      {course.duration}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <BookOpen className="w-3 h-3" />
-                      {course.lessons} lessons
-                    </span>
+                <div className="flex flex-col sm:flex-row gap-5 h-full">
+                  {/* Course Image */}
+                  <div className="relative w-full sm:w-48 h-36 sm:h-auto rounded-lg bg-gradient-to-br from-surface-elevated to-surface flex-shrink-0 overflow-hidden">
+                    <img 
+                      src="/engine-blueprint.jpg" 
+                      alt="Engine Blueprint"
+                      className="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-screen group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <div className="absolute top-2 left-2 z-20">
+                      <Badge variant={levelColors[course.level] as any}>
+                        {course.level}
+                      </Badge>
+                    </div>
                   </div>
 
-                  {/* Footer */}
-                  <div className="flex items-center justify-between pt-4 border-t border-border-subtle">
-                    <div className="flex items-center gap-1">
-                      <Star className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
-                      <span className="text-sm font-medium text-foreground">
-                        {course.rating}
+                  {/* Content */}
+                  <div className="flex-1 flex flex-col min-w-0">
+                    <p className="text-xs text-aero-blue font-medium uppercase tracking-wider mb-1">
+                      {course.category}
+                    </p>
+                    <h3 className="text-lg font-semibold text-foreground mb-2 group-hover:text-aero-blue transition-colors">
+                      {course.title}
+                    </h3>
+                    <p className="text-sm text-text-secondary line-clamp-2 mb-4 flex-1">
+                      {course.description}
+                    </p>
+
+                    {/* Meta Row */}
+                    <div className="flex flex-wrap items-center gap-4 text-xs text-text-muted mb-4">
+                      <span className="flex items-center gap-1">
+                        <Clock className="w-3 h-3" />
+                        {course.duration}
                       </span>
-                      <span className="text-xs text-text-muted ml-1">
-                        ({course.students.toLocaleString()})
+                      <span className="flex items-center gap-1">
+                        <BookOpen className="w-3 h-3" />
+                        {course.lessons} lessons
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <Users className="w-3 h-3" />
+                        {course.students.toLocaleString()} enrolled
                       </span>
                     </div>
-                    <span className="text-sm font-semibold text-aero-blue">
-                      ₹{course.price.toLocaleString()}
-                    </span>
+
+                    {/* Footer */}
+                    <div className="flex items-center justify-between pt-3 border-t border-border-subtle mt-auto">
+                      <div className="flex items-center gap-1">
+                        <Star className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
+                        <span className="text-sm font-medium text-foreground">
+                          {course.rating}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <span className="text-lg font-bold text-aero-blue">
+                          ₹{course.price.toLocaleString()}
+                        </span>
+                        <Button variant="primary" size="sm">
+                          Enroll
+                        </Button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </GlassCard>
@@ -192,7 +202,7 @@ export function CertificationsSection() {
     <section className="py-24 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeader
-          label="// Certifications"
+          label="Certifications"
           title="Industry-Grade Credentials"
           description="Earn certifications recognized by aerospace industry leaders and regulatory bodies."
         />
@@ -232,7 +242,7 @@ export function TestimonialsSection() {
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-aero-blue/[0.02] to-transparent" />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <SectionHeader
-          label="// Testimonials"
+          label="Testimonials"
           title="Trusted by Engineers"
           description="Hear from aerospace professionals who transformed their careers through AeroSpark."
         />
@@ -295,7 +305,7 @@ export function CTASection() {
 
           <div className="relative z-10">
             <span className="hud-label text-aero-blue mb-4 block">
-              // Ready to Launch?
+              Ready to Launch?
             </span>
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 tracking-tight">
               Elevate Your Aerospace Career

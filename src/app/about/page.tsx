@@ -96,7 +96,7 @@ export default function AboutPage() {
               transition={{ duration: 0.7 }}
               className="max-w-3xl"
             >
-              <span className="hud-label text-aero-blue">// About</span>
+              <span className="hud-label text-aero-blue">About</span>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mt-4 mb-6 tracking-tight">
                 Building the Future of{" "}
                 <span className="gradient-text">Aerospace Education</span>
@@ -166,7 +166,7 @@ export default function AboutPage() {
         <section className="py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <SectionHeader
-              label="// Values"
+              label="Values"
               title="What Drives Us"
               description="Core principles that guide every decision at AeroSpark."
             />
@@ -200,7 +200,7 @@ export default function AboutPage() {
         <section className="py-20">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
             <SectionHeader
-              label="// Journey"
+              label="Journey"
               title="Our Timeline"
             />
             <div className="mt-16 relative">
@@ -238,7 +238,7 @@ export default function AboutPage() {
         <section className="py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <SectionHeader
-              label="// Leadership"
+              label="Leadership"
               title="Meet the Team"
               description="Aerospace engineers, educators, and technologists building the future of learning."
             />

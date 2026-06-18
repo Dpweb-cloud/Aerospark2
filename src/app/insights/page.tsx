@@ -49,7 +49,7 @@ export default function InsightsPage() {
           <div className="absolute inset-0 radar-grid opacity-40" />
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
             <SectionHeader
-              label="// Insights"
+              label="Insights"
               title="Aerospace Intelligence"
               description="Expert analysis, industry trends, and technical deep-dives from the aerospace engineering community."
             />
