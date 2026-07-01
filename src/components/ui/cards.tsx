@@ -112,9 +112,6 @@ export function SectionHeader({
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.6 }}
     >
-      {label && (
-        <span className="hud-label text-aero-blue inline-block">{label}</span>
-      )}
       <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground tracking-tight">
         {title}
       </h2>

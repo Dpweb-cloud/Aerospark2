@@ -60,8 +60,8 @@ export function AnimeHeroAnimation() {
 
     let cx = width / 2;
     let cy = height / 2;
-    const maxRadius = Math.min(width, height) * 0.42;
-    const coneR = maxRadius * 0.25;
+    let maxRadius = Math.min(width, height) * 0.42;
+    let coneR = maxRadius * 0.25;
     
     const engineState = {
       fanRotation: 0,
@@ -219,6 +219,8 @@ export function AnimeHeroAnimation() {
 
       cx = width / 2;
       cy = height / 2;
+      maxRadius = Math.min(width, height) * 0.42;
+      coneR = maxRadius * 0.25;
       
       if (gameState.isBroken) {
         engineState.shakeX = (Math.random() - 0.5) * 12;
@@ -546,7 +548,7 @@ export function AnimeHeroAnimation() {
 
   return (
     <div 
-      className="relative w-full h-[400px] lg:h-[600px] flex items-center justify-center group overflow-hidden"
+      className="relative w-full h-[300px] md:h-[400px] lg:h-[600px] flex items-center justify-center group overflow-hidden"
       onMouseLeave={handleMouseLeave}
     >
       <canvas
@@ -556,24 +558,24 @@ export function AnimeHeroAnimation() {
       
       {/* Idle State - Play Button */}
       {gameMode === 'idle' && (
-        <div className="absolute top-4 right-4 z-20">
+        <div className="absolute top-2 right-2 md:top-4 md:right-4 z-20">
           <button 
             onClick={handleStart}
-            className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold rounded-full transition-all shadow-[0_0_15px_rgba(37,99,235,0.5)] hover:scale-105 active:scale-95 flex items-center gap-2"
+            className="px-3 py-1.5 md:px-5 md:py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs md:text-sm font-bold rounded-full transition-all shadow-[0_0_15px_rgba(37,99,235,0.5)] hover:scale-105 active:scale-95 flex items-center gap-1.5 md:gap-2"
           >
-            <span className="text-lg leading-none">▶</span> Play Mini-Game
+            <span className="text-sm md:text-lg leading-none">▶</span> Play Mini-Game
           </button>
         </div>
       )}
 
       {/* Playing State - Stop Button */}
       {gameMode === 'playing' && (
-        <div className="absolute top-4 right-4 z-20">
+        <div className="absolute top-2 right-2 md:top-4 md:right-4 z-20">
           <button 
             onClick={handleStop}
-            className="px-5 py-2.5 bg-gray-500/80 hover:bg-gray-600/80 backdrop-blur-sm text-white text-sm font-bold rounded-full transition-all shadow-[0_0_15px_rgba(0,0,0,0.2)] hover:scale-105 active:scale-95 flex items-center gap-2"
+            className="px-3 py-1.5 md:px-5 md:py-2.5 bg-gray-500/80 hover:bg-gray-600/80 backdrop-blur-sm text-white text-xs md:text-sm font-bold rounded-full transition-all shadow-[0_0_15px_rgba(0,0,0,0.2)] hover:scale-105 active:scale-95 flex items-center gap-1.5 md:gap-2"
           >
-            <span className="text-lg leading-none">■</span> Stop Game
+            <span className="text-sm md:text-lg leading-none">■</span> Stop Game
           </button>
         </div>
       )}

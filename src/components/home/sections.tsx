@@ -68,11 +68,7 @@ export function FeaturedCourses() {
                       alt="Engine Blueprint"
                       className="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-screen group-hover:scale-105 transition-transform duration-500"
                     />
-                    <div className="absolute top-2 left-2 z-20">
-                      <Badge variant={levelColors[course.level] as any}>
-                        {course.level}
-                      </Badge>
-                    </div>
+
                   </div>
 
                   {/* Content */}
@@ -97,10 +93,7 @@ export function FeaturedCourses() {
                         <BookOpen className="w-3 h-3" />
                         {course.lessons} lessons
                       </span>
-                      <span className="flex items-center gap-1">
-                        <Users className="w-3 h-3" />
-                        {course.students.toLocaleString()} enrolled
-                      </span>
+
                     </div>
 
                     {/* Footer */}

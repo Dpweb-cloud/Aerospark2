@@ -16,7 +16,7 @@ import { AnimeHeroAnimation } from "./anime-hero-animation";
 
 export function HeroSection() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-[100dvh] flex flex-col items-center justify-center overflow-hidden pb-32 lg:pb-0">
       {/* Background Image (Original transparent/themed) */}
       <div className="absolute inset-0 z-0">
         <img 
@@ -32,14 +32,14 @@ export function HeroSection() {
       <div className="absolute inset-0 bg-gradient-to-r from-background/40 via-transparent to-background/40 z-[2]" />
 
       {/* Clickable Academy Badge */}
-      <div className="absolute top-32 right-12 z-50 animate-bounce-slow">
+      <div className="absolute top-24 right-4 sm:right-8 md:top-32 md:right-12 z-50 animate-bounce-slow">
         <Link href="/academy" className="block group">
-          <div className="relative w-36 h-36 rounded-full border-2 border-dashed border-aero-blue/50 flex flex-col items-center justify-center bg-surface-elevated/80 backdrop-blur-md shadow-[0_0_30px_rgba(0,180,255,0.2)] hover:shadow-[0_0_40px_rgba(0,180,255,0.4)] hover:border-aero-blue transition-all duration-300">
-            <span className="text-[10px] font-bold tracking-widest text-foreground group-hover:text-aero-blue transition-colors">
+          <div className="relative w-28 h-28 md:w-36 md:h-36 rounded-full border-2 border-dashed border-aero-blue/50 flex flex-col items-center justify-center bg-surface-elevated/80 backdrop-blur-md shadow-[0_0_30px_rgba(0,180,255,0.2)] hover:shadow-[0_0_40px_rgba(0,180,255,0.4)] hover:border-aero-blue transition-all duration-300">
+            <span className="text-[8px] md:text-[10px] font-bold tracking-widest text-foreground group-hover:text-aero-blue transition-colors">
               ENROLL ONCE
             </span>
-            <span className="text-2xl text-aero-blue my-1 font-light">∞</span>
-            <span className="text-[10px] font-bold tracking-widest text-foreground group-hover:text-aero-blue transition-colors">
+            <span className="text-xl md:text-2xl text-aero-blue my-0.5 md:my-1 font-light">∞</span>
+            <span className="text-[8px] md:text-[10px] font-bold tracking-widest text-foreground group-hover:text-aero-blue transition-colors">
               UPGRADE FREE
             </span>
             
@@ -58,7 +58,7 @@ export function HeroSection() {
       </div>
 
       {/* Main Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center gap-12 pt-16">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center gap-8 lg:gap-12 pt-24 lg:pt-16 lg:pb-0">
         
         {/* Left Text Content */}
         <div className="flex-1 text-left">
@@ -138,7 +138,7 @@ export function HeroSection() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2, duration: 0.8 }}
-        className="absolute bottom-10 left-0 right-0 flex items-center justify-center gap-8 md:gap-16 z-10"
+        className="absolute bottom-6 lg:bottom-10 left-0 right-0 flex flex-wrap items-center justify-center gap-6 sm:gap-8 md:gap-16 z-10"
       >
         {[
           { label: "Students", value: "8,200+" },

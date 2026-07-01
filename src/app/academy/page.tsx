@@ -6,6 +6,7 @@ import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
 import { GlassCard, SectionHeader, Badge } from "@/components/ui/cards";
+import Link from "next/link";
 import { COURSES, COURSE_BUNDLES, LEARNER_BENEFITS } from "@/lib/constants";
 import { staggerContainer, staggerItem } from "@/lib/motion";
 import {
@@ -16,6 +17,7 @@ import {
   Star,
   ChevronDown,
   ChevronUp,
+  ArrowRight,
   GraduationCap,
   Users,
   CheckCircle2,
@@ -48,7 +50,6 @@ export default function AcademyPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedLevel, setSelectedLevel] = useState("All");
-  const [expandedSyllabus, setExpandedSyllabus] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<"courses" | "bundles">("courses");
 
   const filteredCourses = useMemo(() => {
@@ -67,6 +68,7 @@ export default function AcademyPage() {
       return matchSearch && matchCategory && matchLevel;
     });
   }, [searchQuery, selectedCategory, selectedLevel]);
+
 
   const levelColors = {
     Beginner: "green",
@@ -244,14 +246,8 @@ export default function AcademyPage() {
                             <div className="absolute inset-0 flex items-center justify-center">
                               <GraduationCap className="w-10 h-10 text-aero-blue/15" />
                             </div>
-                            <div className="absolute top-2 left-2">
-                              <Badge variant={levelColors[course.level] as any}>
-                                {course.level}
-                              </Badge>
-                            </div>
-                            <div className="absolute bottom-2 right-2 bg-aero-blue/10 border border-aero-blue/20 rounded px-2 py-0.5">
-                              <span className="text-[10px] font-bold text-aero-blue">LAUNCH PRICE</span>
-                            </div>
+
+
                           </div>
 
                           {/* Content */}
@@ -276,10 +272,7 @@ export default function AcademyPage() {
                                 <BookOpen className="w-3 h-3" />
                                 {course.lessons} lessons
                               </span>
-                              <span className="flex items-center gap-1">
-                                <Users className="w-3 h-3" />
-                                {course.students.toLocaleString()} enrolled
-                              </span>
+
                             </div>
 
                             {/* Tags */}
@@ -316,90 +309,13 @@ export default function AcademyPage() {
 
                         {/* Expandable Syllabus — Real Topics + Eligibility + Outcome */}
                         <div className="mt-4 pt-3 border-t border-border-subtle">
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setExpandedSyllabus(
-                                expandedSyllabus === course.id ? null : course.id
-                              );
-                            }}
-                            className="flex items-center gap-2 text-xs text-text-secondary hover:text-aero-blue transition-colors"
+                          <Link
+                            href={`/academy/course/${course.id}`}
+                            className="flex items-center gap-2 text-xs text-text-secondary hover:text-aero-blue transition-colors group/btn"
                           >
-                            {expandedSyllabus === course.id ? (
-                              <ChevronUp className="w-3 h-3" />
-                            ) : (
-                              <ChevronDown className="w-3 h-3" />
-                            )}
                             View Syllabus & Details
-                          </button>
-                          <AnimatePresence>
-                            {expandedSyllabus === course.id && (
-                              <motion.div
-                                initial={{ height: 0, opacity: 0 }}
-                                animate={{ height: "auto", opacity: 1 }}
-                                exit={{ height: 0, opacity: 0 }}
-                                transition={{ duration: 0.3 }}
-                                className="overflow-hidden"
-                              >
-                                <div className="pt-4 space-y-4">
-                                  {/* Key Topics */}
-                                  <div>
-                                    <p className="text-xs font-semibold text-text-secondary uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                                      <BookOpen className="w-3 h-3 text-aero-blue" />
-                                      Key Topics Covered
-                                    </p>
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
-                                      {(course as any).topics?.map((topic: string, i: number) => (
-                                        <div
-                                          key={i}
-                                          className="flex items-start gap-2 text-xs text-text-secondary"
-                                        >
-                                          <div className="w-4 h-4 rounded bg-aero-blue/8 border border-aero-blue/15 flex items-center justify-center text-[9px] text-aero-blue flex-shrink-0 mt-0.5 font-mono">
-                                            {i + 1}
-                                          </div>
-                                          {topic}
-                                        </div>
-                                      ))}
-                                    </div>
-                                  </div>
-
-                                  {/* Eligibility */}
-                                  {(course as any).eligibility && (
-                                    <div className="rounded-lg bg-surface-elevated border border-border-subtle p-3">
-                                      <p className="text-xs font-semibold text-text-secondary uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
-                                        <Target className="w-3 h-3 text-aero-blue" />
-                                        Who Is This For
-                                      </p>
-                                      <p className="text-xs text-text-secondary leading-relaxed">
-                                        {(course as any).eligibility}
-                                      </p>
-                                    </div>
-                                  )}
-
-                                  {/* Outcome */}
-                                  {(course as any).outcome && (
-                                    <div className="rounded-lg bg-aero-blue/4 border border-aero-blue/10 p-3">
-                                      <p className="text-xs font-semibold text-aero-blue uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
-                                        <Zap className="w-3 h-3" />
-                                        Course Outcome
-                                      </p>
-                                      <p className="text-xs text-text-secondary leading-relaxed">
-                                        {(course as any).outcome}
-                                      </p>
-                                    </div>
-                                  )}
-
-                                  {/* Certification note */}
-                                  <div className="flex items-center gap-2 text-xs text-text-muted bg-surface-elevated/50 rounded-lg px-3 py-2 border border-border-subtle">
-                                    <Award className="w-3.5 h-3.5 text-amber-400 flex-shrink-0" />
-                                    <span>
-                                      <strong className="text-text-secondary">Certificate included</strong> — result-based course completion certificate after assessment.
-                                    </span>
-                                  </div>
-                                </div>
-                              </motion.div>
-                            )}
-                          </AnimatePresence>
+                            <ArrowRight className="w-3 h-3 group-hover/btn:translate-x-1 transition-transform" />
+                          </Link>
                         </div>
                       </GlassCard>
                     </motion.div>
@@ -491,9 +407,7 @@ export default function AcademyPage() {
                               Save ₹{bundle.savings.toLocaleString()} vs individual
                             </p>
                           </div>
-                          <div className="text-right">
-                            <p className="text-[10px] text-text-muted uppercase tracking-wider">Launch Fee</p>
-                          </div>
+
                         </div>
                         <Button variant="primary" size="md" className="w-full">
                           Enroll in Bundle
@@ -516,6 +430,8 @@ export default function AcademyPage() {
           </section>
         )}
       </main>
+
+
       <Footer />
     </>
   );
