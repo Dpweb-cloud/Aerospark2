@@ -36,31 +36,7 @@ export function HeroSection() {
       <div className="absolute inset-0 bg-gradient-to-b from-background via-surface-elevated/20 to-background z-[2]" />
       <div className="absolute inset-0 bg-gradient-to-r from-background/40 via-transparent to-background/40 z-[2]" />
 
-      {/* Clickable Academy Badge */}
-      <div className="absolute top-24 right-4 sm:right-8 md:top-32 md:right-12 z-50 animate-bounce-slow">
-        <Link href="/academy" className="block group">
-          <div className="relative w-28 h-28 md:w-36 md:h-36 rounded-full border-2 border-dashed border-aero-blue/50 flex flex-col items-center justify-center bg-surface-elevated/80 backdrop-blur-md shadow-[0_0_30px_rgba(0,180,255,0.2)] hover:shadow-[0_0_40px_rgba(0,180,255,0.4)] hover:border-aero-blue transition-all duration-300">
-            <span className="text-[8px] md:text-[10px] font-bold tracking-widest text-foreground group-hover:text-aero-blue transition-colors">
-              ENROLL ONCE
-            </span>
-            <span className="text-xl md:text-2xl text-aero-blue my-0.5 md:my-1 font-light">∞</span>
-            <span className="text-[8px] md:text-[10px] font-bold tracking-widest text-foreground group-hover:text-aero-blue transition-colors">
-              UPGRADE FREE
-            </span>
-            
-            {/* Decorative sparkle */}
-            <svg 
-              className="absolute -top-3 -right-3 w-8 h-8 text-aero-blue animate-pulse" 
-              viewBox="0 0 24 24" 
-              fill="none" 
-              stroke="currentColor" 
-              strokeWidth="1.5"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" />
-            </svg>
-          </div>
-        </Link>
-      </div>
+
 
       {/* Main Content */}
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center gap-8 lg:gap-12 pt-24 lg:pt-16 lg:pb-0">
@@ -69,6 +45,7 @@ export function HeroSection() {
         <div className="flex-1 text-left">
           {/* Heading */}
           <motion.h1
+            id="hero-heading"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}

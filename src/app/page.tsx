@@ -11,11 +11,14 @@ import {
   CTASection,
 } from "@/components/home/sections";
 
+import { FullPageFlightPath } from "@/components/home/full-page-flight-path";
+
 export default function HomePage() {
   return (
     <>
       <Navbar />
-      <main>
+      <main className="relative">
+        <FullPageFlightPath />
         <HeroSection />
         <div className="section-divider" />
         <FeaturedCourses />
