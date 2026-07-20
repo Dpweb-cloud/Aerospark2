@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -13,10 +14,14 @@ import {
 } from "lucide-react";
 
 import { AnimeHeroAnimation } from "./anime-hero-animation";
+import { ConsultationModal } from "./consultation-modal";
 
 export function HeroSection() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
-    <section className="relative min-h-[100dvh] flex flex-col items-center justify-center overflow-hidden pb-32 lg:pb-0">
+    <>
+      <section className="relative min-h-[100dvh] flex flex-col items-center justify-center overflow-hidden pb-32 lg:pb-0">
       {/* Background Image (Original transparent/themed) */}
       <div className="absolute inset-0 z-0">
         <img 
@@ -62,19 +67,6 @@ export function HeroSection() {
         
         {/* Left Text Content */}
         <div className="flex-1 text-left">
-          {/* Status Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.6 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-surface-elevated/60 border border-border-subtle mb-6 backdrop-blur-sm"
-          >
-            <div className="w-1.5 h-1.5 bg-secondary rounded-full pulse-glow" />
-            <span className="text-xs font-medium text-text-secondary tracking-wide">
-              Platform v2.0 — Now with AI-Powered Learning
-            </span>
-          </motion.div>
-
           {/* Heading */}
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
@@ -82,9 +74,9 @@ export function HeroSection() {
             transition={{ delay: 0.5, duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
             className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-[1.1] mb-6"
           >
-            <span className="text-foreground">The Future of</span>
+            <span className="text-foreground">Aviation Minds</span>
             <br />
-            <span className="gradient-text">Aerospace Education</span>
+            <span className="gradient-text">Redefining Drones and Education</span>
           </motion.h1>
 
           {/* Subheading */}
@@ -94,9 +86,7 @@ export function HeroSection() {
             transition={{ delay: 0.7, duration: 0.6 }}
             className="text-text-secondary text-base sm:text-lg max-w-xl mb-8 leading-relaxed"
           >
-            Master aerospace engineering through industry-grade courses, hands-on
-            R&D projects, and expert consultation — all in one
-            mission-critical platform.
+            Whether you’re advancing your skills through AI-powered aerospace courses, launching a custom drone, seeking expert consultation, or sourcing essential components, AeroSpark brings learning, engineering, and procurement together to turn bold ideas into flight-ready solutions.
           </motion.p>
 
           {/* CTAs */}
@@ -107,17 +97,17 @@ export function HeroSection() {
             className="flex flex-col sm:flex-row items-start sm:items-center gap-4"
           >
             <Button variant="primary" size="lg" href="/academy">
-              Explore Academy
+              Curriculum
               <ChevronRight className="w-4 h-4" />
             </Button>
             <Button 
               variant="secondary" 
               size="lg" 
-              href="/consultation"
+              onClick={() => setIsModalOpen(true)}
               className="hover:border-secondary/50 hover:text-secondary group"
             >
               <Play className="w-4 h-4 text-secondary group-hover:scale-110 transition-transform" />
-              Request Consultation
+              Discuss Your Project
             </Button>
           </motion.div>
         </div>
@@ -133,31 +123,16 @@ export function HeroSection() {
         </motion.div>
       </div>
 
-      {/* Bottom Stats Strip */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.2, duration: 0.8 }}
-        className="absolute bottom-6 lg:bottom-10 left-0 right-0 flex flex-wrap items-center justify-center gap-6 sm:gap-8 md:gap-16 z-10"
-      >
-        {[
-          { label: "Students", value: "8,200+" },
-          { label: "Courses", value: "24" },
-          { label: "Partners", value: "50+" },
-        ].map((stat) => (
-          <div key={stat.label} className="text-center">
-            <p className="text-2xl md:text-3xl font-bold text-foreground">
-              {stat.value}
-            </p>
-            <p className="text-xs text-text-muted uppercase tracking-wider mt-1">
-              {stat.label}
-            </p>
-          </div>
-        ))}
-      </motion.div>
+
 
       {/* Bottom gradient fade */}
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent z-[5]" />
     </section>
+    
+    <ConsultationModal 
+      isOpen={isModalOpen} 
+      onClose={() => setIsModalOpen(false)} 
+    />
+    </>
   );
 }

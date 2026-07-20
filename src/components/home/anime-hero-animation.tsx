@@ -197,7 +197,7 @@ export function AnimeHeroAnimation() {
     const fanAnim = anime({
       targets: engineState,
       fanRotation: Math.PI * 2,
-      duration: 1500,
+      duration: 4000,
       easing: 'linear',
       loop: true
     });

@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { SectionHeader, GlassCard, Badge } from "@/components/ui/cards";
 import { Button } from "@/components/ui/button";
@@ -19,6 +20,7 @@ import {
   Shield,
   Quote,
 } from "lucide-react";
+import { ConsultationModal } from "./consultation-modal";
 
 const iconMap: Record<string, React.ReactNode> = {
   Users: <Users className="w-5 h-5" />,
@@ -282,6 +284,8 @@ export function TestimonialsSection() {
 
 /* ─── CTA Section ─── */
 export function CTASection() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <section className="py-24 relative">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -312,13 +316,14 @@ export function CTASection() {
                 Start Learning
                 <ChevronRight className="w-4 h-4" />
               </Button>
-              <Button variant="secondary" size="lg" href="/consultation">
+              <Button variant="secondary" size="lg" onClick={() => setIsModalOpen(true)}>
                 Book Consultation
               </Button>
             </div>
           </div>
         </motion.div>
       </div>
+      <ConsultationModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </section>
   );
 }

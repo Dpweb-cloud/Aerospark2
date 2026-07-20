@@ -57,8 +57,9 @@ export function Navbar() {
                 />
                 <div className="absolute inset-0 bg-secondary/30 blur-lg rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </div>
-              <span className="text-lg font-bold tracking-tight text-foreground">
-                {SITE_CONFIG.name}
+              <span className="text-lg font-bold tracking-tight">
+                <span className="text-[#00008B]">Aero</span>
+                <span className="text-orange-500">Spark</span>
               </span>
             </Link>
 
@@ -99,10 +100,6 @@ export function Navbar() {
               <ThemeSwitcher />
               <Button variant="ghost" size="sm" href="/dashboard">
                 Sign In
-              </Button>
-              <Button variant="primary" size="sm" href="/academy">
-                Get Started
-                <ChevronRight className="w-3.5 h-3.5" />
               </Button>
             </div>
 
@@ -176,9 +173,6 @@ export function Navbar() {
               <div className="p-4 space-y-3 border-t border-border-subtle">
                 <Button variant="secondary" size="md" href="/dashboard" className="w-full">
                   Sign In
-                </Button>
-                <Button variant="primary" size="md" href="/academy" className="w-full">
-                  Get Started
                 </Button>
               </div>
             </motion.div>
