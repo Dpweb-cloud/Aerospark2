@@ -96,7 +96,6 @@ export default function AboutPage() {
               transition={{ duration: 0.7 }}
               className="max-w-3xl"
             >
-              <span className="hud-label text-aero-blue">About</span>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mt-4 mb-6 tracking-tight">
                 Building the Future of{" "}
                 <span className="gradient-text">Aerospace Education</span>

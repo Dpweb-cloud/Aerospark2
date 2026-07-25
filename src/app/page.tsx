@@ -12,10 +12,17 @@ import {
 } from "@/components/home/sections";
 
 import { FullPageFlightPath } from "@/components/home/full-page-flight-path";
+import { Outfit } from "next/font/google";
+
+const outfit = Outfit({ 
+  subsets: ["latin"],
+  display: 'swap',
+  variable: '--font-sans',
+});
 
 export default function HomePage() {
   return (
-    <>
+    <div className={`${outfit.variable} font-sans`}>
       <Navbar />
       <main className="relative">
         <FullPageFlightPath />
@@ -30,6 +37,6 @@ export default function HomePage() {
         <CTASection />
       </main>
       <Footer />
-    </>
+    </div>
   );
 }

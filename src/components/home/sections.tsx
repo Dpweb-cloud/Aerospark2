@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { SectionHeader, GlassCard, Badge } from "@/components/ui/cards";
 import { Button } from "@/components/ui/button";
 import { COURSES, STATS, TESTIMONIALS } from "@/lib/constants";
@@ -19,6 +21,10 @@ import {
   Zap,
   Shield,
   Quote,
+  Plane,
+  Activity,
+  Cpu,
+  BarChart2,
 } from "lucide-react";
 import { ConsultationModal } from "./consultation-modal";
 
@@ -38,10 +44,21 @@ const levelColors = {
 /* ─── Featured Courses ─── */
 export function FeaturedCourses() {
   const featured = COURSES.slice(0, 4);
+  const router = useRouter();
+  const [animatingCard, setAnimatingCard] = useState<string | null>(null);
+
+  const handleApplyClick = (e: React.MouseEvent, id: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setAnimatingCard(id);
+    setTimeout(() => {
+      router.push(`/academy/course/${id}`);
+    }, 600);
+  };
 
   return (
     <section className="py-24 relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-12">
         <SectionHeader
           label="Academy"
           title="Featured Courses"
@@ -53,71 +70,102 @@ export function FeaturedCourses() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-50px" }}
-          className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-6"
+          className="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-8 xl:gap-12"
         >
           {featured.map((course) => (
             <motion.div key={course.id} variants={staggerItem}>
-              <GlassCard
-                className="group cursor-pointer h-full"
-                glow="blue"
-                padding="lg"
+              <div
+                onClick={() => router.push(`/academy/course/${course.id}`)}
+                className={`group cursor-pointer rounded-[32px] border-2 ${course.id === 'catia-design' ? 'border-blue-500 shadow-[0_0_15px_-3px_rgba(37,99,235,0.2)]' : 'border-slate-300'} hover:border-[#FF6600]/60 hover:shadow-2xl hover:shadow-[#FF6600]/30 hover:-translate-y-1 transition-all duration-500 overflow-hidden flex flex-col relative h-full bg-white`}
               >
-                <div className="flex flex-col sm:flex-row gap-5 h-full">
-                  {/* Course Image */}
-                  <div className="relative w-full sm:w-48 h-36 sm:h-auto rounded-lg bg-gradient-to-br from-surface-elevated to-surface flex-shrink-0 overflow-hidden">
-                    <img 
-                      src="/engine-blueprint.jpg" 
-                      alt="Engine Blueprint"
-                      className="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-screen group-hover:scale-105 transition-transform duration-500"
+                {/* Image Header / Banner */}
+                <div className="relative w-full aspect-[2.1] shrink-0 bg-slate-100 overflow-hidden">
+                  {/* Main Course Image */}
+                  {course.image && (
+                    <img
+                      src={course.image}
+                      alt={course.title}
+                      className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                     />
+                  )}
+                  {/* Category Pill */}
+                  <div className="absolute top-4 left-4 z-20">
+                    <span className="bg-[#B34700] text-white px-3 py-1 rounded-sm text-[11px] font-bold uppercase tracking-wider shadow-sm">
+                      {course.tags[0] || course.category}
+                    </span>
+                  </div>
+                </div>
 
+                {/* Main Body */}
+                <div className="flex flex-col flex-1 px-5 pb-5 pt-2 bg-white">
+                  <h3 className="text-[18px] font-bold text-[#001f3f] leading-tight group-hover:text-blue-900 transition-colors mb-2 line-clamp-1">
+                    {course.title}
+                  </h3>
+
+                  <div className="w-10 h-1 bg-[#FF6600] mb-3" />
+
+                  <p className="text-[13px] text-slate-600 line-clamp-2 mb-4 font-medium leading-relaxed flex-1">
+                    {course.description}
+                  </p>
+
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="flex items-center gap-1.5 text-lg font-bold text-slate-900">
+                      <Star className="w-4 h-4 text-[#FF6600] fill-[#FF6600]" />
+                      {course.rating}
+                    </div>
+                    <div className="w-px h-4 bg-slate-200" />
+                    <div className="flex items-center gap-1.5 text-xs font-bold text-slate-900">
+                      <BarChart2 className="w-3.5 h-3.5 text-[#FF6600]" />
+                      <span className="truncate">{course.level} • {course.tags[1] || course.tags[0]}</span>
+                    </div>
                   </div>
 
-                  {/* Content */}
-                  <div className="flex-1 flex flex-col min-w-0">
-                    <p className="text-xs text-aero-blue font-medium uppercase tracking-wider mb-1">
-                      {course.category}
-                    </p>
-                    <h3 className="text-lg font-semibold text-foreground mb-2 group-hover:text-aero-blue transition-colors">
-                      {course.title}
-                    </h3>
-                    <p className="text-sm text-text-secondary line-clamp-2 mb-4 flex-1">
-                      {course.description}
-                    </p>
+                  <div className="w-full h-px bg-slate-100 mb-3" />
 
-                    {/* Meta Row */}
-                    <div className="flex flex-wrap items-center gap-4 text-xs text-text-muted mb-4">
-                      <span className="flex items-center gap-1">
-                        <Clock className="w-3 h-3" />
-                        {course.duration}
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <BookOpen className="w-3 h-3" />
-                        {course.lessons} lessons
-                      </span>
-
+                  <div className="flex items-center justify-between">
+                    <div className="flex flex-col">
+                      <div className="flex items-center gap-1.5 mb-0.5 text-slate-500">
+                        <Clock className="w-3.5 h-3.5 stroke-[2]" />
+                        <span className="text-[11px] font-medium">Duration</span>
+                      </div>
+                      <span className="text-xs font-semibold text-slate-900">{course.duration}</span>
                     </div>
-
-                    {/* Footer */}
-                    <div className="flex items-center justify-between pt-3 border-t border-border-subtle mt-auto">
-                      <div className="flex items-center gap-1">
-                        <Star className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
-                        <span className="text-sm font-medium text-foreground">
-                          {course.rating}
-                        </span>
+                    <div className="flex flex-col items-end">
+                      <div className="flex items-center gap-1.5 mb-0.5 text-slate-500">
+                        <BookOpen className="w-3.5 h-3.5 stroke-[2]" />
+                        <span className="text-[11px] font-medium">Content</span>
                       </div>
-                      <div className="flex items-center gap-3">
-                        <span className="text-lg font-bold text-aero-blue">
-                          ₹{course.price.toLocaleString()}
-                        </span>
-                        <Button variant="primary" size="sm">
-                          Enroll
-                        </Button>
-                      </div>
+                      <span className="text-xs font-semibold text-slate-900">{course.lessons} lessons</span>
                     </div>
                   </div>
                 </div>
-              </GlassCard>
+
+                {/* Footer */}
+                <div className="relative z-10 px-5 py-3 flex items-center justify-between bg-white shrink-0 border-t border-slate-100 mt-auto">
+                  <div className="flex flex-col">
+                    <span className="text-[10px] text-slate-400 line-through font-medium leading-none mb-0.5">₹{Math.floor(course.price * 1.6).toLocaleString()}</span>
+                    <span className="text-[18px] font-bold text-slate-900 tracking-tight leading-none">₹{course.price.toLocaleString()}</span>
+                  </div>
+                  <button
+                    onClick={(e) => handleApplyClick(e, course.id)}
+                    className="relative overflow-hidden bg-black text-white hover:bg-neutral-800 px-4 py-2 rounded-md text-xs font-bold transition-all shadow-md flex items-center justify-center min-w-[110px] gap-2"
+                  >
+                    <span className={animatingCard === course.id ? "opacity-0" : "flex items-center gap-1.5"}>
+                      Apply Now <ArrowRight className="w-3.5 h-3.5" />
+                    </span>
+                    {animatingCard === course.id && (
+                      <motion.div
+                        initial={{ x: -20, y: 0, opacity: 0, scale: 0.5 }}
+                        animate={{ x: [0, 20, 60], y: [0, -10, -30], opacity: [1, 1, 0], scale: [1, 1.2, 1.5] }}
+                        transition={{ duration: 0.5, ease: "easeOut" }}
+                        className="absolute inset-0 flex items-center justify-center text-xl"
+                      >
+                        {course.id.includes("drone") || course.id.includes("aerospace") ? "✈️" : "📙"}
+                      </motion.div>
+                    )}
+                  </button>
+                </div>
+              </div>
             </motion.div>
           ))}
         </motion.div>
@@ -234,8 +282,7 @@ export function CertificationsSection() {
 export function TestimonialsSection() {
   return (
     <section className="py-24 relative">
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-aero-blue/[0.02] to-transparent" />
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeader
           label="Testimonials"
           title="Trusted by Engineers"

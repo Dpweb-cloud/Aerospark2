@@ -5,8 +5,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
-import { GlassCard, SectionHeader, Badge } from "@/components/ui/cards";
+import { SectionHeader, Badge } from "@/components/ui/cards";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { COURSES, COURSE_BUNDLES, LEARNER_BENEFITS } from "@/lib/constants";
 import { staggerContainer, staggerItem } from "@/lib/motion";
 import {
@@ -25,6 +26,10 @@ import {
   Award,
   Zap,
   Target,
+  Plane,
+  Activity,
+  Cpu,
+  BarChart2,
 } from "lucide-react";
 
 const categories = ["All", ...Array.from(new Set(COURSES.map((c) => c.category)))];
@@ -47,10 +52,21 @@ const bundleAccents: Record<string, string> = {
 };
 
 export default function AcademyPage() {
+  const router = useRouter();
+  const [animatingCard, setAnimatingCard] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedLevel, setSelectedLevel] = useState("All");
   const [activeTab, setActiveTab] = useState<"courses" | "bundles">("courses");
+
+  const handleApplyClick = (e: React.MouseEvent, id: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setAnimatingCard(id);
+    setTimeout(() => {
+      router.push(`/academy/course/${id}`);
+    }, 600);
+  };
 
   const filteredCourses = useMemo(() => {
     return COURSES.filter((course) => {
@@ -81,14 +97,19 @@ export default function AcademyPage() {
       <Navbar />
       <main className="pt-24 pb-16">
         {/* Header */}
-        <section className="py-16 relative">
-          <div className="absolute inset-0 radar-grid opacity-50" />
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-            <SectionHeader
-              label="Academy"
-              title="Aerospace Training Programs"
-              description="Industry-grade courses designed for UAS (Drones), aerospace, CAD design, simulation, quality, and regulatory learning. Live classes, mentorship, and certification included."
-            />
+        <section className="py-24 relative overflow-hidden">
+          {/* Ambient orbs for antigravity feel */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-aero-blue/10 blur-[120px] rounded-[100%] pointer-events-none z-0" />
+          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-aero-red/5 blur-[120px] rounded-full pointer-events-none z-0" />
+
+          <div className="absolute inset-0 radar-grid opacity-30 z-0" />
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col items-center text-center">
+            <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold mb-6 tracking-tight bg-clip-text text-transparent bg-gradient-to-b from-foreground via-foreground/90 to-foreground/50">
+              Aerospace Training Programs
+            </h1>
+            <p className="text-lg md:text-xl text-text-secondary max-w-3xl mx-auto leading-relaxed text-justify sm:text-center">
+              Industry-grade courses designed for UAS (Drones), aerospace, CAD design, simulation, quality, and regulatory learning. Live classes, mentorship, and certification included.
+            </p>
           </div>
         </section>
 
@@ -121,11 +142,10 @@ export default function AcademyPage() {
           <div className="flex gap-1 p-1 bg-surface-elevated rounded-xl w-fit border border-border-subtle">
             <button
               onClick={() => setActiveTab("courses")}
-              className={`px-5 py-2 rounded-lg text-sm font-medium transition-all ${
-                activeTab === "courses"
-                  ? "bg-aero-blue/15 text-aero-blue border border-aero-blue/20"
-                  : "text-text-secondary hover:text-foreground"
-              }`}
+              className={`px-5 py-2 rounded-lg text-sm font-medium transition-all ${activeTab === "courses"
+                ? "bg-aero-blue/15 text-aero-blue border border-aero-blue/20"
+                : "text-text-secondary hover:text-foreground"
+                }`}
             >
               <span className="flex items-center gap-2">
                 <BookOpen className="w-4 h-4" />
@@ -134,11 +154,10 @@ export default function AcademyPage() {
             </button>
             <button
               onClick={() => setActiveTab("bundles")}
-              className={`px-5 py-2 rounded-lg text-sm font-medium transition-all ${
-                activeTab === "bundles"
-                  ? "bg-aero-blue/15 text-aero-blue border border-aero-blue/20"
-                  : "text-text-secondary hover:text-foreground"
-              }`}
+              className={`px-5 py-2 rounded-lg text-sm font-medium transition-all ${activeTab === "bundles"
+                ? "bg-aero-blue/15 text-aero-blue border border-aero-blue/20"
+                : "text-text-secondary hover:text-foreground"
+                }`}
             >
               <span className="flex items-center gap-2">
                 <Package className="w-4 h-4" />
@@ -152,34 +171,67 @@ export default function AcademyPage() {
         {activeTab === "courses" && (
           <>
             {/* Filters */}
-            <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
-              <div className="glass-panel rounded-xl p-4 md:p-6">
-                <div className="flex flex-col md:flex-row gap-4">
-                  {/* Search */}
-                  <div className="relative flex-1">
-                    <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
-                    <input
-                      type="text"
-                      placeholder="Search courses, topics, or tags..."
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      className="w-full pl-10 pr-4 py-2.5 bg-surface-elevated rounded-lg text-sm text-foreground border border-border-subtle focus:border-aero-blue/30 focus:outline-none focus:ring-1 focus:ring-aero-blue/20 transition-all placeholder:text-text-muted"
-                    />
+            <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12 relative z-20">
+              <div className="relative group">
+                {/* Glowing backdrop */}
+                <div className="absolute inset-0 bg-gradient-to-r from-aero-blue/10 via-surface to-aero-red/10 rounded-[2rem] blur-xl opacity-70 group-hover:opacity-100 transition-opacity duration-700" />
+
+                <div className="relative bg-surface/60 backdrop-blur-2xl border border-white/10 rounded-[2rem] p-4 md:p-5 shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden flex flex-col gap-5">
+
+                  {/* Top Row: Search & Level */}
+                  <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
+                    {/* Search */}
+                    <div className="relative w-full md:max-w-sm group/search">
+                      <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <Search className="h-4 w-4 text-text-muted group-focus-within/search:text-aero-blue transition-colors" />
+                      </div>
+                      <input
+                        type="text"
+                        placeholder="Search courses, topics, or tags..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="block w-full pl-11 pr-4 py-3 bg-white/50 border border-white/20 rounded-full text-sm text-foreground focus:ring-2 focus:ring-aero-blue/30 focus:border-aero-blue/50 transition-all placeholder:text-text-muted shadow-sm hover:bg-white/80 focus:bg-white"
+                      />
+                    </div>
+
+                    {/* Level Filter */}
+                    <div className="flex items-center p-1.5 bg-white/40 rounded-full border border-white/20 self-start md:self-auto w-full md:w-auto overflow-x-auto hide-scrollbar shadow-sm">
+                      {levels.map((level) => (
+                        <button
+                          key={level}
+                          onClick={() => setSelectedLevel(level)}
+                          className={`relative px-5 py-2 rounded-full text-xs font-bold tracking-wide whitespace-nowrap transition-colors duration-300 ${selectedLevel === level
+                            ? "text-white"
+                            : "text-text-secondary hover:text-foreground"
+                            }`}
+                        >
+                          {selectedLevel === level && (
+                            <motion.div
+                              layoutId="level-pill"
+                              className="absolute inset-0 bg-gradient-to-r from-[#FF6600] to-[#FF8833] rounded-full -z-10 shadow-md"
+                              transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                            />
+                          )}
+                          <span className="relative z-10">{level}</span>
+                        </button>
+                      ))}
+                    </div>
                   </div>
 
-                  {/* Category Filter */}
-                  <div className="flex items-center gap-2">
-                    <Filter className="w-4 h-4 text-text-muted hidden md:block" />
-                    <div className="flex flex-wrap gap-2">
+                  {/* Bottom Row: Categories */}
+                  <div className="flex items-center gap-3 overflow-x-auto pb-1 hide-scrollbar scroll-smooth mask-fade-edges">
+                    <div className="hidden md:flex items-center justify-center w-8 h-8 rounded-full bg-aero-blue/10 border border-aero-blue/20 flex-shrink-0 ml-1">
+                      <Filter className="w-3.5 h-3.5 text-aero-blue" />
+                    </div>
+                    <div className="flex items-center gap-2">
                       {categories.map((cat) => (
                         <button
                           key={cat}
                           onClick={() => setSelectedCategory(cat)}
-                          className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
-                            selectedCategory === cat
-                              ? "bg-aero-blue/15 text-aero-blue border border-aero-blue/25"
-                              : "bg-surface-elevated text-text-secondary border border-border-subtle hover:text-foreground hover:border-border-default"
-                          }`}
+                          className={`relative px-5 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all duration-300 border ${selectedCategory === cat
+                            ? "text-[#003380] border-[#003380]/30 bg-[#003380]/5 shadow-sm"
+                            : "text-text-secondary border-white/40 bg-white/30 hover:bg-white/60 hover:border-white/60 hover:text-foreground hover:shadow-sm"
+                            }`}
                         >
                           {cat}
                         </button>
@@ -187,41 +239,18 @@ export default function AcademyPage() {
                     </div>
                   </div>
                 </div>
-
-                {/* Level Filter */}
-                <div className="flex gap-2 mt-3 pt-3 border-t border-border-subtle">
-                  <span className="text-xs text-text-muted mr-2 self-center">
-                    Level:
-                  </span>
-                  {levels.map((level) => (
-                    <button
-                      key={level}
-                      onClick={() => setSelectedLevel(level)}
-                      className={`px-3 py-1 rounded-md text-xs font-medium transition-all ${
-                        selectedLevel === level
-                          ? "bg-aero-blue/15 text-aero-blue"
-                          : "text-text-muted hover:text-text-secondary"
-                      }`}
-                    >
-                      {level}
-                    </button>
-                  ))}
-                </div>
               </div>
             </section>
 
             {/* Course Grid */}
             <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center mb-6">
                 <p className="text-sm text-text-secondary">
                   Showing{" "}
                   <span className="text-foreground font-medium">
                     {filteredCourses.length}
                   </span>{" "}
                   courses
-                </p>
-                <p className="text-xs text-text-muted">
-                  Launch fees — live classes with mentorship included
                 </p>
               </div>
 
@@ -231,93 +260,102 @@ export default function AcademyPage() {
                   variants={staggerContainer}
                   initial="hidden"
                   animate="visible"
-                  className="grid grid-cols-1 md:grid-cols-2 gap-6"
+                  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6"
                 >
                   {filteredCourses.map((course) => (
                     <motion.div key={course.id} variants={staggerItem} layout>
-                      <GlassCard
-                        className="group cursor-pointer"
-                        glow="blue"
-                        padding="lg"
+                      <div
+                        onClick={() => router.push(`/academy/course/${course.id}`)}
+                        className={`group cursor-pointer rounded-[32px] border-2 ${course.id === 'catia-design' ? 'border-blue-500 shadow-[0_0_15px_-3px_rgba(37,99,235,0.2)]' : 'border-slate-300'} hover:border-[#FF6600]/60 hover:shadow-2xl hover:shadow-[#FF6600]/30 hover:-translate-y-1 transition-all duration-500 overflow-hidden flex flex-col relative h-full bg-white`}
                       >
-                        <div className="flex flex-col sm:flex-row gap-5">
-                          {/* Course Icon */}
-                          <div className="relative w-full sm:w-44 h-32 sm:h-auto rounded-lg bg-gradient-to-br from-surface-elevated to-surface flex-shrink-0 overflow-hidden">
-                            <div className="absolute inset-0 flex items-center justify-center">
-                              <GraduationCap className="w-10 h-10 text-aero-blue/15" />
+                        {/* Image Header / Banner */}
+                        <div className="relative w-full aspect-[2.1] shrink-0 bg-slate-100 overflow-hidden">
+                          {/* Main Course Image */}
+                          {course.image && (
+                            <img
+                              src={course.image}
+                              alt={course.title}
+                              className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                            />
+                          )}
+                          {/* Category Pill */}
+                          <div className="absolute top-4 left-4 z-20">
+                            <span className="bg-[#B34700] text-white px-3 py-1 rounded-sm text-[11px] font-bold uppercase tracking-wider shadow-sm">
+                              {course.tags[0] || course.category}
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Main Body */}
+                        <div className="flex flex-col flex-1 px-5 pb-5 pt-2 bg-white">
+                          <h3 className="text-[18px] font-bold text-[#001f3f] leading-tight group-hover:text-blue-900 transition-colors mb-2 line-clamp-1">
+                            {course.title}
+                          </h3>
+
+                          <div className="w-10 h-1 bg-[#FF6600] mb-3" />
+
+                          <p className="text-[13px] text-slate-600 line-clamp-2 mb-4 font-medium leading-relaxed flex-1">
+                            {course.description}
+                          </p>
+
+                          <div className="flex items-center gap-3 mb-3">
+                            <div className="flex items-center gap-1.5 text-lg font-bold text-slate-900">
+                              <Star className="w-4 h-4 text-[#FF6600] fill-[#FF6600]" />
+                              {course.rating}
                             </div>
-
-
+                            <div className="w-px h-4 bg-slate-200" />
+                            <div className="flex items-center gap-1.5 text-xs font-bold text-slate-900">
+                              <BarChart2 className="w-3.5 h-3.5 text-[#FF6600]" />
+                              <span className="truncate">{course.level} • {course.tags[1] || course.tags[0]}</span>
+                            </div>
                           </div>
 
-                          {/* Content */}
-                          <div className="flex-1 min-w-0">
-                            <p className="text-xs text-aero-blue font-medium uppercase tracking-wider mb-1">
-                              {course.category}
-                            </p>
-                            <h3 className="text-lg font-semibold text-foreground mb-2 group-hover:text-aero-blue transition-colors">
-                              {course.title}
-                            </h3>
-                            <p className="text-sm text-text-secondary line-clamp-2 mb-3">
-                              {course.description}
-                            </p>
+                          <div className="w-full h-px bg-slate-100 mb-3" />
 
-                            {/* Meta Row */}
-                            <div className="flex flex-wrap items-center gap-4 text-xs text-text-muted mb-3">
-                              <span className="flex items-center gap-1">
-                                <Clock className="w-3 h-3" />
-                                {course.duration}
-                              </span>
-                              <span className="flex items-center gap-1">
-                                <BookOpen className="w-3 h-3" />
-                                {course.lessons} lessons
-                              </span>
-
-                            </div>
-
-                            {/* Tags */}
-                            <div className="flex flex-wrap gap-1.5 mb-4">
-                              {course.tags.slice(0, 3).map((tag) => (
-                                <span
-                                  key={tag}
-                                  className="px-2 py-0.5 text-[10px] rounded bg-surface-elevated text-text-muted border border-border-subtle"
-                                >
-                                  {tag}
-                                </span>
-                              ))}
-                            </div>
-
-                            {/* Footer */}
-                            <div className="flex items-center justify-between pt-3 border-t border-border-subtle">
-                              <div className="flex items-center gap-1">
-                                <Star className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
-                                <span className="text-sm font-medium text-foreground">
-                                  {course.rating}
-                                </span>
+                          <div className="flex items-center justify-between">
+                            <div className="flex flex-col">
+                              <div className="flex items-center gap-1.5 mb-0.5 text-slate-500">
+                                <Clock className="w-3.5 h-3.5 stroke-[2]" />
+                                <span className="text-[11px] font-medium">Duration</span>
                               </div>
-                              <div className="flex items-center gap-3">
-                                <span className="text-lg font-bold text-aero-blue">
-                                  ₹{course.price.toLocaleString()}
-                                </span>
-                                <Button variant="primary" size="sm">
-                                  Enroll
-                                </Button>
+                              <span className="text-xs font-semibold text-slate-900">{course.duration}</span>
+                            </div>
+                            <div className="flex flex-col items-end">
+                              <div className="flex items-center gap-1.5 mb-0.5 text-slate-500">
+                                <BookOpen className="w-3.5 h-3.5 stroke-[2]" />
+                                <span className="text-[11px] font-medium">Content</span>
                               </div>
+                              <span className="text-xs font-semibold text-slate-900">{course.lessons} lessons</span>
                             </div>
                           </div>
                         </div>
 
-                        {/* Expandable Syllabus — Real Topics + Eligibility + Outcome */}
-                        <div className="mt-4 pt-3 border-t border-border-subtle">
-                          <Link
-                            href={`/academy/course/${course.id}`}
-                            className="flex items-center gap-2 text-xs text-text-secondary hover:text-aero-blue transition-colors group/btn"
+                        {/* Footer */}
+                        <div className="relative z-10 px-5 py-3 flex items-center justify-between bg-white shrink-0 border-t border-slate-100 mt-auto">
+                          <div className="flex flex-col">
+                            <span className="text-[10px] text-slate-400 line-through font-medium leading-none mb-0.5">₹{Math.floor(course.price * 1.6).toLocaleString()}</span>
+                            <span className="text-[18px] font-bold text-slate-900 tracking-tight leading-none">₹{course.price.toLocaleString()}</span>
+                          </div>
+                          <button
+                            onClick={(e) => handleApplyClick(e, course.id)}
+                            className="relative overflow-hidden bg-black text-white hover:bg-neutral-800 px-4 py-2 rounded-md text-xs font-bold transition-all shadow-md flex items-center justify-center min-w-[110px] gap-2"
                           >
-                            View Syllabus & Details
-                            <ArrowRight className="w-3 h-3 group-hover/btn:translate-x-1 transition-transform" />
-                          </Link>
+                            <span className={animatingCard === course.id ? "opacity-0" : "flex items-center gap-1.5"}>
+                              Apply Now <ArrowRight className="w-3.5 h-3.5" />
+                            </span>
+                            {animatingCard === course.id && (
+                              <motion.div
+                                initial={{ x: -20, y: 0, opacity: 0, scale: 0.5 }}
+                                animate={{ x: [0, 20, 60], y: [0, -10, -30], opacity: [1, 1, 0], scale: [1, 1.2, 1.5] }}
+                                transition={{ duration: 0.5, ease: "easeOut" }}
+                                className="absolute inset-0 flex items-center justify-center text-xl"
+                              >
+                                {course.id.includes("drone") || course.id.includes("aerospace") ? "✈️" : "📙"}
+                              </motion.div>
+                            )}
+                          </button>
                         </div>
-                      </GlassCard>
+                      </div>
                     </motion.div>
                   ))}
                 </motion.div>
@@ -368,10 +406,11 @@ export default function AcademyPage() {
                     className={isComplete ? "md:col-span-2 xl:col-span-1" : ""}
                   >
                     <div
-                      className={`rounded-2xl border bg-gradient-to-br p-6 h-full flex flex-col transition-all duration-300 hover:scale-[1.02] ${
-                        bundleColors[bundle.color] || bundleColors["blue"]
-                      } ${isComplete ? "ring-1 ring-aero-red/30" : ""}`}
+                      className={`relative rounded-2xl border bg-gradient-to-br p-6 h-full flex flex-col transition-all duration-500 hover:scale-[1.02] overflow-hidden group ${bundleColors[bundle.color] || bundleColors["blue"]
+                        } ${isComplete ? "ring-2 ring-aero-red/40 shadow-[0_0_40px_-10px_rgba(255,87,87,0.3)]" : "hover:shadow-2xl"}`}
                     >
+                      {/* Premium glow effect on hover */}
+                      <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
                       {isComplete && (
                         <div className="inline-flex items-center gap-1.5 bg-aero-red/10 border border-aero-red/20 text-aero-red text-[10px] font-bold tracking-wider px-2.5 py-1 rounded-full mb-4 self-start">
                           <Zap className="w-3 h-3" />
@@ -429,7 +468,7 @@ export default function AcademyPage() {
             </div>
           </section>
         )}
-      </main>
+      </main >
 
 
       <Footer />

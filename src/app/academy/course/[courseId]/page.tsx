@@ -17,7 +17,8 @@ import {
   ChevronRight,
   ShieldCheck,
   CheckCircle2,
-  ArrowLeft
+  ArrowLeft,
+  ChevronDown
 } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState, use } from "react";
@@ -40,6 +41,7 @@ const staggerItem: Variants = {
 export default function CourseDetailsPage({ params }: { params: Promise<{ courseId: string }> }) {
   const unwrappedParams = use(params);
   const [mounted, setMounted] = useState(false);
+  const [openModule, setOpenModule] = useState<number | null>(null);
   const course = COURSES.find((c) => c.id === unwrappedParams.courseId);
 
   useEffect(() => {
@@ -155,15 +157,39 @@ export default function CourseDetailsPage({ params }: { params: Promise<{ course
                   </span>
                   Key Topics Covered
                 </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 relative z-10">
-                  {(course as any).topics?.map((topic: string, i: number) => (
-                    <div key={i} className="flex items-start gap-3 bg-surface/50 p-4 rounded-xl border border-border-subtle hover:border-aero-blue/30 transition-colors">
-                      <div className="w-6 h-6 rounded-full bg-aero-blue/10 border border-aero-blue/20 flex items-center justify-center text-[11px] text-aero-blue flex-shrink-0 font-mono mt-0.5">
-                        {i + 1}
+                <div className="flex flex-col gap-3 relative z-10">
+                  {((course as any).modules || []).map((module: any, i: number) => {
+                    const isOpen = openModule === i;
+                    return (
+                      <div key={i} className="flex flex-col bg-surface/50 rounded-xl border border-border-subtle transition-colors overflow-hidden">
+                        <button 
+                          onClick={() => setOpenModule(isOpen ? null : i)}
+                          className="flex items-start gap-3 p-4 w-full text-left hover:border-aero-blue/30 transition-colors"
+                        >
+                          <div className="w-6 h-6 rounded-full bg-aero-blue/10 border border-aero-blue/20 flex items-center justify-center text-[11px] text-aero-blue flex-shrink-0 font-mono mt-0.5">
+                            {i + 1}
+                          </div>
+                          <div className="flex-1 flex items-center justify-between">
+                            <span className="text-sm font-medium text-foreground leading-relaxed pr-4">{module.title}</span>
+                            <ChevronDown className={`w-4 h-4 text-text-muted transition-transform duration-200 flex-shrink-0 mt-0.5 ${isOpen ? "rotate-180" : ""}`} />
+                          </div>
+                        </button>
+                        
+                        {isOpen && (
+                          <div className="px-4 pb-4 pt-1 pl-[3.25rem]">
+                            <ul className="space-y-3">
+                              {module.items.map((item: string, j: number) => (
+                                <li key={j} className="text-sm text-text-secondary flex items-start gap-3">
+                                  <span className="w-1.5 h-1.5 rounded-full bg-aero-blue/50 mt-1.5 flex-shrink-0" />
+                                  <span className="leading-relaxed">{item}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
                       </div>
-                      <span className="text-sm text-text-secondary leading-relaxed">{topic}</span>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </motion.div>
 

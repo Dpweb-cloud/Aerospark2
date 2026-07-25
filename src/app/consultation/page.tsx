@@ -84,14 +84,19 @@ export default function ConsultationPage() {
       <Navbar />
       <main className="pt-24 pb-16">
         {/* Hero */}
-        <section className="py-16 relative">
-          <div className="absolute inset-0 radar-grid opacity-40" />
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-            <SectionHeader
-              label="Consultation"
-              title="Aerospace Engineering Consulting"
-              description="Expert consulting services for UAS certification, quality systems, drone R&D, design simulation, and aerospace procurement."
-            />
+        <section className="py-24 relative overflow-hidden">
+          {/* Ambient orbs for antigravity feel */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-aero-blue/10 blur-[120px] rounded-[100%] pointer-events-none z-0" />
+          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-aero-red/5 blur-[120px] rounded-full pointer-events-none z-0" />
+
+          <div className="absolute inset-0 radar-grid opacity-30 z-0" />
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col items-center text-center">
+            <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold mb-6 tracking-tight bg-clip-text text-transparent bg-gradient-to-b from-foreground via-foreground/90 to-foreground/50">
+              Aerospace Engineering Consulting
+            </h1>
+            <p className="text-lg md:text-xl text-text-secondary max-w-3xl mx-auto leading-relaxed text-justify sm:text-center">
+              Expert consulting services for UAS certification, quality systems, drone R&D, design simulation, and aerospace procurement.
+            </p>
           </div>
         </section>
 
