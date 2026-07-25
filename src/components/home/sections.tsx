@@ -144,11 +144,11 @@ export function FeaturedCourses() {
                 <div className="relative z-10 px-5 py-3 flex items-center justify-between bg-white shrink-0 border-t border-slate-100 mt-auto">
                   <div className="flex flex-col">
                     <span className="text-[10px] text-slate-400 line-through font-medium leading-none mb-0.5">₹{Math.floor(course.price * 1.6).toLocaleString()}</span>
-                    <span className="text-[18px] font-bold text-slate-900 tracking-tight leading-none">₹{course.price.toLocaleString()}</span>
+                    <span className="text-[22px] font-bold text-[#001f3f] tracking-tight leading-none">₹{course.price.toLocaleString()}</span>
                   </div>
                   <button
                     onClick={(e) => handleApplyClick(e, course.id)}
-                    className="relative overflow-hidden bg-black text-white hover:bg-neutral-800 px-4 py-2 rounded-md text-xs font-bold transition-all shadow-md flex items-center justify-center min-w-[110px] gap-2"
+                    className="relative overflow-hidden bg-[#FF6600] text-white hover:bg-[#e65c00] px-4 py-2 rounded-md text-xs font-bold transition-all shadow-md flex items-center justify-center min-w-[110px] gap-2"
                   >
                     <span className={animatingCard === course.id ? "opacity-0" : "flex items-center gap-1.5"}>
                       Apply Now <ArrowRight className="w-3.5 h-3.5" />
