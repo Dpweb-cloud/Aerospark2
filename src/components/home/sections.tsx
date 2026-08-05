@@ -375,6 +375,7 @@ export function ConsultingSection() {
     {
       title: "UAS Type Certification",
       description: "End-to-end DGCA & FAA type certification support for UAS manufacturers — from initial documentation to final flight testing.",
+      href: "/consultation/uas-certification",
       badge: "Open for Consultation",
       badgeColor: "text-[#FF6600]",
       icon: <FileCheck className="w-6 h-6 text-[#FF6600]" />,
@@ -393,6 +394,7 @@ export function ConsultingSection() {
     {
       title: "AS9100D Quality Systems",
       description: "Implement and maintain robust aerospace quality management systems required to participate in the global supply chain.",
+      href: "/consultation/as9100d-quality",
       badge: "Quality Systems",
       badgeColor: "text-emerald-500",
       icon: <ShieldCheck className="w-6 h-6 text-emerald-500" />,
@@ -409,6 +411,7 @@ export function ConsultingSection() {
     {
       title: "UAV Prototyping & Design",
       description: "End-to-end design and rapid prototyping for specialized unmanned aerial vehicles, tailored to your exact payload and range.",
+      href: "/consultation/drone-rd",
       badge: "R&D Priority",
       badgeColor: "text-purple-500",
       icon: <Hexagon className="w-6 h-6 text-purple-500" />,
@@ -426,6 +429,7 @@ export function ConsultingSection() {
     {
       title: "Aerodynamic CFD Analysis",
       description: "Advanced computational fluid dynamics (CFD) to optimize airframe performance, reduce drag, and improve battery efficiency.",
+      href: "/consultation/design-simulation",
       badge: "Simulation & Design",
       badgeColor: "text-blue-500",
       icon: <Wind className="w-6 h-6 text-blue-500" />,
@@ -455,7 +459,7 @@ export function ConsultingSection() {
         {/* 2x2 Grid Layout for large spacious cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {consultingServices.map((service) => (
-            <div key={service.title} className="relative group bg-surface border border-border-default rounded-[32px] p-10 hover:border-aero-blue/40 hover:shadow-2xl transition-all duration-500 overflow-hidden flex flex-col h-full z-10">
+            <Link href={service.href} key={service.title} className="relative group bg-surface border border-border-default rounded-[32px] p-10 hover:border-aero-blue/40 hover:shadow-2xl transition-all duration-500 overflow-hidden flex flex-col h-full z-10 block cursor-pointer">
               
               {/* Background 3D Elements (Colored) */}
               <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden rounded-[32px]">
@@ -481,11 +485,11 @@ export function ConsultingSection() {
                   {service.description}
                 </p>
 
-                <Button variant="ghost" className="self-start p-0 text-foreground font-bold hover:bg-transparent group-hover:gap-3 transition-all mt-auto text-base">
-                  Explore Services <ArrowRight className="w-5 h-5 ml-2" />
-                </Button>
+                <div className="self-start text-foreground font-bold group-hover:gap-3 transition-all mt-auto text-base flex items-center group-hover:text-aero-blue">
+                  Explore Services <ArrowRight className="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" />
+                </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
