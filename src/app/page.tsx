@@ -6,7 +6,9 @@ import { HeroSection } from "@/components/home/hero-section";
 import {
   FeaturedCourses,
   StatsSection,
-  CertificationsSection,
+  CareerPathwaysSection,
+  LearningJourneySection,
+  ConsultingSection,
   TestimonialsSection,
   CTASection,
 } from "@/components/home/sections";
@@ -31,7 +33,10 @@ export default function HomePage() {
         <FeaturedCourses />
         <StatsSection />
         <div className="section-divider" />
-        <CertificationsSection />
+        <CareerPathwaysSection />
+        <div className="section-divider" />
+        <LearningJourneySection />
+        <ConsultingSection />
         <div className="section-divider" />
         <TestimonialsSection />
         <CTASection />

@@ -1319,20 +1319,6 @@ export const CONSULTATION_SERVICES = [
     ],
     outcome: "Outcome: Highly optimized engineering designs backed by rigorous simulation data.",
   },
-  {
-    id: "procurement",
-    title: "Aerospace Procurement",
-    description:
-      "Strategic procurement consulting for sourcing traceable, aerospace-grade materials, components, and managing vendor networks.",
-    icon: "Package",
-    features: [
-      "Rigorous supplier qualification and AS9100 vendor auditing",
-      "Global sourcing of certified aerospace materials and electronics",
-      "Supply chain risk mitigation and redundancy planning",
-      "Cost reduction and contract negotiation strategies",
-    ],
-    outcome: "Outcome: A resilient, traceable, and cost-effective aerospace supply chain.",
-  },
 ];
 
 export const BLOG_POSTS = [

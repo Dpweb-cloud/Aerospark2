@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 export function FullPageFlightPath() {
   const [pathStr, setPathStr] = useState("");
   const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
-  const [isHovered, setIsHovered] = useState(false);
   const router = useRouter();
 
   const { scrollYProgress } = useScroll();
@@ -167,56 +166,22 @@ export function FullPageFlightPath() {
       >
         <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
           {/* The Plane itself */}
-          {!isHovered ? (
-            <motion.div
-              style={{
-                x: planeX,
-                y: planeY,
-                rotate: planeRotate,
-                marginLeft: "-32px",
-                marginTop: "-32px",
-                color: "var(--primary)"
-              }}
-              className="absolute top-0 left-0 w-16 h-16 flex items-center justify-center pointer-events-auto cursor-pointer drop-shadow-[0_4px_12px_rgba(0,48,135,0.4)] transition-all duration-75 hover:scale-110"
-              onClick={handleClick}
-              onMouseEnter={() => setIsHovered(true)}
-            >
-              <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor" className="rotate-45">
-                <path d="M22 2L11 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                <path d="M22 2l-7 20-4-9-9-4 20-7z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-              </svg>
-            </motion.div>
-          ) : (
-            /* Cloud explosion and text when hovered */
-            <motion.div
-              style={{
-                x: planeX,
-                y: planeY,
-                marginLeft: "-96px",
-                marginTop: "-96px",
-              }}
-              className="absolute top-0 left-0 w-48 h-48 flex flex-col items-center justify-center pointer-events-auto cursor-pointer"
-              onClick={handleClick}
-              onMouseLeave={() => setIsHovered(false)}
-            >
-              <motion.div 
-                initial={{ scale: 0.5, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ duration: 0.3, type: "spring" }}
-                className="text-7xl drop-shadow-[0_0_30px_rgba(255,255,255,1)] relative flex flex-col items-center justify-center"
-              >
-                🌥️
-                <motion.span 
-                  initial={{ y: -10, opacity: 0, x: "-50%" }}
-                  animate={{ y: 0, opacity: 1, x: "-50%" }}
-                  transition={{ delay: 0.1 }}
-                  className="absolute left-1/2 -bottom-6 text-sm font-bold tracking-widest text-primary drop-shadow-md whitespace-nowrap bg-background/80 px-3 py-1 rounded-full border border-primary/20 backdrop-blur-sm"
-                >
-                  ENROLL ONCE
-                </motion.span>
-              </motion.div>
-            </motion.div>
-          )}
+          <motion.div
+            style={{
+              x: planeX,
+              y: planeY,
+              rotate: planeRotate,
+              marginLeft: "-32px",
+              marginTop: "-32px",
+              color: "var(--primary)"
+            }}
+            className="absolute top-0 left-0 w-16 h-16 flex items-center justify-center drop-shadow-[0_4px_12px_rgba(0,48,135,0.4)]"
+          >
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor" className="rotate-45">
+              <path d="M22 2L11 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M22 2l-7 20-4-9-9-4 20-7z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+            </svg>
+          </motion.div>
         </div>
       </div>
     </>

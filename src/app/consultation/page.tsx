@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { GlassCard, SectionHeader } from "@/components/ui/cards";
 import { CONSULTATION_SERVICES } from "@/lib/constants";
@@ -110,153 +111,115 @@ export default function ConsultationPage() {
             className="grid grid-cols-1 md:grid-cols-2 gap-6"
           >
             {CONSULTATION_SERVICES.map((service, index) => {
-              const isLast = index === CONSULTATION_SERVICES.length - 1;
+              const styles = [
+                {
+                  bg: "bg-[#ffede0]",
+                  badgeDot: "bg-[#f47b52]",
+                  badgeText: "Open for Consultation",
+                  titleColor: "text-[#1a1a1a]",
+                  descColor: "text-[#4a4a4a]",
+                  link: "Explore Services",
+                  graphic: (
+                    <div className="absolute right-0 top-0 bottom-0 w-1/2 pointer-events-none opacity-90 hidden sm:block">
+                      <div className="absolute right-[-10%] top-[15%] w-32 h-24 bg-gradient-to-r from-[#ffb58a]/40 to-[#ff9452]/60 rounded-3xl -rotate-45" />
+                      <div className="absolute right-[5%] bottom-[15%] w-32 h-24 bg-gradient-to-r from-[#ffb58a]/40 to-[#ff9452]/60 rounded-3xl rotate-45" />
+                    </div>
+                  )
+                },
+                {
+                  bg: "bg-[#f4f5f0]",
+                  badgeDot: "bg-[#111111]",
+                  badgeText: "Quality Systems",
+                  titleColor: "text-[#1a1a1a]",
+                  descColor: "text-[#4a4a4a]",
+                  link: "Apply Standards",
+                  graphic: (
+                    <div className="absolute right-0 top-0 bottom-0 w-1/2 pointer-events-none opacity-90 hidden sm:block">
+                      <div className="absolute right-[15%] top-[15%] w-24 h-24 rounded-full bg-gradient-to-b from-[#d5d5d5]/50 to-[#e2e2e2]/20" />
+                      <div className="absolute right-[5%] top-[50%] w-20 h-10 rounded-b-full bg-gradient-to-b from-[#d5d5d5]/50 to-[#e2e2e2]/20" />
+                      <div className="absolute right-[-5%] bottom-[5%] w-28 h-28 rounded-full bg-gradient-to-b from-[#d5d5d5]/50 to-[#e2e2e2]/20" />
+                    </div>
+                  )
+                },
+                {
+                  bg: "bg-[#ece9f4]",
+                  badgeDot: "bg-[#9a75c5]",
+                  badgeText: "R&D Priority",
+                  titleColor: "text-[#1a1a1a]",
+                  descColor: "text-[#4a4a4a]",
+                  link: "Start Project",
+                  graphic: (
+                    <div className="absolute right-0 top-0 bottom-0 w-1/2 pointer-events-none opacity-90 hidden sm:block">
+                      <div className="absolute right-[-15%] top-1/2 -translate-y-1/2 w-64 h-64 rounded-full border-[20px] border-[#d4caed]/50" />
+                      <div className="absolute right-[-5%] top-1/2 -translate-y-1/2 w-32 h-32 rounded-full bg-gradient-to-br from-[#c9bbf0]/60 to-[#a491df]/80" />
+                    </div>
+                  )
+                },
+                {
+                  bg: "bg-[#e8f3e4]",
+                  badgeDot: "bg-[#287955]",
+                  badgeText: "Simulation & Design",
+                  titleColor: "text-[#1a1a1a]",
+                  descColor: "text-[#4a4a4a]",
+                  link: "Get in Touch",
+                  graphic: (
+                    <div className="absolute right-0 top-0 bottom-0 w-1/2 pointer-events-none opacity-90 hidden sm:block">
+                      <div className="absolute right-[15%] top-[20%] w-20 h-20 rounded-[24px] bg-gradient-to-br from-[#539773]/70 to-[#368160]/90" />
+                      <div className="absolute right-[-5%] bottom-[10%] w-32 h-24 rounded-tl-[24px] rounded-bl-[24px] bg-gradient-to-br from-[#8dbd9f]/50 to-[#539773]/70" />
+                    </div>
+                  )
+                }
+              ];
+
+              const style = styles[index % styles.length];
+
               return (
-                <motion.div 
-                  key={service.id} 
+                <motion.div
+                  key={service.id}
                   variants={staggerItem}
-                  className={isLast ? "md:col-span-2" : ""}
                 >
-                  <GlassCard
-                    className={`h-full group ${isLast ? "flex flex-col md:flex-row items-center md:items-start gap-8" : "flex flex-col"}`}
-                    glow="blue"
-                    padding="lg"
-                  >
-                    <div className="inline-flex p-4 rounded-xl bg-aero-blue/5 text-aero-blue self-start group-hover:bg-aero-blue/10 transition-colors flex-shrink-0">
-                      {iconMap[service.icon]}
-                    </div>
-                    
-                    <div className="flex-1">
-                      <h3 className={`font-semibold text-foreground mb-3 ${isLast ? "text-2xl" : "text-lg"}`}>
-                        {service.title}
-                      </h3>
-                      <p className="text-sm text-text-secondary leading-relaxed mb-6">
-                        {service.description}
-                      </p>
-                      <ul className={`grid gap-3 ${isLast ? "grid-cols-1 sm:grid-cols-2" : "grid-cols-1"}`}>
-                        {service.features.map((feature) => (
-                          <li
-                            key={feature}
-                            className="flex items-start gap-2.5 text-sm text-text-secondary"
-                          >
-                            <CheckCircle2 className="w-4 h-4 text-aero-blue mt-0.5 flex-shrink-0" />
-                            {feature}
-                          </li>
-                        ))}
-                      </ul>
-                      
-                      {/* @ts-ignore - Ignore TS complaining if outcome isn't strictly typed yet */}
-                      {service.outcome && (
-                        <div className="mt-6 pt-5 border-t border-border-subtle">
-                          <p className="text-sm font-medium text-aero-blue">
-                            {/* @ts-ignore */}
-                            {service.outcome}
-                          </p>
+                  <Link href={`/consultation/${service.id}`} className="block h-full outline-none">
+                    <div
+                      className={`relative h-full flex flex-col p-8 sm:p-10 rounded-[28px] overflow-hidden isolate transition-transform hover:-translate-y-1 duration-300 ${style.bg}`}
+                    >
+                      {/* Decorative Graphic Wrapped to fix Safari/Chrome border-radius clipping bug */}
+                      <div className="absolute inset-0 overflow-hidden rounded-[28px] pointer-events-none z-0">
+                        {style.graphic}
+                      </div>
+
+                      {/* Content Container (z-index to stay above graphic) */}
+                      <div className="relative z-10 flex flex-col h-full">
+                        {/* Badge */}
+                        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/60 backdrop-blur-md self-start mb-10 shadow-sm border border-white/40">
+                          <span className={`w-2 h-2 rounded-full ${style.badgeDot}`} />
+                          <span className="text-[11px] font-semibold tracking-wide text-[#1a1a1a]">
+                            {style.badgeText}
+                          </span>
                         </div>
-                      )}
+
+                        {/* Title */}
+                        <h3 className={`font-semibold tracking-tight mb-4 text-3xl sm:text-4xl ${style.titleColor}`}>
+                          {service.title}
+                        </h3>
+
+                        {/* Description */}
+                        <p className={`text-[15px] sm:text-[16px] leading-relaxed max-w-[85%] sm:max-w-[70%] mb-12 ${style.descColor}`}>
+                          {service.description}
+                        </p>
+
+                        {/* Action Link */}
+                        <div className={`mt-auto flex items-center gap-2 text-sm font-semibold ${style.titleColor} group`}>
+                          <span className="border-b border-transparent group-hover:border-current transition-colors">
+                            {style.link}
+                          </span>
+                          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                        </div>
+                      </div>
                     </div>
-                  </GlassCard>
+                  </Link>
                 </motion.div>
               );
             })}
-          </motion.div>
-        </section>
-
-        {/* How the Consultation Works (Process) */}
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-24">
-          <SectionHeader
-            label="The Process"
-            title="How the Consultation Works"
-            description="Our proven 4-step framework for audit readiness and compliance."
-          />
-          <div className="mt-12 grid grid-cols-1 md:grid-cols-4 gap-8">
-            {[
-              {
-                step: "01",
-                title: "Gap Analysis",
-                description: "We review your current processes against target regulatory standards.",
-                icon: <Target className="w-6 h-6" />,
-              },
-              {
-                step: "02",
-                title: "Remediation Roadmap",
-                description: "We build a step-by-step action plan to fix compliance gaps.",
-                icon: <Activity className="w-6 h-6" />,
-              },
-              {
-                step: "03",
-                title: "Audit Simulation",
-                description: "We conduct a mock audit to test your team and documentation.",
-                icon: <Users className="w-6 h-6" />,
-              },
-              {
-                step: "04",
-                title: "Certification Support",
-                description: "We sit on your side of the table during the official registrar audit.",
-                icon: <Briefcase className="w-6 h-6" />,
-              },
-            ].map((item, index) => (
-              <motion.div
-                key={item.step}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1, duration: 0.5 }}
-                className="relative"
-              >
-                <div className="flex flex-col items-center text-center">
-                  <div className="w-16 h-16 rounded-full bg-surface-elevated border border-border-subtle flex items-center justify-center text-aero-blue mb-6 relative z-10">
-                    {item.icon}
-                  </div>
-                  <div className="text-4xl font-bold text-surface-elevated absolute top-2 select-none -z-10">
-                    {item.step}
-                  </div>
-                  <h4 className="text-lg font-semibold text-foreground mb-3">{item.title}</h4>
-                  <p className="text-sm text-text-secondary leading-relaxed">{item.description}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </section>
-
-        {/* Why Trust This Consultation (Credibility) */}
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-24">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.98 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            className="rounded-3xl border border-aero-blue/20 bg-gradient-to-r from-aero-blue/10 via-transparent to-transparent p-10 md:p-14 relative overflow-hidden"
-          >
-            <div className="absolute top-0 right-0 p-24 opacity-10 blur-3xl rounded-full bg-aero-blue w-96 h-96 -z-10 translate-x-1/2 -translate-y-1/2" />
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-10 text-center md:text-left relative z-10">
-              <div className="space-y-3">
-                <div className="flex items-center justify-center md:justify-start gap-3 text-aero-blue mb-4">
-                  <Clock className="w-6 h-6" />
-                </div>
-                <h4 className="text-4xl font-bold text-foreground">15+ Years</h4>
-                <p className="text-sm text-text-secondary font-medium tracking-wide uppercase">Industry Experience</p>
-                <p className="text-sm text-text-muted mt-2">Deep expertise inside the aerospace and defense sector.</p>
-              </div>
-              
-              <div className="space-y-3">
-                <div className="flex items-center justify-center md:justify-start gap-3 text-aero-blue mb-4">
-                  <Star className="w-6 h-6" />
-                </div>
-                <h4 className="text-4xl font-bold text-foreground">100%</h4>
-                <p className="text-sm text-text-secondary font-medium tracking-wide uppercase">First-Time Pass Rate</p>
-                <p className="text-sm text-text-muted mt-2">Flawless audit success history for our consulting clients.</p>
-              </div>
-
-              <div className="space-y-3">
-                <div className="flex items-center justify-center md:justify-start gap-3 text-aero-blue mb-4">
-                  <Award className="w-6 h-6" />
-                </div>
-                <h4 className="text-4xl font-bold text-foreground">Ex-Auditor</h4>
-                <p className="text-sm text-text-secondary font-medium tracking-wide uppercase">Led Teams</p>
-                <p className="text-sm text-text-muted mt-2">Get insights directly from former regulatory auditors.</p>
-              </div>
-            </div>
           </motion.div>
         </section>
 

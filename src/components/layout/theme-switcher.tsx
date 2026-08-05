@@ -1,16 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Palette } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const themes = [
-  { id: "light", name: "Light Mode", color: "#003087" },
-  { id: "dark", name: "Dark Mode", color: "#FF6600" },
-];
-
 export function ThemeSwitcher() {
-  const [isOpen, setIsOpen] = useState(false);
   const [currentTheme, setCurrentTheme] = useState("light");
   const [mounted, setMounted] = useState(false);
 
@@ -28,6 +21,9 @@ export function ThemeSwitcher() {
   const setTheme = (themeId: string) => {
     const root = document.documentElement;
     
+    // Add transition class for smooth fade
+    root.classList.add("theme-transition");
+    
     if (themeId === "dark") {
       root.classList.add("dark");
     } else {
@@ -36,51 +32,98 @@ export function ThemeSwitcher() {
 
     setCurrentTheme(themeId);
     localStorage.setItem("aerospark-theme", themeId);
-    setIsOpen(false);
+    
+    // Remove transition class after animation completes
+    setTimeout(() => {
+      root.classList.remove("theme-transition");
+    }, 500);
   };
 
-  return (
-    <div className="relative">
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center justify-center w-10 h-10 rounded-full bg-surface-elevated border border-border-default hover:border-aero-blue transition-colors text-text-secondary hover:text-foreground"
-        aria-label="Switch Theme"
-      >
-        <Palette className="w-4 h-4" />
-      </button>
+  const toggleTheme = () => {
+    setTheme(currentTheme === "light" ? "dark" : "light");
+  };
 
-      <AnimatePresence>
-        {isOpen && (
+  // Prevent hydration mismatch
+  if (!mounted) return <div className="w-16 h-8" />;
+
+  const isDark = currentTheme === "dark";
+
+  return (
+    <button
+      onClick={toggleTheme}
+      className={`relative w-16 h-8 rounded-full flex items-center p-1 transition-colors duration-500 shadow-inner overflow-hidden ${
+        isDark ? "bg-[#1a202c] border border-white/10" : "bg-[#71c5ee] border border-blue-400/20"
+      }`}
+      aria-label="Toggle Theme"
+    >
+      {/* Background elements */}
+      <AnimatePresence initial={false}>
+        {isDark ? (
           <motion.div
-            initial={{ opacity: 0, y: 10, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 10, scale: 0.95 }}
-            transition={{ duration: 0.15 }}
-            className="absolute right-0 top-full mt-2 w-48 p-2 rounded-xl bg-surface-elevated border border-border-default shadow-2xl z-50 flex flex-col gap-1 backdrop-blur-xl"
+            key="night-sky"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+            className="absolute inset-0"
           >
-            <div className="px-3 py-2 text-xs font-semibold text-text-muted uppercase tracking-wider border-b border-border-subtle mb-1">
-              Select Theme
-            </div>
-            {themes.map((theme) => (
-              <button
-                key={theme.id}
-                onClick={() => setTheme(theme.id)}
-                className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
-                  mounted && currentTheme === theme.id
-                    ? "bg-aero-blue/10 text-foreground"
-                    : "text-text-secondary hover:bg-surface-hover hover:text-foreground"
-                }`}
-              >
-                <div
-                  className="w-3 h-3 rounded-full shadow-sm"
-                  style={{ backgroundColor: theme.color }}
-                />
-                {theme.name}
-              </button>
-            ))}
+            {/* Stars */}
+            <div className="absolute top-1.5 left-3 w-0.5 h-0.5 bg-white rounded-full opacity-80" />
+            <div className="absolute top-4 left-5 w-[1.5px] h-[1.5px] bg-white rounded-full opacity-60" />
+            <div className="absolute top-2 left-7 w-0.5 h-0.5 bg-white rounded-full opacity-90 shadow-[0_0_2px_#fff]" />
+          </motion.div>
+        ) : (
+          <motion.div
+            key="day-sky"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+            className="absolute inset-0"
+          >
+            {/* Clouds */}
+            <div className="absolute top-1.5 right-2 w-3 h-1 bg-white/80 rounded-full" />
+            <div className="absolute top-2 right-1.5 w-2 h-1 bg-white/80 rounded-full" />
+            <div className="absolute top-4 right-5 w-4 h-1.5 bg-white/70 rounded-full" />
+            <div className="absolute top-3.5 right-4 w-2 h-1 bg-white/70 rounded-full" />
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+
+      {/* Sliding Knob */}
+      <motion.div
+        layout
+        transition={{ type: "spring", stiffness: 700, damping: 30 }}
+        className={`relative w-6 h-6 rounded-full z-10 shadow-[0_2px_4px_rgba(0,0,0,0.2)] flex items-center justify-center overflow-hidden ${
+          isDark ? "bg-[#cbd5e0] ml-auto" : "bg-[#f6e05e]"
+        }`}
+      >
+        <AnimatePresence initial={false}>
+          {isDark ? (
+            <motion.div
+              key="moon-craters"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="absolute inset-0"
+            >
+              <div className="absolute top-1 left-1 w-1.5 h-1.5 bg-[#a0aec0] rounded-full opacity-50" />
+              <div className="absolute top-3 right-1 w-1 h-1 bg-[#a0aec0] rounded-full opacity-60" />
+              <div className="absolute bottom-1 left-2 w-1.5 h-1 bg-[#a0aec0] rounded-full opacity-50" />
+            </motion.div>
+          ) : (
+            <motion.div
+              key="sun-glow"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="absolute inset-0 bg-gradient-to-br from-white/40 to-transparent rounded-full"
+            />
+          )}
+        </AnimatePresence>
+      </motion.div>
+    </button>
   );
 }
