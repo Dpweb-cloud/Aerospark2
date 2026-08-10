@@ -29,6 +29,7 @@ export const metadata: Metadata = {
 
 import { GlobalBackground } from "@/components/layout/global-bg";
 import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "sonner";
 
 export default function RootLayout({
   children,
@@ -56,6 +57,7 @@ export default function RootLayout({
           <GlobalBackground />
           <div className="scan-line" />
           {children}
+          <Toaster position="top-center" richColors closeButton />
         </ThemeProvider>
       </body>
     </html>
