@@ -41,6 +41,11 @@ export async function getStudentDashboardData() {
     const session = await getVerifiedSession(["STUDENT"]);
     const studentId = session.id as number;
 
+    const studentUser = await prisma.user.findUnique({
+      where: { id: studentId },
+      select: { feeStatus: true }
+    });
+
     // Fetch classes
     const classes = await prisma.class.findMany({
       where: {
@@ -90,6 +95,7 @@ export async function getStudentDashboardData() {
           activeClassesCount: totalClasses,
           notesCount: notes.length,
           certificatesCount: certificates.length,
+          feeStatus: studentUser?.feeStatus || "UNPAID"
         },
         schedule: classes.map(c => ({
           id: c.id,
@@ -188,6 +194,11 @@ export async function getTeacherDashboardData() {
     const session = await getVerifiedSession(["TEACHER"]);
     const teacherId = session.id as number;
 
+    const teacherUser = await prisma.user.findUnique({
+      where: { id: teacherId },
+      select: { salaryStatus: true }
+    });
+
     // Fetch classes taught by teacher
     const classes = await prisma.class.findMany({
       where: { teacherId },
@@ -223,6 +234,7 @@ export async function getTeacherDashboardData() {
           classesCount: classes.length,
           resourcesCount: resources.length,
           pendingNotesToCheckCount: notesToCheck.length,
+          salaryStatus: teacherUser?.salaryStatus || "UNPAID"
         },
         classes: classes.map(c => ({
           id: c.id,
@@ -371,7 +383,9 @@ export async function getAdminDashboardData() {
         role: true,
         isVerified: true,
         createdAt: true,
-        subject: true
+        subject: true,
+        feeStatus: true,
+        salaryStatus: true
       },
       orderBy: { createdAt: "desc" },
       take: 50
@@ -406,7 +420,9 @@ export async function getAdminDashboardData() {
           role: u.role,
           isVerified: u.isVerified,
           createdAt: u.createdAt,
-          subject: u.subject
+          subject: u.subject,
+          feeStatus: u.feeStatus || "UNPAID",
+          salaryStatus: u.salaryStatus || "UNPAID"
         })),
         notes: recentNotes.map(n => ({
           id: n.id,
@@ -675,6 +691,31 @@ export async function adminCreateClassAction(title: string, dateStr: string, dur
     });
 
     return { success: true, data: newClass };
+  } catch (error: any) {
+    if (error.message.includes("Can't reach database") || error.message.includes("DATABASE_URL") || error.message.includes("PrismaClient")) {
+      return { success: true, mock: true };
+    }
+    return { success: false, error: sanitizeError(error) };
+  }
+}
+
+export async function adminUpdatePaymentStatusAction(
+  userId: number,
+  field: "feeStatus" | "salaryStatus",
+  status: string
+) {
+  try {
+    await getVerifiedSession(["ADMIN"]);
+    
+    const updateData: any = {};
+    updateData[field] = status;
+
+    const user = await prisma.user.update({
+      where: { id: userId },
+      data: updateData
+    });
+
+    return { success: true, data: user };
   } catch (error: any) {
     if (error.message.includes("Can't reach database") || error.message.includes("DATABASE_URL") || error.message.includes("PrismaClient")) {
       return { success: true, mock: true };

@@ -11,6 +11,7 @@ interface GlassCardProps {
   hover?: boolean;
   glow?: "blue" | "red" | "none";
   padding?: "sm" | "md" | "lg";
+  onClick?: () => void;
 }
 
 export function GlassCard({
@@ -19,6 +20,7 @@ export function GlassCard({
   hover = true,
   glow = "none",
   padding = "md",
+  onClick,
 }: GlassCardProps) {
   const paddings = {
     sm: "p-4",
@@ -34,6 +36,7 @@ export function GlassCard({
 
   return (
     <motion.div
+      onClick={onClick}
       className={cn(
         "glass-panel rounded-xl",
         paddings[padding],
@@ -55,11 +58,16 @@ interface StatCardProps {
   icon: React.ReactNode;
   trend?: { value: string; positive: boolean };
   className?: string;
+  onClick?: () => void;
 }
 
-export function StatCard({ label, value, icon, trend, className }: StatCardProps) {
+export function StatCard({ label, value, icon, trend, className, onClick }: StatCardProps) {
   return (
-    <GlassCard className={cn("relative overflow-hidden", className)} glow="blue">
+    <GlassCard 
+      className={cn("relative overflow-hidden", onClick && "cursor-pointer select-none", className)} 
+      glow="blue"
+      onClick={onClick}
+    >
       <div className="flex items-start justify-between">
         <div className="space-y-2">
           <p className="text-text-secondary text-xs font-medium uppercase tracking-wider">

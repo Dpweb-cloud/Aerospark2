@@ -32,6 +32,10 @@ model User {
   accentTheme      String           @default("blue")
   subject          String?
 
+  // Payment details (Manual tracking)
+  feeStatus        String?          @default("UNPAID") // "PAID", "UNPAID", "PENDING"
+  salaryStatus     String?          @default("UNPAID") // "PAID", "UNPAID"
+
   // Relations
   studentClasses   Class[]          @relation("StudentClasses")
   teacherClasses   Class[]          @relation("TeacherClasses")

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { GlassCard, StatCard, Badge } from "@/components/ui/cards";
 import { Button } from "@/components/ui/button";
@@ -42,6 +42,7 @@ interface Quiz {
 
 function StudentDashboardContent() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const activeTab = searchParams.get("tab") || "overview";
 
   // Data State
@@ -190,21 +191,25 @@ function StudentDashboardContent() {
           label="Attendance Rate"
           value={stats.attendanceRate}
           icon={<Calendar className="w-5 h-5 text-aero-blue" />}
+          onClick={() => router.push("/dashboard?tab=attendance")}
         />
         <StatCard
           label="Scheduled Classes"
           value={stats.activeClassesCount.toString()}
           icon={<Clock className="w-5 h-5 text-primary" />}
+          onClick={() => router.push("/dashboard")}
         />
         <StatCard
           label="Uploaded Notes"
           value={stats.notesCount.toString()}
           icon={<Upload className="w-5 h-5 text-purple-500" />}
+          onClick={() => router.push("/dashboard?tab=notes")}
         />
         <StatCard
           label="Certificates Awarded"
           value={stats.certificatesCount.toString()}
           icon={<Award className="w-5 h-5 text-green-500" />}
+          onClick={() => router.push("/dashboard?tab=certificates")}
         />
       </div>
 
@@ -260,6 +265,25 @@ function StudentDashboardContent() {
 
             {/* Side Column widgets */}
             <div className="space-y-6">
+              {/* Fee Payment Status Widget */}
+              <GlassCard className="p-5" glow="blue">
+                <h3 className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4 text-aero-blue" />
+                  Fee Payment Status
+                </h3>
+                <div className="flex items-center justify-between">
+                  <span className="text-xs text-text-secondary">Fee Record:</span>
+                  <Badge variant={stats.feeStatus === "PAID" ? "green" : stats.feeStatus === "PENDING" ? "blue" : "red"}>
+                    {stats.feeStatus || "UNPAID"}
+                  </Badge>
+                </div>
+                {stats.feeStatus !== "PAID" && (
+                  <p className="text-[10px] text-text-muted mt-2">
+                    Please submit your program fees. Contact the administrator to manually verify and update your paid status.
+                  </p>
+                )}
+              </GlassCard>
+
               {/* Quick note summary widget */}
               <GlassCard className="p-5">
                 <h3 className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
@@ -323,30 +347,30 @@ function StudentDashboardContent() {
                 <table className="w-full text-left border-collapse">
                   <thead>
                     <tr className="border-b border-border-subtle bg-surface-elevated/50">
-                      <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Class Topic</th>
-                      <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Date & Time</th>
-                      <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Duration</th>
-                      <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Teacher</th>
-                      <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider text-right">Status</th>
+                      <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Class Topic</th>
+                      <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Date & Time</th>
+                      <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Duration</th>
+                      <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Teacher</th>
+                      <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider text-right">Status</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-border-subtle">
                     {data?.schedule?.length > 0 ? (
                       data.schedule.map((item: any) => (
                         <tr key={item.id} className="hover:bg-surface-hover/30 transition-colors">
-                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">
+                          <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm font-medium text-foreground">
                             {item.title}
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
+                          <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm text-text-secondary">
                             {new Date(item.date).toLocaleString()}
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
+                          <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm text-text-secondary">
                             {item.duration}
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
+                          <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm text-text-secondary">
                             {item.teacherName}
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-right">
+                          <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-right">
                             <Badge variant={item.status === "PRESENT" ? "green" : item.status === "ABSENT" ? "red" : "default"}>
                               {item.status}
                             </Badge>
@@ -427,23 +451,23 @@ function StudentDashboardContent() {
                   <table className="w-full text-left border-collapse">
                     <thead>
                       <tr className="border-b border-border-subtle bg-surface-elevated/50">
-                        <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Note Title</th>
-                        <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Submitted On</th>
-                        <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">File URL</th>
-                        <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider text-right">Review Status</th>
+                        <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Note Title</th>
+                        <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Submitted On</th>
+                        <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">File URL</th>
+                        <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider text-right">Review Status</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-border-subtle">
                       {data?.notes?.length > 0 ? (
                         data.notes.map((note: any) => (
                           <tr key={note.id} className="hover:bg-surface-hover/30 transition-colors">
-                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">
+                            <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm font-medium text-foreground">
                               {note.title}
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
+                            <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm text-text-secondary">
                               {new Date(note.createdAt).toLocaleDateString()}
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm">
+                            <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm">
                               <a
                                 href={note.filePath}
                                 target="_blank"
@@ -453,7 +477,7 @@ function StudentDashboardContent() {
                                 View File
                               </a>
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-right">
+                            <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-right">
                               <Badge variant={note.status === 'APPROVED' ? 'green' : note.status === 'REJECTED' ? 'red' : 'blue'}>
                                 {note.status}
                               </Badge>
@@ -659,22 +683,22 @@ function StudentDashboardContent() {
                   <table className="w-full text-left border-collapse">
                     <thead>
                       <tr className="border-b border-border-subtle bg-surface-elevated/50">
-                        <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider font-bold">Quiz</th>
-                        <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider font-bold text-right">Score</th>
-                        <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider font-bold text-right">Date</th>
+                        <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider font-bold">Quiz</th>
+                        <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider font-bold text-right">Score</th>
+                        <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider font-bold text-right">Date</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-border-subtle text-xs">
                       {data?.submissions?.length > 0 ? (
                         data.submissions.map((sub: any) => (
                           <tr key={sub.id} className="hover:bg-surface-hover/30 transition-colors">
-                            <td className="px-6 py-4 font-medium text-foreground truncate max-w-[120px]">
+                            <td className="px-3 sm:px-6 py-3 sm:py-4 font-medium text-foreground truncate max-w-[120px]">
                               {sub.quizTitle}
                             </td>
-                            <td className="px-6 py-4 text-right font-semibold text-foreground">
+                            <td className="px-3 sm:px-6 py-3 sm:py-4 text-right font-semibold text-foreground">
                               {sub.score} / {sub.totalQuestions}
                             </td>
-                            <td className="px-6 py-4 text-right text-text-secondary">
+                            <td className="px-3 sm:px-6 py-3 sm:py-4 text-right text-text-secondary">
                               {new Date(sub.submittedAt).toLocaleDateString()}
                             </td>
                           </tr>

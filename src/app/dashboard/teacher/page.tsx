@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { GlassCard, StatCard, Badge } from "@/components/ui/cards";
 import { Button } from "@/components/ui/button";
@@ -30,6 +30,7 @@ import {
 
 function TeacherDashboardContent() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const activeTab = searchParams.get("tab") || "overview";
 
   // Data State
@@ -196,21 +197,25 @@ function TeacherDashboardContent() {
           label="Total Active Students"
           value={stats.totalStudents.toString()}
           icon={<Users className="w-5 h-5 text-aero-blue" />}
+          onClick={() => router.push("/dashboard/teacher?tab=attendance")}
         />
         <StatCard
           label="My Scheduled Classes"
           value={stats.classesCount.toString()}
           icon={<Calendar className="w-5 h-5 text-primary" />}
+          onClick={() => router.push("/dashboard/teacher?tab=classes")}
         />
         <StatCard
           label="Notes Pending Review"
           value={stats.pendingNotesToCheckCount.toString()}
           icon={<FileText className="w-5 h-5 text-purple-500" />}
+          onClick={() => router.push("/dashboard/teacher?tab=notes")}
         />
         <StatCard
           label="Resources Uploaded"
           value={stats.resourcesCount.toString()}
           icon={<BookOpen className="w-5 h-5 text-green-500" />}
+          onClick={() => router.push("/dashboard/teacher?tab=resources")}
         />
       </div>
 
@@ -232,26 +237,26 @@ function TeacherDashboardContent() {
                   <table className="w-full text-left border-collapse">
                     <thead>
                       <tr className="border-b border-border-subtle bg-surface-elevated/50">
-                        <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Class Title</th>
-                        <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Date & Time</th>
-                        <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Duration</th>
-                        <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider text-right">Enrolled</th>
+                        <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Class Title</th>
+                        <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Date & Time</th>
+                        <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Duration</th>
+                        <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider text-right">Enrolled</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-border-subtle">
                       {data?.classes?.length > 0 ? (
                         data.classes.map((cls: any) => (
                           <tr key={cls.id} className="hover:bg-surface-hover/30 transition-colors">
-                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">
+                            <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm font-medium text-foreground">
                               {cls.title}
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
+                            <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm text-text-secondary">
                               {new Date(cls.date).toLocaleString()}
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
+                            <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm text-text-secondary">
                               {cls.duration}
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary text-right">
+                            <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm text-text-secondary text-right">
                               {cls.students?.length || 0} Students
                             </td>
                           </tr>
@@ -271,6 +276,25 @@ function TeacherDashboardContent() {
 
             {/* Right: Notes reviewing list summary */}
             <div className="space-y-6">
+              {/* Salary Payment Status Widget */}
+              <GlassCard className="p-5" glow="blue">
+                <h3 className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
+                  <GraduationCap className="w-4 h-4 text-emerald-400" />
+                  Salary Payment Status
+                </h3>
+                <div className="flex items-center justify-between">
+                  <span className="text-xs text-text-secondary">Status:</span>
+                  <Badge variant={stats.salaryStatus === "PAID" ? "green" : "red"}>
+                    {stats.salaryStatus === "PAID" ? "SALARY PAID" : "UNPAID"}
+                  </Badge>
+                </div>
+                {stats.salaryStatus !== "PAID" && (
+                  <p className="text-[10px] text-text-muted mt-2">
+                    Your salary payment is currently pending admin authorization. Please check back later.
+                  </p>
+                )}
+              </GlassCard>
+
               <GlassCard className="p-5">
                 <h3 className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
                   <FileText className="w-4 h-4 text-purple-400" />
@@ -395,22 +419,22 @@ function TeacherDashboardContent() {
                   <table className="w-full text-left border-collapse">
                     <thead>
                       <tr className="border-b border-border-subtle bg-surface-elevated/50">
-                        <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Title</th>
-                        <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Date & Time</th>
-                        <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider text-right">Duration</th>
+                        <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Title</th>
+                        <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Date & Time</th>
+                        <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider text-right">Duration</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-border-subtle">
                       {data?.classes?.length > 0 ? (
                         data.classes.map((cls: any) => (
                           <tr key={cls.id} className="hover:bg-surface-hover/30 transition-colors">
-                            <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-foreground">
+                            <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm font-semibold text-foreground">
                               {cls.title}
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
+                            <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm text-text-secondary">
                               {new Date(cls.date).toLocaleString()}
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary text-right">
+                            <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm text-text-secondary text-right">
                               {cls.duration}
                             </td>
                           </tr>
@@ -463,19 +487,19 @@ function TeacherDashboardContent() {
                   <table className="w-full text-left border-collapse">
                     <thead>
                       <tr className="border-b border-border-subtle bg-surface-elevated/50">
-                        <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Student Name</th>
-                        <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Email Address</th>
-                        <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider text-right">Attendance Action</th>
+                        <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Student Name</th>
+                        <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Email Address</th>
+                        <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider text-right">Attendance Action</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-border-subtle">
                       {selectedClass.students?.length > 0 ? (
                         selectedClass.students.map((student: any) => (
                           <tr key={student.id} className="hover:bg-surface-hover/30 transition-colors">
-                            <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-foreground">
+                            <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm font-semibold text-foreground">
                               {student.name}
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
+                            <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm text-text-secondary">
                               {student.email}
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-right">
@@ -602,26 +626,26 @@ function TeacherDashboardContent() {
                   <table className="w-full text-left border-collapse">
                     <thead>
                       <tr className="border-b border-border-subtle bg-surface-elevated/50">
-                        <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Title</th>
-                        <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Type</th>
-                        <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Added On</th>
-                        <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider text-right">Access Link</th>
+                        <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Title</th>
+                        <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Type</th>
+                        <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Added On</th>
+                        <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider text-right">Access Link</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-border-subtle">
                       {data?.resources?.length > 0 ? (
                         data.resources.map((res: any) => (
                           <tr key={res.id} className="hover:bg-surface-hover/30 transition-colors">
-                            <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-foreground">
+                            <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm font-semibold text-foreground">
                               {res.title}
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
+                            <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm text-text-secondary">
                               <Badge variant="blue">{res.type}</Badge>
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
+                            <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm text-text-secondary">
                               {new Date(res.createdAt).toLocaleDateString()}
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-right text-sm">
+                            <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-right text-sm">
                               <a
                                 href={res.url}
                                 target="_blank"

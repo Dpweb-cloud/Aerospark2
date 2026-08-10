@@ -1070,7 +1070,9 @@ export const UserScalarFieldEnum = {
   assignmentAlerts: 'assignmentAlerts',
   classReminders: 'classReminders',
   accentTheme: 'accentTheme',
-  subject: 'subject'
+  subject: 'subject',
+  feeStatus: 'feeStatus',
+  salaryStatus: 'salaryStatus'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -1187,7 +1189,9 @@ export const UserOrderByRelevanceFieldEnum = {
   password: 'password',
   name: 'name',
   accentTheme: 'accentTheme',
-  subject: 'subject'
+  subject: 'subject',
+  feeStatus: 'feeStatus',
+  salaryStatus: 'salaryStatus'
 } as const
 
 export type UserOrderByRelevanceFieldEnum = (typeof UserOrderByRelevanceFieldEnum)[keyof typeof UserOrderByRelevanceFieldEnum]

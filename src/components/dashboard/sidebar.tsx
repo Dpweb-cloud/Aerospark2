@@ -60,6 +60,7 @@ const adminLinks = [
   { label: "Students", href: "/dashboard/admin?tab=students", icon: Users },
   { label: "Instructors", href: "/dashboard/admin?tab=instructors", icon: GraduationCap },
   { label: "Courses", href: "/dashboard/admin?tab=courses", icon: BookOpen },
+  { label: "Notes & Resources", href: "/dashboard/admin?tab=notes", icon: FileText },
   { label: "Analytics", href: "/dashboard/admin?tab=analytics", icon: BarChart3 },
   { label: "Certificates", href: "/dashboard/admin?tab=certificates", icon: Award },
   { label: "Notifications", href: "/dashboard/admin?tab=notifications", icon: Bell },
@@ -146,6 +147,7 @@ export function DashboardSidebar() {
             <Link
               key={link.href}
               href={link.href}
+              onClick={() => setMobileOpen(false)}
               className={cn(
                 "relative flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200",
                 collapsed && "justify-center px-0",
@@ -180,6 +182,7 @@ export function DashboardSidebar() {
       <div className="px-2 pb-4 space-y-1 border-t border-border-subtle pt-4">
         <Link
           href="/"
+          onClick={() => setMobileOpen(false)}
           className={cn(
             "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-text-muted hover:text-foreground hover:bg-surface-hover transition-colors",
             collapsed && "justify-center px-0"

@@ -1,16 +1,18 @@
 "use client";
 
 import { useState, useEffect, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { GlassCard, StatCard, Badge } from "@/components/ui/cards";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 import {
   getAdminDashboardData,
   adminAddUserAction,
   adminDeleteUserAction,
-  adminCreateClassAction
+  adminCreateClassAction,
+  adminUpdatePaymentStatusAction
 } from "@/app/actions/dashboardActions";
 import {
   Users,
@@ -38,6 +40,7 @@ import {
 
 function AdminDashboardContent() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const activeTab = searchParams.get("tab") || "overview";
 
   const [data, setData] = useState<any>(null);
@@ -112,6 +115,20 @@ function AdminDashboardContent() {
         fetchAdminData();
       } else {
         toast.error(res.error || "Failed to delete user.");
+      }
+    } catch (err: any) {
+      toast.error("Error: " + err.message);
+    }
+  };
+
+  const handleUpdatePayment = async (userId: number, field: "feeStatus" | "salaryStatus", status: string) => {
+    try {
+      const res = await adminUpdatePaymentStatusAction(userId, field, status);
+      if (res.success) {
+        toast.success("Payment status updated successfully!");
+        fetchAdminData();
+      } else {
+        toast.error(res.error || "Failed to update payment status.");
       }
     } catch (err: any) {
       toast.error("Error: " + err.message);
@@ -213,22 +230,26 @@ function AdminDashboardContent() {
           value={stats.totalUsers.toString()}
           icon={<Users className="w-5 h-5 text-aero-blue" />}
           trend={{ value: `${stats.studentsCount} Students / ${stats.teachersCount} Teachers`, positive: true }}
+          onClick={() => router.push("/dashboard/admin")}
         />
         <StatCard
           label="Verified Users"
           value={stats.verifiedUsersCount.toString()}
           icon={<UserCheck className="w-5 h-5 text-green-500" />}
           trend={{ value: `${Math.round((stats.verifiedUsersCount / (stats.totalUsers || 1)) * 100)}% verification rate`, positive: true }}
+          onClick={() => router.push("/dashboard/admin")}
         />
         <StatCard
           label="Scheduled Classes"
           value={stats.totalClasses.toString()}
           icon={<Server className="w-5 h-5 text-primary" />}
+          onClick={() => router.push("/dashboard/admin?tab=courses")}
         />
         <StatCard
           label="Uploaded Notes"
           value={stats.totalNotes.toString()}
           icon={<FileText className="w-5 h-5 text-purple-500" />}
+          onClick={() => router.push("/dashboard/admin?tab=notes")}
         />
       </div>
 
@@ -250,16 +271,17 @@ function AdminDashboardContent() {
                   <table className="w-full text-left border-collapse">
                     <thead>
                       <tr className="border-b border-border-subtle bg-surface-elevated/50">
-                        <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">User details</th>
-                        <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Assigned Role</th>
-                        <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Course/Subject</th>
-                        <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider text-right">Actions</th>
+                        <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">User details</th>
+                        <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Assigned Role</th>
+                        <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Course/Subject</th>
+                        <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Payment Status</th>
+                        <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider text-right">Actions</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-border-subtle">
                       {filteredUsers.slice(0, 8).map((user: any) => (
                         <tr key={user.id} className="hover:bg-surface-hover/30 transition-colors">
-                          <td className="px-6 py-4 whitespace-nowrap">
+                          <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
                             <div className="flex items-center gap-3">
                               <div className="w-8 h-8 rounded-full bg-surface-elevated flex items-center justify-center text-xs font-semibold text-aero-blue border border-border-subtle">
                                 {user.name?.slice(0, 2).toUpperCase() || "US"}
@@ -270,15 +292,48 @@ function AdminDashboardContent() {
                               </div>
                             </div>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
+                          <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm text-text-secondary">
                             <Badge variant={user.role === 'ADMIN' ? 'red' : user.role === 'TEACHER' ? 'blue' : 'default'}>
                               {user.role}
                             </Badge>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
+                          <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm text-text-secondary">
                             {user.subject || <span className="text-text-muted italic">None</span>}
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary text-right">
+                          <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm text-text-secondary">
+                            {user.role === "STUDENT" ? (
+                              <select
+                                value={user.feeStatus}
+                                onChange={(e) => handleUpdatePayment(user.id, "feeStatus", e.target.value)}
+                                className={cn(
+                                  "border text-xs rounded-lg px-2 py-1 outline-none font-medium bg-background",
+                                  user.feeStatus === "PAID" && "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+                                  user.feeStatus === "PENDING" && "bg-primary/10 text-primary border-primary/20",
+                                  user.feeStatus === "UNPAID" && "bg-rose-500/10 text-rose-400 border-rose-500/20"
+                                )}
+                              >
+                                <option value="UNPAID" className="bg-background text-foreground">Unpaid</option>
+                                <option value="PENDING" className="bg-background text-foreground">Pending</option>
+                                <option value="PAID" className="bg-background text-foreground">Paid</option>
+                              </select>
+                            ) : user.role === "TEACHER" ? (
+                              <select
+                                value={user.salaryStatus}
+                                onChange={(e) => handleUpdatePayment(user.id, "salaryStatus", e.target.value)}
+                                className={cn(
+                                  "border text-xs rounded-lg px-2 py-1 outline-none font-medium bg-background",
+                                  user.salaryStatus === "PAID" && "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+                                  user.salaryStatus === "UNPAID" && "bg-rose-500/10 text-rose-400 border-rose-500/20"
+                                )}
+                              >
+                                <option value="UNPAID" className="bg-background text-foreground">Unpaid</option>
+                                <option value="PAID" className="bg-background text-foreground">Paid</option>
+                              </select>
+                            ) : (
+                              <span className="text-text-muted italic text-xs">N/A</span>
+                            )}
+                          </td>
+                          <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm text-text-secondary text-right">
                             <button
                               onClick={() => handleDeleteUser(user.id, user.name)}
                               className="text-red-400 hover:text-red-500 transition-colors p-1"
@@ -367,38 +422,57 @@ function AdminDashboardContent() {
               </Button>
             </div>
             <GlassCard className="p-0 overflow-hidden">
-              <table className="w-full text-left border-collapse">
-                <thead>
-                  <tr className="border-b border-border-subtle bg-surface-elevated/50">
-                    <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Name</th>
-                    <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Email Address</th>
-                    <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Subject/Course</th>
-                    <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Verified</th>
-                    <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider text-right">Actions</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-border-subtle">
-                  {students.map((user: any) => (
-                    <tr key={user.id} className="hover:bg-surface-hover/30 transition-colors">
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-foreground">{user.name}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">{user.email}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">{user.subject || <span className="text-text-muted italic">General</span>}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
-                        <Badge variant={user.isVerified ? "green" : "default"}>{user.isVerified ? "Verified" : "Pending"}</Badge>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-right">
-                        <button
-                          onClick={() => handleDeleteUser(user.id, user.name)}
-                          className="text-red-400 hover:text-red-500 transition-colors p-1"
-                          title="Delete Account"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
-                      </td>
+              <div className="overflow-x-auto">
+                <table className="w-full text-left border-collapse">
+                  <thead>
+                    <tr className="border-b border-border-subtle bg-surface-elevated/50">
+                      <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Name</th>
+                      <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Email Address</th>
+                      <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Subject/Course</th>
+                      <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Verified</th>
+                      <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Fee Status</th>
+                      <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider text-right">Actions</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody className="divide-y divide-border-subtle">
+                    {students.map((user: any) => (
+                      <tr key={user.id} className="hover:bg-surface-hover/30 transition-colors">
+                        <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm font-semibold text-foreground">{user.name}</td>
+                        <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm text-text-secondary">{user.email}</td>
+                        <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm text-text-secondary">{user.subject || <span className="text-text-muted italic">General</span>}</td>
+                        <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm text-text-secondary">
+                          <Badge variant={user.isVerified ? "green" : "default"}>{user.isVerified ? "Verified" : "Pending"}</Badge>
+                        </td>
+                        <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm text-text-secondary">
+                          <select
+                            value={user.feeStatus}
+                            onChange={(e) => handleUpdatePayment(user.id, "feeStatus", e.target.value)}
+                            className={cn(
+                              "border text-xs rounded-lg px-2 py-1 outline-none font-medium bg-background",
+                              user.feeStatus === "PAID" && "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+                              user.feeStatus === "PENDING" && "bg-primary/10 text-primary border-primary/20",
+                              user.feeStatus === "UNPAID" && "bg-rose-500/10 text-rose-400 border-rose-500/20"
+                            )}
+                          >
+                            <option value="UNPAID" className="bg-background text-foreground">Unpaid</option>
+                            <option value="PENDING" className="bg-background text-foreground">Pending</option>
+                            <option value="PAID" className="bg-background text-foreground">Paid</option>
+                          </select>
+                        </td>
+                        <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm text-right">
+                          <button
+                            onClick={() => handleDeleteUser(user.id, user.name)}
+                            className="text-red-400 hover:text-red-500 transition-colors p-1"
+                            title="Delete Account"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </GlassCard>
           </motion.div>
         )}
@@ -419,38 +493,55 @@ function AdminDashboardContent() {
               </Button>
             </div>
             <GlassCard className="p-0 overflow-hidden">
-              <table className="w-full text-left border-collapse">
-                <thead>
-                  <tr className="border-b border-border-subtle bg-surface-elevated/50">
-                    <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Name</th>
-                    <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Email Address</th>
-                    <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Teaching Subject</th>
-                    <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Verified</th>
-                    <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider text-right">Actions</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-border-subtle">
-                  {instructors.map((user: any) => (
-                    <tr key={user.id} className="hover:bg-surface-hover/30 transition-colors">
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-foreground">{user.name}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">{user.email}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">{user.subject || <span className="text-text-muted italic">General Aviation</span>}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
-                        <Badge variant={user.isVerified ? "green" : "default"}>{user.isVerified ? "Verified" : "Pending"}</Badge>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-right">
-                        <button
-                          onClick={() => handleDeleteUser(user.id, user.name)}
-                          className="text-red-400 hover:text-red-500 transition-colors p-1"
-                          title="Delete Account"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
-                      </td>
+              <div className="overflow-x-auto">
+                <table className="w-full text-left border-collapse">
+                  <thead>
+                    <tr className="border-b border-border-subtle bg-surface-elevated/50">
+                      <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Name</th>
+                      <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Email Address</th>
+                      <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Teaching Subject</th>
+                      <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Verified</th>
+                      <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Salary Status</th>
+                      <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider text-right">Actions</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody className="divide-y divide-border-subtle">
+                    {instructors.map((user: any) => (
+                      <tr key={user.id} className="hover:bg-surface-hover/30 transition-colors">
+                        <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm font-semibold text-foreground">{user.name}</td>
+                        <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm text-text-secondary">{user.email}</td>
+                        <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm text-text-secondary">{user.subject || <span className="text-text-muted italic">General Aviation</span>}</td>
+                        <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm text-text-secondary">
+                          <Badge variant={user.isVerified ? "green" : "default"}>{user.isVerified ? "Verified" : "Pending"}</Badge>
+                        </td>
+                        <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm text-text-secondary">
+                          <select
+                            value={user.salaryStatus}
+                            onChange={(e) => handleUpdatePayment(user.id, "salaryStatus", e.target.value)}
+                            className={cn(
+                              "border text-xs rounded-lg px-2 py-1 outline-none font-medium bg-background",
+                              user.salaryStatus === "PAID" && "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+                              user.salaryStatus === "UNPAID" && "bg-rose-500/10 text-rose-400 border-rose-500/20"
+                            )}
+                          >
+                            <option value="UNPAID" className="bg-background text-foreground">Unpaid</option>
+                            <option value="PAID" className="bg-background text-foreground">Paid</option>
+                          </select>
+                        </td>
+                        <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm text-right">
+                          <button
+                            onClick={() => handleDeleteUser(user.id, user.name)}
+                            className="text-red-400 hover:text-red-500 transition-colors p-1"
+                            title="Delete Account"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </GlassCard>
           </motion.div>
         )}
@@ -635,6 +726,129 @@ function AdminDashboardContent() {
                 </div>
               </div>
             </GlassCard>
+          </motion.div>
+        )}
+
+        {/* Tab: Notes & Resources */}
+        {activeTab === "notes" && (
+          <motion.div
+            key="notes"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -15 }}
+            className="space-y-8"
+          >
+            <div className="space-y-4">
+              <h2 className="text-lg font-semibold text-foreground">Uploaded Student Notes</h2>
+              <GlassCard className="p-0 overflow-hidden">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left border-collapse">
+                    <thead>
+                      <tr className="border-b border-border-subtle bg-surface-elevated/50">
+                        <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Note Title</th>
+                        <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Student Name</th>
+                        <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Date Submitted</th>
+                        <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">File Access</th>
+                        <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider text-right">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-border-subtle">
+                      {data?.notes?.length > 0 ? (
+                        data.notes.map((note: any) => (
+                          <tr key={note.id} className="hover:bg-surface-hover/30 transition-colors">
+                            <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm font-semibold text-foreground">
+                              {note.title}
+                            </td>
+                            <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm text-text-secondary">
+                              {note.studentName}
+                            </td>
+                            <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm text-text-secondary">
+                              {new Date(note.createdAt).toLocaleDateString()}
+                            </td>
+                            <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm">
+                              <a
+                                href={note.filePath}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-aero-blue hover:underline inline-flex items-center gap-1.5 font-medium"
+                              >
+                                Open Note File
+                              </a>
+                            </td>
+                            <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-right">
+                              <Badge variant={note.status === 'APPROVED' ? 'green' : note.status === 'REJECTED' ? 'red' : 'blue'}>
+                                {note.status}
+                              </Badge>
+                            </td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan={5} className="px-6 py-8 text-center text-sm text-text-secondary">
+                            No student notes uploaded yet.
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </GlassCard>
+            </div>
+
+            <div className="space-y-4">
+              <h2 className="text-lg font-semibold text-foreground">Shared Learning Resources</h2>
+              <GlassCard className="p-0 overflow-hidden">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left border-collapse">
+                    <thead>
+                      <tr className="border-b border-border-subtle bg-surface-elevated/50">
+                        <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Title</th>
+                        <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Type</th>
+                        <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Instructor</th>
+                        <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Added On</th>
+                        <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider text-right">Access Link</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-border-subtle">
+                      {data?.resourcesList?.length > 0 ? (
+                        data.resourcesList.map((res: any) => (
+                          <tr key={res.id} className="hover:bg-surface-hover/30 transition-colors">
+                            <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm font-semibold text-foreground">
+                              {res.title}
+                            </td>
+                            <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm text-text-secondary">
+                              <Badge variant="blue">{res.type}</Badge>
+                            </td>
+                            <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm text-text-secondary">
+                              {res.teacherName}
+                            </td>
+                            <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm text-text-secondary">
+                              {new Date(res.createdAt).toLocaleDateString()}
+                            </td>
+                            <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-right text-sm">
+                              <a
+                                href={res.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-aero-blue hover:underline inline-flex items-center gap-1 font-medium"
+                              >
+                                Open URL
+                              </a>
+                            </td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan={5} className="px-6 py-8 text-center text-sm text-text-secondary">
+                            No shared learning resources found.
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </GlassCard>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

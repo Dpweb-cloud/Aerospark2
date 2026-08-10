@@ -47,6 +47,8 @@ export type UserMinAggregateOutputType = {
   classReminders: boolean | null
   accentTheme: string | null
   subject: string | null
+  feeStatus: string | null
+  salaryStatus: string | null
 }
 
 export type UserMaxAggregateOutputType = {
@@ -62,6 +64,8 @@ export type UserMaxAggregateOutputType = {
   classReminders: boolean | null
   accentTheme: string | null
   subject: string | null
+  feeStatus: string | null
+  salaryStatus: string | null
 }
 
 export type UserCountAggregateOutputType = {
@@ -77,6 +81,8 @@ export type UserCountAggregateOutputType = {
   classReminders: number
   accentTheme: number
   subject: number
+  feeStatus: number
+  salaryStatus: number
   _all: number
 }
 
@@ -102,6 +108,8 @@ export type UserMinAggregateInputType = {
   classReminders?: true
   accentTheme?: true
   subject?: true
+  feeStatus?: true
+  salaryStatus?: true
 }
 
 export type UserMaxAggregateInputType = {
@@ -117,6 +125,8 @@ export type UserMaxAggregateInputType = {
   classReminders?: true
   accentTheme?: true
   subject?: true
+  feeStatus?: true
+  salaryStatus?: true
 }
 
 export type UserCountAggregateInputType = {
@@ -132,6 +142,8 @@ export type UserCountAggregateInputType = {
   classReminders?: true
   accentTheme?: true
   subject?: true
+  feeStatus?: true
+  salaryStatus?: true
   _all?: true
 }
 
@@ -234,6 +246,8 @@ export type UserGroupByOutputType = {
   classReminders: boolean
   accentTheme: string
   subject: string | null
+  feeStatus: string | null
+  salaryStatus: string | null
   _count: UserCountAggregateOutputType | null
   _avg: UserAvgAggregateOutputType | null
   _sum: UserSumAggregateOutputType | null
@@ -272,6 +286,8 @@ export type UserWhereInput = {
   classReminders?: Prisma.BoolFilter<"User"> | boolean
   accentTheme?: Prisma.StringFilter<"User"> | string
   subject?: Prisma.StringNullableFilter<"User"> | string | null
+  feeStatus?: Prisma.StringNullableFilter<"User"> | string | null
+  salaryStatus?: Prisma.StringNullableFilter<"User"> | string | null
   studentClasses?: Prisma.ClassListRelationFilter
   teacherClasses?: Prisma.ClassListRelationFilter
   attendance?: Prisma.AttendanceListRelationFilter
@@ -294,6 +310,8 @@ export type UserOrderByWithRelationInput = {
   classReminders?: Prisma.SortOrder
   accentTheme?: Prisma.SortOrder
   subject?: Prisma.SortOrderInput | Prisma.SortOrder
+  feeStatus?: Prisma.SortOrderInput | Prisma.SortOrder
+  salaryStatus?: Prisma.SortOrderInput | Prisma.SortOrder
   studentClasses?: Prisma.ClassOrderByRelationAggregateInput
   teacherClasses?: Prisma.ClassOrderByRelationAggregateInput
   attendance?: Prisma.AttendanceOrderByRelationAggregateInput
@@ -320,6 +338,8 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   classReminders?: Prisma.BoolFilter<"User"> | boolean
   accentTheme?: Prisma.StringFilter<"User"> | string
   subject?: Prisma.StringNullableFilter<"User"> | string | null
+  feeStatus?: Prisma.StringNullableFilter<"User"> | string | null
+  salaryStatus?: Prisma.StringNullableFilter<"User"> | string | null
   studentClasses?: Prisma.ClassListRelationFilter
   teacherClasses?: Prisma.ClassListRelationFilter
   attendance?: Prisma.AttendanceListRelationFilter
@@ -342,6 +362,8 @@ export type UserOrderByWithAggregationInput = {
   classReminders?: Prisma.SortOrder
   accentTheme?: Prisma.SortOrder
   subject?: Prisma.SortOrderInput | Prisma.SortOrder
+  feeStatus?: Prisma.SortOrderInput | Prisma.SortOrder
+  salaryStatus?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
   _avg?: Prisma.UserAvgOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
@@ -365,6 +387,8 @@ export type UserScalarWhereWithAggregatesInput = {
   classReminders?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   accentTheme?: Prisma.StringWithAggregatesFilter<"User"> | string
   subject?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  feeStatus?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  salaryStatus?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
 }
 
 export type UserCreateInput = {
@@ -379,6 +403,8 @@ export type UserCreateInput = {
   classReminders?: boolean
   accentTheme?: string
   subject?: string | null
+  feeStatus?: string | null
+  salaryStatus?: string | null
   studentClasses?: Prisma.ClassCreateNestedManyWithoutStudentsInput
   teacherClasses?: Prisma.ClassCreateNestedManyWithoutTeacherInput
   attendance?: Prisma.AttendanceCreateNestedManyWithoutStudentInput
@@ -401,6 +427,8 @@ export type UserUncheckedCreateInput = {
   classReminders?: boolean
   accentTheme?: string
   subject?: string | null
+  feeStatus?: string | null
+  salaryStatus?: string | null
   studentClasses?: Prisma.ClassUncheckedCreateNestedManyWithoutStudentsInput
   teacherClasses?: Prisma.ClassUncheckedCreateNestedManyWithoutTeacherInput
   attendance?: Prisma.AttendanceUncheckedCreateNestedManyWithoutStudentInput
@@ -422,6 +450,8 @@ export type UserUpdateInput = {
   classReminders?: Prisma.BoolFieldUpdateOperationsInput | boolean
   accentTheme?: Prisma.StringFieldUpdateOperationsInput | string
   subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  feeStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  salaryStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   studentClasses?: Prisma.ClassUpdateManyWithoutStudentsNestedInput
   teacherClasses?: Prisma.ClassUpdateManyWithoutTeacherNestedInput
   attendance?: Prisma.AttendanceUpdateManyWithoutStudentNestedInput
@@ -444,6 +474,8 @@ export type UserUncheckedUpdateInput = {
   classReminders?: Prisma.BoolFieldUpdateOperationsInput | boolean
   accentTheme?: Prisma.StringFieldUpdateOperationsInput | string
   subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  feeStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  salaryStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   studentClasses?: Prisma.ClassUncheckedUpdateManyWithoutStudentsNestedInput
   teacherClasses?: Prisma.ClassUncheckedUpdateManyWithoutTeacherNestedInput
   attendance?: Prisma.AttendanceUncheckedUpdateManyWithoutStudentNestedInput
@@ -466,6 +498,8 @@ export type UserCreateManyInput = {
   classReminders?: boolean
   accentTheme?: string
   subject?: string | null
+  feeStatus?: string | null
+  salaryStatus?: string | null
 }
 
 export type UserUpdateManyMutationInput = {
@@ -480,6 +514,8 @@ export type UserUpdateManyMutationInput = {
   classReminders?: Prisma.BoolFieldUpdateOperationsInput | boolean
   accentTheme?: Prisma.StringFieldUpdateOperationsInput | string
   subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  feeStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  salaryStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type UserUncheckedUpdateManyInput = {
@@ -495,6 +531,8 @@ export type UserUncheckedUpdateManyInput = {
   classReminders?: Prisma.BoolFieldUpdateOperationsInput | boolean
   accentTheme?: Prisma.StringFieldUpdateOperationsInput | string
   subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  feeStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  salaryStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type UserOrderByRelevanceInput = {
@@ -516,6 +554,8 @@ export type UserCountOrderByAggregateInput = {
   classReminders?: Prisma.SortOrder
   accentTheme?: Prisma.SortOrder
   subject?: Prisma.SortOrder
+  feeStatus?: Prisma.SortOrder
+  salaryStatus?: Prisma.SortOrder
 }
 
 export type UserAvgOrderByAggregateInput = {
@@ -535,6 +575,8 @@ export type UserMaxOrderByAggregateInput = {
   classReminders?: Prisma.SortOrder
   accentTheme?: Prisma.SortOrder
   subject?: Prisma.SortOrder
+  feeStatus?: Prisma.SortOrder
+  salaryStatus?: Prisma.SortOrder
 }
 
 export type UserMinOrderByAggregateInput = {
@@ -550,6 +592,8 @@ export type UserMinOrderByAggregateInput = {
   classReminders?: Prisma.SortOrder
   accentTheme?: Prisma.SortOrder
   subject?: Prisma.SortOrder
+  feeStatus?: Prisma.SortOrder
+  salaryStatus?: Prisma.SortOrder
 }
 
 export type UserSumOrderByAggregateInput = {
@@ -733,6 +777,8 @@ export type UserCreateWithoutTeacherClassesInput = {
   classReminders?: boolean
   accentTheme?: string
   subject?: string | null
+  feeStatus?: string | null
+  salaryStatus?: string | null
   studentClasses?: Prisma.ClassCreateNestedManyWithoutStudentsInput
   attendance?: Prisma.AttendanceCreateNestedManyWithoutStudentInput
   uploadedNotes?: Prisma.NoteCreateNestedManyWithoutUploadedByInput
@@ -754,6 +800,8 @@ export type UserUncheckedCreateWithoutTeacherClassesInput = {
   classReminders?: boolean
   accentTheme?: string
   subject?: string | null
+  feeStatus?: string | null
+  salaryStatus?: string | null
   studentClasses?: Prisma.ClassUncheckedCreateNestedManyWithoutStudentsInput
   attendance?: Prisma.AttendanceUncheckedCreateNestedManyWithoutStudentInput
   uploadedNotes?: Prisma.NoteUncheckedCreateNestedManyWithoutUploadedByInput
@@ -779,6 +827,8 @@ export type UserCreateWithoutStudentClassesInput = {
   classReminders?: boolean
   accentTheme?: string
   subject?: string | null
+  feeStatus?: string | null
+  salaryStatus?: string | null
   teacherClasses?: Prisma.ClassCreateNestedManyWithoutTeacherInput
   attendance?: Prisma.AttendanceCreateNestedManyWithoutStudentInput
   uploadedNotes?: Prisma.NoteCreateNestedManyWithoutUploadedByInput
@@ -800,6 +850,8 @@ export type UserUncheckedCreateWithoutStudentClassesInput = {
   classReminders?: boolean
   accentTheme?: string
   subject?: string | null
+  feeStatus?: string | null
+  salaryStatus?: string | null
   teacherClasses?: Prisma.ClassUncheckedCreateNestedManyWithoutTeacherInput
   attendance?: Prisma.AttendanceUncheckedCreateNestedManyWithoutStudentInput
   uploadedNotes?: Prisma.NoteUncheckedCreateNestedManyWithoutUploadedByInput
@@ -836,6 +888,8 @@ export type UserUpdateWithoutTeacherClassesInput = {
   classReminders?: Prisma.BoolFieldUpdateOperationsInput | boolean
   accentTheme?: Prisma.StringFieldUpdateOperationsInput | string
   subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  feeStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  salaryStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   studentClasses?: Prisma.ClassUpdateManyWithoutStudentsNestedInput
   attendance?: Prisma.AttendanceUpdateManyWithoutStudentNestedInput
   uploadedNotes?: Prisma.NoteUpdateManyWithoutUploadedByNestedInput
@@ -857,6 +911,8 @@ export type UserUncheckedUpdateWithoutTeacherClassesInput = {
   classReminders?: Prisma.BoolFieldUpdateOperationsInput | boolean
   accentTheme?: Prisma.StringFieldUpdateOperationsInput | string
   subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  feeStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  salaryStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   studentClasses?: Prisma.ClassUncheckedUpdateManyWithoutStudentsNestedInput
   attendance?: Prisma.AttendanceUncheckedUpdateManyWithoutStudentNestedInput
   uploadedNotes?: Prisma.NoteUncheckedUpdateManyWithoutUploadedByNestedInput
@@ -897,6 +953,8 @@ export type UserScalarWhereInput = {
   classReminders?: Prisma.BoolFilter<"User"> | boolean
   accentTheme?: Prisma.StringFilter<"User"> | string
   subject?: Prisma.StringNullableFilter<"User"> | string | null
+  feeStatus?: Prisma.StringNullableFilter<"User"> | string | null
+  salaryStatus?: Prisma.StringNullableFilter<"User"> | string | null
 }
 
 export type UserCreateWithoutAttendanceInput = {
@@ -911,6 +969,8 @@ export type UserCreateWithoutAttendanceInput = {
   classReminders?: boolean
   accentTheme?: string
   subject?: string | null
+  feeStatus?: string | null
+  salaryStatus?: string | null
   studentClasses?: Prisma.ClassCreateNestedManyWithoutStudentsInput
   teacherClasses?: Prisma.ClassCreateNestedManyWithoutTeacherInput
   uploadedNotes?: Prisma.NoteCreateNestedManyWithoutUploadedByInput
@@ -932,6 +992,8 @@ export type UserUncheckedCreateWithoutAttendanceInput = {
   classReminders?: boolean
   accentTheme?: string
   subject?: string | null
+  feeStatus?: string | null
+  salaryStatus?: string | null
   studentClasses?: Prisma.ClassUncheckedCreateNestedManyWithoutStudentsInput
   teacherClasses?: Prisma.ClassUncheckedCreateNestedManyWithoutTeacherInput
   uploadedNotes?: Prisma.NoteUncheckedCreateNestedManyWithoutUploadedByInput
@@ -968,6 +1030,8 @@ export type UserUpdateWithoutAttendanceInput = {
   classReminders?: Prisma.BoolFieldUpdateOperationsInput | boolean
   accentTheme?: Prisma.StringFieldUpdateOperationsInput | string
   subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  feeStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  salaryStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   studentClasses?: Prisma.ClassUpdateManyWithoutStudentsNestedInput
   teacherClasses?: Prisma.ClassUpdateManyWithoutTeacherNestedInput
   uploadedNotes?: Prisma.NoteUpdateManyWithoutUploadedByNestedInput
@@ -989,6 +1053,8 @@ export type UserUncheckedUpdateWithoutAttendanceInput = {
   classReminders?: Prisma.BoolFieldUpdateOperationsInput | boolean
   accentTheme?: Prisma.StringFieldUpdateOperationsInput | string
   subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  feeStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  salaryStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   studentClasses?: Prisma.ClassUncheckedUpdateManyWithoutStudentsNestedInput
   teacherClasses?: Prisma.ClassUncheckedUpdateManyWithoutTeacherNestedInput
   uploadedNotes?: Prisma.NoteUncheckedUpdateManyWithoutUploadedByNestedInput
@@ -1009,6 +1075,8 @@ export type UserCreateWithoutUploadedNotesInput = {
   classReminders?: boolean
   accentTheme?: string
   subject?: string | null
+  feeStatus?: string | null
+  salaryStatus?: string | null
   studentClasses?: Prisma.ClassCreateNestedManyWithoutStudentsInput
   teacherClasses?: Prisma.ClassCreateNestedManyWithoutTeacherInput
   attendance?: Prisma.AttendanceCreateNestedManyWithoutStudentInput
@@ -1030,6 +1098,8 @@ export type UserUncheckedCreateWithoutUploadedNotesInput = {
   classReminders?: boolean
   accentTheme?: string
   subject?: string | null
+  feeStatus?: string | null
+  salaryStatus?: string | null
   studentClasses?: Prisma.ClassUncheckedCreateNestedManyWithoutStudentsInput
   teacherClasses?: Prisma.ClassUncheckedCreateNestedManyWithoutTeacherInput
   attendance?: Prisma.AttendanceUncheckedCreateNestedManyWithoutStudentInput
@@ -1066,6 +1136,8 @@ export type UserUpdateWithoutUploadedNotesInput = {
   classReminders?: Prisma.BoolFieldUpdateOperationsInput | boolean
   accentTheme?: Prisma.StringFieldUpdateOperationsInput | string
   subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  feeStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  salaryStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   studentClasses?: Prisma.ClassUpdateManyWithoutStudentsNestedInput
   teacherClasses?: Prisma.ClassUpdateManyWithoutTeacherNestedInput
   attendance?: Prisma.AttendanceUpdateManyWithoutStudentNestedInput
@@ -1087,6 +1159,8 @@ export type UserUncheckedUpdateWithoutUploadedNotesInput = {
   classReminders?: Prisma.BoolFieldUpdateOperationsInput | boolean
   accentTheme?: Prisma.StringFieldUpdateOperationsInput | string
   subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  feeStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  salaryStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   studentClasses?: Prisma.ClassUncheckedUpdateManyWithoutStudentsNestedInput
   teacherClasses?: Prisma.ClassUncheckedUpdateManyWithoutTeacherNestedInput
   attendance?: Prisma.AttendanceUncheckedUpdateManyWithoutStudentNestedInput
@@ -1107,6 +1181,8 @@ export type UserCreateWithoutCertificatesInput = {
   classReminders?: boolean
   accentTheme?: string
   subject?: string | null
+  feeStatus?: string | null
+  salaryStatus?: string | null
   studentClasses?: Prisma.ClassCreateNestedManyWithoutStudentsInput
   teacherClasses?: Prisma.ClassCreateNestedManyWithoutTeacherInput
   attendance?: Prisma.AttendanceCreateNestedManyWithoutStudentInput
@@ -1128,6 +1204,8 @@ export type UserUncheckedCreateWithoutCertificatesInput = {
   classReminders?: boolean
   accentTheme?: string
   subject?: string | null
+  feeStatus?: string | null
+  salaryStatus?: string | null
   studentClasses?: Prisma.ClassUncheckedCreateNestedManyWithoutStudentsInput
   teacherClasses?: Prisma.ClassUncheckedCreateNestedManyWithoutTeacherInput
   attendance?: Prisma.AttendanceUncheckedCreateNestedManyWithoutStudentInput
@@ -1164,6 +1242,8 @@ export type UserUpdateWithoutCertificatesInput = {
   classReminders?: Prisma.BoolFieldUpdateOperationsInput | boolean
   accentTheme?: Prisma.StringFieldUpdateOperationsInput | string
   subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  feeStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  salaryStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   studentClasses?: Prisma.ClassUpdateManyWithoutStudentsNestedInput
   teacherClasses?: Prisma.ClassUpdateManyWithoutTeacherNestedInput
   attendance?: Prisma.AttendanceUpdateManyWithoutStudentNestedInput
@@ -1185,6 +1265,8 @@ export type UserUncheckedUpdateWithoutCertificatesInput = {
   classReminders?: Prisma.BoolFieldUpdateOperationsInput | boolean
   accentTheme?: Prisma.StringFieldUpdateOperationsInput | string
   subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  feeStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  salaryStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   studentClasses?: Prisma.ClassUncheckedUpdateManyWithoutStudentsNestedInput
   teacherClasses?: Prisma.ClassUncheckedUpdateManyWithoutTeacherNestedInput
   attendance?: Prisma.AttendanceUncheckedUpdateManyWithoutStudentNestedInput
@@ -1205,6 +1287,8 @@ export type UserCreateWithoutQuizSubmissionsInput = {
   classReminders?: boolean
   accentTheme?: string
   subject?: string | null
+  feeStatus?: string | null
+  salaryStatus?: string | null
   studentClasses?: Prisma.ClassCreateNestedManyWithoutStudentsInput
   teacherClasses?: Prisma.ClassCreateNestedManyWithoutTeacherInput
   attendance?: Prisma.AttendanceCreateNestedManyWithoutStudentInput
@@ -1226,6 +1310,8 @@ export type UserUncheckedCreateWithoutQuizSubmissionsInput = {
   classReminders?: boolean
   accentTheme?: string
   subject?: string | null
+  feeStatus?: string | null
+  salaryStatus?: string | null
   studentClasses?: Prisma.ClassUncheckedCreateNestedManyWithoutStudentsInput
   teacherClasses?: Prisma.ClassUncheckedCreateNestedManyWithoutTeacherInput
   attendance?: Prisma.AttendanceUncheckedCreateNestedManyWithoutStudentInput
@@ -1262,6 +1348,8 @@ export type UserUpdateWithoutQuizSubmissionsInput = {
   classReminders?: Prisma.BoolFieldUpdateOperationsInput | boolean
   accentTheme?: Prisma.StringFieldUpdateOperationsInput | string
   subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  feeStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  salaryStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   studentClasses?: Prisma.ClassUpdateManyWithoutStudentsNestedInput
   teacherClasses?: Prisma.ClassUpdateManyWithoutTeacherNestedInput
   attendance?: Prisma.AttendanceUpdateManyWithoutStudentNestedInput
@@ -1283,6 +1371,8 @@ export type UserUncheckedUpdateWithoutQuizSubmissionsInput = {
   classReminders?: Prisma.BoolFieldUpdateOperationsInput | boolean
   accentTheme?: Prisma.StringFieldUpdateOperationsInput | string
   subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  feeStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  salaryStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   studentClasses?: Prisma.ClassUncheckedUpdateManyWithoutStudentsNestedInput
   teacherClasses?: Prisma.ClassUncheckedUpdateManyWithoutTeacherNestedInput
   attendance?: Prisma.AttendanceUncheckedUpdateManyWithoutStudentNestedInput
@@ -1303,6 +1393,8 @@ export type UserCreateWithoutResourcesInput = {
   classReminders?: boolean
   accentTheme?: string
   subject?: string | null
+  feeStatus?: string | null
+  salaryStatus?: string | null
   studentClasses?: Prisma.ClassCreateNestedManyWithoutStudentsInput
   teacherClasses?: Prisma.ClassCreateNestedManyWithoutTeacherInput
   attendance?: Prisma.AttendanceCreateNestedManyWithoutStudentInput
@@ -1324,6 +1416,8 @@ export type UserUncheckedCreateWithoutResourcesInput = {
   classReminders?: boolean
   accentTheme?: string
   subject?: string | null
+  feeStatus?: string | null
+  salaryStatus?: string | null
   studentClasses?: Prisma.ClassUncheckedCreateNestedManyWithoutStudentsInput
   teacherClasses?: Prisma.ClassUncheckedCreateNestedManyWithoutTeacherInput
   attendance?: Prisma.AttendanceUncheckedCreateNestedManyWithoutStudentInput
@@ -1360,6 +1454,8 @@ export type UserUpdateWithoutResourcesInput = {
   classReminders?: Prisma.BoolFieldUpdateOperationsInput | boolean
   accentTheme?: Prisma.StringFieldUpdateOperationsInput | string
   subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  feeStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  salaryStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   studentClasses?: Prisma.ClassUpdateManyWithoutStudentsNestedInput
   teacherClasses?: Prisma.ClassUpdateManyWithoutTeacherNestedInput
   attendance?: Prisma.AttendanceUpdateManyWithoutStudentNestedInput
@@ -1381,6 +1477,8 @@ export type UserUncheckedUpdateWithoutResourcesInput = {
   classReminders?: Prisma.BoolFieldUpdateOperationsInput | boolean
   accentTheme?: Prisma.StringFieldUpdateOperationsInput | string
   subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  feeStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  salaryStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   studentClasses?: Prisma.ClassUncheckedUpdateManyWithoutStudentsNestedInput
   teacherClasses?: Prisma.ClassUncheckedUpdateManyWithoutTeacherNestedInput
   attendance?: Prisma.AttendanceUncheckedUpdateManyWithoutStudentNestedInput
@@ -1401,6 +1499,8 @@ export type UserUpdateWithoutStudentClassesInput = {
   classReminders?: Prisma.BoolFieldUpdateOperationsInput | boolean
   accentTheme?: Prisma.StringFieldUpdateOperationsInput | string
   subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  feeStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  salaryStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   teacherClasses?: Prisma.ClassUpdateManyWithoutTeacherNestedInput
   attendance?: Prisma.AttendanceUpdateManyWithoutStudentNestedInput
   uploadedNotes?: Prisma.NoteUpdateManyWithoutUploadedByNestedInput
@@ -1422,6 +1522,8 @@ export type UserUncheckedUpdateWithoutStudentClassesInput = {
   classReminders?: Prisma.BoolFieldUpdateOperationsInput | boolean
   accentTheme?: Prisma.StringFieldUpdateOperationsInput | string
   subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  feeStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  salaryStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   teacherClasses?: Prisma.ClassUncheckedUpdateManyWithoutTeacherNestedInput
   attendance?: Prisma.AttendanceUncheckedUpdateManyWithoutStudentNestedInput
   uploadedNotes?: Prisma.NoteUncheckedUpdateManyWithoutUploadedByNestedInput
@@ -1443,6 +1545,8 @@ export type UserUncheckedUpdateManyWithoutStudentClassesInput = {
   classReminders?: Prisma.BoolFieldUpdateOperationsInput | boolean
   accentTheme?: Prisma.StringFieldUpdateOperationsInput | string
   subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  feeStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  salaryStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -1543,6 +1647,8 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   classReminders?: boolean
   accentTheme?: boolean
   subject?: boolean
+  feeStatus?: boolean
+  salaryStatus?: boolean
   studentClasses?: boolean | Prisma.User$studentClassesArgs<ExtArgs>
   teacherClasses?: boolean | Prisma.User$teacherClassesArgs<ExtArgs>
   attendance?: boolean | Prisma.User$attendanceArgs<ExtArgs>
@@ -1568,9 +1674,11 @@ export type UserSelectScalar = {
   classReminders?: boolean
   accentTheme?: boolean
   subject?: boolean
+  feeStatus?: boolean
+  salaryStatus?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "password" | "name" | "role" | "isVerified" | "createdAt" | "emailAlerts" | "assignmentAlerts" | "classReminders" | "accentTheme" | "subject", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "password" | "name" | "role" | "isVerified" | "createdAt" | "emailAlerts" | "assignmentAlerts" | "classReminders" | "accentTheme" | "subject" | "feeStatus" | "salaryStatus", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   studentClasses?: boolean | Prisma.User$studentClassesArgs<ExtArgs>
   teacherClasses?: boolean | Prisma.User$teacherClassesArgs<ExtArgs>
@@ -1606,6 +1714,8 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     classReminders: boolean
     accentTheme: string
     subject: string | null
+    feeStatus: string | null
+    salaryStatus: string | null
   }, ExtArgs["result"]["user"]>
   composites: {}
 }
@@ -1994,6 +2104,8 @@ export interface UserFieldRefs {
   readonly classReminders: Prisma.FieldRef<"User", 'Boolean'>
   readonly accentTheme: Prisma.FieldRef<"User", 'String'>
   readonly subject: Prisma.FieldRef<"User", 'String'>
+  readonly feeStatus: Prisma.FieldRef<"User", 'String'>
+  readonly salaryStatus: Prisma.FieldRef<"User", 'String'>
 }
     
 
