@@ -4,17 +4,17 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export function ThemeSwitcher() {
-  const [currentTheme, setCurrentTheme] = useState("light");
+  const [currentTheme, setCurrentTheme] = useState("dark");
   const [mounted, setMounted] = useState(false);
 
   // Load theme from localStorage on mount
   useEffect(() => {
     setMounted(true);
     const savedTheme = localStorage.getItem("aerospark-theme");
-    if (savedTheme === "dark") {
-      setTheme("dark");
-    } else {
+    if (savedTheme === "light") {
       setTheme("light");
+    } else {
+      setTheme("dark");
     }
   }, []);
 
