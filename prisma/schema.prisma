@@ -94,7 +94,7 @@ model Quiz {
   id            Int              @id @default(autoincrement())
   title         String
   description   String?
-  questionsJson String           // JSON string representing quiz questions
+  questionsJson String           @db.Text
   submissions   QuizSubmission[]
 }
 

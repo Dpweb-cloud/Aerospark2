@@ -119,12 +119,20 @@ export async function getStudentDashboardData() {
           totalQuestions: s.totalQuestions,
           submittedAt: s.submittedAt
         })),
-        quizzes: quizzes.map(q => ({
-          id: q.id,
-          title: q.title,
-          description: q.description,
-          questions: JSON.parse(q.questionsJson || "[]")
-        }))
+        quizzes: quizzes.map(q => {
+          let questions = [];
+          try {
+            questions = JSON.parse(q.questionsJson || "[]");
+          } catch (e) {
+            console.error("Failed to parse quiz questions JSON:", e);
+          }
+          return {
+            id: q.id,
+            title: q.title,
+            description: q.description,
+            questions
+          };
+        })
       }
     };
   } catch (error: any) {
