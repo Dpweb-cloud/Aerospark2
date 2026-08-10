@@ -2,51 +2,24 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTheme } from "next-themes";
 
 export function ThemeSwitcher() {
-  const [currentTheme, setCurrentTheme] = useState("dark");
+  const { setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
-  // Load theme from localStorage on mount
+  // Prevent hydration mismatch
   useEffect(() => {
     setMounted(true);
-    const savedTheme = localStorage.getItem("aerospark-theme");
-    if (savedTheme === "light") {
-      setTheme("light");
-    } else {
-      setTheme("dark");
-    }
   }, []);
 
-  const setTheme = (themeId: string) => {
-    const root = document.documentElement;
-    
-    // Add transition class for smooth fade
-    root.classList.add("theme-transition");
-    
-    if (themeId === "dark") {
-      root.classList.add("dark");
-    } else {
-      root.classList.remove("dark");
-    }
-
-    setCurrentTheme(themeId);
-    localStorage.setItem("aerospark-theme", themeId);
-    
-    // Remove transition class after animation completes
-    setTimeout(() => {
-      root.classList.remove("theme-transition");
-    }, 500);
-  };
-
-  const toggleTheme = () => {
-    setTheme(currentTheme === "light" ? "dark" : "light");
-  };
-
-  // Prevent hydration mismatch
   if (!mounted) return <div className="w-16 h-8" />;
 
-  const isDark = currentTheme === "dark";
+  const isDark = resolvedTheme === "dark";
+
+  const toggleTheme = () => {
+    setTheme(isDark ? "light" : "dark");
+  };
 
   return (
     <button
