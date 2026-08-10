@@ -320,7 +320,7 @@ export async function scheduleClassAction(title: string, dateStr: string, durati
   }
 }
 
-export async function checkNoteAction(noteId: number, status: "APPROVED" | "REJECTED") {
+export async function checkNoteAction(noteId: number, status: "APPROVED" | "REJECTED" | "PENDING") {
   try {
     await getVerifiedSession(["TEACHER", "ADMIN"]);
 

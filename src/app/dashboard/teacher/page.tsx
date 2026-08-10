@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { GlassCard, StatCard, Badge } from "@/components/ui/cards";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 import {
   getTeacherDashboardData,
   scheduleClassAction,
