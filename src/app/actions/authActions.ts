@@ -160,7 +160,7 @@ export async function loginAction(data: { email: string; password: string }) {
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return { success: false, error: "Incorrect password." };
+      return { success: false, error: "Wrong password" };
     }
 
     // Set JWT Session Cookie
