@@ -3,6 +3,23 @@
 import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/auth";
 
+function sanitizeError(error: any): string {
+  console.error("Database Server Action Error:", error);
+  const msg = error?.message || String(error);
+  if (
+    msg.includes("prisma") ||
+    msg.includes("Invalid `prisma") ||
+    msg.includes("connector") ||
+    msg.includes("DATABASE_URL") ||
+    msg.includes("PrismaClient") ||
+    msg.includes("database") ||
+    msg.includes("pool")
+  ) {
+    return "A database configuration error occurred. Please contact the administrator.";
+  }
+  return msg;
+}
+
 // Helper to get active user and verify role
 async function getVerifiedSession(allowedRoles: ("STUDENT" | "TEACHER" | "ADMIN")[]) {
   const session = await getSession();
@@ -111,8 +128,7 @@ export async function getStudentDashboardData() {
       }
     };
   } catch (error: any) {
-    console.error("Student dashboard fetch error:", error);
-    return { success: false, error: error.message };
+    return { success: false, error: sanitizeError(error) };
   }
 }
 
@@ -132,7 +148,7 @@ export async function uploadNoteAction(title: string, filePath: string) {
 
     return { success: true, data: note };
   } catch (error: any) {
-    return { success: false, error: error.message };
+    return { success: false, error: sanitizeError(error) };
   }
 }
 
@@ -152,7 +168,7 @@ export async function submitQuizAction(quizId: number, score: number, totalQuest
 
     return { success: true, data: submission };
   } catch (error: any) {
-    return { success: false, error: error.message };
+    return { success: false, error: sanitizeError(error) };
   }
 }
 
@@ -234,8 +250,7 @@ export async function getTeacherDashboardData() {
       }
     };
   } catch (error: any) {
-    console.error("Teacher dashboard fetch error:", error);
-    return { success: false, error: error.message };
+    return { success: false, error: sanitizeError(error) };
   }
 }
 
@@ -255,7 +270,7 @@ export async function scheduleClassAction(title: string, dateStr: string, durati
 
     return { success: true, data: newClass };
   } catch (error: any) {
-    return { success: false, error: error.message };
+    return { success: false, error: sanitizeError(error) };
   }
 }
 
@@ -270,7 +285,7 @@ export async function checkNoteAction(noteId: number, status: "APPROVED" | "REJE
 
     return { success: true, data: note };
   } catch (error: any) {
-    return { success: false, error: error.message };
+    return { success: false, error: sanitizeError(error) };
   }
 }
 
@@ -290,7 +305,7 @@ export async function uploadResourceAction(title: string, type: string, url: str
 
     return { success: true, data: resource };
   } catch (error: any) {
-    return { success: false, error: error.message };
+    return { success: false, error: sanitizeError(error) };
   }
 }
 
@@ -321,7 +336,7 @@ export async function markAttendanceAction(studentId: number, classId: number, s
 
     return { success: true, data: attendance };
   } catch (error: any) {
-    return { success: false, error: error.message };
+    return { success: false, error: sanitizeError(error) };
   }
 }
 
@@ -402,8 +417,7 @@ export async function getAdminDashboardData() {
       }
     };
   } catch (error: any) {
-    console.error("Admin dashboard fetch error:", error);
-    return { success: false, error: error.message };
+    return { success: false, error: sanitizeError(error) };
   }
 }
 
@@ -496,7 +510,7 @@ export async function updateProfileSettingsAction(firstName: string, lastName: s
     if (error.message.includes("Can't reach database") || error.message.includes("DATABASE_URL") || error.message.includes("PrismaClient")) {
       return { success: true, mock: true };
     }
-    return { success: false, error: error.message };
+    return { success: false, error: sanitizeError(error) };
   }
 }
 
@@ -531,7 +545,7 @@ export async function updateSecuritySettingsAction(currentPass: string, newPass:
     if (error.message.includes("Can't reach database") || error.message.includes("DATABASE_URL") || error.message.includes("PrismaClient")) {
       return { success: true, mock: true };
     }
-    return { success: false, error: error.message };
+    return { success: false, error: sanitizeError(error) };
   }
 }
 
@@ -556,7 +570,7 @@ export async function updateNotificationSettingsAction(emailAlerts: boolean, ass
     if (error.message.includes("Can't reach database") || error.message.includes("DATABASE_URL") || error.message.includes("PrismaClient")) {
       return { success: true, mock: true };
     }
-    return { success: false, error: error.message };
+    return { success: false, error: sanitizeError(error) };
   }
 }
 
@@ -579,7 +593,7 @@ export async function updateAppearanceSettingsAction(accentTheme: string) {
     if (error.message.includes("Can't reach database") || error.message.includes("DATABASE_URL") || error.message.includes("PrismaClient")) {
       return { success: true, mock: true };
     }
-    return { success: false, error: error.message };
+    return { success: false, error: sanitizeError(error) };
   }
 }
 
@@ -610,7 +624,7 @@ export async function adminAddUserAction(
     if (error.message.includes("Can't reach database") || error.message.includes("DATABASE_URL") || error.message.includes("PrismaClient")) {
       return { success: true, mock: true };
     }
-    return { success: false, error: error.message };
+    return { success: false, error: sanitizeError(error) };
   }
 }
 
@@ -635,7 +649,7 @@ export async function adminDeleteUserAction(userId: number) {
     if (error.message.includes("Can't reach database") || error.message.includes("DATABASE_URL") || error.message.includes("PrismaClient")) {
       return { success: true, mock: true };
     }
-    return { success: false, error: error.message };
+    return { success: false, error: sanitizeError(error) };
   }
 }
 
@@ -657,6 +671,6 @@ export async function adminCreateClassAction(title: string, dateStr: string, dur
     if (error.message.includes("Can't reach database") || error.message.includes("DATABASE_URL") || error.message.includes("PrismaClient")) {
       return { success: true, mock: true };
     }
-    return { success: false, error: error.message };
+    return { success: false, error: sanitizeError(error) };
   }
 }

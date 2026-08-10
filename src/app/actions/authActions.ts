@@ -5,6 +5,23 @@ import bcrypt from "bcryptjs";
 import { sendVerificationEmail } from "@/lib/mail";
 import { setSession, destroySession, getSession } from "@/lib/auth";
 
+function sanitizeError(error: any): string {
+  console.error("Auth Server Action Error:", error);
+  const msg = error?.message || String(error);
+  if (
+    msg.includes("prisma") ||
+    msg.includes("Invalid `prisma") ||
+    msg.includes("connector") ||
+    msg.includes("DATABASE_URL") ||
+    msg.includes("PrismaClient") ||
+    msg.includes("database") ||
+    msg.includes("pool")
+  ) {
+    return "A database configuration error occurred. Please contact the administrator.";
+  }
+  return msg;
+}
+
 export async function signUpAction(data: {
   name: string;
   email: string;
@@ -77,8 +94,7 @@ export async function signUpAction(data: {
 
     return { success: true };
   } catch (error: any) {
-    console.error("Signup error:", error);
-    return { success: false, error: error.message || "Failed to sign up" };
+    return { success: false, error: sanitizeError(error) };
   }
 }
 
@@ -116,8 +132,7 @@ export async function verifyCodeAction(data: { email: string; code: string }) {
 
     return { success: true };
   } catch (error: any) {
-    console.error("Verification error:", error);
-    return { success: false, error: error.message || "Failed to verify code" };
+    return { success: false, error: sanitizeError(error) };
   }
 }
 
@@ -168,8 +183,7 @@ export async function loginAction(data: { email: string; password: string }) {
 
     return { success: true, role: user.role };
   } catch (error: any) {
-    console.error("Login error:", error);
-    return { success: false, error: error.message || "Failed to log in" };
+    return { success: false, error: sanitizeError(error) };
   }
 }
 
