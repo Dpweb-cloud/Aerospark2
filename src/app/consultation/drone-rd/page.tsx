@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
@@ -25,6 +26,82 @@ import {
 } from "lucide-react";
 
 export default function DroneRDPage() {
+  const [activePhase, setActivePhase] = useState("phase1");
+
+  const stepIcons = [
+    <FileCheck className="w-4 h-4 md:w-5 md:h-5" key="1" />,
+    <PenTool className="w-4 h-4 md:w-5 md:h-5" key="2" />,
+    <Settings className="w-4 h-4 md:w-5 md:h-5" key="3" />,
+    <Package className="w-4 h-4 md:w-5 md:h-5" key="4" />,
+    <Layers className="w-4 h-4 md:w-5 md:h-5" key="5" />,
+    <CheckCircle2 className="w-4 h-4 md:w-5 md:h-5" key="6" />,
+    <Send className="w-4 h-4 md:w-5 md:h-5" key="7" />,
+  ];
+
+  const phasesList = [
+    {
+      id: "phase1",
+      title: "Phase 1: Concept & CAD",
+      desc: "Analyze requirements and prepare CAD model design",
+      stepRange: "Steps 01 - 02",
+    },
+    {
+      id: "phase2",
+      title: "Phase 2: Components",
+      desc: "Finalize propulsion, power, sensors, and avionics",
+      stepRange: "Step 03",
+    },
+    {
+      id: "phase3",
+      title: "Phase 3: Build & Software",
+      desc: "Manufacture prototype and configure flight software",
+      stepRange: "Steps 04 - 05",
+    },
+    {
+      id: "phase4",
+      title: "Phase 4: Test & Handover",
+      desc: "Conduct flight validation and hand over design/BOM",
+      stepRange: "Steps 06 - 07",
+    },
+  ];
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 120) {
+        setActivePhase("phase4");
+        return;
+      }
+
+      let currentActive = "phase1";
+      for (const phase of phasesList) {
+        const el = document.getElementById(phase.id);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= 180 && rect.bottom > 180) {
+            currentActive = phase.id;
+            break;
+          }
+        }
+      }
+      setActivePhase(currentActive);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const scrollToPhase = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) {
+      const topOffset = el.getBoundingClientRect().top + window.scrollY - 120;
+      window.scrollTo({
+        top: topOffset,
+        behavior: "smooth"
+      });
+      setActivePhase(id);
+    }
+  };
   const processSteps = [
     { step: "01", title: "Requirement Analysis", desc: "We understand the application, payload, performance targets, operating environment, software needs and budget before defining the development plan." },
     { step: "02", title: "CAD Design & Material Selection", desc: "We create the drone design in CAD and select suitable materials based on strength, weight, durability and manufacturing feasibility." },
@@ -90,19 +167,123 @@ export default function DroneRDPage() {
         </section>
 
         {/* Development Process */}
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-24">
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
           <SectionHeader
             title="Our Development Process"
-            description="Step-by-step product development journey."
+            description="Step-by-step product development journey. Click on a phase to explore the details."
           />
-          <div className="mt-12 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {processSteps.map((item, idx) => (
-              <GlassCard key={idx} className="h-full flex flex-col" padding="md">
-                <div className="text-3xl font-bold text-aero-blue/20 mb-4">{item.step}</div>
-                <h4 className="text-lg font-bold text-foreground mb-3">{item.title}</h4>
-                <p className="text-sm text-text-secondary leading-relaxed">{item.desc}</p>
-              </GlassCard>
-            ))}
+          
+          <div className="mt-16 grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+            {/* Left Column: Sticky Phase Navigation (Desktop Only) */}
+            <div className="hidden lg:flex lg:col-span-4 sticky top-32 items-center gap-6">
+              {/* Vertical Title Decoration */}
+              <div className="flex items-center select-none shrink-0 w-8 relative self-stretch justify-center">
+                <div className="absolute whitespace-nowrap -rotate-90 flex items-center gap-3">
+                  <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-aero-blue font-bold">
+                    drone
+                  </span>
+                  <span className="text-3xl font-black uppercase tracking-[0.15em] text-text-secondary/20 dark:text-text-secondary/15">
+                    process
+                  </span>
+                </div>
+              </div>
+
+              {/* The Menu Card */}
+              <div className="flex-1 glass-panel p-6 rounded-2xl border border-border-default/60 bg-surface/50 backdrop-blur-md">
+                <span className="text-xs font-mono font-bold text-text-muted uppercase tracking-wider block mb-4">
+                  Development Progress
+                </span>
+                <div className="space-y-3">
+                  {phasesList.map((phase) => {
+                    const isActive = activePhase === phase.id;
+                    return (
+                      <button
+                        key={phase.id}
+                        onClick={() => scrollToPhase(phase.id)}
+                        className={`w-full text-left p-4 rounded-xl border transition-all duration-300 flex flex-col ${
+                          isActive
+                            ? "bg-aero-blue/10 border-aero-blue/40 text-foreground shadow-sm"
+                            : "border-transparent text-text-secondary hover:bg-surface-elevated/40 hover:text-foreground"
+                        }`}
+                      >
+                        <div className="flex items-center justify-between mb-1">
+                          <span className={`text-xs font-mono font-bold ${isActive ? "text-aero-blue" : "text-text-muted"}`}>
+                            {phase.stepRange}
+                          </span>
+                          {isActive && (
+                            <span className="w-1.5 h-1.5 rounded-full bg-aero-blue animate-pulse" />
+                          )}
+                        </div>
+                        <span className="font-bold text-sm mb-1">{phase.title}</span>
+                        <span className="text-xs text-text-secondary leading-snug">{phase.desc}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column: Timeline Steps */}
+            <div className="lg:col-span-8 relative ml-2 md:ml-4 space-y-16">
+              {/* Vertical timeline line */}
+              <div className="absolute top-0 bottom-0 left-0 w-[1px] bg-border-default/50" />
+
+              {phasesList.map((phase, phaseIdx) => (
+                <div key={phase.id} id={phase.id} className="scroll-mt-32 space-y-12">
+                  {/* Phase Header on Timeline */}
+                  <div className="relative pl-8 md:pl-10">
+                    <span className="text-xs font-mono font-bold text-aero-blue bg-aero-blue/10 border border-aero-blue/20 px-3 py-1 rounded-full uppercase tracking-wider shadow-sm">
+                      {phase.title}
+                    </span>
+                  </div>
+
+                  {/* Steps under this phase */}
+                  <div className="space-y-12">
+                    {processSteps
+                      .filter((_, idx) => {
+                        if (phaseIdx === 0) return idx === 0 || idx === 1;
+                        if (phaseIdx === 1) return idx === 2;
+                        if (phaseIdx === 2) return idx === 3 || idx === 4;
+                        if (phaseIdx === 3) return idx === 5 || idx === 6;
+                        return false;
+                      })
+                      .map((item) => {
+                        // find original index
+                        const originalIdx = processSteps.findIndex((s) => s.step === item.step);
+                        return (
+                          <motion.div
+                            key={item.step}
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, margin: "-100px" }}
+                            transition={{ duration: 0.5, ease: "easeOut" }}
+                            className="relative pl-8 md:pl-10 group"
+                          >
+                            {/* Connector line dot/node */}
+                            <div className="absolute -left-3 md:-left-4 top-2 w-6 h-6 md:w-8 md:h-8 rounded-full border border-border-default/80 bg-background flex items-center justify-center text-text-muted group-hover:border-aero-blue group-hover:text-aero-blue group-hover:scale-110 transition-all duration-300 z-10 shadow-sm group-hover:shadow-[0_0_12px_rgba(var(--primary),0.15)]">
+                              {stepIcons[originalIdx]}
+                            </div>
+
+                            <GlassCard className="hover:border-aero-blue/30 hover:shadow-md transition-all duration-300" padding="md">
+                              <div className="flex items-center justify-between mb-2">
+                                <span className="text-xs font-mono text-text-muted font-bold">
+                                  STEP {item.step}
+                                </span>
+                              </div>
+                              <h4 className="text-lg font-bold text-foreground mb-2 group-hover:text-aero-blue transition-colors">
+                                {item.title}
+                              </h4>
+                              <p className="text-sm text-text-secondary leading-relaxed">
+                                {item.desc}
+                              </p>
+                            </GlassCard>
+                          </motion.div>
+                        );
+                      })}
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 

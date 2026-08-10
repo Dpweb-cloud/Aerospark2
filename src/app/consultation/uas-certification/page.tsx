@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
@@ -22,6 +23,84 @@ import {
 } from "lucide-react";
 
 export default function UASCertificationPage() {
+  const [activePhase, setActivePhase] = useState("phase1");
+
+  const stepIcons = [
+    <Wrench className="w-4 h-4 md:w-5 md:h-5" key="1" />,
+    <CheckCircle2 className="w-4 h-4 md:w-5 md:h-5" key="2" />,
+    <FlaskConical className="w-4 h-4 md:w-5 md:h-5" key="3" />,
+    <FileCheck className="w-4 h-4 md:w-5 md:h-5" key="4" />,
+    <Send className="w-4 h-4 md:w-5 md:h-5" key="5" />,
+    <Search className="w-4 h-4 md:w-5 md:h-5" key="6" />,
+    <Users className="w-4 h-4 md:w-5 md:h-5" key="7" />,
+    <ShieldCheck className="w-4 h-4 md:w-5 md:h-5" key="8" />,
+  ];
+
+  const phasesList = [
+    {
+      id: "phase1",
+      title: "Phase 1: Pre-Verification",
+      desc: "Develop BOM & verify compliance",
+      stepRange: "Steps 01 - 02",
+    },
+    {
+      id: "phase2",
+      title: "Phase 2: Laboratory Testing",
+      desc: "Coordinate & perform lab tests",
+      stepRange: "Step 03",
+    },
+    {
+      id: "phase3",
+      title: "Phase 3: Documentation & Filing",
+      desc: "Compile documentation & file D1",
+      stepRange: "Steps 04 - 05",
+    },
+    {
+      id: "phase4",
+      title: "Phase 4: Audits & Closure",
+      desc: "Coordinate Stage 1/2 audits & close observations",
+      stepRange: "Steps 06 - 08",
+    },
+  ];
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 120) {
+        setActivePhase("phase4");
+        return;
+      }
+
+      let currentActive = "phase1";
+      for (const phase of phasesList) {
+        const el = document.getElementById(phase.id);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= 180 && rect.bottom > 180) {
+            currentActive = phase.id;
+            break;
+          }
+        }
+      }
+      setActivePhase(currentActive);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const scrollToPhase = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) {
+      const topOffset = el.getBoundingClientRect().top + window.scrollY - 120;
+      window.scrollTo({
+        top: topOffset,
+        behavior: "smooth"
+      });
+      setActivePhase(id);
+    }
+  };
+
   const supportAreas = [
     { title: "Engineering & R&D", desc: "Support to develop, refine and freeze the drone configuration and certification BOM.", icon: <Wrench className="w-6 h-6" /> },
     { title: "Testing & Labs", desc: "Internal compliance checks and coordinated third-party laboratory testing.", icon: <FlaskConical className="w-6 h-6" /> },
@@ -106,7 +185,7 @@ export default function UASCertificationPage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col items-center text-center">
             <span className="text-aero-blue font-semibold tracking-wider uppercase mb-4">DRONE TYPE CERTIFICATION</span>
             <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold mb-6 tracking-tight bg-clip-text text-transparent bg-gradient-to-b from-foreground via-foreground/90 to-foreground/50">
-              Drone Type Certification Services in India
+              Drone Type Certification Services
             </h1>
             <p className="text-lg md:text-xl text-text-secondary max-w-3xl mx-auto leading-relaxed mb-8">
               A complete certification solution, not just consultancy.
@@ -135,40 +214,122 @@ export default function UASCertificationPage() {
         </section>
 
         {/* Process */}
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-24">
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
           <SectionHeader
             title="Our drone certification process"
-            description="A clear, milestone-based route from product readiness to audit closure. The steps below show the sequence of work, not a fixed timeline."
+            description="A clear, milestone-based route from product readiness to audit closure. Click on a phase to explore the details."
           />
-          <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {processSteps.map((item, idx) => (
-              <GlassCard key={idx} className="h-full flex flex-col" padding="md">
-                <div className="text-3xl font-bold text-aero-blue/20 mb-4">{item.step}</div>
-                <h3 className="text-lg font-bold text-foreground mb-3">{item.title}</h3>
-                <p className="text-sm text-text-secondary leading-relaxed">{item.desc}</p>
-              </GlassCard>
-            ))}
-          </div>
-        </section>
+          
+          <div className="mt-16 grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+            {/* Left Column: Sticky Phase Navigation (Desktop Only) */}
+            <div className="hidden lg:flex lg:col-span-4 sticky top-32 items-center gap-6">
+              {/* Vertical Title Decoration */}
+              <div className="flex items-center select-none shrink-0 w-8 relative self-stretch justify-center">
+                <div className="absolute whitespace-nowrap -rotate-90 flex items-center gap-3">
+                  <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-aero-blue font-bold">
+                    certification
+                  </span>
+                  <span className="text-3xl font-black uppercase tracking-[0.15em] text-text-secondary/20 dark:text-text-secondary/15">
+                    process
+                  </span>
+                </div>
+              </div>
 
-        {/* Laboratory Testing Section */}
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-            <div className="lg:col-span-5 lg:sticky lg:top-32">
-              <h2 className="text-4xl md:text-5xl font-bold mb-8 text-foreground tracking-tight leading-tight">Laboratory testing,<br className="hidden lg:block" /> coordinated with clarity</h2>
-              <p className="text-text-secondary leading-relaxed text-sm sm:text-base">
-                Laboratory requirements vary with the drone category, configuration, components and certification scope. AeroSpark reviews applicability first, then coordinates the required test package to avoid unnecessary testing and repeated submissions.
-              </p>
+              {/* The Menu Card */}
+              <div className="flex-1 glass-panel p-6 rounded-2xl border border-border-default/60 bg-surface/50 backdrop-blur-md">
+                <span className="text-xs font-mono font-bold text-text-muted uppercase tracking-wider block mb-4">
+                  Certification Progress
+                </span>
+                <div className="space-y-3">
+                  {phasesList.map((phase) => {
+                    const isActive = activePhase === phase.id;
+                    return (
+                      <button
+                        key={phase.id}
+                        onClick={() => scrollToPhase(phase.id)}
+                        className={`w-full text-left p-4 rounded-xl border transition-all duration-300 flex flex-col ${
+                          isActive
+                            ? "bg-aero-blue/10 border-aero-blue/40 text-foreground shadow-sm"
+                            : "border-transparent text-text-secondary hover:bg-surface-elevated/40 hover:text-foreground"
+                        }`}
+                      >
+                        <div className="flex items-center justify-between mb-1">
+                          <span className={`text-xs font-mono font-bold ${isActive ? "text-aero-blue" : "text-text-muted"}`}>
+                            {phase.stepRange}
+                          </span>
+                          {isActive && (
+                            <span className="w-1.5 h-1.5 rounded-full bg-aero-blue animate-pulse" />
+                          )}
+                        </div>
+                        <span className="font-bold text-sm mb-1">{phase.title}</span>
+                        <span className="text-xs text-text-secondary leading-snug">{phase.desc}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
             </div>
-            <div className="lg:col-span-7">
-              <ul className="space-y-5">
-                {laboratoryTests.map((item, idx) => (
-                  <li key={idx} className="flex items-start gap-4 text-text-secondary text-sm sm:text-base">
-                    <FlaskConical className="w-5 h-5 text-[#1a2b4c] flex-shrink-0 mt-0.5" />
-                    <span className="leading-relaxed">{item}</span>
-                  </li>
-                ))}
-              </ul>
+
+            {/* Right Column: Timeline Steps */}
+            <div className="lg:col-span-8 relative ml-2 md:ml-4 space-y-16">
+              {/* Vertical timeline line */}
+              <div className="absolute top-0 bottom-0 left-0 w-[1px] bg-border-default/50" />
+
+              {phasesList.map((phase, phaseIdx) => (
+                <div key={phase.id} id={phase.id} className="scroll-mt-32 space-y-12">
+                  {/* Phase Header on Timeline */}
+                  <div className="relative pl-8 md:pl-10">
+                    <span className="text-xs font-mono font-bold text-aero-blue bg-aero-blue/10 border border-aero-blue/20 px-3 py-1 rounded-full uppercase tracking-wider shadow-sm">
+                      {phase.title}
+                    </span>
+                  </div>
+
+                  {/* Steps under this phase */}
+                  <div className="space-y-12">
+                    {processSteps
+                      .filter((_, idx) => {
+                        if (phaseIdx === 0) return idx === 0 || idx === 1;
+                        if (phaseIdx === 1) return idx === 2;
+                        if (phaseIdx === 2) return idx === 3 || idx === 4;
+                        if (phaseIdx === 3) return idx === 5 || idx === 6 || idx === 7;
+                        return false;
+                      })
+                      .map((item) => {
+                        // find original index
+                        const originalIdx = processSteps.findIndex((s) => s.step === item.step);
+                        return (
+                          <motion.div
+                            key={item.step}
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, margin: "-100px" }}
+                            transition={{ duration: 0.5, ease: "easeOut" }}
+                            className="relative pl-8 md:pl-10 group"
+                          >
+                            {/* Connector line dot/node */}
+                            <div className="absolute -left-3 md:-left-4 top-2 w-6 h-6 md:w-8 md:h-8 rounded-full border border-border-default/80 bg-background flex items-center justify-center text-text-muted group-hover:border-aero-blue group-hover:text-aero-blue group-hover:scale-110 transition-all duration-300 z-10 shadow-sm group-hover:shadow-[0_0_12px_rgba(var(--primary),0.15)]">
+                              {stepIcons[originalIdx]}
+                            </div>
+
+                            <GlassCard className="hover:border-aero-blue/30 hover:shadow-md transition-all duration-300" padding="md">
+                              <div className="flex items-center justify-between mb-2">
+                                <span className="text-xs font-mono text-text-muted font-bold">
+                                  STEP {item.step}
+                                </span>
+                              </div>
+                              <h3 className="text-lg font-bold text-foreground mb-2 group-hover:text-aero-blue transition-colors">
+                                {item.title}
+                              </h3>
+                              <p className="text-sm text-text-secondary leading-relaxed">
+                                {item.desc}
+                              </p>
+                            </GlassCard>
+                          </motion.div>
+                        );
+                      })}
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </section>
@@ -191,6 +352,28 @@ export default function UASCertificationPage() {
                   </div>
                 ))}
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Laboratory Testing Section */}
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+            <div className="lg:col-span-5 lg:sticky lg:top-32">
+              <h2 className="text-4xl md:text-5xl font-bold mb-8 text-foreground tracking-tight leading-tight">Laboratory testing,<br className="hidden lg:block" /> coordinated with clarity</h2>
+              <p className="text-text-secondary leading-relaxed text-sm sm:text-base">
+                Laboratory requirements vary with the drone category, configuration, components and certification scope. AeroSpark reviews applicability first, then coordinates the required test package to avoid unnecessary testing and repeated submissions.
+              </p>
+            </div>
+            <div className="lg:col-span-7">
+              <ul className="space-y-5">
+                {laboratoryTests.map((item, idx) => (
+                  <li key={idx} className="flex items-start gap-4 text-text-secondary text-sm sm:text-base">
+                    <FlaskConical className="w-5 h-5 text-[#1a2b4c] flex-shrink-0 mt-0.5" />
+                    <span className="leading-relaxed">{item}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </section>

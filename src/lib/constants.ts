@@ -10,8 +10,8 @@ export const SITE_CONFIG = {
 
 export const NAV_LINKS = [
   { label: "Home", href: "/" },
-  { label: "Academy", href: "/academy" },
   { label: "Consultation", href: "/consultation" },
+  { label: "Academy", href: "/academy" },
   { label: "Insights", href: "/insights" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
@@ -1265,7 +1265,7 @@ export const LEARNER_BENEFITS = [
 export const CONSULTATION_SERVICES = [
   {
     id: "uas-certification",
-    title: "UAS Type Certification",
+    title: "Drone Type Certification Services",
     description:
       "End-to-end DGCA & FAA type certification support for UAS manufacturers — from initial documentation to final flight testing.",
     icon: "Shield",
@@ -1279,7 +1279,7 @@ export const CONSULTATION_SERVICES = [
   },
   {
     id: "as9100d-quality",
-    title: "AS9100D Quality Systems",
+    title: "Quality Management System Services",
     description:
       "Implement and maintain robust aerospace quality management systems required to participate in the global supply chain.",
     icon: "Award",
@@ -1293,7 +1293,7 @@ export const CONSULTATION_SERVICES = [
   },
   {
     id: "drone-rd",
-    title: "Drone R&D Consulting",
+    title: "Drone R&D and Product Development Services",
     description:
       "Advanced technical consulting for drone design, payload integration, and performance testing — from concept to production.",
     icon: "Cpu",
@@ -1307,7 +1307,7 @@ export const CONSULTATION_SERVICES = [
   },
   {
     id: "design-simulation",
-    title: "Design & Simulation",
+    title: "Engineering Design & Simulation Services",
     description:
       "High-fidelity CAD/CAE consulting for aerospace structures, mechanisms, and advanced system-level simulation.",
     icon: "Box",

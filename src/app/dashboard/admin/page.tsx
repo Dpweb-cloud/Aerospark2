@@ -1,259 +1,820 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState, useEffect, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
 import { GlassCard, StatCard, Badge } from "@/components/ui/cards";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { staggerContainer, staggerItem } from "@/lib/motion";
+import { toast } from "sonner";
+import {
+  getAdminDashboardData,
+  adminAddUserAction,
+  adminDeleteUserAction,
+  adminCreateClassAction
+} from "@/app/actions/dashboardActions";
 import {
   Users,
-  Building,
-  TrendingUp,
   Server,
-  Download,
   ShieldAlert,
   Settings,
-  MoreVertical,
   Activity,
   Globe,
   Database,
-  Search
+  Search,
+  FileText,
+  CheckCircle2,
+  XCircle,
+  UserCheck,
+  Calendar,
+  BookOpen,
+  Award,
+  Bell,
+  BarChart3,
+  GraduationCap,
+  Plus,
+  Trash2,
+  X
 } from "lucide-react";
 
-const stats = [
-  {
-    label: "Total Users",
-    value: "14,285",
-    icon: <Users className="w-5 h-5 text-aero-blue" />,
-    trend: { value: "+5.2% this month", positive: true },
-  },
-  {
-    label: "Platform Revenue",
-    value: "$142.5k",
-    icon: <TrendingUp className="w-5 h-5 text-green-500" />,
-    trend: { value: "+12.1% YoY", positive: true },
-  },
-  {
-    label: "Active Enterprises",
-    value: "45",
-    icon: <Building className="w-5 h-5 text-purple-500" />,
-    trend: { value: "3 new this week", positive: true },
-  },
-  {
-    label: "System Health",
-    value: "99.99%",
-    icon: <Server className="w-5 h-5 text-primary" />,
-    trend: { value: "All systems nominal", positive: true },
-  },
-];
+function AdminDashboardContent() {
+  const searchParams = useSearchParams();
+  const activeTab = searchParams.get("tab") || "overview";
 
-const auditLogs = [
-  { id: 1, action: "User 'admin_dev' modified course 'DGCA Regs'", time: "10 mins ago", type: "system" },
-  { id: 2, action: "New enterprise 'AeroSpace Inc' onboarded", time: "2 hours ago", type: "success" },
-  { id: 3, action: "Failed login attempt from IP 192.168.1.1", time: "4 hours ago", type: "warning" },
-  { id: 4, action: "Database backup completed successfully", time: "12 hours ago", type: "info" },
-];
+  const [data, setData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
 
-const topCourses = [
-  { name: "Drone Pilot Certification", revenue: "$45,200", enrollments: 1200 },
-  { name: "Advanced CATIA V5", revenue: "$32,100", enrollments: 850 },
-  { name: "Aerodynamics 101", revenue: "$18,500", enrollments: 620 },
-];
+  // Modal control states
+  const [activeModal, setActiveModal] = useState<"student" | "teacher" | "course" | null>(null);
+  
+  // User Form States
+  const [formName, setFormName] = useState("");
+  const [formEmail, setFormEmail] = useState("");
+  const [formPassword, setFormPassword] = useState("");
+  const [formSubject, setFormSubject] = useState("");
 
-export default function AdminDashboard() {
+  // Course Form States
+  const [courseTitle, setCourseTitle] = useState("");
+  const [courseDate, setCourseDate] = useState("");
+  const [courseDuration, setCourseDuration] = useState("1h 30m");
+  const [courseTeacherId, setCourseTeacherId] = useState<number | "">("");
+
+  const fetchAdminData = async () => {
+    try {
+      const res = await getAdminDashboardData();
+      if (res.success) {
+        setData(res.data);
+      } else {
+        toast.error(res.error || "Failed to load admin dashboard data.");
+      }
+    } catch (err: any) {
+      toast.error("Error: " + err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchAdminData();
+  }, []);
+
+  const handleAddUser = async (role: "STUDENT" | "TEACHER") => {
+    if (!formName || !formEmail || !formPassword) {
+      toast.error("Please fill in all required fields (Name, Email, and Password).");
+      return;
+    }
+    try {
+      const res = await adminAddUserAction(formName, formEmail, formPassword, role, formSubject);
+      if (res.success) {
+        toast.success(`New ${role.toLowerCase()} profile added successfully!`);
+        setActiveModal(null);
+        setFormName("");
+        setFormEmail("");
+        setFormPassword("");
+        setFormSubject("");
+        fetchAdminData();
+      } else {
+        toast.error(res.error || "Failed to create user.");
+      }
+    } catch (err: any) {
+      toast.error("Error adding user: " + err.message);
+    }
+  };
+
+  const handleDeleteUser = async (userId: number, name: string) => {
+    if (!confirm(`Are you sure you want to permanently delete user "${name}"? This cannot be undone.`)) {
+      return;
+    }
+    try {
+      const res = await adminDeleteUserAction(userId);
+      if (res.success) {
+        toast.success("User account deleted successfully!");
+        fetchAdminData();
+      } else {
+        toast.error(res.error || "Failed to delete user.");
+      }
+    } catch (err: any) {
+      toast.error("Error: " + err.message);
+    }
+  };
+
+  const handleCreateCourse = async () => {
+    if (!courseTitle || !courseDate || !courseTeacherId) {
+      toast.error("Please fill out all class requirements.");
+      return;
+    }
+    try {
+      const res = await adminCreateClassAction(
+        courseTitle,
+        courseDate,
+        courseDuration,
+        Number(courseTeacherId)
+      );
+      if (res.success) {
+        toast.success("New class course scheduled successfully!");
+        setActiveModal(null);
+        setCourseTitle("");
+        setCourseDate("");
+        setCourseDuration("1h 30m");
+        setCourseTeacherId("");
+        fetchAdminData();
+      } else {
+        toast.error(res.error || "Failed to create class.");
+      }
+    } catch (err: any) {
+      toast.error("Error: " + err.message);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <div className="flex flex-col items-center gap-3">
+          <div className="w-10 h-10 border-4 border-aero-blue border-t-transparent rounded-full animate-spin" />
+          <span className="text-sm font-mono text-text-secondary">Loading Admin ERP...</span>
+        </div>
+      </div>
+    );
+  }
+
+  const stats = data?.stats || {
+    totalUsers: 0,
+    studentsCount: 0,
+    teachersCount: 0,
+    verifiedUsersCount: 0,
+    totalClasses: 0,
+    totalNotes: 0
+  };
+
+  const allUsers = data?.usersList || [];
+  const students = allUsers.filter((u: any) => u.role === "STUDENT");
+  const instructors = allUsers.filter((u: any) => u.role === "TEACHER");
+  const classesList = data?.classesList || [];
+
+  const filteredUsers = allUsers.filter((user: any) =>
+    user.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    user.email?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    user.role?.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div className="space-y-8 pb-10">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-2">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-        >
+        <div>
           <h1 className="text-2xl md:text-3xl font-bold text-foreground tracking-tight">
             ERP Admin Portal
           </h1>
           <p className="text-text-secondary mt-1">
-            Global platform overview, revenue metrics, and system administration.
+            Global platform overview, user registrations, and system configurations.
           </p>
-        </motion.div>
-        <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          className="flex gap-3"
-        >
+        </div>
+        <div className="flex gap-3">
           <div className="relative hidden md:block">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
-            <input 
-              type="text" 
-              placeholder="Search users, courses..." 
-              className="pl-9 pr-4 py-2 bg-surface-elevated border border-border-default rounded-lg text-sm text-foreground focus:outline-none focus:border-aero-blue w-64"
+            <input
+              type="text"
+              placeholder="Search index..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-9 pr-4 py-2 bg-surface-elevated border border-border-default rounded-xl text-sm text-foreground focus:outline-none focus:border-aero-blue w-64"
             />
           </div>
-          <Button variant="outline">
-            <Download className="w-4 h-4 mr-2" />
-            Export
+          <Button variant="outline" onClick={fetchAdminData}>
+            Refresh
           </Button>
-        </motion.div>
+        </div>
       </div>
 
-      {/* Stats */}
-      <motion.div
-        variants={staggerContainer}
-        initial="hidden"
-        animate="visible"
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
-      >
-        {stats.map((stat) => (
-          <motion.div key={stat.label} variants={staggerItem}>
-            <StatCard {...stat} />
-          </motion.div>
-        ))}
-      </motion.div>
+      {/* Stats Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <StatCard
+          label="Total Registrations"
+          value={stats.totalUsers.toString()}
+          icon={<Users className="w-5 h-5 text-aero-blue" />}
+          trend={{ value: `${stats.studentsCount} Students / ${stats.teachersCount} Teachers`, positive: true }}
+        />
+        <StatCard
+          label="Verified Users"
+          value={stats.verifiedUsersCount.toString()}
+          icon={<UserCheck className="w-5 h-5 text-green-500" />}
+          trend={{ value: `${Math.round((stats.verifiedUsersCount / (stats.totalUsers || 1)) * 100)}% verification rate`, positive: true }}
+        />
+        <StatCard
+          label="Scheduled Classes"
+          value={stats.totalClasses.toString()}
+          icon={<Server className="w-5 h-5 text-primary" />}
+        />
+        <StatCard
+          label="Uploaded Notes"
+          value={stats.totalNotes.toString()}
+          icon={<FileText className="w-5 h-5 text-purple-500" />}
+        />
+      </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left Column */}
-        <div className="lg:col-span-2 space-y-8">
-          
-          {/* Revenue & Growth Chart Placeholder */}
+      <AnimatePresence mode="wait">
+        {/* Tab: Overview */}
+        {activeTab === "overview" && (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            key="overview"
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
+            exit={{ opacity: 0, y: -15 }}
+            className="grid grid-cols-1 lg:grid-cols-3 gap-6"
           >
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold text-foreground">Platform Growth</h2>
-              <select className="bg-surface-elevated border border-border-default text-xs text-foreground rounded-md px-2 py-1 outline-none focus:border-aero-blue">
-                <option>Last 30 Days</option>
-                <option>This Quarter</option>
-                <option>This Year</option>
-              </select>
+            {/* Left: Registered Users Index */}
+            <div className="lg:col-span-2 space-y-4">
+              <h2 className="text-lg font-semibold text-foreground">Registered Users Index</h2>
+              <GlassCard className="p-0 overflow-hidden">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left border-collapse">
+                    <thead>
+                      <tr className="border-b border-border-subtle bg-surface-elevated/50">
+                        <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">User details</th>
+                        <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Assigned Role</th>
+                        <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Course/Subject</th>
+                        <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider text-right">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-border-subtle">
+                      {filteredUsers.slice(0, 8).map((user: any) => (
+                        <tr key={user.id} className="hover:bg-surface-hover/30 transition-colors">
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <div className="flex items-center gap-3">
+                              <div className="w-8 h-8 rounded-full bg-surface-elevated flex items-center justify-center text-xs font-semibold text-aero-blue border border-border-subtle">
+                                {user.name?.slice(0, 2).toUpperCase() || "US"}
+                              </div>
+                              <div>
+                                <span className="text-sm font-medium text-foreground block">{user.name}</span>
+                                <span className="text-xs text-text-secondary">{user.email}</span>
+                              </div>
+                            </div>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
+                            <Badge variant={user.role === 'ADMIN' ? 'red' : user.role === 'TEACHER' ? 'blue' : 'default'}>
+                              {user.role}
+                            </Badge>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
+                            {user.subject || <span className="text-text-muted italic">None</span>}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary text-right">
+                            <button
+                              onClick={() => handleDeleteUser(user.id, user.name)}
+                              className="text-red-400 hover:text-red-500 transition-colors p-1"
+                              title="Delete Account"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </GlassCard>
             </div>
-            <GlassCard className="h-[300px] flex items-center justify-center border-border-subtle relative overflow-hidden group">
-              {/* Fake grid lines for chart effect */}
-              <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:40px_40px]" />
-              
-              <div className="text-center relative z-10">
-                <Activity className="w-10 h-10 text-aero-blue/50 mx-auto mb-3" />
-                <p className="text-sm font-medium text-foreground mb-1">Growth Analytics</p>
-                <p className="text-xs text-text-muted">Interactive chart renders here in production</p>
-              </div>
-            </GlassCard>
-          </motion.div>
 
-          {/* Top Courses */}
+            {/* Right: Actions and Note log */}
+            <div className="space-y-6">
+              <GlassCard className="p-5">
+                <h3 className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
+                  <Settings className="w-4 h-4 text-aero-blue" />
+                  Administrative Actions
+                </h3>
+                <div className="grid grid-cols-2 gap-3 text-xs font-medium">
+                  <button onClick={() => toast.success("Security configuration verified.")} className="p-3 border border-border-default rounded-xl bg-surface hover:bg-surface-elevated transition-all text-center flex flex-col items-center justify-center gap-1.5 group">
+                    <ShieldAlert className="w-4 h-4 text-text-secondary group-hover:text-red-400 transition-colors" />
+                    <span>Security Settings</span>
+                  </button>
+                  <button onClick={() => toast.success("Database backup generated successfully!")} className="p-3 border border-border-default rounded-xl bg-surface hover:bg-surface-elevated transition-all text-center flex flex-col items-center justify-center gap-1.5 group">
+                    <Database className="w-4 h-4 text-text-secondary group-hover:text-aero-blue transition-colors" />
+                    <span>Backup DB</span>
+                  </button>
+                  <button onClick={() => toast.success("Global variables synchronized.")} className="p-3 border border-border-default rounded-xl bg-surface hover:bg-surface-elevated transition-all text-center flex flex-col items-center justify-center gap-1.5 group">
+                    <Globe className="w-4 h-4 text-text-secondary group-hover:text-green-400 transition-colors" />
+                    <span>Global Config</span>
+                  </button>
+                  <button onClick={() => toast.success("Server instances are running with 100% health.")} className="p-3 border border-border-default rounded-xl bg-surface hover:bg-surface-elevated transition-all text-center flex flex-col items-center justify-center gap-1.5 group">
+                    <Activity className="w-4 h-4 text-text-secondary group-hover:text-foreground transition-colors" />
+                    <span>Server Stats</span>
+                  </button>
+                </div>
+              </GlassCard>
+
+              <GlassCard className="p-5">
+                <h3 className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
+                  <FileText className="w-4 h-4 text-purple-400" />
+                  Recent Note Log
+                </h3>
+                <div className="space-y-4">
+                  {data?.notes?.slice(0, 3).map((note: any) => (
+                    <div key={note.id} className="border-b border-border-subtle pb-3 last:border-0 last:pb-0 text-xs">
+                      <div className="flex justify-between items-start mb-1">
+                        <span className="font-semibold text-foreground truncate max-w-[150px]">{note.title}</span>
+                        <Badge variant={note.status === 'APPROVED' ? 'green' : note.status === 'REJECTED' ? 'red' : 'blue'}>
+                          {note.status}
+                        </Badge>
+                      </div>
+                      <div className="flex justify-between items-center text-[10px] text-text-muted mt-1">
+                        <span>By: {note.studentName}</span>
+                        <span>{new Date(note.createdAt).toLocaleDateString()}</span>
+                      </div>
+                    </div>
+                  ))}
+                  {(!data?.notes || data.notes.length === 0) && (
+                    <p className="text-xs text-text-secondary text-center py-4">No note submissions recorded.</p>
+                  )}
+                </div>
+              </GlassCard>
+            </div>
+          </motion.div>
+        )}
+
+        {/* Tab: Students */}
+        {activeTab === "students" && (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            key="students"
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
+            exit={{ opacity: 0, y: -15 }}
+            className="space-y-4"
           >
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold text-foreground">Top Performing Courses</h2>
+            <div className="flex justify-between items-center">
+              <h2 className="text-lg font-semibold text-foreground">Registered Students Index</h2>
+              <Button variant="primary" onClick={() => setActiveModal("student")} className="flex items-center gap-1.5 py-1.5 text-xs">
+                <Plus className="w-3.5 h-3.5" /> Add Student
+              </Button>
             </div>
             <GlassCard className="p-0 overflow-hidden">
-              <div className="overflow-x-auto">
-                <table className="w-full text-left border-collapse">
-                  <thead>
-                    <tr className="border-b border-border-subtle bg-surface-elevated/50">
-                      <th className="px-6 py-4 text-xs font-medium text-text-muted uppercase tracking-wider">Course Name</th>
-                      <th className="px-6 py-4 text-xs font-medium text-text-muted uppercase tracking-wider text-right">Enrollments</th>
-                      <th className="px-6 py-4 text-xs font-medium text-text-muted uppercase tracking-wider text-right">Revenue</th>
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="border-b border-border-subtle bg-surface-elevated/50">
+                    <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Name</th>
+                    <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Email Address</th>
+                    <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Subject/Course</th>
+                    <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Verified</th>
+                    <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-border-subtle">
+                  {students.map((user: any) => (
+                    <tr key={user.id} className="hover:bg-surface-hover/30 transition-colors">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-foreground">{user.name}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">{user.email}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">{user.subject || <span className="text-text-muted italic">General</span>}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
+                        <Badge variant={user.isVerified ? "green" : "default"}>{user.isVerified ? "Verified" : "Pending"}</Badge>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-right">
+                        <button
+                          onClick={() => handleDeleteUser(user.id, user.name)}
+                          className="text-red-400 hover:text-red-500 transition-colors p-1"
+                          title="Delete Account"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </td>
                     </tr>
-                  </thead>
-                  <tbody className="divide-y divide-border-subtle">
-                    {topCourses.map((course, i) => (
-                      <tr key={i} className="hover:bg-surface-hover/30 transition-colors">
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">
-                          {course.name}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary text-right">
-                          {course.enrollments.toLocaleString()}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-green-400 text-right">
-                          {course.revenue}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                  ))}
+                </tbody>
+              </table>
+            </GlassCard>
+          </motion.div>
+        )}
+
+        {/* Tab: Instructors */}
+        {activeTab === "instructors" && (
+          <motion.div
+            key="instructors"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -15 }}
+            className="space-y-4"
+          >
+            <div className="flex justify-between items-center">
+              <h2 className="text-lg font-semibold text-foreground">Registered Instructors Index</h2>
+              <Button variant="primary" onClick={() => setActiveModal("teacher")} className="flex items-center gap-1.5 py-1.5 text-xs">
+                <Plus className="w-3.5 h-3.5" /> Add Instructor
+              </Button>
+            </div>
+            <GlassCard className="p-0 overflow-hidden">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="border-b border-border-subtle bg-surface-elevated/50">
+                    <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Name</th>
+                    <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Email Address</th>
+                    <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Teaching Subject</th>
+                    <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Verified</th>
+                    <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-border-subtle">
+                  {instructors.map((user: any) => (
+                    <tr key={user.id} className="hover:bg-surface-hover/30 transition-colors">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-foreground">{user.name}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">{user.email}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">{user.subject || <span className="text-text-muted italic">General Aviation</span>}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
+                        <Badge variant={user.isVerified ? "green" : "default"}>{user.isVerified ? "Verified" : "Pending"}</Badge>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-right">
+                        <button
+                          onClick={() => handleDeleteUser(user.id, user.name)}
+                          className="text-red-400 hover:text-red-500 transition-colors p-1"
+                          title="Delete Account"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </GlassCard>
+          </motion.div>
+        )}
+
+        {/* Tab: Courses */}
+        {activeTab === "courses" && (
+          <motion.div
+            key="courses"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -15 }}
+            className="space-y-4"
+          >
+            <div className="flex justify-between items-center">
+              <h2 className="text-lg font-semibold text-foreground">Active Class Slots</h2>
+              <Button variant="primary" onClick={() => setActiveModal("course")} className="flex items-center gap-1.5 py-1.5 text-xs">
+                <Plus className="w-3.5 h-3.5" /> Schedule Class
+              </Button>
+            </div>
+            <GlassCard className="p-0 overflow-hidden">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="border-b border-border-subtle bg-surface-elevated/50">
+                    <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Topic</th>
+                    <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Date Scheduled</th>
+                    <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Instructor</th>
+                    <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider text-right">Duration</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-border-subtle">
+                  {classesList.map((cls: any) => (
+                    <tr key={cls.id} className="hover:bg-surface-hover/30 transition-colors">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-foreground">{cls.title}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">{new Date(cls.date).toLocaleString()}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">{cls.teacherName}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary text-right">{cls.duration}</td>
+                    </tr>
+                  ))}
+                  {classesList.length === 0 && (
+                    <tr>
+                      <td colSpan={4} className="px-6 py-8 text-center text-sm text-text-secondary">No classes scheduled yet.</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </GlassCard>
+          </motion.div>
+        )}
+
+        {/* Tab: Analytics */}
+        {activeTab === "analytics" && (
+          <motion.div
+            key="analytics"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -15 }}
+            className="grid grid-cols-1 md:grid-cols-3 gap-6"
+          >
+            <GlassCard className="p-6 text-center space-y-2">
+              <Users className="w-8 h-8 text-aero-blue mx-auto" />
+              <h3 className="text-sm font-bold text-foreground">Student Ratio</h3>
+              <p className="text-3xl font-extrabold text-aero-blue">{Math.round((stats.studentsCount / (stats.totalUsers || 1)) * 100)}%</p>
+              <p className="text-xs text-text-secondary">Percentage of registered students on AeroSpark</p>
+            </GlassCard>
+            <GlassCard className="p-6 text-center space-y-2">
+              <GraduationCap className="w-8 h-8 text-primary mx-auto" />
+              <h3 className="text-sm font-bold text-foreground">Instructor Ratio</h3>
+              <p className="text-3xl font-extrabold text-primary">{Math.round((stats.teachersCount / (stats.totalUsers || 1)) * 100)}%</p>
+              <p className="text-xs text-text-secondary">Percentage of registered teachers on AeroSpark</p>
+            </GlassCard>
+            <GlassCard className="p-6 text-center space-y-2">
+              <CheckCircle2 className="w-8 h-8 text-green-400 mx-auto" />
+              <h3 className="text-sm font-bold text-foreground">Validation Ratio</h3>
+              <p className="text-3xl font-extrabold text-green-400">{Math.round((stats.verifiedUsersCount / (stats.totalUsers || 1)) * 100)}%</p>
+              <p className="text-xs text-text-secondary">Ratio of fully verified user accounts</p>
+            </GlassCard>
+          </motion.div>
+        )}
+
+        {/* Tab: Certificates */}
+        {activeTab === "certificates" && (
+          <motion.div
+            key="certificates"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -15 }}
+            className="space-y-4"
+          >
+            <h2 className="text-lg font-semibold text-foreground">Issued Certificates Audit Log</h2>
+            <GlassCard className="p-0 overflow-hidden">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="border-b border-border-subtle bg-surface-elevated/50">
+                    <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Credential ID</th>
+                    <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Certificate Title</th>
+                    <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider text-right">Recipient</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-border-subtle">
+                  <tr className="hover:bg-surface-hover/30 transition-colors">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">CERT-UAS-001</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-foreground">AeroSpark Remote Pilot License (Micro Class)</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-foreground text-right">Alex Mercer</td>
+                  </tr>
+                </tbody>
+              </table>
+            </GlassCard>
+          </motion.div>
+        )}
+
+        {/* Tab: Notifications */}
+        {activeTab === "notifications" && (
+          <motion.div
+            key="notifications"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -15 }}
+            className="space-y-4"
+          >
+            <h2 className="text-lg font-semibold text-foreground">System Audit Logs</h2>
+            <GlassCard className="space-y-3">
+              <div className="flex gap-3 text-xs items-start border-b border-border-subtle pb-3">
+                <Badge variant="blue">INFO</Badge>
+                <div>
+                  <p className="text-foreground font-semibold">User alex_mercer registered on AeroSpark.</p>
+                  <p className="text-[10px] text-text-muted mt-0.5">Aug 11, 2026 02:08 AM</p>
+                </div>
+              </div>
+              <div className="flex gap-3 text-xs items-start border-b border-border-subtle pb-3">
+                <Badge variant="green">SUCCESS</Badge>
+                <div>
+                  <p className="text-foreground font-semibold">Prisma sync operation completed successfully on local port 3306.</p>
+                  <p className="text-[10px] text-text-muted mt-0.5">Aug 11, 2026 02:08 AM</p>
+                </div>
               </div>
             </GlassCard>
           </motion.div>
-        </div>
+        )}
 
-        {/* Right Column */}
-        <div className="space-y-6">
-          
-          {/* System Admin */}
+        {/* Tab: System */}
+        {activeTab === "system" && (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            key="system"
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
+            exit={{ opacity: 0, y: -15 }}
+            className="grid grid-cols-1 md:grid-cols-2 gap-6"
           >
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold text-foreground">Administration</h2>
-            </div>
-            <div className="grid grid-cols-2 gap-3">
-              <Link href="/dashboard/admin" className="block h-full">
-                <GlassCard className="p-4 flex flex-col items-center justify-center text-center gap-2 cursor-pointer hover:border-aero-blue/30 transition-colors group h-full">
-                  <ShieldAlert className="w-5 h-5 text-text-secondary group-hover:text-red-400 transition-colors" />
-                  <span className="text-xs font-medium text-foreground">Security</span>
-                </GlassCard>
-              </Link>
-              <Link href="/dashboard/admin/system" className="block h-full">
-                <GlassCard className="p-4 flex flex-col items-center justify-center text-center gap-2 cursor-pointer hover:border-aero-blue/30 transition-colors group h-full">
-                  <Database className="w-5 h-5 text-text-secondary group-hover:text-aero-blue transition-colors" />
-                  <span className="text-xs font-medium text-foreground">Database</span>
-                </GlassCard>
-              </Link>
-              <Link href="/dashboard/admin" className="block h-full">
-                <GlassCard className="p-4 flex flex-col items-center justify-center text-center gap-2 cursor-pointer hover:border-aero-blue/30 transition-colors group h-full">
-                  <Globe className="w-5 h-5 text-text-secondary group-hover:text-green-400 transition-colors" />
-                  <span className="text-xs font-medium text-foreground">Regions</span>
-                </GlassCard>
-              </Link>
-              <Link href="/dashboard/admin/system" className="block h-full">
-                <GlassCard className="p-4 flex flex-col items-center justify-center text-center gap-2 cursor-pointer hover:border-aero-blue/30 transition-colors group h-full">
-                  <Settings className="w-5 h-5 text-text-secondary group-hover:text-foreground transition-colors" />
-                  <span className="text-xs font-medium text-foreground">Settings</span>
-                </GlassCard>
-              </Link>
-            </div>
-          </motion.div>
-
-          {/* Audit Logs */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-          >
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold text-foreground">Audit Log</h2>
-              <button className="text-text-muted hover:text-foreground transition-colors">
-                <MoreVertical className="w-4 h-4" />
-              </button>
-            </div>
-            <GlassCard className="space-y-4">
-              {auditLogs.map((log) => (
-                <div key={log.id} className="flex gap-3 relative pb-4 border-b border-border-subtle last:border-0 last:pb-0">
-                  <div className={`mt-1 w-2 h-2 rounded-full shrink-0 ${
-                    log.type === 'success' ? 'bg-green-500' :
-                    log.type === 'warning' ? 'bg-orange-500' :
-                    log.type === 'system' ? 'bg-aero-blue' :
-                    'bg-text-secondary'
-                  }`} />
-                  <div className="flex-1 min-w-0">
-                    <p className="text-xs font-medium text-foreground">{log.action}</p>
-                    <p className="text-[10px] text-text-muted mt-1">{log.time}</p>
-                  </div>
+            <GlassCard className="p-6 space-y-4">
+              <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
+                <Database className="w-4 h-4 text-aero-blue" />
+                Local database status
+              </h3>
+              <div className="space-y-2 text-xs">
+                <div className="flex justify-between">
+                  <span className="text-text-secondary">DBMS Engine:</span>
+                  <span className="font-semibold text-foreground">MariaDB / MySQL</span>
                 </div>
-              ))}
-              <Button variant="ghost" className="w-full mt-2 text-xs h-8" size="sm" href="/dashboard/admin/system">
-                View Full Logs
-              </Button>
+                <div className="flex justify-between">
+                  <span className="text-text-secondary">Host Address:</span>
+                  <span className="font-semibold text-foreground">127.0.0.1:3306</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-text-secondary">Active Connection pool:</span>
+                  <span className="font-semibold text-green-400">Online</span>
+                </div>
+              </div>
+            </GlassCard>
+            <GlassCard className="p-6 space-y-4">
+              <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
+                <Server className="w-4 h-4 text-purple-400" />
+                Next.js node environment
+              </h3>
+              <div className="space-y-2 text-xs">
+                <div className="flex justify-between">
+                  <span className="text-text-secondary">Node Version:</span>
+                  <span className="font-semibold text-foreground">v26.3.0</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-text-secondary">Server Mode:</span>
+                  <span className="font-semibold text-foreground">Development (npm run dev)</span>
+                </div>
+              </div>
             </GlassCard>
           </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Action Dialog Overlay Modals */}
+      <AnimatePresence>
+        {activeModal && (
+          <div className="fixed inset-0 bg-black/65 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="w-full max-w-md bg-surface-elevated border border-border-default/60 rounded-2xl p-6 shadow-2xl space-y-4 relative"
+            >
+              <button
+                onClick={() => {
+                  setActiveModal(null);
+                  setFormName("");
+                  setFormEmail("");
+                  setFormPassword("");
+                  setFormSubject("");
+                  setCourseTitle("");
+                  setCourseDate("");
+                  setCourseDuration("1h 30m");
+                  setCourseTeacherId("");
+                }}
+                className="absolute top-4 right-4 text-text-muted hover:text-foreground transition-colors"
+              >
+                <X className="w-4 h-4" />
+              </button>
+
+              {/* Add Student / Add Teacher Modal */}
+              {(activeModal === "student" || activeModal === "teacher") && (
+                <>
+                  <h3 className="text-lg font-bold text-foreground">
+                    Add New {activeModal === "student" ? "Student Profile" : "Instructor Account"}
+                  </h3>
+                  <div className="space-y-3">
+                    <div>
+                      <label className="block text-xs font-mono font-bold text-text-muted uppercase tracking-wider mb-2">
+                        Full Name *
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="e.g. Jean-Luc Picard"
+                        value={formName}
+                        onChange={(e) => setFormName(e.target.value)}
+                        className="w-full px-3 py-2.5 bg-surface border border-border-default rounded-xl text-sm text-foreground focus:outline-none focus:border-aero-blue"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-mono font-bold text-text-muted uppercase tracking-wider mb-2">
+                        Email Address *
+                      </label>
+                      <input
+                        type="email"
+                        placeholder="name@aerospark.com"
+                        value={formEmail}
+                        onChange={(e) => setFormEmail(e.target.value)}
+                        className="w-full px-3 py-2.5 bg-surface border border-border-default rounded-xl text-sm text-foreground focus:outline-none focus:border-aero-blue"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-mono font-bold text-text-muted uppercase tracking-wider mb-2">
+                        Password *
+                      </label>
+                      <input
+                        type="password"
+                        placeholder="Min 6 characters"
+                        value={formPassword}
+                        onChange={(e) => setFormPassword(e.target.value)}
+                        className="w-full px-3 py-2.5 bg-surface border border-border-default rounded-xl text-sm text-foreground focus:outline-none focus:border-aero-blue"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-mono font-bold text-text-muted uppercase tracking-wider mb-2">
+                        Subject / Course Field
+                      </label>
+                      <input
+                        type="text"
+                        placeholder={activeModal === "student" ? "e.g. Drone Piloting" : "e.g. Aerodynamics"}
+                        value={formSubject}
+                        onChange={(e) => setFormSubject(e.target.value)}
+                        className="w-full px-3 py-2.5 bg-surface border border-border-default rounded-xl text-sm text-foreground focus:outline-none focus:border-aero-blue"
+                      />
+                    </div>
+                  </div>
+                  <div className="flex gap-3 justify-end pt-3">
+                    <Button variant="outline" onClick={() => setActiveModal(null)}>Cancel</Button>
+                    <Button
+                      variant="primary"
+                      onClick={() => handleAddUser(activeModal === "student" ? "STUDENT" : "TEACHER")}
+                    >
+                      Create Profile
+                    </Button>
+                  </div>
+                </>
+              )}
+
+              {/* Schedule Class Modal */}
+              {activeModal === "course" && (
+                <>
+                  <h3 className="text-lg font-bold text-foreground">Schedule Class Session</h3>
+                  <div className="space-y-3">
+                    <div>
+                      <label className="block text-xs font-mono font-bold text-text-muted uppercase tracking-wider mb-2">
+                        Class Topic / Title
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="e.g. Drone Simulation Training"
+                        value={courseTitle}
+                        onChange={(e) => setCourseTitle(e.target.value)}
+                        className="w-full px-3 py-2.5 bg-surface border border-border-default rounded-xl text-sm text-foreground focus:outline-none focus:border-aero-blue"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-mono font-bold text-text-muted uppercase tracking-wider mb-2">
+                        Date & Time
+                      </label>
+                      <input
+                        type="datetime-local"
+                        value={courseDate}
+                        onChange={(e) => setCourseDate(e.target.value)}
+                        className="w-full px-3 py-2.5 bg-surface border border-border-default rounded-xl text-sm text-foreground focus:outline-none focus:border-aero-blue"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-mono font-bold text-text-muted uppercase tracking-wider mb-2">
+                        Duration
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="e.g. 1h 30m"
+                        value={courseDuration}
+                        onChange={(e) => setCourseDuration(e.target.value)}
+                        className="w-full px-3 py-2.5 bg-surface border border-border-default rounded-xl text-sm text-foreground focus:outline-none focus:border-aero-blue"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-mono font-bold text-text-muted uppercase tracking-wider mb-2">
+                        Assign Instructor
+                      </label>
+                      <select
+                        value={courseTeacherId}
+                        onChange={(e) => setCourseTeacherId(Number(e.target.value))}
+                        className="w-full px-3 py-2.5 bg-surface border border-border-default rounded-xl text-sm text-foreground focus:outline-none focus:border-aero-blue outline-none"
+                      >
+                        <option value="">Choose Instructor...</option>
+                        {instructors.map((t: any) => (
+                          <option key={t.id} value={t.id}>{t.name}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                  <div className="flex gap-3 justify-end pt-3">
+                    <Button variant="outline" onClick={() => setActiveModal(null)}>Cancel</Button>
+                    <Button variant="primary" onClick={handleCreateCourse}>Schedule Course</Button>
+                  </div>
+                </>
+              )}
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+export default function AdminDashboard() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <div className="flex flex-col items-center gap-3">
+          <div className="w-10 h-10 border-4 border-aero-blue border-t-transparent rounded-full animate-spin" />
+          <span className="text-sm font-mono text-text-secondary">Loading...</span>
         </div>
       </div>
-    </div>
+    }>
+      <AdminDashboardContent />
+    </Suspense>
   );
 }

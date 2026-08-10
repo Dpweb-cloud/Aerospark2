@@ -28,6 +28,7 @@ export const metadata: Metadata = {
 };
 
 import { GlobalBackground } from "@/components/layout/global-bg";
+import { ThemeProvider } from "@/components/theme-provider";
 
 export default function RootLayout({
   children,
@@ -36,10 +37,26 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var accent = localStorage.getItem('accentColor') || 'blue';
+                  document.documentElement.setAttribute('data-accent', accent);
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
+      </head>
       <body className="bg-background text-foreground antialiased min-h-screen relative" suppressHydrationWarning>
-        <GlobalBackground />
-        <div className="scan-line" />
-        {children}
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
+          <GlobalBackground />
+          <div className="scan-line" />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

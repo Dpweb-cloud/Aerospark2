@@ -45,7 +45,7 @@ function JetEngine() {
 
   return (
     <group ref={engineRef} rotation={[0, -Math.PI / 4, 0]}>
-      
+
       {/* Outer Casing */}
       <mesh position={[0, 0, -1]}>
         <cylinderGeometry args={[2.2, 2.0, 4, 64, 1, true]} />
@@ -112,20 +112,20 @@ export function Engine3D() {
         <directionalLight position={[10, 10, 5]} intensity={2} color="#38bdf8" />
         <directionalLight position={[-10, -10, -5]} intensity={1} color="#e11d48" />
         <pointLight position={[0, 0, 2]} intensity={2} color="#ffffff" distance={5} />
-        
+
         <Float speed={2} rotationIntensity={0.5} floatIntensity={1}>
           <JetEngine />
         </Float>
 
         <Environment preset="city" />
         <ContactShadows position={[0, -2.5, 0]} opacity={0.4} scale={10} blur={2} far={4} color="#0ea5e9" />
-        
-        <OrbitControls 
-          enableZoom={false} 
+
+        <OrbitControls
+          enableZoom={false}
           enablePan={false}
-          minPolarAngle={Math.PI / 3} 
+          minPolarAngle={Math.PI / 3}
           maxPolarAngle={Math.PI / 1.5}
-          autoRotate 
+          autoRotate
           autoRotateSpeed={0.5}
         />
       </Canvas>

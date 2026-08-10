@@ -1,0 +1,120 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+enum Role {
+  ADMIN
+  STUDENT
+  TEACHER
+}
+
+model User {
+  id               Int              @id @default(autoincrement())
+  email            String           @unique
+  password         String
+  name             String?
+  role             Role             @default(STUDENT)
+  isVerified       Boolean          @default(false)
+  createdAt        DateTime         @default(now())
+
+  // Settings preferences
+  emailAlerts      Boolean          @default(true)
+  assignmentAlerts Boolean          @default(true)
+  classReminders   Boolean          @default(false)
+  accentTheme      String           @default("blue")
+  subject          String?
+
+  // Relations
+  studentClasses   Class[]          @relation("StudentClasses")
+  teacherClasses   Class[]          @relation("TeacherClasses")
+  attendance       Attendance[]
+  uploadedNotes    Note[]
+  certificates     Certificate[]
+  quizSubmissions  QuizSubmission[]
+  resources        Resource[]
+}
+
+model VerificationCode {
+  id        Int      @id @default(autoincrement())
+  email     String
+  code      String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
+model Class {
+  id          Int          @id @default(autoincrement())
+  title       String
+  date        DateTime
+  duration    String
+  teacherId   Int
+  teacher     User         @relation("TeacherClasses", fields: [teacherId], references: [id], onDelete: Cascade)
+  students    User[]       @relation("StudentClasses")
+  attendance  Attendance[]
+}
+
+model Attendance {
+  id        Int      @id @default(autoincrement())
+  date      DateTime @default(now())
+  status    String   // "PRESENT", "ABSENT"
+  studentId Int
+  student   User     @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  classId   Int?
+  class     Class?   @relation(fields: [classId], references: [id], onDelete: SetNull)
+}
+
+model Note {
+  id           Int      @id @default(autoincrement())
+  title        String
+  filePath     String   // Path or URL to note
+  status       String   @default("PENDING") // "PENDING", "APPROVED", "REJECTED"
+  uploadedById Int
+  uploadedBy   User     @relation(fields: [uploadedById], references: [id], onDelete: Cascade)
+  createdAt    DateTime @default(now())
+}
+
+model Certificate {
+  id        Int      @id @default(autoincrement())
+  title     String
+  date      DateTime @default(now())
+  filePath  String?
+  studentId Int
+  student   User     @relation(fields: [studentId], references: [id], onDelete: Cascade)
+}
+
+model Quiz {
+  id            Int              @id @default(autoincrement())
+  title         String
+  description   String?
+  questionsJson String           // JSON string representing quiz questions
+  submissions   QuizSubmission[]
+}
+
+model QuizSubmission {
+  id             Int      @id @default(autoincrement())
+  score          Int
+  totalQuestions Int
+  submittedAt    DateTime @default(now())
+  studentId      Int
+  student        User     @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  quizId         Int
+  quiz           Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+}
+
+model Resource {
+  id          Int      @id @default(autoincrement())
+  title       String
+  type        String   // "PDF", "Link", "ZIP", etc.
+  url         String
+  teacherId   Int
+  teacher     User     @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+}

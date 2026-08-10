@@ -7,7 +7,6 @@ import {
   FeaturedCourses,
   StatsSection,
   CareerPathwaysSection,
-  LearningJourneySection,
   ConsultingSection,
   TestimonialsSection,
   CTASection,
@@ -16,7 +15,7 @@ import {
 import { FullPageFlightPath } from "@/components/home/full-page-flight-path";
 import { Outfit } from "next/font/google";
 
-const outfit = Outfit({ 
+const outfit = Outfit({
   subsets: ["latin"],
   display: 'swap',
   variable: '--font-sans',
@@ -35,7 +34,6 @@ export default function HomePage() {
         <div className="section-divider" />
         <CareerPathwaysSection />
         <div className="section-divider" />
-        <LearningJourneySection />
         <ConsultingSection />
         <div className="section-divider" />
         <TestimonialsSection />

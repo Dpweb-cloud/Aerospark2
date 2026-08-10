@@ -10,8 +10,8 @@ const footerSections = [
   {
     title: "Platform",
     links: [
-      { label: "Academy", href: "/academy" },
       { label: "Consultation", href: "/consultation" },
+      { label: "Academy", href: "/academy" },
       { label: "Insights", href: "/insights" },
       { label: "Dashboard", href: "/dashboard" },
     ],

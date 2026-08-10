@@ -48,30 +48,67 @@
   --text-muted: #94A3B8;
 }
 
-/* Theme: Dark Mode (High Contrast Orange/Black/Navy) */
+/* Theme: Dark Mode (High Contrast Orange/Black/Navy with Space Cyber accents) */
 :root.dark {
-  --bg-main: #000000;
-  --fg-main: #FFFFFF;
-  --primary: #FF6600;
-  /* Vibrant Orange */
+  --bg-main: #030712; /* Deep Slate Black */
+  --fg-main: #F9FAFB;
+  --primary: #FF6600; /* Vibrant Orange */
   --primary-fg: #000000;
-  --primary-dim: #E65C00;
-  --primary-glow: rgba(255, 102, 0, 0.2);
-  --secondary: #011F5B;
-  --secondary-fg: #FFFFFF;
-  --secondary-dim: #001540;
-  --surface: #121212;
-  /* Slightly lighter than pure black for visibility */
-  --surface-elevated: #1A1A1A;
-  --surface-hover: #262626;
-  --border-subtle: rgba(255, 255, 255, 0.05);
-  --border-default: rgba(255, 102, 0, 0.2);
+  --primary-dim: #D94600;
+  --primary-glow: rgba(255, 102, 0, 0.25);
+  --secondary: #00E5FF; /* Electric Cyber Cyan */
+  --secondary-fg: #000000;
+  --secondary-dim: #00B4D8;
+  --surface: #0B1329; /* Deep Cyber Navy */
+  --surface-elevated: #111A33;
+  --surface-hover: #1C2A4F;
+  --border-subtle: rgba(0, 229, 255, 0.1); /* Subtle Cyan Borders */
+  --border-default: rgba(255, 102, 0, 0.25); /* Orange Borders */
   --text-primary: #FFFFFF;
-  --text-secondary: #F8FAFC;
+  --text-secondary: #E2E8F0;
   --text-muted: #94A3B8;
 }
 
+/* Accent-based style overrides */
 
+/* Blue / Aero Accent (Default) */
+:root[data-accent="blue"] {
+  --primary: #003087;
+  --primary-glow: rgba(0, 48, 135, 0.1);
+  --border-default: rgba(0, 48, 135, 0.1);
+}
+:root.dark[data-accent="blue"] {
+  --primary: #00a3ff;
+  --primary-glow: rgba(0, 163, 255, 0.25);
+  --border-default: rgba(0, 163, 255, 0.25);
+  --secondary: #00E5FF;
+}
+
+/* Green / Emerald Accent */
+:root[data-accent="green"] {
+  --primary: #059669;
+  --primary-glow: rgba(5, 150, 105, 0.1);
+  --border-default: rgba(5, 150, 105, 0.1);
+}
+:root.dark[data-accent="green"] {
+  --primary: #10b981;
+  --primary-glow: rgba(16, 185, 129, 0.25);
+  --border-default: rgba(16, 185, 129, 0.25);
+  --secondary: #34d399;
+}
+
+/* Purple / Indigo Accent */
+:root[data-accent="purple"] {
+  --primary: #7c3aed;
+  --primary-glow: rgba(124, 58, 237, 0.1);
+  --border-default: rgba(124, 58, 237, 0.1);
+}
+:root.dark[data-accent="purple"] {
+  --primary: #a855f7;
+  --primary-glow: rgba(168, 85, 247, 0.25);
+  --border-default: rgba(168, 85, 247, 0.25);
+  --secondary: #c084fc;
+}
 
 * {
   scrollbar-width: thin;
@@ -248,3 +285,82 @@ html.theme-transition * {
   pointer-events: none;
   z-index: 100;
 }
+
+/* Cybernetic and telemetry styling updates */
+.tech-grid {
+  background-image:
+    linear-gradient(var(--border-subtle) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border-subtle) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.glow-cyan {
+  box-shadow: 0 0 25px rgba(0, 229, 255, 0.15), 0 0 50px rgba(0, 229, 255, 0.05);
+}
+
+.glow-orange {
+  box-shadow: 0 0 25px rgba(255, 102, 0, 0.15), 0 0 50px rgba(255, 102, 0, 0.05);
+}
+
+/* Telemetry font overlays */
+.font-telemetry {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* Cyber brackets decorative highlights */
+.cyber-bracket-top-left {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 12px;
+  height: 12px;
+  border-top: 2px solid var(--primary);
+  border-left: 2px solid var(--primary);
+  pointer-events: none;
+}
+
+.cyber-bracket-top-right {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 12px;
+  height: 12px;
+  border-top: 2px solid var(--primary);
+  border-right: 2px solid var(--primary);
+  pointer-events: none;
+}
+
+.cyber-bracket-bottom-left {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 12px;
+  height: 12px;
+  border-bottom: 2px solid var(--primary);
+  border-left: 2px solid var(--primary);
+  pointer-events: none;
+}
+
+.cyber-bracket-bottom-right {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 12px;
+  height: 12px;
+  border-bottom: 2px solid var(--primary);
+  border-right: 2px solid var(--primary);
+  pointer-events: none;
+}
+
+/* Blinking dot for live signals */
+@keyframes blink-telemetry {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+.blink-telemetry {
+  animation: blink-telemetry 1.5s infinite;
+}

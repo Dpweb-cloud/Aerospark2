@@ -235,7 +235,6 @@ export default function CourseDetailsPage({ params }: { params: Promise<{ course
 
                 <div className="space-y-6">
                   <div>
-                    <p className="text-sm text-text-muted uppercase tracking-wider mb-2 font-mono">Launch Price</p>
                     <div className="flex items-end gap-3">
                       <span className="text-4xl font-bold text-foreground tracking-tight">₹{course.price.toLocaleString()}</span>
                     </div>

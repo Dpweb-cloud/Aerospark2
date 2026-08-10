@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import {
@@ -26,7 +25,13 @@ import {
   GraduationCap,
   Menu,
   X,
+  Calendar,
+  HelpCircle,
+  Globe,
 } from "lucide-react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { logoutAction } from "@/app/actions/authActions";
+import { toast } from "sonner";
 
 interface SidebarProps {
   role?: "student" | "teacher" | "admin";
@@ -34,35 +39,31 @@ interface SidebarProps {
 
 const studentLinks = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-  { label: "My Courses", href: "/dashboard/courses", icon: BookOpen },
-  { label: "Lecture Player", href: "/dashboard/player", icon: Play },
-  { label: "Progress", href: "/dashboard/progress", icon: BarChart3 },
-  { label: "Certificates", href: "/dashboard/certificates", icon: Award },
-  { label: "AI Assistant", href: "/dashboard/ai", icon: Bot },
-  { label: "Notifications", href: "/dashboard/notifications", icon: Bell },
+  { label: "Attendance", href: "/dashboard?tab=attendance", icon: Calendar },
+  { label: "Notes Upload", href: "/dashboard?tab=notes", icon: Upload },
+  { label: "Certificates", href: "/dashboard?tab=certificates", icon: Award },
+  { label: "Quizzes", href: "/dashboard?tab=quizzes", icon: HelpCircle },
   { label: "Settings", href: "/dashboard/settings", icon: Settings },
 ];
 
 const teacherLinks = [
   { label: "Dashboard", href: "/dashboard/teacher", icon: LayoutDashboard },
-  { label: "My Courses", href: "/dashboard/teacher/courses", icon: BookOpen },
-  { label: "Upload Lectures", href: "/dashboard/teacher/upload", icon: Upload },
-  { label: "Student Analytics", href: "/dashboard/teacher/analytics", icon: BarChart3 },
-  { label: "Assignments", href: "/dashboard/teacher/assignments", icon: FileText },
-  { label: "Settings", href: "/dashboard/teacher/settings", icon: Settings },
+  { label: "Scheduled Classes", href: "/dashboard/teacher?tab=classes", icon: Calendar },
+  { label: "Mark Attendance", href: "/dashboard/teacher?tab=attendance", icon: Users },
+  { label: "Resources Table", href: "/dashboard/teacher?tab=resources", icon: BookOpen },
+  { label: "Notes Checking", href: "/dashboard/teacher?tab=notes", icon: FileText },
+  { label: "Settings", href: "/dashboard/settings", icon: Settings },
 ];
 
 const adminLinks = [
   { label: "Overview", href: "/dashboard/admin", icon: LayoutDashboard },
-  { label: "Students", href: "/dashboard/admin/students", icon: Users },
-  { label: "Instructors", href: "/dashboard/admin/instructors", icon: GraduationCap },
-  { label: "Courses", href: "/dashboard/admin/courses", icon: BookOpen },
-  { label: "Video Uploads", href: "/dashboard/admin/videos", icon: Upload },
-  { label: "Analytics", href: "/dashboard/admin/analytics", icon: BarChart3 },
-  { label: "Certificates", href: "/dashboard/admin/certificates", icon: Award },
-  { label: "Blog", href: "/dashboard/admin/blog", icon: FileText },
-  { label: "Notifications", href: "/dashboard/admin/notifications", icon: Bell },
-  { label: "System", href: "/dashboard/admin/system", icon: Database },
+  { label: "Students", href: "/dashboard/admin?tab=students", icon: Users },
+  { label: "Instructors", href: "/dashboard/admin?tab=instructors", icon: GraduationCap },
+  { label: "Courses", href: "/dashboard/admin?tab=courses", icon: BookOpen },
+  { label: "Analytics", href: "/dashboard/admin?tab=analytics", icon: BarChart3 },
+  { label: "Certificates", href: "/dashboard/admin?tab=certificates", icon: Award },
+  { label: "Notifications", href: "/dashboard/admin?tab=notifications", icon: Bell },
+  { label: "System", href: "/dashboard/admin?tab=system", icon: Database },
 ];
 
 const linksByRole = {
@@ -76,12 +77,26 @@ export function DashboardSidebar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const activeTab = searchParams.get("tab");
+
+  const handleLogout = async () => {
+    try {
+      const res = await logoutAction();
+      if (res.success) {
+        toast.success("Successfully logged out!");
+        router.push("/login");
+      }
+    } catch (err: any) {
+      toast.error("Logout failed: " + err.message);
+    }
+  };
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  
   const role = pathname.startsWith("/dashboard/admin") 
     ? "admin" 
     : pathname.startsWith("/dashboard/teacher") 
@@ -121,7 +136,11 @@ export function DashboardSidebar() {
       {/* Navigation */}
       <nav className="flex-1 py-4 px-2 space-y-1 overflow-y-auto">
         {links.map((link) => {
-          const isActive = mounted && pathname === link.href;
+          // Parse path and tab parameter to match active links accurately
+          const urlParts = link.href.split("?");
+          const linkPath = urlParts[0];
+          const linkTab = urlParts[1] ? new URLSearchParams(urlParts[1]).get("tab") : null;
+          const isActive = mounted && pathname === linkPath && activeTab === linkTab;
           const Icon = link.icon;
           return (
             <Link
@@ -137,7 +156,7 @@ export function DashboardSidebar() {
               title={collapsed ? link.label : undefined}
             >
               {isActive && (
-            <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-5 bg-aero-blue rounded-r-full" />
+                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-5 bg-aero-blue rounded-r-full" />
               )}
               <Icon className="w-[18px] h-[18px] flex-shrink-0" />
               <AnimatePresence>
@@ -166,9 +185,20 @@ export function DashboardSidebar() {
             collapsed && "justify-center px-0"
           )}
         >
-          <LogOut className="w-[18px] h-[18px] flex-shrink-0" />
+          <Globe className="w-[18px] h-[18px] flex-shrink-0" />
           {!collapsed && <span>Back to Site</span>}
         </Link>
+
+        <button
+          onClick={handleLogout}
+          className={cn(
+            "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-red-400 hover:text-red-500 hover:bg-red-500/5 transition-colors w-full text-left",
+            collapsed && "justify-center px-0"
+          )}
+        >
+          <LogOut className="w-[18px] h-[18px] flex-shrink-0" />
+          {!collapsed && <span>Log Out</span>}
+        </button>
 
         {/* Collapse toggle - desktop only */}
         <button

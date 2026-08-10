@@ -242,10 +242,10 @@ export function StatsSection() {
           {STATS.map((stat, i) => (
             <motion.div key={stat.label} variants={staggerItem} className="h-full">
               <div className="group relative h-full bg-surface-elevated/40 backdrop-blur-md rounded-2xl border border-border-default hover:border-aero-blue/40 transition-all duration-500 overflow-hidden flex flex-col p-6 shadow-sm hover:shadow-[0_8px_30px_rgb(0,48,135,0.08)]">
-                
+
                 {/* Glow effect on hover */}
                 <div className="absolute -inset-24 bg-gradient-to-tr from-aero-blue/0 via-aero-blue/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-xl rounded-full" />
-                
+
                 <div className="relative z-10 flex items-start justify-between mb-8">
                   <div className="p-3 rounded-xl bg-gradient-to-br from-[#003087]/10 to-[#FF6600]/10 text-aero-blue ring-1 ring-border-default group-hover:scale-110 group-hover:text-[#FF6600] transition-all duration-500">
                     {iconMap[stat.icon]}
@@ -305,7 +305,7 @@ export function CareerPathwaysSection() {
   return (
     <section className="py-24 relative overflow-hidden bg-surface-elevated/30">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-aero-blue/5 via-transparent to-transparent pointer-events-none" />
-      
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <SectionHeader
           label="Career Pathways"
@@ -325,42 +325,42 @@ export function CareerPathwaysSection() {
             return (
               <motion.div key={path.title} variants={staggerItem} className="h-full">
                 <Link href={`/pathways/${slug}`} className="group relative h-full bg-surface rounded-[24px] border border-border-default hover:border-[#FF6600]/40 transition-all duration-500 overflow-hidden flex flex-col p-8 shadow-sm hover:shadow-2xl hover:shadow-[#FF6600]/10 hover:-translate-y-2 block cursor-pointer">
-                
-                {/* Background Watermark Icon */}
-                <div className="absolute -right-8 -top-8 text-border-subtle opacity-50 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 pointer-events-none">
-                  <div className="w-48 h-48 opacity-20">
-                    {path.icon}
-                  </div>
-                </div>
 
-                {/* Top Badge & Icon */}
-                <div className="flex justify-between items-start mb-8 relative z-10">
-                  <div className={`p-4 rounded-2xl bg-gradient-to-br ${path.color} text-white shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-500`}>
-                    {path.icon}
+                  {/* Background Watermark Icon */}
+                  <div className="absolute -right-8 -top-8 text-border-subtle opacity-50 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 pointer-events-none">
+                    <div className="w-48 h-48 opacity-20">
+                      {path.icon}
+                    </div>
                   </div>
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-text-secondary bg-surface-elevated px-3 py-1.5 rounded-full border border-border-default">
-                    {path.badge}
-                  </span>
-                </div>
 
-                <div className="relative z-10 flex-1 flex flex-col">
-                  <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-[#FF6600] transition-colors duration-300">
-                    {path.title}
-                  </h3>
-                  <p className="text-sm text-text-secondary leading-relaxed mb-6 flex-1">
-                    {path.description}
-                  </p>
-                  
-                  {/* Interactive Footer */}
-                  <div className="flex items-center gap-2 text-sm font-bold text-aero-blue opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
-                    Explore This Path <ArrowRight className="w-4 h-4" />
+                  {/* Top Badge & Icon */}
+                  <div className="flex justify-between items-start mb-8 relative z-10">
+                    <div className={`p-4 rounded-2xl bg-gradient-to-br ${path.color} text-white shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-500`}>
+                      {path.icon}
+                    </div>
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-text-secondary bg-surface-elevated px-3 py-1.5 rounded-full border border-border-default">
+                      {path.badge}
+                    </span>
                   </div>
-                </div>
 
-                {/* Bottom Border Glow */}
-                <div className={`absolute bottom-0 left-0 w-full h-1.5 bg-gradient-to-r ${path.color} scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left`} />
-              </Link>
-            </motion.div>
+                  <div className="relative z-10 flex-1 flex flex-col">
+                    <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-[#FF6600] transition-colors duration-300">
+                      {path.title}
+                    </h3>
+                    <p className="text-sm text-text-secondary leading-relaxed mb-6 flex-1">
+                      {path.description}
+                    </p>
+
+                    {/* Interactive Footer */}
+                    <div className="flex items-center gap-2 text-sm font-bold text-aero-blue opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
+                      Explore This Path <ArrowRight className="w-4 h-4" />
+                    </div>
+                  </div>
+
+                  {/* Bottom Border Glow */}
+                  <div className={`absolute bottom-0 left-0 w-full h-1.5 bg-gradient-to-r ${path.color} scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left`} />
+                </Link>
+              </motion.div>
             );
           })}
         </motion.div>
@@ -373,7 +373,7 @@ export function CareerPathwaysSection() {
 export function ConsultingSection() {
   const consultingServices = [
     {
-      title: "UAS Type Certification",
+      title: "Drone Type Certification Services",
       description: "End-to-end DGCA & FAA type certification support for UAS manufacturers — from initial documentation to final flight testing.",
       href: "/consultation/uas-certification",
       badge: "Open for Consultation",
@@ -392,7 +392,7 @@ export function ConsultingSection() {
       )
     },
     {
-      title: "AS9100D Quality Systems",
+      title: "Quality Management System Services",
       description: "Implement and maintain robust aerospace quality management systems required to participate in the global supply chain.",
       href: "/consultation/as9100d-quality",
       badge: "Quality Systems",
@@ -409,7 +409,7 @@ export function ConsultingSection() {
       )
     },
     {
-      title: "UAV Prototyping & Design",
+      title: "Drone R&D and Product Development Services",
       description: "End-to-end design and rapid prototyping for specialized unmanned aerial vehicles, tailored to your exact payload and range.",
       href: "/consultation/drone-rd",
       badge: "R&D Priority",
@@ -427,7 +427,7 @@ export function ConsultingSection() {
       )
     },
     {
-      title: "Aerodynamic CFD Analysis",
+      title: "Engineering Design & Simulation Services",
       description: "Advanced computational fluid dynamics (CFD) to optimize airframe performance, reduce drag, and improve battery efficiency.",
       href: "/consultation/design-simulation",
       badge: "Simulation & Design",
@@ -460,7 +460,7 @@ export function ConsultingSection() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {consultingServices.map((service) => (
             <Link href={service.href} key={service.title} className="relative group bg-surface border border-border-default rounded-[32px] p-10 hover:border-aero-blue/40 hover:shadow-2xl transition-all duration-500 overflow-hidden flex flex-col h-full z-10 block cursor-pointer">
-              
+
               {/* Background 3D Elements (Colored) */}
               <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden rounded-[32px]">
                 {service.bgElement}
@@ -480,7 +480,7 @@ export function ConsultingSection() {
                 <h3 className="text-3xl md:text-4xl font-extrabold text-foreground mb-4 max-w-[80%]">
                   {service.title}
                 </h3>
-                
+
                 <p className="text-lg text-text-secondary leading-relaxed mb-12 max-w-[85%] flex-1">
                   {service.description}
                 </p>
@@ -537,14 +537,14 @@ export function LearningJourneySection() {
 
         <div className="mt-20 relative">
           {/* Horizontal connection line for desktop with drawing animation */}
-          <motion.div 
+          <motion.div
             initial={{ scaleX: 0 }}
             whileInView={{ scaleX: 1 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 1.5, ease: "easeInOut" }}
-            className="hidden lg:block absolute top-[40px] left-0 w-full h-0.5 bg-border-subtle origin-left z-0" 
+            className="hidden lg:block absolute top-[40px] left-0 w-full h-0.5 bg-border-subtle origin-left z-0"
           />
-          
+
           <motion.div
             variants={{
               hidden: { opacity: 0 },
@@ -559,25 +559,25 @@ export function LearningJourneySection() {
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 relative z-10"
           >
             {steps.map((step, index) => (
-              <motion.div 
-                key={step.title} 
+              <motion.div
+                key={step.title}
                 variants={{
                   hidden: { opacity: 0, y: 30, scale: 0.9 },
                   visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.6, type: "spring" } }
-                }} 
+                }}
                 className="relative group"
               >
                 {/* Mobile/Tablet vertical connector with drawing animation */}
                 {index !== steps.length - 1 && (
-                  <motion.div 
+                  <motion.div
                     initial={{ scaleY: 0 }}
                     whileInView={{ scaleY: 1 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.8, delay: 0.5 }}
-                    className="lg:hidden absolute top-24 left-1/2 w-0.5 h-16 bg-border-subtle -translate-x-1/2 origin-top z-0" 
+                    className="lg:hidden absolute top-24 left-1/2 w-0.5 h-16 bg-border-subtle -translate-x-1/2 origin-top z-0"
                   />
                 )}
-                
+
                 <div className="flex flex-col items-center text-center">
                   <div className="w-20 h-20 rounded-2xl bg-surface border-2 border-border-default flex flex-col items-center justify-center relative z-10 group-hover:border-[#FF6600] group-hover:scale-110 transition-all duration-500 shadow-sm group-hover:shadow-[0_0_20px_rgba(255,102,0,0.2)]">
                     <span className="absolute -top-3 -right-3 text-[10px] font-bold bg-[#003087] text-white px-2 py-0.5 rounded-full shadow-md">
@@ -587,7 +587,7 @@ export function LearningJourneySection() {
                       {step.icon}
                     </div>
                   </div>
-                  
+
                   <h3 className="mt-8 text-xl font-bold text-foreground mb-3">
                     {step.title}
                   </h3>

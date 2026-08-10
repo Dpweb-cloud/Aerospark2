@@ -58,7 +58,7 @@ export function Navbar() {
                 <div className="absolute inset-0 bg-secondary/30 blur-lg rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </div>
               <span className="text-lg font-bold tracking-tight">
-                <span className="text-[#00008B]">Aero</span>
+                <span className="text-[#00008B] dark:text-white">Aero</span>
                 <span className="text-orange-500">Spark</span>
               </span>
             </Link>
@@ -98,8 +98,11 @@ export function Navbar() {
             {/* Desktop CTA */}
             <div className="hidden lg:flex items-center gap-3">
               <ThemeSwitcher />
-              <Button variant="ghost" size="sm" href="/dashboard">
+              <Button variant="ghost" size="sm" href="/login">
                 Sign In
+              </Button>
+              <Button variant="primary" size="sm" href="/signup">
+                Sign Up
               </Button>
             </div>
 
@@ -171,8 +174,11 @@ export function Navbar() {
                 ))}
               </nav>
               <div className="p-4 space-y-3 border-t border-border-subtle">
-                <Button variant="secondary" size="md" href="/dashboard" className="w-full">
+                <Button variant="secondary" size="md" href="/login" className="w-full">
                   Sign In
+                </Button>
+                <Button variant="primary" size="md" href="/signup" className="w-full">
+                  Sign Up
                 </Button>
               </div>
             </motion.div>

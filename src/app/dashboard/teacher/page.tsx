@@ -1,276 +1,749 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState, useEffect, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
 import { GlassCard, StatCard, Badge } from "@/components/ui/cards";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { staggerContainer, staggerItem } from "@/lib/motion";
+import { toast } from "sonner";
+import {
+  getTeacherDashboardData,
+  scheduleClassAction,
+  checkNoteAction,
+  uploadResourceAction,
+  markAttendanceAction
+} from "@/app/actions/dashboardActions";
 import {
   Users,
   BookOpen,
-  Star,
-  TrendingUp,
   Plus,
   Upload,
-  MessageSquare,
-  MoreVertical,
-  Activity,
-  PlayCircle
+  Calendar,
+  Clock,
+  FileText,
+  Check,
+  X,
+  ExternalLink,
+  ClipboardCheck,
+  GraduationCap
 } from "lucide-react";
 
-const stats = [
-  {
-    label: "Total Students",
-    value: "1,248",
-    icon: <Users className="w-5 h-5 text-aero-blue" />,
-    trend: { value: "+12% this month", positive: true },
-  },
-  {
-    label: "Active Courses",
-    value: "5",
-    icon: <BookOpen className="w-5 h-5 text-primary" />,
-  },
-  {
-    label: "Avg. Course Rating",
-    value: "4.8",
-    icon: <Star className="w-5 h-5 text-yellow-500" />,
-    trend: { value: "+0.2 from last month", positive: true },
-  },
-  {
-    label: "Monthly Revenue",
-    value: "$4,250",
-    icon: <TrendingUp className="w-5 h-5 text-green-500" />,
-    trend: { value: "+8% this month", positive: true },
-  },
-];
+function TeacherDashboardContent() {
+  const searchParams = useSearchParams();
+  const activeTab = searchParams.get("tab") || "overview";
 
-const recentEnrollments = [
-  { id: 1, name: "Alex Johnson", course: "Advanced CATIA V5", date: "2 mins ago", avatar: "AJ" },
-  { id: 2, name: "Sarah Smith", course: "DGCA Drone Regulations", date: "1 hour ago", avatar: "SS" },
-  { id: 3, name: "Michael Chen", course: "Aerodynamics 101", date: "3 hours ago", avatar: "MC" },
-  { id: 4, name: "Emma Davis", course: "Advanced CATIA V5", date: "5 hours ago", avatar: "ED" },
-];
+  // Data State
+  const [data, setData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
 
-const coursePerformance = [
-  { title: "Advanced CATIA V5", students: 450, completion: 68, rating: 4.9 },
-  { title: "DGCA Drone Regulations", students: 820, completion: 85, rating: 4.7 },
-  { title: "Aerodynamics 101", students: 310, completion: 42, rating: 4.8 },
-];
+  // New Class Form State
+  const [classTitle, setClassTitle] = useState("");
+  const [classDate, setClassDate] = useState("");
+  const [classTime, setClassTime] = useState("");
+  const [classDuration, setClassDuration] = useState("");
+  const [scheduling, setScheduling] = useState(false);
 
-export default function TeacherDashboard() {
+  // New Resource Form State
+  const [resourceTitle, setResourceTitle] = useState("");
+  const [resourceType, setResourceType] = useState("PDF");
+  const [resourceUrl, setResourceUrl] = useState("");
+  const [uploading, setUploading] = useState(false);
+
+  // Attendance Selector State
+  const [selectedClassId, setSelectedClassId] = useState<number | null>(null);
+
+  const fetchDashboardData = async () => {
+    try {
+      const res = await getTeacherDashboardData();
+      if (res.success && res.data) {
+        setData(res.data);
+        // Default select first class if any
+        if (res.data.classes?.length > 0 && selectedClassId === null) {
+          setSelectedClassId(res.data.classes[0].id);
+        }
+      } else {
+        toast.error(res.error || "Failed to load teacher dashboard data.");
+      }
+    } catch (err: any) {
+      toast.error("Error: " + err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchDashboardData();
+  }, []);
+
+  const handleScheduleClass = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!classTitle || !classDate || !classTime || !classDuration) {
+      toast.error("Please fill in all scheduling fields");
+      return;
+    }
+
+    setScheduling(true);
+    try {
+      const combinedDateTime = `${classDate}T${classTime}`;
+      const res = await scheduleClassAction(classTitle, combinedDateTime, classDuration);
+      if (res.success) {
+        toast.success("Class scheduled successfully!");
+        setClassTitle("");
+        setClassDate("");
+        setClassTime("");
+        setClassDuration("");
+        fetchDashboardData();
+      } else {
+        toast.error(res.error || "Failed to schedule class");
+      }
+    } catch (err: any) {
+      toast.error("Error scheduling class: " + err.message);
+    } finally {
+      setScheduling(false);
+    }
+  };
+
+  const handleUploadResource = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!resourceTitle || !resourceUrl) {
+      toast.error("Please fill in all resource fields");
+      return;
+    }
+
+    setUploading(true);
+    try {
+      const res = await uploadResourceAction(resourceTitle, resourceType, resourceUrl);
+      if (res.success) {
+        toast.success("Resource uploaded successfully!");
+        setResourceTitle("");
+        setResourceUrl("");
+        fetchDashboardData();
+      } else {
+        toast.error(res.error || "Failed to upload resource");
+      }
+    } catch (err: any) {
+      toast.error("Error uploading resource: " + err.message);
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const handleCheckNote = async (noteId: number, status: "APPROVED" | "REJECTED") => {
+    try {
+      const res = await checkNoteAction(noteId, status);
+      if (res.success) {
+        toast.success(`Note submission ${status.toLowerCase()} successfully!`);
+        fetchDashboardData();
+      } else {
+        toast.error(res.error || "Review operation failed");
+      }
+    } catch (err: any) {
+      toast.error("Error checking note: " + err.message);
+    }
+  };
+
+  const handleMarkAttendance = async (studentId: number, classId: number, status: "PRESENT" | "ABSENT") => {
+    try {
+      const res = await markAttendanceAction(studentId, classId, status);
+      if (res.success) {
+        toast.success(`Marked attendance successfully!`);
+        fetchDashboardData();
+      } else {
+        toast.error(res.error || "Attendance submission failed");
+      }
+    } catch (err: any) {
+      toast.error("Error marking attendance: " + err.message);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <div className="flex flex-col items-center gap-3">
+          <div className="w-10 h-10 border-4 border-aero-blue border-t-transparent rounded-full animate-spin" />
+          <span className="text-sm font-mono text-text-secondary">Loading Instructor Dashboard...</span>
+        </div>
+      </div>
+    );
+  }
+
+  const stats = data?.stats || {
+    totalStudents: 0,
+    classesCount: 0,
+    resourcesCount: 0,
+    pendingNotesToCheckCount: 0,
+  };
+
+  const selectedClass = data?.classes?.find((c: any) => c.id === selectedClassId);
+
   return (
     <div className="space-y-8 pb-10">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-2">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-        >
+        <div>
           <h1 className="text-2xl md:text-3xl font-bold text-foreground tracking-tight">
-            Instructor Portal
+            Instructor Dashboard
           </h1>
           <p className="text-text-secondary mt-1">
-            Manage your courses, track student progress, and analyze performance.
+            Manage student attendance, organize online schedule calendars, upload links, and review notes.
           </p>
-        </motion.div>
-        <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          className="flex gap-3"
-        >
-          <Button variant="outline" className="hidden sm:flex" href="/dashboard/teacher">
-            <MessageSquare className="w-4 h-4 mr-2" />
-            Announcements
-          </Button>
-          <Button variant="primary" className="shadow-lg shadow-aero-blue/20" href="/dashboard/teacher/courses">
-            <Plus className="w-4 h-4 mr-2" />
-            Create Course
-          </Button>
-        </motion.div>
+        </div>
       </div>
 
-      {/* Stats */}
-      <motion.div
-        variants={staggerContainer}
-        initial="hidden"
-        animate="visible"
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
-      >
-        {stats.map((stat) => (
-          <motion.div key={stat.label} variants={staggerItem}>
-            <StatCard {...stat} />
-          </motion.div>
-        ))}
-      </motion.div>
+      {/* Stats Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <StatCard
+          label="Total Active Students"
+          value={stats.totalStudents.toString()}
+          icon={<Users className="w-5 h-5 text-aero-blue" />}
+        />
+        <StatCard
+          label="My Scheduled Classes"
+          value={stats.classesCount.toString()}
+          icon={<Calendar className="w-5 h-5 text-primary" />}
+        />
+        <StatCard
+          label="Notes Pending Review"
+          value={stats.pendingNotesToCheckCount.toString()}
+          icon={<FileText className="w-5 h-5 text-purple-500" />}
+        />
+        <StatCard
+          label="Resources Uploaded"
+          value={stats.resourcesCount.toString()}
+          icon={<BookOpen className="w-5 h-5 text-green-500" />}
+        />
+      </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left Column */}
-        <div className="lg:col-span-2 space-y-8">
-          {/* Course Performance */}
+      {/* Tab Panels */}
+      <AnimatePresence mode="wait">
+        {activeTab === "overview" && (
           <motion.div
+            key="overview"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="grid grid-cols-1 lg:grid-cols-3 gap-6"
           >
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold text-foreground">Course Performance</h2>
-              <Link href="/dashboard/teacher/analytics" className="text-sm text-aero-blue hover:text-foreground transition-colors">
-                View Reports
-              </Link>
+            {/* Left: Schedule list */}
+            <div className="lg:col-span-2 space-y-4">
+              <h2 className="text-lg font-semibold text-foreground">Scheduled Classes Overview</h2>
+              <GlassCard className="p-0 overflow-hidden">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left border-collapse">
+                    <thead>
+                      <tr className="border-b border-border-subtle bg-surface-elevated/50">
+                        <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Class Title</th>
+                        <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Date & Time</th>
+                        <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Duration</th>
+                        <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider text-right">Enrolled</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-border-subtle">
+                      {data?.classes?.length > 0 ? (
+                        data.classes.map((cls: any) => (
+                          <tr key={cls.id} className="hover:bg-surface-hover/30 transition-colors">
+                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">
+                              {cls.title}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
+                              {new Date(cls.date).toLocaleString()}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
+                              {cls.duration}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary text-right">
+                              {cls.students?.length || 0} Students
+                            </td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan={4} className="px-6 py-8 text-center text-sm text-text-secondary">
+                            No classes scheduled yet.
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </GlassCard>
             </div>
+
+            {/* Right: Notes reviewing list summary */}
+            <div className="space-y-6">
+              <GlassCard className="p-5">
+                <h3 className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
+                  <FileText className="w-4 h-4 text-purple-400" />
+                  Notes Review Queue
+                </h3>
+                <div className="space-y-4">
+                  {data?.notesToCheck?.slice(0, 3).map((note: any) => (
+                    <div key={note.id} className="border-b border-border-subtle pb-3 last:border-0 last:pb-0 text-xs">
+                      <div className="flex justify-between items-start gap-2 mb-1">
+                        <span className="font-semibold text-foreground truncate max-w-[130px]">{note.title}</span>
+                        <a href={note.filePath} target="_blank" rel="noopener noreferrer" className="text-[10px] text-aero-blue hover:underline inline-flex items-center gap-1">
+                          View <ExternalLink className="w-2.5 h-2.5" />
+                        </a>
+                      </div>
+                      <p className="text-[10px] text-text-muted mb-2">By: {note.studentName}</p>
+                      <div className="flex gap-2 justify-end">
+                        <button
+                          onClick={() => handleCheckNote(note.id, "APPROVED")}
+                          className="bg-green-500/10 hover:bg-green-500/20 text-green-400 px-2 py-1 rounded text-[10px] font-semibold transition-colors flex items-center gap-0.5"
+                        >
+                          <Check className="w-2.5 h-2.5" /> Approve
+                        </button>
+                        <button
+                          onClick={() => handleCheckNote(note.id, "REJECTED")}
+                          className="bg-red-500/10 hover:bg-red-500/20 text-red-400 px-2 py-1 rounded text-[10px] font-semibold transition-colors flex items-center gap-0.5"
+                        >
+                          <X className="w-2.5 h-2.5" /> Reject
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                  {(!data?.notesToCheck || data.notesToCheck.length === 0) && (
+                    <p className="text-xs text-text-secondary text-center py-4">No note submissions to review.</p>
+                  )}
+                </div>
+              </GlassCard>
+            </div>
+          </motion.div>
+        )}
+
+        {/* Tab: Classes Scheduling */}
+        {activeTab === "classes" && (
+          <motion.div
+            key="classes"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start"
+          >
+            {/* Form */}
+            <div className="lg:col-span-4 space-y-4">
+              <h2 className="text-lg font-semibold text-foreground">Schedule a New Class</h2>
+              <GlassCard className="p-5">
+                <form onSubmit={handleScheduleClass} className="space-y-4">
+                  <div>
+                    <label className="block text-xs font-mono font-bold text-text-muted uppercase tracking-wider mb-2">
+                      Class Title
+                    </label>
+                    <input
+                      type="text"
+                      value={classTitle}
+                      onChange={(e) => setClassTitle(e.target.value)}
+                      placeholder="e.g. Drone Control Theory"
+                      className="w-full px-3 py-2 bg-surface border border-border-default rounded-xl text-sm text-foreground focus:outline-none focus:border-aero-blue"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-mono font-bold text-text-muted uppercase tracking-wider mb-2">
+                      Date
+                    </label>
+                    <input
+                      type="date"
+                      value={classDate}
+                      onChange={(e) => setClassDate(e.target.value)}
+                      className="w-full px-3 py-2 bg-surface border border-border-default rounded-xl text-sm text-foreground focus:outline-none focus:border-aero-blue"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-mono font-bold text-text-muted uppercase tracking-wider mb-2">
+                      Time
+                    </label>
+                    <input
+                      type="time"
+                      value={classTime}
+                      onChange={(e) => setClassTime(e.target.value)}
+                      className="w-full px-3 py-2 bg-surface border border-border-default rounded-xl text-sm text-foreground focus:outline-none focus:border-aero-blue"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-mono font-bold text-text-muted uppercase tracking-wider mb-2">
+                      Duration
+                    </label>
+                    <input
+                      type="text"
+                      value={classDuration}
+                      onChange={(e) => setClassDuration(e.target.value)}
+                      placeholder="e.g. 1h 30m"
+                      className="w-full px-3 py-2 bg-surface border border-border-default rounded-xl text-sm text-foreground focus:outline-none focus:border-aero-blue"
+                      required
+                    />
+                  </div>
+                  <Button
+                    type="submit"
+                    variant="primary"
+                    className="w-full py-2 shadow-md"
+                    disabled={scheduling}
+                  >
+                    {scheduling ? "Creating Class..." : "Create Class Slot"}
+                  </Button>
+                </form>
+              </GlassCard>
+            </div>
+
+            {/* List */}
+            <div className="lg:col-span-8 space-y-4">
+              <h2 className="text-lg font-semibold text-foreground">Class Schedule Log</h2>
+              <GlassCard className="p-0 overflow-hidden">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left border-collapse">
+                    <thead>
+                      <tr className="border-b border-border-subtle bg-surface-elevated/50">
+                        <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Title</th>
+                        <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Date & Time</th>
+                        <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider text-right">Duration</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-border-subtle">
+                      {data?.classes?.length > 0 ? (
+                        data.classes.map((cls: any) => (
+                          <tr key={cls.id} className="hover:bg-surface-hover/30 transition-colors">
+                            <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-foreground">
+                              {cls.title}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
+                              {new Date(cls.date).toLocaleString()}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary text-right">
+                              {cls.duration}
+                            </td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan={3} className="px-6 py-8 text-center text-sm text-text-secondary">
+                            No classes scheduled.
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </GlassCard>
+            </div>
+          </motion.div>
+        )}
+
+        {/* Tab: Mark Attendance */}
+        {activeTab === "attendance" && (
+          <motion.div
+            key="attendance"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="space-y-6"
+          >
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <h2 className="text-lg font-semibold text-foreground">Mark Student Attendance</h2>
+              {data?.classes?.length > 0 && (
+                <div className="flex items-center gap-3">
+                  <span className="text-xs font-mono text-text-secondary uppercase">Select Class:</span>
+                  <select
+                    value={selectedClassId || ""}
+                    onChange={(e) => setSelectedClassId(Number(e.target.value))}
+                    className="bg-surface border border-border-default text-sm text-foreground rounded-xl px-3 py-1.5 focus:border-aero-blue outline-none"
+                  >
+                    {data.classes.map((cls: any) => (
+                      <option key={cls.id} value={cls.id}>{cls.title}</option>
+                    ))}
+                  </select>
+                </div>
+              )}
+            </div>
+
+            {selectedClass ? (
+              <GlassCard className="p-0 overflow-hidden">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left border-collapse">
+                    <thead>
+                      <tr className="border-b border-border-subtle bg-surface-elevated/50">
+                        <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Student Name</th>
+                        <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Email Address</th>
+                        <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider text-right">Attendance Action</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-border-subtle">
+                      {selectedClass.students?.length > 0 ? (
+                        selectedClass.students.map((student: any) => (
+                          <tr key={student.id} className="hover:bg-surface-hover/30 transition-colors">
+                            <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-foreground">
+                              {student.name}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
+                              {student.email}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-right">
+                              <div className="flex items-center justify-end gap-2">
+                                <button
+                                  type="button"
+                                  onClick={() => handleMarkAttendance(student.id, selectedClass.id, "PRESENT")}
+                                  className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all inline-flex items-center gap-1 border ${
+                                    student.attendanceStatus === "PRESENT"
+                                      ? "bg-green-500 text-white border-green-500 shadow-sm shadow-green-500/20"
+                                      : "bg-green-500/10 hover:bg-green-500/20 text-green-400 border-green-500/10 hover:border-green-500/30"
+                                  }`}
+                                >
+                                  <Check className="w-3.5 h-3.5" /> Present
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => handleMarkAttendance(student.id, selectedClass.id, "ABSENT")}
+                                  className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all inline-flex items-center gap-1 border ${
+                                    student.attendanceStatus === "ABSENT"
+                                      ? "bg-red-500 text-white border-red-500 shadow-sm shadow-red-500/20"
+                                      : "bg-red-500/10 hover:bg-red-500/20 text-red-400 border-red-500/10 hover:border-red-500/30"
+                                  }`}
+                                >
+                                  <X className="w-3.5 h-3.5" /> Absent
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan={3} className="px-6 py-8 text-center text-sm text-text-secondary">
+                            No students currently registered/assigned to this class.
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </GlassCard>
+            ) : (
+              <div className="text-center py-12 glass-panel rounded-2xl">
+                <ClipboardCheck className="w-12 h-12 text-text-muted mx-auto mb-3" />
+                <h3 className="text-base font-semibold text-foreground mb-1">Select a Class Slot</h3>
+                <p className="text-sm text-text-secondary">You need to schedule classes and assign students to register attendance.</p>
+              </div>
+            )}
+          </motion.div>
+        )}
+
+        {/* Tab: Resources Upload */}
+        {activeTab === "resources" && (
+          <motion.div
+            key="resources"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start"
+          >
+            {/* Form */}
+            <div className="lg:col-span-4 space-y-4">
+              <h2 className="text-lg font-semibold text-foreground">Upload Learning Resource</h2>
+              <GlassCard className="p-5">
+                <form onSubmit={handleUploadResource} className="space-y-4">
+                  <div>
+                    <label className="block text-xs font-mono font-bold text-text-muted uppercase tracking-wider mb-2">
+                      Resource Title
+                    </label>
+                    <input
+                      type="text"
+                      value={resourceTitle}
+                      onChange={(e) => setResourceTitle(e.target.value)}
+                      placeholder="e.g. DGCA Airspace Map Guide"
+                      className="w-full px-3 py-2 bg-surface border border-border-default rounded-xl text-sm text-foreground focus:outline-none focus:border-aero-blue"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-mono font-bold text-text-muted uppercase tracking-wider mb-2">
+                      Resource Type
+                    </label>
+                    <select
+                      value={resourceType}
+                      onChange={(e) => setResourceType(e.target.value)}
+                      className="w-full px-3 py-2 bg-surface border border-border-default rounded-xl text-sm text-foreground focus:outline-none focus:border-aero-blue outline-none"
+                    >
+                      <option value="PDF">PDF Document</option>
+                      <option value="Link">Web Link</option>
+                      <option value="ZIP">ZIP Archive</option>
+                      <option value="Video">Video Tutorial</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-mono font-bold text-text-muted uppercase tracking-wider mb-2">
+                      URL / File Link
+                    </label>
+                    <input
+                      type="url"
+                      value={resourceUrl}
+                      onChange={(e) => setResourceUrl(e.target.value)}
+                      placeholder="e.g. https://domain.com/file.pdf"
+                      className="w-full px-3 py-2 bg-surface border border-border-default rounded-xl text-sm text-foreground focus:outline-none focus:border-aero-blue"
+                      required
+                    />
+                  </div>
+                  <Button
+                    type="submit"
+                    variant="primary"
+                    className="w-full py-2 shadow-md"
+                    disabled={uploading}
+                  >
+                    {uploading ? "Uploading Resource..." : "Upload Resource"}
+                  </Button>
+                </form>
+              </GlassCard>
+            </div>
+
+            {/* List */}
+            <div className="lg:col-span-8 space-y-4">
+              <h2 className="text-lg font-semibold text-foreground">Resources Table</h2>
+              <GlassCard className="p-0 overflow-hidden">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left border-collapse">
+                    <thead>
+                      <tr className="border-b border-border-subtle bg-surface-elevated/50">
+                        <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Title</th>
+                        <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Type</th>
+                        <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Added On</th>
+                        <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider text-right">Access Link</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-border-subtle">
+                      {data?.resources?.length > 0 ? (
+                        data.resources.map((res: any) => (
+                          <tr key={res.id} className="hover:bg-surface-hover/30 transition-colors">
+                            <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-foreground">
+                              {res.title}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
+                              <Badge variant="blue">{res.type}</Badge>
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
+                              {new Date(res.createdAt).toLocaleDateString()}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-right text-sm">
+                              <a
+                                href={res.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-aero-blue hover:underline inline-flex items-center gap-1"
+                              >
+                                Open URL <ExternalLink className="w-3.5 h-3.5" />
+                              </a>
+                            </td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan={4} className="px-6 py-8 text-center text-sm text-text-secondary">
+                            No shared resources uploaded yet.
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </GlassCard>
+            </div>
+          </motion.div>
+        )}
+
+        {/* Tab: Notes Review */}
+        {activeTab === "notes" && (
+          <motion.div
+            key="notes"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="space-y-4"
+          >
+            <h2 className="text-lg font-semibold text-foreground">Student Notes Verification Queue</h2>
             <GlassCard className="p-0 overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse">
                   <thead>
                     <tr className="border-b border-border-subtle bg-surface-elevated/50">
-                      <th className="px-6 py-4 text-xs font-medium text-text-muted uppercase tracking-wider">Course Name</th>
-                      <th className="px-6 py-4 text-xs font-medium text-text-muted uppercase tracking-wider text-right">Students</th>
-                      <th className="px-6 py-4 text-xs font-medium text-text-muted uppercase tracking-wider text-right">Completion</th>
-                      <th className="px-6 py-4 text-xs font-medium text-text-muted uppercase tracking-wider text-right">Rating</th>
+                      <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Note Title</th>
+                      <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Student Name</th>
+                      <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Email</th>
+                      <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Date Submitted</th>
+                      <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">File Access</th>
+                      <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider text-right">Review Action</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-border-subtle">
-                    {coursePerformance.map((course, i) => (
-                      <tr key={i} className="hover:bg-surface-hover/30 transition-colors">
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 rounded-md bg-surface-elevated flex items-center justify-center border border-border-subtle">
-                              <PlayCircle className="w-4 h-4 text-aero-blue" />
+                    {data?.notesToCheck?.length > 0 ? (
+                      data.notesToCheck.map((note: any) => (
+                        <tr key={note.id} className="hover:bg-surface-hover/30 transition-colors">
+                          <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-foreground">
+                            {note.title}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
+                            {note.studentName}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
+                            {note.studentEmail}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
+                            {new Date(note.createdAt).toLocaleDateString()}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm">
+                            <a
+                              href={note.filePath}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-aero-blue hover:underline inline-flex items-center gap-1.5"
+                            >
+                              Open Note File
+                            </a>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-right">
+                            <div className="flex items-center justify-end gap-2">
+                              <button
+                                onClick={() => handleCheckNote(note.id, "APPROVED")}
+                                className="bg-green-500/10 hover:bg-green-500/20 text-green-400 px-3 py-1 rounded-lg text-xs font-semibold border border-green-500/10 transition-colors inline-flex items-center gap-1"
+                              >
+                                <Check className="w-3.5 h-3.5" /> Approve
+                              </button>
+                              <button
+                                onClick={() => handleCheckNote(note.id, "REJECTED")}
+                                className="bg-red-500/10 hover:bg-red-500/20 text-red-400 px-3 py-1 rounded-lg text-xs font-semibold border border-red-500/10 transition-colors inline-flex items-center gap-1"
+                              >
+                                <X className="w-3.5 h-3.5" /> Reject
+                              </button>
                             </div>
-                            <span className="text-sm font-medium text-foreground">{course.title}</span>
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm text-text-secondary">
-                          {course.students.toLocaleString()}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="flex items-center justify-end gap-2">
-                            <span className="text-sm text-text-secondary">{course.completion}%</span>
-                            <div className="w-16 h-1.5 bg-surface-elevated rounded-full overflow-hidden">
-                              <div className="h-full bg-aero-blue rounded-full" style={{ width: `${course.completion}%` }} />
-                            </div>
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-right">
-                          <div className="flex items-center justify-end gap-1">
-                            <Star className="w-3.5 h-3.5 text-yellow-500 fill-yellow-500" />
-                            <span className="text-sm text-foreground font-medium">{course.rating}</span>
-                          </div>
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan={6} className="px-6 py-8 text-center text-sm text-text-secondary">
+                          No notes currently in the pending checking queue.
                         </td>
                       </tr>
-                    ))}
+                    )}
                   </tbody>
                 </table>
               </div>
             </GlassCard>
           </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
 
-          {/* Quick Actions */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-          >
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold text-foreground">Quick Actions</h2>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <Link href="/dashboard/teacher/upload" className="block h-full">
-                <GlassCard className="p-5 flex flex-col items-center justify-center text-center gap-3 cursor-pointer hover:border-aero-blue/30 transition-colors group h-full">
-                  <div className="w-12 h-12 rounded-full bg-aero-blue/10 text-aero-blue flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <Upload className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <h3 className="text-sm font-medium text-foreground mb-1">Upload Video</h3>
-                    <p className="text-xs text-text-muted">Add new lectures</p>
-                  </div>
-                </GlassCard>
-              </Link>
-              <Link href="/dashboard/teacher" className="block h-full">
-                <GlassCard className="p-5 flex flex-col items-center justify-center text-center gap-3 cursor-pointer hover:border-aero-blue/30 transition-colors group h-full">
-                  <div className="w-12 h-12 rounded-full bg-purple-500/10 text-purple-400 flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <MessageSquare className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <h3 className="text-sm font-medium text-foreground mb-1">Q&A Forum</h3>
-                    <p className="text-xs text-text-muted">12 unread questions</p>
-                  </div>
-                </GlassCard>
-              </Link>
-              <Link href="/dashboard/teacher/analytics" className="block h-full">
-                <GlassCard className="p-5 flex flex-col items-center justify-center text-center gap-3 cursor-pointer hover:border-aero-blue/30 transition-colors group h-full">
-                  <div className="w-12 h-12 rounded-full bg-green-500/10 text-green-400 flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <Activity className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <h3 className="text-sm font-medium text-foreground mb-1">Analytics</h3>
-                    <p className="text-xs text-text-muted">View detailed reports</p>
-                  </div>
-                </GlassCard>
-              </Link>
-            </div>
-          </motion.div>
-        </div>
-
-        {/* Right Column */}
-        <div className="space-y-6">
-          {/* Recent Enrollments */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-          >
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold text-foreground">Recent Enrollments</h2>
-              <button className="text-text-muted hover:text-foreground transition-colors">
-                <MoreVertical className="w-4 h-4" />
-              </button>
-            </div>
-            <GlassCard className="space-y-4">
-              {recentEnrollments.map((student) => (
-                <div key={student.id} className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-surface-elevated border border-border-subtle flex items-center justify-center text-xs font-semibold text-aero-blue">
-                    {student.avatar}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-foreground truncate">{student.name}</p>
-                    <p className="text-xs text-text-secondary truncate">{student.course}</p>
-                  </div>
-                  <div className="text-xs text-text-muted whitespace-nowrap">
-                    {student.date}
-                  </div>
-                </div>
-              ))}
-              <Button variant="outline" className="w-full mt-2" size="sm" href="/dashboard/teacher/analytics">
-                View All Students
-              </Button>
-            </GlassCard>
-          </motion.div>
-
-          {/* System Status / Storage */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-          >
-             <GlassCard className="bg-surface-elevated/30">
-               <h3 className="text-sm font-medium text-foreground mb-4">Video Storage Quota</h3>
-               <div className="space-y-2">
-                 <div className="flex justify-between text-xs">
-                   <span className="text-text-secondary">Used: 42 GB</span>
-                   <span className="text-foreground font-medium">100 GB</span>
-                 </div>
-                 <div className="h-2 bg-surface-elevated rounded-full overflow-hidden">
-                   <div className="h-full bg-aero-blue rounded-full" style={{ width: '42%' }} />
-                 </div>
-                 <p className="text-[10px] text-text-muted pt-1">
-                   You have used 42% of your available storage.
-                 </p>
-               </div>
-             </GlassCard>
-          </motion.div>
+export default function TeacherDashboard() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <div className="flex flex-col items-center gap-3">
+          <div className="w-10 h-10 border-4 border-aero-blue border-t-transparent rounded-full animate-spin" />
+          <span className="text-sm font-mono text-text-secondary">Loading...</span>
         </div>
       </div>
-    </div>
+    }>
+      <TeacherDashboardContent />
+    </Suspense>
   );
 }
