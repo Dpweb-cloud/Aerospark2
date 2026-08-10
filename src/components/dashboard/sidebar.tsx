@@ -52,7 +52,7 @@ const teacherLinks = [
   { label: "Mark Attendance", href: "/dashboard/teacher?tab=attendance", icon: Users },
   { label: "Resources Table", href: "/dashboard/teacher?tab=resources", icon: BookOpen },
   { label: "Notes Checking", href: "/dashboard/teacher?tab=notes", icon: FileText },
-  { label: "Settings", href: "/dashboard/settings", icon: Settings },
+  { label: "Settings", href: "/dashboard/teacher/settings", icon: Settings },
 ];
 
 const adminLinks = [
@@ -65,6 +65,7 @@ const adminLinks = [
   { label: "Certificates", href: "/dashboard/admin?tab=certificates", icon: Award },
   { label: "Notifications", href: "/dashboard/admin?tab=notifications", icon: Bell },
   { label: "System", href: "/dashboard/admin?tab=system", icon: Database },
+  { label: "Settings", href: "/dashboard/admin/settings", icon: Settings },
 ];
 
 const linksByRole = {

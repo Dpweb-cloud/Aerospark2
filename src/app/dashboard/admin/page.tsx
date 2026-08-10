@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { GlassCard, StatCard, Badge } from "@/components/ui/cards";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { cn } from "@/lib/utils";
+import { cn, ensureAbsoluteUrl } from "@/lib/utils";
 import {
   getAdminDashboardData,
   adminAddUserAction,
@@ -39,13 +39,7 @@ import {
   X
 } from "lucide-react";
 
-const ensureAbsoluteUrl = (url: string) => {
-  if (!url) return "#";
-  if (url.startsWith("http://") || url.startsWith("https://")) {
-    return url;
-  }
-  return `https://${url}`;
-};
+
 
 function AdminDashboardContent() {
   const searchParams = useSearchParams();
@@ -55,6 +49,8 @@ function AdminDashboardContent() {
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
+  const [updatingPaymentUserId, setUpdatingPaymentUserId] = useState<number | null>(null);
+  const [updatingNoteId, setUpdatingNoteId] = useState<number | null>(null);
 
   // Modal control states
   const [activeModal, setActiveModal] = useState<"student" | "teacher" | "course" | null>(null);
@@ -135,30 +131,36 @@ function AdminDashboardContent() {
   };
 
   const handleUpdatePayment = async (userId: number, field: "feeStatus" | "salaryStatus", status: string) => {
+    setUpdatingPaymentUserId(userId);
     try {
       const res = await adminUpdatePaymentStatusAction(userId, field, status);
       if (res.success) {
         toast.success("Payment status updated successfully!");
-        fetchAdminData();
+        await fetchAdminData();
       } else {
         toast.error(res.error || "Failed to update payment status.");
       }
     } catch (err: any) {
       toast.error("Error: " + err.message);
+    } finally {
+      setUpdatingPaymentUserId(null);
     }
   };
 
-  const handleCheckNote = async (noteId: number, status: "APPROVED" | "REJECTED") => {
+  const handleCheckNote = async (noteId: number, status: "APPROVED" | "REJECTED" | "PENDING") => {
+    setUpdatingNoteId(noteId);
     try {
       const res = await checkNoteAction(noteId, status);
       if (res.success) {
         toast.success(`Note submission ${status.toLowerCase()} successfully!`);
-        fetchAdminData();
+        await fetchAdminData();
       } else {
         toast.error(res.error || "Failed to update note status.");
       }
     } catch (err: any) {
       toast.error("Error updating note status: " + err.message);
+    } finally {
+      setUpdatingNoteId(null);
     }
   };
 
@@ -328,7 +330,12 @@ function AdminDashboardContent() {
                             {user.subject || <span className="text-text-muted italic">None</span>}
                           </td>
                           <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm text-text-secondary">
-                            {user.role === "STUDENT" ? (
+                            {updatingPaymentUserId === user.id ? (
+                              <div className="flex items-center gap-1.5 text-xs text-text-muted">
+                                <div className="w-3.5 h-3.5 border-2 border-t-primary border-r-transparent border-b-transparent border-l-transparent rounded-full animate-spin" />
+                                <span>Updating...</span>
+                              </div>
+                            ) : user.role === "STUDENT" ? (
                               <select
                                 value={user.feeStatus}
                                 onChange={(e) => handleUpdatePayment(user.id, "feeStatus", e.target.value)}
@@ -471,20 +478,27 @@ function AdminDashboardContent() {
                           <Badge variant={user.isVerified ? "green" : "default"}>{user.isVerified ? "Verified" : "Pending"}</Badge>
                         </td>
                         <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm text-text-secondary">
-                          <select
-                            value={user.feeStatus}
-                            onChange={(e) => handleUpdatePayment(user.id, "feeStatus", e.target.value)}
-                            className={cn(
-                              "border text-xs rounded-lg px-2 py-1 outline-none font-medium bg-background",
-                              user.feeStatus === "PAID" && "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
-                              user.feeStatus === "PENDING" && "bg-primary/10 text-primary border-primary/20",
-                              user.feeStatus === "UNPAID" && "bg-rose-500/10 text-rose-400 border-rose-500/20"
-                            )}
-                          >
-                            <option value="UNPAID" className="bg-background text-foreground">Unpaid</option>
-                            <option value="PENDING" className="bg-background text-foreground">Pending</option>
-                            <option value="PAID" className="bg-background text-foreground">Paid</option>
-                          </select>
+                          {updatingPaymentUserId === user.id ? (
+                            <div className="flex items-center gap-1.5 text-xs text-text-muted">
+                              <div className="w-3.5 h-3.5 border-2 border-t-primary border-r-transparent border-b-transparent border-l-transparent rounded-full animate-spin" />
+                              <span>Updating...</span>
+                            </div>
+                          ) : (
+                            <select
+                              value={user.feeStatus}
+                              onChange={(e) => handleUpdatePayment(user.id, "feeStatus", e.target.value)}
+                              className={cn(
+                                "border text-xs rounded-lg px-2 py-1 outline-none font-medium bg-background",
+                                user.feeStatus === "PAID" && "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+                                user.feeStatus === "PENDING" && "bg-primary/10 text-primary border-primary/20",
+                                user.feeStatus === "UNPAID" && "bg-rose-500/10 text-rose-400 border-rose-500/20"
+                              )}
+                            >
+                              <option value="UNPAID" className="bg-background text-foreground">Unpaid</option>
+                              <option value="PENDING" className="bg-background text-foreground">Pending</option>
+                              <option value="PAID" className="bg-background text-foreground">Paid</option>
+                            </select>
+                          )}
                         </td>
                         <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm text-right">
                           <button
@@ -542,18 +556,25 @@ function AdminDashboardContent() {
                           <Badge variant={user.isVerified ? "green" : "default"}>{user.isVerified ? "Verified" : "Pending"}</Badge>
                         </td>
                         <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm text-text-secondary">
-                          <select
-                            value={user.salaryStatus}
-                            onChange={(e) => handleUpdatePayment(user.id, "salaryStatus", e.target.value)}
-                            className={cn(
-                              "border text-xs rounded-lg px-2 py-1 outline-none font-medium bg-background",
-                              user.salaryStatus === "PAID" && "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
-                              user.salaryStatus === "UNPAID" && "bg-rose-500/10 text-rose-400 border-rose-500/20"
-                            )}
-                          >
-                            <option value="UNPAID" className="bg-background text-foreground">Unpaid</option>
-                            <option value="PAID" className="bg-background text-foreground">Paid</option>
-                          </select>
+                          {updatingPaymentUserId === user.id ? (
+                            <div className="flex items-center gap-1.5 text-xs text-text-muted">
+                              <div className="w-3.5 h-3.5 border-2 border-t-primary border-r-transparent border-b-transparent border-l-transparent rounded-full animate-spin" />
+                              <span>Updating...</span>
+                            </div>
+                          ) : (
+                            <select
+                              value={user.salaryStatus}
+                              onChange={(e) => handleUpdatePayment(user.id, "salaryStatus", e.target.value)}
+                              className={cn(
+                                "border text-xs rounded-lg px-2 py-1 outline-none font-medium bg-background",
+                                user.salaryStatus === "PAID" && "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+                                user.salaryStatus === "UNPAID" && "bg-rose-500/10 text-rose-400 border-rose-500/20"
+                              )}
+                            >
+                              <option value="UNPAID" className="bg-background text-foreground">Unpaid</option>
+                              <option value="PAID" className="bg-background text-foreground">Paid</option>
+                            </select>
+                          )}
                         </td>
                         <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm text-right">
                           <button
@@ -797,26 +818,34 @@ function AdminDashboardContent() {
                                 href={ensureAbsoluteUrl(note.filePath)}
                                 target="_blank"
                                 rel="noopener noreferrer"
+                                onClick={(e) => e.stopPropagation()}
                                 className="text-aero-blue hover:underline inline-flex items-center gap-1.5 font-medium"
                               >
                                 Open Note File
                               </a>
                             </td>
                             <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-right">
-                              <select
-                                value={note.status}
-                                onChange={(e) => handleCheckNote(note.id, e.target.value as "APPROVED" | "REJECTED")}
-                                className={cn(
-                                  "border text-xs rounded-lg px-2 py-1 outline-none font-medium bg-background",
-                                  note.status === "APPROVED" && "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
-                                  note.status === "PENDING" && "bg-primary/10 text-primary border-primary/20",
-                                  note.status === "REJECTED" && "bg-rose-500/10 text-rose-400 border-rose-500/20"
-                                )}
-                              >
-                                <option value="PENDING" className="bg-background text-foreground">Pending</option>
-                                <option value="APPROVED" className="bg-background text-foreground">Approved</option>
-                                <option value="REJECTED" className="bg-background text-foreground">Rejected</option>
-                              </select>
+                              {updatingNoteId === note.id ? (
+                                <div className="flex items-center justify-end gap-1.5 text-xs text-text-muted">
+                                  <div className="w-3.5 h-3.5 border-2 border-t-primary border-r-transparent border-b-transparent border-l-transparent rounded-full animate-spin" />
+                                  <span>Updating...</span>
+                                </div>
+                              ) : (
+                                <select
+                                  value={note.status}
+                                  onChange={(e) => handleCheckNote(note.id, e.target.value as "APPROVED" | "REJECTED" | "PENDING")}
+                                  className={cn(
+                                    "border text-xs rounded-lg px-2 py-1 outline-none font-medium bg-background",
+                                    note.status === "APPROVED" && "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+                                    note.status === "PENDING" && "bg-primary/10 text-primary border-primary/20",
+                                    note.status === "REJECTED" && "bg-rose-500/10 text-rose-400 border-rose-500/20"
+                                  )}
+                                >
+                                  <option value="PENDING" className="bg-background text-foreground">Pending</option>
+                                  <option value="APPROVED" className="bg-background text-foreground">Approved</option>
+                                  <option value="REJECTED" className="bg-background text-foreground">Rejected</option>
+                                </select>
+                              )}
                             </td>
                           </tr>
                         ))
@@ -868,6 +897,7 @@ function AdminDashboardContent() {
                                 href={ensureAbsoluteUrl(res.url)}
                                 target="_blank"
                                 rel="noopener noreferrer"
+                                onClick={(e) => e.stopPropagation()}
                                 className="text-aero-blue hover:underline inline-flex items-center gap-1 font-medium"
                               >
                                 Open URL

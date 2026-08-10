@@ -235,9 +235,8 @@ export async function getTeacherDashboardData() {
       orderBy: { date: "asc" }
     });
 
-    // Fetch pending notes across the platform for reviewing
+    // Fetch all notes across the platform for reviewing
     const notesToCheck = await prisma.note.findMany({
-      where: { status: "PENDING" },
       include: { uploadedBy: { select: { name: true, email: true } } },
       orderBy: { createdAt: "desc" }
     });
@@ -259,7 +258,7 @@ export async function getTeacherDashboardData() {
           totalStudents: studentIds.size,
           classesCount: classes.length,
           resourcesCount: resources.length,
-          pendingNotesToCheckCount: notesToCheck.length,
+          pendingNotesToCheckCount: notesToCheck.filter(n => n.status === "PENDING").length,
           salaryStatus: teacherUser?.salaryStatus || "UNPAID"
         },
         classes: classes.map(c => ({
@@ -284,6 +283,7 @@ export async function getTeacherDashboardData() {
           filePath: n.filePath,
           studentName: n.uploadedBy.name || "Student",
           studentEmail: n.uploadedBy.email,
+          status: n.status,
           createdAt: n.createdAt
         })),
         resources: resources.map(r => ({

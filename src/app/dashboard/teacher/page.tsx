@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { GlassCard, StatCard, Badge } from "@/components/ui/cards";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { cn } from "@/lib/utils";
+import { cn, ensureAbsoluteUrl } from "@/lib/utils";
 import {
   getTeacherDashboardData,
   scheduleClassAction,
@@ -29,13 +29,7 @@ import {
   GraduationCap
 } from "lucide-react";
 
-const ensureAbsoluteUrl = (url: string) => {
-  if (!url) return "#";
-  if (url.startsWith("http://") || url.startsWith("https://")) {
-    return url;
-  }
-  return `https://${url}`;
-};
+
 
 function TeacherDashboardContent() {
   const searchParams = useSearchParams();
@@ -46,6 +40,9 @@ function TeacherDashboardContent() {
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [noteStatusFilter, setNoteStatusFilter] = useState<"ALL" | "PENDING" | "APPROVED" | "REJECTED">("PENDING");
+  const [updatingNoteId, setUpdatingNoteId] = useState<number | null>(null);
+  const [markingStudentId, setMarkingStudentId] = useState<number | null>(null);
+  const [attendanceFilter, setAttendanceFilter] = useState<"ALL" | "PRESENT" | "ABSENT" | "UNMARKED">("ALL");
 
   // New Class Form State
   const [classTitle, setClassTitle] = useState("");
@@ -144,30 +141,36 @@ function TeacherDashboardContent() {
   };
 
   const handleCheckNote = async (noteId: number, status: "APPROVED" | "REJECTED" | "PENDING") => {
+    setUpdatingNoteId(noteId);
     try {
       const res = await checkNoteAction(noteId, status);
       if (res.success) {
         toast.success(`Note submission ${status.toLowerCase()} successfully!`);
-        fetchDashboardData();
+        await fetchDashboardData();
       } else {
         toast.error(res.error || "Review operation failed");
       }
     } catch (err: any) {
       toast.error("Error checking note: " + err.message);
+    } finally {
+      setUpdatingNoteId(null);
     }
   };
 
   const handleMarkAttendance = async (studentId: number, classId: number, status: "PRESENT" | "ABSENT") => {
+    setMarkingStudentId(studentId);
     try {
       const res = await markAttendanceAction(studentId, classId, status);
       if (res.success) {
         toast.success(`Marked attendance successfully!`);
-        fetchDashboardData();
+        await fetchDashboardData();
       } else {
         toast.error(res.error || "Attendance submission failed");
       }
     } catch (err: any) {
       toast.error("Error marking attendance: " + err.message);
+    } finally {
+      setMarkingStudentId(null);
     }
   };
 
@@ -190,6 +193,19 @@ function TeacherDashboardContent() {
   };
 
   const selectedClass = data?.classes?.find((c: any) => c.id === selectedClassId);
+
+  const presentCount = selectedClass?.students?.filter((s: any) => s.attendanceStatus === "PRESENT").length || 0;
+  const absentCount = selectedClass?.students?.filter((s: any) => s.attendanceStatus === "ABSENT").length || 0;
+  const unmarkedCount = selectedClass?.students?.filter((s: any) => s.attendanceStatus === "UNMARKED" || !s.attendanceStatus).length || 0;
+  const allStudentsCount = selectedClass?.students?.length || 0;
+
+  const filteredStudents = selectedClass?.students?.filter((s: any) => {
+    if (attendanceFilter === "ALL") return true;
+    if (attendanceFilter === "UNMARKED") {
+      return s.attendanceStatus === "UNMARKED" || !s.attendanceStatus;
+    }
+    return s.attendanceStatus === attendanceFilter;
+  }) || [];
 
   return (
     <div className="space-y-8 pb-10">
@@ -319,24 +335,39 @@ function TeacherDashboardContent() {
                     <div key={note.id} className="border-b border-border-subtle pb-3 last:border-0 last:pb-0 text-xs">
                       <div className="flex justify-between items-start gap-2 mb-1">
                         <span className="font-semibold text-foreground truncate max-w-[130px]">{note.title}</span>
-                        <a href={ensureAbsoluteUrl(note.filePath)} target="_blank" rel="noopener noreferrer" className="text-[10px] text-aero-blue hover:underline inline-flex items-center gap-1">
+                        <a 
+                          href={ensureAbsoluteUrl(note.filePath)} 
+                          target="_blank" 
+                          rel="noopener noreferrer" 
+                          onClick={(e) => e.stopPropagation()}
+                          className="text-[10px] text-aero-blue hover:underline inline-flex items-center gap-1"
+                        >
                           View <ExternalLink className="w-2.5 h-2.5" />
                         </a>
                       </div>
                       <p className="text-[10px] text-text-muted mb-2">By: {note.studentName}</p>
                       <div className="flex gap-2 justify-end">
-                        <button
-                          onClick={() => handleCheckNote(note.id, "APPROVED")}
-                          className="bg-green-500/10 hover:bg-green-500/20 text-green-400 px-2 py-1 rounded text-[10px] font-semibold transition-colors flex items-center gap-0.5"
-                        >
-                          <Check className="w-2.5 h-2.5" /> Approve
-                        </button>
-                        <button
-                          onClick={() => handleCheckNote(note.id, "REJECTED")}
-                          className="bg-red-500/10 hover:bg-red-500/20 text-red-400 px-2 py-1 rounded text-[10px] font-semibold transition-colors flex items-center gap-0.5"
-                        >
-                          <X className="w-2.5 h-2.5" /> Reject
-                        </button>
+                        {updatingNoteId === note.id ? (
+                          <div className="flex items-center gap-1 text-[10px] text-text-muted">
+                            <div className="w-3 h-3 border-2 border-t-primary border-r-transparent border-b-transparent border-l-transparent rounded-full animate-spin" />
+                            <span>Updating...</span>
+                          </div>
+                        ) : (
+                          <>
+                            <button
+                              onClick={() => handleCheckNote(note.id, "APPROVED")}
+                              className="bg-green-500/10 hover:bg-green-500/20 text-green-400 px-2 py-1 rounded text-[10px] font-semibold transition-colors flex items-center gap-0.5"
+                            >
+                              <Check className="w-2.5 h-2.5" /> Approve
+                            </button>
+                            <button
+                              onClick={() => handleCheckNote(note.id, "REJECTED")}
+                              className="bg-red-500/10 hover:bg-red-500/20 text-red-400 px-2 py-1 rounded text-[10px] font-semibold transition-colors flex items-center gap-0.5"
+                            >
+                              <X className="w-2.5 h-2.5" /> Reject
+                            </button>
+                          </>
+                        )}
                       </div>
                     </div>
                   ))}
@@ -495,6 +526,63 @@ function TeacherDashboardContent() {
               )}
             </div>
 
+            {selectedClass && (
+              <div className="flex flex-wrap gap-2 border-b border-border-subtle pb-2">
+                <button
+                  type="button"
+                  onClick={() => setAttendanceFilter("ALL")}
+                  className={cn(
+                    "px-3 py-1.5 text-xs font-semibold rounded-lg transition-all flex items-center gap-1.5",
+                    attendanceFilter === "ALL"
+                      ? "bg-aero-blue/10 text-aero-blue border border-aero-blue/20"
+                      : "text-text-secondary hover:text-foreground hover:bg-surface-hover border border-transparent"
+                  )}
+                >
+                  <span>All</span>
+                  <Badge variant="default">{allStudentsCount}</Badge>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setAttendanceFilter("PRESENT")}
+                  className={cn(
+                    "px-3 py-1.5 text-xs font-semibold rounded-lg transition-all flex items-center gap-1.5",
+                    attendanceFilter === "PRESENT"
+                      ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
+                      : "text-text-secondary hover:text-foreground hover:bg-surface-hover border border-transparent"
+                  )}
+                >
+                  <span>Present</span>
+                  <Badge variant="green">{presentCount}</Badge>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setAttendanceFilter("ABSENT")}
+                  className={cn(
+                    "px-3 py-1.5 text-xs font-semibold rounded-lg transition-all flex items-center gap-1.5",
+                    attendanceFilter === "ABSENT"
+                      ? "bg-rose-500/10 text-rose-400 border border-rose-500/20"
+                      : "text-text-secondary hover:text-foreground hover:bg-surface-hover border border-transparent"
+                  )}
+                >
+                  <span>Absent</span>
+                  <Badge variant="red">{absentCount}</Badge>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setAttendanceFilter("UNMARKED")}
+                  className={cn(
+                    "px-3 py-1.5 text-xs font-semibold rounded-lg transition-all flex items-center gap-1.5",
+                    attendanceFilter === "UNMARKED"
+                      ? "bg-primary/10 text-primary border border-primary/20"
+                      : "text-text-secondary hover:text-foreground hover:bg-surface-hover border border-transparent"
+                  )}
+                >
+                  <span>Unmarked</span>
+                  <Badge variant="blue">{unmarkedCount}</Badge>
+                </button>
+              </div>
+            )}
+
             {selectedClass ? (
               <GlassCard className="p-0 overflow-hidden">
                 <div className="overflow-x-auto">
@@ -507,8 +595,8 @@ function TeacherDashboardContent() {
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-border-subtle">
-                      {selectedClass.students?.length > 0 ? (
-                        selectedClass.students.map((student: any) => (
+                      {filteredStudents.length > 0 ? (
+                        filteredStudents.map((student: any) => (
                           <tr key={student.id} className="hover:bg-surface-hover/30 transition-colors">
                             <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm font-semibold text-foreground">
                               {student.name}
@@ -518,28 +606,37 @@ function TeacherDashboardContent() {
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-right">
                               <div className="flex items-center justify-end gap-2">
-                                <button
-                                  type="button"
-                                  onClick={() => handleMarkAttendance(student.id, selectedClass.id, "PRESENT")}
-                                  className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all inline-flex items-center gap-1 border ${
-                                    student.attendanceStatus === "PRESENT"
-                                      ? "bg-green-500 text-white border-green-500 shadow-sm shadow-green-500/20"
-                                      : "bg-green-500/10 hover:bg-green-500/20 text-green-400 border-green-500/10 hover:border-green-500/30"
-                                  }`}
-                                >
-                                  <Check className="w-3.5 h-3.5" /> Present
-                                </button>
-                                <button
-                                  type="button"
-                                  onClick={() => handleMarkAttendance(student.id, selectedClass.id, "ABSENT")}
-                                  className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all inline-flex items-center gap-1 border ${
-                                    student.attendanceStatus === "ABSENT"
-                                      ? "bg-red-500 text-white border-red-500 shadow-sm shadow-red-500/20"
-                                      : "bg-red-500/10 hover:bg-red-500/20 text-red-400 border-red-500/10 hover:border-red-500/30"
-                                  }`}
-                                >
-                                  <X className="w-3.5 h-3.5" /> Absent
-                                </button>
+                                {markingStudentId === student.id ? (
+                                  <div className="flex items-center gap-1.5 text-xs text-text-muted">
+                                    <div className="w-3.5 h-3.5 border-2 border-t-primary border-r-transparent border-b-transparent border-l-transparent rounded-full animate-spin" />
+                                    <span>Saving...</span>
+                                  </div>
+                                ) : (
+                                  <>
+                                    <button
+                                      type="button"
+                                      onClick={() => handleMarkAttendance(student.id, selectedClass.id, "PRESENT")}
+                                      className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all inline-flex items-center gap-1 border ${
+                                        student.attendanceStatus === "PRESENT"
+                                          ? "bg-green-500 text-white border-green-500 shadow-sm shadow-green-500/20"
+                                          : "bg-green-500/10 hover:bg-green-500/20 text-green-400 border-green-500/10 hover:border-green-500/30"
+                                      }`}
+                                    >
+                                      <Check className="w-3.5 h-3.5" /> Present
+                                    </button>
+                                    <button
+                                      type="button"
+                                      onClick={() => handleMarkAttendance(student.id, selectedClass.id, "ABSENT")}
+                                      className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all inline-flex items-center gap-1 border ${
+                                        student.attendanceStatus === "ABSENT"
+                                          ? "bg-red-500 text-white border-red-500 shadow-sm shadow-red-500/20"
+                                          : "bg-red-500/10 hover:bg-red-500/20 text-red-400 border-red-500/10 hover:border-red-500/30"
+                                      }`}
+                                    >
+                                      <X className="w-3.5 h-3.5" /> Absent
+                                    </button>
+                                  </>
+                                )}
                               </div>
                             </td>
                           </tr>
@@ -547,7 +644,7 @@ function TeacherDashboardContent() {
                       ) : (
                         <tr>
                           <td colSpan={3} className="px-6 py-8 text-center text-sm text-text-secondary">
-                            No students currently registered/assigned to this class.
+                            No students matching this filter.
                           </td>
                         </tr>
                       )}
@@ -664,6 +761,7 @@ function TeacherDashboardContent() {
                                 href={ensureAbsoluteUrl(res.url)}
                                 target="_blank"
                                 rel="noopener noreferrer"
+                                onClick={(e) => e.stopPropagation()}
                                 className="text-aero-blue hover:underline inline-flex items-center gap-1"
                               >
                                 Open URL <ExternalLink className="w-3.5 h-3.5" />
@@ -796,26 +894,34 @@ function TeacherDashboardContent() {
                                 href={ensureAbsoluteUrl(note.filePath)}
                                 target="_blank"
                                 rel="noopener noreferrer"
+                                onClick={(e) => e.stopPropagation()}
                                 className="text-aero-blue hover:underline inline-flex items-center gap-1.5"
                               >
                                 Open Note File
                               </a>
                             </td>
                             <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-right">
-                              <select
-                                value={note.status}
-                                onChange={(e) => handleCheckNote(note.id, e.target.value as "APPROVED" | "REJECTED" | "PENDING")}
-                                className={cn(
-                                  "border text-xs rounded-lg px-2 py-1 outline-none font-medium bg-background",
-                                  note.status === "APPROVED" && "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
-                                  note.status === "PENDING" && "bg-primary/10 text-primary border-primary/20",
-                                  note.status === "REJECTED" && "bg-rose-500/10 text-rose-400 border-rose-500/20"
-                                )}
-                              >
-                                <option value="PENDING" className="bg-background text-foreground">Pending</option>
-                                <option value="APPROVED" className="bg-background text-foreground">Approved</option>
-                                <option value="REJECTED" className="bg-background text-foreground">Rejected</option>
-                              </select>
+                              {updatingNoteId === note.id ? (
+                                <div className="flex items-center justify-end gap-1.5 text-xs text-text-muted">
+                                  <div className="w-3.5 h-3.5 border-2 border-t-primary border-r-transparent border-b-transparent border-l-transparent rounded-full animate-spin" />
+                                  <span>Updating...</span>
+                                </div>
+                              ) : (
+                                <select
+                                  value={note.status}
+                                  onChange={(e) => handleCheckNote(note.id, e.target.value as "APPROVED" | "REJECTED" | "PENDING")}
+                                  className={cn(
+                                    "border text-xs rounded-lg px-2 py-1 outline-none font-medium bg-background",
+                                    note.status === "APPROVED" && "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+                                    note.status === "PENDING" && "bg-primary/10 text-primary border-primary/20",
+                                    note.status === "REJECTED" && "bg-rose-500/10 text-rose-400 border-rose-500/20"
+                                  )}
+                                >
+                                  <option value="PENDING" className="bg-background text-foreground">Pending</option>
+                                  <option value="APPROVED" className="bg-background text-foreground">Approved</option>
+                                  <option value="REJECTED" className="bg-background text-foreground">Rejected</option>
+                                </select>
+                              )}
                             </td>
                           </tr>
                         ))

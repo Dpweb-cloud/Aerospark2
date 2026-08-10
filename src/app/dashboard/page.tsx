@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { GlassCard, StatCard, Badge } from "@/components/ui/cards";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { ensureAbsoluteUrl } from "@/lib/utils";
 import {
   getStudentDashboardData,
   uploadNoteAction,
@@ -40,13 +41,7 @@ interface Quiz {
   questions: Question[];
 }
 
-const ensureAbsoluteUrl = (url: string) => {
-  if (!url) return "#";
-  if (url.startsWith("http://") || url.startsWith("https://")) {
-    return url;
-  }
-  return `https://${url}`;
-};
+
 
 function StudentDashboardContent() {
   const searchParams = useSearchParams();
