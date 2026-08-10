@@ -40,6 +40,14 @@ interface Quiz {
   questions: Question[];
 }
 
+const ensureAbsoluteUrl = (url: string) => {
+  if (!url) return "#";
+  if (url.startsWith("http://") || url.startsWith("https://")) {
+    return url;
+  }
+  return `https://${url}`;
+};
+
 function StudentDashboardContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -65,6 +73,10 @@ function StudentDashboardContent() {
   const fetchDashboardData = async () => {
     try {
       const res = await getStudentDashboardData();
+      if (res.redirect) {
+        router.push(res.redirect);
+        return;
+      }
       if (res.success) {
         setData(res.data);
       } else {
@@ -469,7 +481,7 @@ function StudentDashboardContent() {
                             </td>
                             <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm">
                               <a
-                                href={note.filePath}
+                                href={ensureAbsoluteUrl(note.filePath)}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="text-aero-blue hover:underline inline-flex items-center gap-1.5"

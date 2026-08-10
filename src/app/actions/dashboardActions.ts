@@ -38,7 +38,20 @@ async function getVerifiedSession(allowedRoles: ("STUDENT" | "TEACHER" | "ADMIN"
 // ==========================================
 export async function getStudentDashboardData() {
   try {
-    const session = await getVerifiedSession(["STUDENT"]);
+    const session = await getSession();
+    if (!session || !session.id) {
+      return { success: false, error: "Unauthorized", redirect: "/login" };
+    }
+    const role = session.role as "STUDENT" | "TEACHER" | "ADMIN";
+    if (role === "TEACHER") {
+      return { success: false, redirect: "/dashboard/teacher" };
+    }
+    if (role === "ADMIN") {
+      return { success: false, redirect: "/dashboard/admin" };
+    }
+    if (role !== "STUDENT") {
+      return { success: false, error: "Forbidden: You do not have permission to perform this action." };
+    }
     const studentId = session.id as number;
 
     const studentUser = await prisma.user.findUnique({
@@ -191,7 +204,20 @@ export async function submitQuizAction(quizId: number, score: number, totalQuest
 // ==========================================
 export async function getTeacherDashboardData() {
   try {
-    const session = await getVerifiedSession(["TEACHER"]);
+    const session = await getSession();
+    if (!session || !session.id) {
+      return { success: false, error: "Unauthorized", redirect: "/login" };
+    }
+    const role = session.role as "STUDENT" | "TEACHER" | "ADMIN";
+    if (role === "STUDENT") {
+      return { success: false, redirect: "/dashboard" };
+    }
+    if (role === "ADMIN") {
+      return { success: false, redirect: "/dashboard/admin" };
+    }
+    if (role !== "TEACHER") {
+      return { success: false, error: "Forbidden: You do not have permission to perform this action." };
+    }
     const teacherId = session.id as number;
 
     const teacherUser = await prisma.user.findUnique({
@@ -365,7 +391,20 @@ export async function markAttendanceAction(studentId: number, classId: number, s
 // ==========================================
 export async function getAdminDashboardData() {
   try {
-    await getVerifiedSession(["ADMIN"]);
+    const session = await getSession();
+    if (!session || !session.id) {
+      return { success: false, error: "Unauthorized", redirect: "/login" };
+    }
+    const role = session.role as "STUDENT" | "TEACHER" | "ADMIN";
+    if (role === "STUDENT") {
+      return { success: false, redirect: "/dashboard" };
+    }
+    if (role === "TEACHER") {
+      return { success: false, redirect: "/dashboard/teacher" };
+    }
+    if (role !== "ADMIN") {
+      return { success: false, error: "Forbidden: You do not have permission to perform this action." };
+    }
 
     // Fetch platform stats
     const totalUsers = await prisma.user.count();

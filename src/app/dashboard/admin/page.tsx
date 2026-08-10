@@ -12,7 +12,8 @@ import {
   adminAddUserAction,
   adminDeleteUserAction,
   adminCreateClassAction,
-  adminUpdatePaymentStatusAction
+  adminUpdatePaymentStatusAction,
+  checkNoteAction
 } from "@/app/actions/dashboardActions";
 import {
   Users,
@@ -37,6 +38,14 @@ import {
   Trash2,
   X
 } from "lucide-react";
+
+const ensureAbsoluteUrl = (url: string) => {
+  if (!url) return "#";
+  if (url.startsWith("http://") || url.startsWith("https://")) {
+    return url;
+  }
+  return `https://${url}`;
+};
 
 function AdminDashboardContent() {
   const searchParams = useSearchParams();
@@ -65,10 +74,14 @@ function AdminDashboardContent() {
   const fetchAdminData = async () => {
     try {
       const res = await getAdminDashboardData();
+      if (res.redirect) {
+        router.push(res.redirect);
+        return;
+      }
       if (res.success) {
         setData(res.data);
       } else {
-        toast.error(res.error || "Failed to load admin dashboard data.");
+        toast.error(res.error || "Failed to load admin data.");
       }
     } catch (err: any) {
       toast.error("Error: " + err.message);
@@ -132,6 +145,20 @@ function AdminDashboardContent() {
       }
     } catch (err: any) {
       toast.error("Error: " + err.message);
+    }
+  };
+
+  const handleCheckNote = async (noteId: number, status: "APPROVED" | "REJECTED") => {
+    try {
+      const res = await checkNoteAction(noteId, status);
+      if (res.success) {
+        toast.success(`Note submission ${status.toLowerCase()} successfully!`);
+        fetchAdminData();
+      } else {
+        toast.error(res.error || "Failed to update note status.");
+      }
+    } catch (err: any) {
+      toast.error("Error updating note status: " + err.message);
     }
   };
 
@@ -767,7 +794,7 @@ function AdminDashboardContent() {
                             </td>
                             <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm">
                               <a
-                                href={note.filePath}
+                                href={ensureAbsoluteUrl(note.filePath)}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="text-aero-blue hover:underline inline-flex items-center gap-1.5 font-medium"
@@ -776,9 +803,20 @@ function AdminDashboardContent() {
                               </a>
                             </td>
                             <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-right">
-                              <Badge variant={note.status === 'APPROVED' ? 'green' : note.status === 'REJECTED' ? 'red' : 'blue'}>
-                                {note.status}
-                              </Badge>
+                              <select
+                                value={note.status}
+                                onChange={(e) => handleCheckNote(note.id, e.target.value as "APPROVED" | "REJECTED")}
+                                className={cn(
+                                  "border text-xs rounded-lg px-2 py-1 outline-none font-medium bg-background",
+                                  note.status === "APPROVED" && "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+                                  note.status === "PENDING" && "bg-primary/10 text-primary border-primary/20",
+                                  note.status === "REJECTED" && "bg-rose-500/10 text-rose-400 border-rose-500/20"
+                                )}
+                              >
+                                <option value="PENDING" className="bg-background text-foreground">Pending</option>
+                                <option value="APPROVED" className="bg-background text-foreground">Approved</option>
+                                <option value="REJECTED" className="bg-background text-foreground">Rejected</option>
+                              </select>
                             </td>
                           </tr>
                         ))
@@ -827,7 +865,7 @@ function AdminDashboardContent() {
                             </td>
                             <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-right text-sm">
                               <a
-                                href={res.url}
+                                href={ensureAbsoluteUrl(res.url)}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="text-aero-blue hover:underline inline-flex items-center gap-1 font-medium"

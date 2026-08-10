@@ -28,6 +28,14 @@ import {
   GraduationCap
 } from "lucide-react";
 
+const ensureAbsoluteUrl = (url: string) => {
+  if (!url) return "#";
+  if (url.startsWith("http://") || url.startsWith("https://")) {
+    return url;
+  }
+  return `https://${url}`;
+};
+
 function TeacherDashboardContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -36,6 +44,7 @@ function TeacherDashboardContent() {
   // Data State
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [noteStatusFilter, setNoteStatusFilter] = useState<"ALL" | "PENDING" | "APPROVED" | "REJECTED">("PENDING");
 
   // New Class Form State
   const [classTitle, setClassTitle] = useState("");
@@ -56,6 +65,10 @@ function TeacherDashboardContent() {
   const fetchDashboardData = async () => {
     try {
       const res = await getTeacherDashboardData();
+      if (res.redirect) {
+        router.push(res.redirect);
+        return;
+      }
       if (res.success && res.data) {
         setData(res.data);
         // Default select first class if any
@@ -129,7 +142,7 @@ function TeacherDashboardContent() {
     }
   };
 
-  const handleCheckNote = async (noteId: number, status: "APPROVED" | "REJECTED") => {
+  const handleCheckNote = async (noteId: number, status: "APPROVED" | "REJECTED" | "PENDING") => {
     try {
       const res = await checkNoteAction(noteId, status);
       if (res.success) {
@@ -305,7 +318,7 @@ function TeacherDashboardContent() {
                     <div key={note.id} className="border-b border-border-subtle pb-3 last:border-0 last:pb-0 text-xs">
                       <div className="flex justify-between items-start gap-2 mb-1">
                         <span className="font-semibold text-foreground truncate max-w-[130px]">{note.title}</span>
-                        <a href={note.filePath} target="_blank" rel="noopener noreferrer" className="text-[10px] text-aero-blue hover:underline inline-flex items-center gap-1">
+                        <a href={ensureAbsoluteUrl(note.filePath)} target="_blank" rel="noopener noreferrer" className="text-[10px] text-aero-blue hover:underline inline-flex items-center gap-1">
                           View <ExternalLink className="w-2.5 h-2.5" />
                         </a>
                       </div>
@@ -647,7 +660,7 @@ function TeacherDashboardContent() {
                             </td>
                             <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-right text-sm">
                               <a
-                                href={res.url}
+                                href={ensureAbsoluteUrl(res.url)}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="text-aero-blue hover:underline inline-flex items-center gap-1"
@@ -673,85 +686,152 @@ function TeacherDashboardContent() {
         )}
 
         {/* Tab: Notes Review */}
-        {activeTab === "notes" && (
-          <motion.div
-            key="notes"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="space-y-4"
-          >
-            <h2 className="text-lg font-semibold text-foreground">Student Notes Verification Queue</h2>
-            <GlassCard className="p-0 overflow-hidden">
-              <div className="overflow-x-auto">
-                <table className="w-full text-left border-collapse">
-                  <thead>
-                    <tr className="border-b border-border-subtle bg-surface-elevated/50">
-                      <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Note Title</th>
-                      <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Student Name</th>
-                      <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Email</th>
-                      <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Date Submitted</th>
-                      <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">File Access</th>
-                      <th className="px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider text-right">Review Action</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-border-subtle">
-                    {data?.notesToCheck?.length > 0 ? (
-                      data.notesToCheck.map((note: any) => (
-                        <tr key={note.id} className="hover:bg-surface-hover/30 transition-colors">
-                          <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-foreground">
-                            {note.title}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
-                            {note.studentName}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
-                            {note.studentEmail}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
-                            {new Date(note.createdAt).toLocaleDateString()}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm">
-                            <a
-                              href={note.filePath}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-aero-blue hover:underline inline-flex items-center gap-1.5"
-                            >
-                              Open Note File
-                            </a>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-right">
-                            <div className="flex items-center justify-end gap-2">
-                              <button
-                                onClick={() => handleCheckNote(note.id, "APPROVED")}
-                                className="bg-green-500/10 hover:bg-green-500/20 text-green-400 px-3 py-1 rounded-lg text-xs font-semibold border border-green-500/10 transition-colors inline-flex items-center gap-1"
+        {activeTab === "notes" && (() => {
+          const pendingCount = data?.notesToCheck?.filter((n: any) => n.status === "PENDING").length || 0;
+          const approvedCount = data?.notesToCheck?.filter((n: any) => n.status === "APPROVED").length || 0;
+          const rejectedCount = data?.notesToCheck?.filter((n: any) => n.status === "REJECTED").length || 0;
+          const allCount = data?.notesToCheck?.length || 0;
+
+          const filteredNotes = data?.notesToCheck?.filter((n: any) => {
+            if (noteStatusFilter === "ALL") return true;
+            return n.status === noteStatusFilter;
+          }) || [];
+
+          return (
+            <motion.div
+              key="notes"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="space-y-4"
+            >
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <h2 className="text-lg font-semibold text-foreground">Student Notes Verification Queue</h2>
+                
+                {/* Notes Status Filters / Tabs */}
+                <div className="flex flex-wrap gap-2 border-b border-border-subtle sm:border-b-0 pb-2 sm:pb-0">
+                  <button
+                    onClick={() => setNoteStatusFilter("PENDING")}
+                    className={cn(
+                      "px-3 py-1.5 text-xs font-semibold rounded-lg transition-all flex items-center gap-1.5",
+                      noteStatusFilter === "PENDING"
+                        ? "bg-aero-blue/10 text-aero-blue border border-aero-blue/20"
+                        : "text-text-secondary hover:text-foreground hover:bg-surface-hover border border-transparent"
+                    )}
+                  >
+                    <span>Pending</span>
+                    <Badge variant="blue">{pendingCount}</Badge>
+                  </button>
+                  <button
+                    onClick={() => setNoteStatusFilter("APPROVED")}
+                    className={cn(
+                      "px-3 py-1.5 text-xs font-semibold rounded-lg transition-all flex items-center gap-1.5",
+                      noteStatusFilter === "APPROVED"
+                        ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
+                        : "text-text-secondary hover:text-foreground hover:bg-surface-hover border border-transparent"
+                    )}
+                  >
+                    <span>Approved</span>
+                    <Badge variant="green">{approvedCount}</Badge>
+                  </button>
+                  <button
+                    onClick={() => setNoteStatusFilter("REJECTED")}
+                    className={cn(
+                      "px-3 py-1.5 text-xs font-semibold rounded-lg transition-all flex items-center gap-1.5",
+                      noteStatusFilter === "REJECTED"
+                        ? "bg-rose-500/10 text-rose-400 border border-rose-500/20"
+                        : "text-text-secondary hover:text-foreground hover:bg-surface-hover border border-transparent"
+                    )}
+                  >
+                    <span>Rejected</span>
+                    <Badge variant="red">{rejectedCount}</Badge>
+                  </button>
+                  <button
+                    onClick={() => setNoteStatusFilter("ALL")}
+                    className={cn(
+                      "px-3 py-1.5 text-xs font-semibold rounded-lg transition-all flex items-center gap-1.5",
+                      noteStatusFilter === "ALL"
+                        ? "bg-foreground/10 text-foreground border border-foreground/20"
+                        : "text-text-secondary hover:text-foreground hover:bg-surface-hover border border-transparent"
+                    )}
+                  >
+                    <span>All</span>
+                    <Badge variant="default">{allCount}</Badge>
+                  </button>
+                </div>
+              </div>
+
+              <GlassCard className="p-0 overflow-hidden">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left border-collapse">
+                    <thead>
+                      <tr className="border-b border-border-subtle bg-surface-elevated/50">
+                        <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Note Title</th>
+                        <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Student Name</th>
+                        <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Email</th>
+                        <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">Date Submitted</th>
+                        <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider">File Access</th>
+                        <th className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-text-muted uppercase tracking-wider text-right">Review Action</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-border-subtle">
+                      {filteredNotes.length > 0 ? (
+                        filteredNotes.map((note: any) => (
+                          <tr key={note.id} className="hover:bg-surface-hover/30 transition-colors">
+                            <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm font-semibold text-foreground">
+                              {note.title}
+                            </td>
+                            <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm text-text-secondary">
+                              {note.studentName}
+                            </td>
+                            <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm text-text-secondary">
+                              {note.studentEmail}
+                            </td>
+                            <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm text-text-secondary">
+                              {new Date(note.createdAt).toLocaleDateString()}
+                            </td>
+                            <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm">
+                              <a
+                                href={ensureAbsoluteUrl(note.filePath)}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-aero-blue hover:underline inline-flex items-center gap-1.5"
                               >
-                                <Check className="w-3.5 h-3.5" /> Approve
-                              </button>
-                              <button
-                                onClick={() => handleCheckNote(note.id, "REJECTED")}
-                                className="bg-red-500/10 hover:bg-red-500/20 text-red-400 px-3 py-1 rounded-lg text-xs font-semibold border border-red-500/10 transition-colors inline-flex items-center gap-1"
+                                Open Note File
+                              </a>
+                            </td>
+                            <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-right">
+                              <select
+                                value={note.status}
+                                onChange={(e) => handleCheckNote(note.id, e.target.value as "APPROVED" | "REJECTED" | "PENDING")}
+                                className={cn(
+                                  "border text-xs rounded-lg px-2 py-1 outline-none font-medium bg-background",
+                                  note.status === "APPROVED" && "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+                                  note.status === "PENDING" && "bg-primary/10 text-primary border-primary/20",
+                                  note.status === "REJECTED" && "bg-rose-500/10 text-rose-400 border-rose-500/20"
+                                )}
                               >
-                                <X className="w-3.5 h-3.5" /> Reject
-                              </button>
-                            </div>
+                                <option value="PENDING" className="bg-background text-foreground">Pending</option>
+                                <option value="APPROVED" className="bg-background text-foreground">Approved</option>
+                                <option value="REJECTED" className="bg-background text-foreground">Rejected</option>
+                              </select>
+                            </td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan={6} className="px-6 py-8 text-center text-sm text-text-secondary">
+                            No notes found matching the selected status.
                           </td>
                         </tr>
-                      ))
-                    ) : (
-                      <tr>
-                        <td colSpan={6} className="px-6 py-8 text-center text-sm text-text-secondary">
-                          No notes currently in the pending checking queue.
-                        </td>
-                      </tr>
-                    )}
-                  </tbody>
-                </table>
-              </div>
-            </GlassCard>
-          </motion.div>
-        )}
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </GlassCard>
+            </motion.div>
+          );
+        })()}
       </AnimatePresence>
     </div>
   );
