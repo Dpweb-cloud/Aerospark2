@@ -1,4 +1,5 @@
 import dotenv from "dotenv";
+dotenv.config({ path: ".env.example" });
 dotenv.config({ path: ".env.local" });
 
 import { PrismaClient } from "../generated/prisma/client";

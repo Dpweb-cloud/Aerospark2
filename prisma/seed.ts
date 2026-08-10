@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import dotenv from "dotenv";
 
 // Load .env file configurations
+dotenv.config({ path: ".env.example" });
 dotenv.config({ path: ".env.local" });
 
 async function main() {
