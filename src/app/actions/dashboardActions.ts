@@ -355,7 +355,7 @@ export async function uploadResourceAction(title: string, type: string, url: str
   }
 }
 
-export async function markAttendanceAction(studentId: number, classId: number, status: "PRESENT" | "ABSENT") {
+export async function markAttendanceAction(studentId: number, classId: number, status: "PRESENT" | "ABSENT" | "UNMARKED") {
   try {
     await getVerifiedSession(["TEACHER"]);
 
@@ -365,6 +365,15 @@ export async function markAttendanceAction(studentId: number, classId: number, s
     });
 
     let attendance;
+    if (status === "UNMARKED") {
+      if (existing) {
+        await prisma.attendance.delete({
+          where: { id: existing.id }
+        });
+      }
+      return { success: true, data: null };
+    }
+
     if (existing) {
       attendance = await prisma.attendance.update({
         where: { id: existing.id },
@@ -441,6 +450,11 @@ export async function getAdminDashboardData() {
       orderBy: { date: "desc" }
     });
 
+    const resources = await prisma.resource.findMany({
+      include: { teacher: { select: { name: true } } },
+      orderBy: { createdAt: "desc" }
+    });
+
     return {
       success: true,
       data: {
@@ -466,6 +480,7 @@ export async function getAdminDashboardData() {
         notes: recentNotes.map(n => ({
           id: n.id,
           title: n.title,
+          filePath: n.filePath,
           studentName: n.uploadedBy.name || "Student",
           status: n.status,
           createdAt: n.createdAt
@@ -476,6 +491,14 @@ export async function getAdminDashboardData() {
           date: c.date,
           duration: c.duration,
           teacherName: c.teacher?.name || "Instructor"
+        })),
+        resourcesList: resources.map(r => ({
+          id: r.id,
+          title: r.title,
+          type: r.type,
+          url: r.url,
+          teacherName: r.teacher?.name || "Instructor",
+          createdAt: r.createdAt
         }))
       }
     };
@@ -759,6 +782,58 @@ export async function adminUpdatePaymentStatusAction(
     if (error.message.includes("Can't reach database") || error.message.includes("DATABASE_URL") || error.message.includes("PrismaClient")) {
       return { success: true, mock: true };
     }
+    return { success: false, error: sanitizeError(error) };
+  }
+}
+
+export async function deleteResourceAction(resourceId: number) {
+  try {
+    const session = await getVerifiedSession(["TEACHER", "ADMIN"]);
+    
+    const resource = await prisma.resource.findUnique({
+      where: { id: resourceId }
+    });
+
+    if (!resource) {
+      return { success: false, error: "Resource not found" };
+    }
+
+    if (session.role === "TEACHER" && resource.teacherId !== session.id) {
+      return { success: false, error: "You can only delete your own resources." };
+    }
+
+    await prisma.resource.delete({
+      where: { id: resourceId }
+    });
+
+    return { success: true };
+  } catch (error: any) {
+    return { success: false, error: sanitizeError(error) };
+  }
+}
+
+export async function deleteClassAction(classId: number) {
+  try {
+    const session = await getVerifiedSession(["TEACHER", "ADMIN"]);
+
+    const cls = await prisma.class.findUnique({
+      where: { id: classId }
+    });
+
+    if (!cls) {
+      return { success: false, error: "Class not found" };
+    }
+
+    if (session.role === "TEACHER" && cls.teacherId !== session.id) {
+      return { success: false, error: "You can only delete classes you schedule." };
+    }
+
+    await prisma.class.delete({
+      where: { id: classId }
+    });
+
+    return { success: true };
+  } catch (error: any) {
     return { success: false, error: sanitizeError(error) };
   }
 }

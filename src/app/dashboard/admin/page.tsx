@@ -13,7 +13,9 @@ import {
   adminDeleteUserAction,
   adminCreateClassAction,
   adminUpdatePaymentStatusAction,
-  checkNoteAction
+  checkNoteAction,
+  deleteResourceAction,
+  deleteClassAction
 } from "@/app/actions/dashboardActions";
 import {
   Users,
@@ -36,7 +38,8 @@ import {
   GraduationCap,
   Plus,
   Trash2,
-  X
+  X,
+  ExternalLink
 } from "lucide-react";
 
 
@@ -51,6 +54,8 @@ function AdminDashboardContent() {
   const [searchQuery, setSearchQuery] = useState("");
   const [updatingPaymentUserId, setUpdatingPaymentUserId] = useState<number | null>(null);
   const [updatingNoteId, setUpdatingNoteId] = useState<number | null>(null);
+  const [deletingResourceId, setDeletingResourceId] = useState<number | null>(null);
+  const [deletingClassId, setDeletingClassId] = useState<number | null>(null);
 
   // Modal control states
   const [activeModal, setActiveModal] = useState<"student" | "teacher" | "course" | null>(null);
@@ -138,12 +143,48 @@ function AdminDashboardContent() {
         toast.success("Payment status updated successfully!");
         await fetchAdminData();
       } else {
-        toast.error(res.error || "Failed to update payment status.");
+        toast.error(res.error || "Failed to update payment status");
       }
     } catch (err: any) {
       toast.error("Error: " + err.message);
     } finally {
       setUpdatingPaymentUserId(null);
+    }
+  };
+
+  const handleDeleteResource = async (resourceId: number) => {
+    if (!confirm("Are you sure you want to permanently delete this learning resource?")) return;
+    setDeletingResourceId(resourceId);
+    try {
+      const res = await deleteResourceAction(resourceId);
+      if (res.success) {
+        toast.success("Resource deleted successfully!");
+        await fetchAdminData();
+      } else {
+        toast.error(res.error || "Failed to delete resource");
+      }
+    } catch (err: any) {
+      toast.error("Error: " + err.message);
+    } finally {
+      setDeletingResourceId(null);
+    }
+  };
+
+  const handleDeleteClass = async (classId: number) => {
+    if (!confirm("Are you sure you want to cancel and delete this class slot?")) return;
+    setDeletingClassId(classId);
+    try {
+      const res = await deleteClassAction(classId);
+      if (res.success) {
+        toast.success("Class slot deleted successfully!");
+        await fetchAdminData();
+      } else {
+        toast.error(res.error || "Failed to delete class");
+      }
+    } catch (err: any) {
+      toast.error("Error: " + err.message);
+    } finally {
+      setDeletingClassId(null);
     }
   };
 
@@ -625,7 +666,22 @@ function AdminDashboardContent() {
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-foreground">{cls.title}</td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">{new Date(cls.date).toLocaleString()}</td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">{cls.teacherName}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary text-right">{cls.duration}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary text-right">
+                        <div className="flex items-center justify-end gap-3">
+                          <span>{cls.duration}</span>
+                          {deletingClassId === cls.id ? (
+                            <div className="w-4 h-4 border-2 border-t-red-500 border-r-transparent border-b-transparent border-l-transparent rounded-full animate-spin" />
+                          ) : (
+                            <button
+                              onClick={() => handleDeleteClass(cls.id)}
+                              className="text-red-400 hover:text-red-500 transition-colors p-1"
+                              title="Delete Class"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          )}
+                        </div>
+                      </td>
                     </tr>
                   ))}
                   {classesList.length === 0 && (
@@ -893,15 +949,28 @@ function AdminDashboardContent() {
                               {new Date(res.createdAt).toLocaleDateString()}
                             </td>
                             <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-right text-sm">
-                              <a
-                                href={ensureAbsoluteUrl(res.url)}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                onClick={(e) => e.stopPropagation()}
-                                className="text-aero-blue hover:underline inline-flex items-center gap-1 font-medium"
-                              >
-                                Open URL
-                              </a>
+                              <div className="flex items-center justify-end gap-3">
+                                <a
+                                  href={ensureAbsoluteUrl(res.url)}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  onClick={(e) => e.stopPropagation()}
+                                  className="text-aero-blue hover:underline inline-flex items-center gap-1 font-medium"
+                                >
+                                  Open URL <ExternalLink className="w-3.5 h-3.5" />
+                                </a>
+                                {deletingResourceId === res.id ? (
+                                  <div className="w-4 h-4 border-2 border-t-red-500 border-r-transparent border-b-transparent border-l-transparent rounded-full animate-spin" />
+                                ) : (
+                                  <button
+                                    onClick={() => handleDeleteResource(res.id)}
+                                    className="text-red-400 hover:text-red-500 transition-colors p-1"
+                                    title="Delete Resource"
+                                  >
+                                    <Trash2 className="w-4 h-4" />
+                                  </button>
+                                )}
+                              </div>
                             </td>
                           </tr>
                         ))

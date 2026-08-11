@@ -12,7 +12,9 @@ import {
   scheduleClassAction,
   checkNoteAction,
   uploadResourceAction,
-  markAttendanceAction
+  markAttendanceAction,
+  deleteResourceAction,
+  deleteClassAction
 } from "@/app/actions/dashboardActions";
 import {
   Users,
@@ -26,7 +28,8 @@ import {
   X,
   ExternalLink,
   ClipboardCheck,
-  GraduationCap
+  GraduationCap,
+  Trash2
 } from "lucide-react";
 
 
@@ -56,6 +59,8 @@ function TeacherDashboardContent() {
   const [resourceType, setResourceType] = useState("PDF");
   const [resourceUrl, setResourceUrl] = useState("");
   const [uploading, setUploading] = useState(false);
+  const [deletingResourceId, setDeletingResourceId] = useState<number | null>(null);
+  const [deletingClassId, setDeletingClassId] = useState<number | null>(null);
 
   // Attendance Selector State
   const [selectedClassId, setSelectedClassId] = useState<number | null>(null);
@@ -157,7 +162,7 @@ function TeacherDashboardContent() {
     }
   };
 
-  const handleMarkAttendance = async (studentId: number, classId: number, status: "PRESENT" | "ABSENT") => {
+  const handleMarkAttendance = async (studentId: number, classId: number, status: "PRESENT" | "ABSENT" | "UNMARKED") => {
     setMarkingStudentId(studentId);
     try {
       const res = await markAttendanceAction(studentId, classId, status);
@@ -171,6 +176,42 @@ function TeacherDashboardContent() {
       toast.error("Error marking attendance: " + err.message);
     } finally {
       setMarkingStudentId(null);
+    }
+  };
+
+  const handleDeleteResource = async (resourceId: number) => {
+    if (!confirm("Are you sure you want to delete this learning resource?")) return;
+    setDeletingResourceId(resourceId);
+    try {
+      const res = await deleteResourceAction(resourceId);
+      if (res.success) {
+        toast.success("Resource deleted successfully!");
+        await fetchDashboardData();
+      } else {
+        toast.error(res.error || "Failed to delete resource");
+      }
+    } catch (err: any) {
+      toast.error("Error: " + err.message);
+    } finally {
+      setDeletingResourceId(null);
+    }
+  };
+
+  const handleDeleteClass = async (classId: number) => {
+    if (!confirm("Are you sure you want to cancel and delete this class slot?")) return;
+    setDeletingClassId(classId);
+    try {
+      const res = await deleteClassAction(classId);
+      if (res.success) {
+        toast.success("Class slot deleted successfully!");
+        await fetchDashboardData();
+      } else {
+        toast.error(res.error || "Failed to delete class");
+      }
+    } catch (err: any) {
+      toast.error("Error: " + err.message);
+    } finally {
+      setDeletingClassId(null);
     }
   };
 
@@ -480,7 +521,20 @@ function TeacherDashboardContent() {
                               {new Date(cls.date).toLocaleString()}
                             </td>
                             <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm text-text-secondary text-right">
-                              {cls.duration}
+                              <div className="flex items-center justify-end gap-3">
+                                <span>{cls.duration}</span>
+                                {deletingClassId === cls.id ? (
+                                  <div className="w-4 h-4 border-2 border-t-red-500 border-r-transparent border-b-transparent border-l-transparent rounded-full animate-spin" />
+                                ) : (
+                                  <button
+                                    onClick={() => handleDeleteClass(cls.id)}
+                                    className="text-red-400 hover:text-red-500 transition-colors p-1"
+                                    title="Delete Class"
+                                  >
+                                    <Trash2 className="w-4 h-4" />
+                                  </button>
+                                )}
+                              </div>
                             </td>
                           </tr>
                         ))
@@ -612,30 +666,20 @@ function TeacherDashboardContent() {
                                     <span>Saving...</span>
                                   </div>
                                 ) : (
-                                  <>
-                                    <button
-                                      type="button"
-                                      onClick={() => handleMarkAttendance(student.id, selectedClass.id, "PRESENT")}
-                                      className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all inline-flex items-center gap-1 border ${
-                                        student.attendanceStatus === "PRESENT"
-                                          ? "bg-green-500 text-white border-green-500 shadow-sm shadow-green-500/20"
-                                          : "bg-green-500/10 hover:bg-green-500/20 text-green-400 border-green-500/10 hover:border-green-500/30"
-                                      }`}
-                                    >
-                                      <Check className="w-3.5 h-3.5" /> Present
-                                    </button>
-                                    <button
-                                      type="button"
-                                      onClick={() => handleMarkAttendance(student.id, selectedClass.id, "ABSENT")}
-                                      className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all inline-flex items-center gap-1 border ${
-                                        student.attendanceStatus === "ABSENT"
-                                          ? "bg-red-500 text-white border-red-500 shadow-sm shadow-red-500/20"
-                                          : "bg-red-500/10 hover:bg-red-500/20 text-red-400 border-red-500/10 hover:border-red-500/30"
-                                      }`}
-                                    >
-                                      <X className="w-3.5 h-3.5" /> Absent
-                                    </button>
-                                  </>
+                                  <select
+                                    value={student.attendanceStatus}
+                                    onChange={(e) => handleMarkAttendance(student.id, selectedClass.id, e.target.value as "PRESENT" | "ABSENT" | "UNMARKED")}
+                                    className={cn(
+                                      "border text-xs rounded-lg px-2.5 py-1.5 outline-none font-semibold bg-background transition-all",
+                                      student.attendanceStatus === "PRESENT" && "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+                                      student.attendanceStatus === "ABSENT" && "bg-rose-500/10 text-rose-400 border-rose-500/20",
+                                      (student.attendanceStatus === "UNMARKED" || !student.attendanceStatus) && "bg-primary/10 text-primary border-primary/20"
+                                    )}
+                                  >
+                                    <option value="UNMARKED" className="bg-background text-foreground font-semibold">Unmarked</option>
+                                    <option value="PRESENT" className="bg-background text-foreground font-semibold">Present</option>
+                                    <option value="ABSENT" className="bg-background text-foreground font-semibold">Absent</option>
+                                  </select>
                                 )}
                               </div>
                             </td>
@@ -757,15 +801,28 @@ function TeacherDashboardContent() {
                               {new Date(res.createdAt).toLocaleDateString()}
                             </td>
                             <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-right text-sm">
-                              <a
-                                href={ensureAbsoluteUrl(res.url)}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                onClick={(e) => e.stopPropagation()}
-                                className="text-aero-blue hover:underline inline-flex items-center gap-1"
-                              >
-                                Open URL <ExternalLink className="w-3.5 h-3.5" />
-                              </a>
+                              <div className="flex items-center justify-end gap-3">
+                                <a
+                                  href={ensureAbsoluteUrl(res.url)}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  onClick={(e) => e.stopPropagation()}
+                                  className="text-aero-blue hover:underline inline-flex items-center gap-1 font-medium"
+                                >
+                                  Open URL <ExternalLink className="w-3.5 h-3.5" />
+                                </a>
+                                {deletingResourceId === res.id ? (
+                                  <div className="w-4 h-4 border-2 border-t-red-500 border-r-transparent border-b-transparent border-l-transparent rounded-full animate-spin" />
+                                ) : (
+                                  <button
+                                    onClick={() => handleDeleteResource(res.id)}
+                                    className="text-red-400 hover:text-red-500 transition-colors p-1"
+                                    title="Delete Resource"
+                                  >
+                                    <Trash2 className="w-4 h-4" />
+                                  </button>
+                                )}
+                              </div>
                             </td>
                           </tr>
                         ))
