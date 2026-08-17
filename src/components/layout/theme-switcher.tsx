@@ -18,7 +18,17 @@ export function ThemeSwitcher() {
   const isDark = resolvedTheme === "dark";
 
   const toggleTheme = () => {
-    setTheme(isDark ? "light" : "dark");
+    const nextTheme = isDark ? "light" : "dark";
+    setTheme(nextTheme);
+
+    const activeAccent = localStorage.getItem("accentColor") || "blue";
+    if (nextTheme === "dark" && activeAccent === "blue") {
+      document.documentElement.setAttribute("data-accent", "orange");
+      localStorage.setItem("accentColor", "orange");
+    } else if (nextTheme === "light" && activeAccent === "orange") {
+      document.documentElement.setAttribute("data-accent", "blue");
+      localStorage.setItem("accentColor", "blue");
+    }
   };
 
   return (

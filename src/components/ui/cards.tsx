@@ -10,7 +10,7 @@ interface GlassCardProps {
   className?: string;
   hover?: boolean;
   glow?: "blue" | "red" | "none";
-  padding?: "sm" | "md" | "lg";
+  padding?: "none" | "sm" | "md" | "lg";
   onClick?: () => void;
 }
 
@@ -23,6 +23,7 @@ export function GlassCard({
   onClick,
 }: GlassCardProps) {
   const paddings = {
+    none: "",
     sm: "p-4",
     md: "p-6",
     lg: "p-8",

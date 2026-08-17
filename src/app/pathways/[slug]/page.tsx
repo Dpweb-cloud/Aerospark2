@@ -27,10 +27,10 @@ const pathwaysData: Record<string, {
       { title: "Mathematics for FEA & CFD", category: "Advanced", icon: <Clock className="w-5 h-5" />, slug: "mathematics-for-fea-and-cfd" },
     ]
   },
-  "aerodynamics-specialist": {
-    title: "Aerodynamics Specialist",
+  "aerodynamics-engineer": {
+    title: "Aerodynamics Engineer",
     description: "Specialize in fluid dynamics and CFD analysis to optimize flight performance and efficiency.",
-    longDescription: "Aerodynamics Specialists analyze and optimize how air flows around solid objects. In this career path, you will learn to use cutting-edge Computational Fluid Dynamics (CFD) software to reduce drag, improve lift, and enhance the overall efficiency of aerospace vehicles.",
+    longDescription: "Aerodynamics Engineers analyze and optimize how air flows around solid objects. In this career path, you will learn to use cutting-edge Computational Fluid Dynamics (CFD) software to reduce drag, improve lift, and enhance the overall efficiency of aerospace vehicles.",
     timeline: [
       { step: 1, title: "Core Fluid Dynamics", desc: "Master the physics of airflow and boundary layers." },
       { step: 2, title: "Advanced Mathematics", desc: "Build the strong mathematical foundation required for CFD." },
@@ -43,10 +43,10 @@ const pathwaysData: Record<string, {
       { title: "Mathematics for FEA & CFD", category: "Advanced", icon: <Clock className="w-5 h-5" />, slug: "mathematics-for-fea-and-cfd" },
     ]
   },
-  "quality-systems-manager": {
-    title: "Quality Systems Manager",
+  "aerospace-quality-engineer": {
+    title: "Aerospace Quality Engineer",
     description: "Ensure aerospace safety and AS9100D compliance in modern manufacturing environments.",
-    longDescription: "Quality Systems Managers are the backbone of aerospace manufacturing, ensuring every component meets rigorous international safety and quality standards. This pathway focuses on AS9100D certification, audit protocols, and advanced quality management systems.",
+    longDescription: "Aerospace Quality Engineers are the backbone of aerospace manufacturing, ensuring every component meets rigorous international safety and quality standards. This pathway focuses on AS9100D certification, audit protocols, and advanced quality management systems.",
     timeline: [
       { step: 1, title: "Aerospace Quality Standards", desc: "Introduction to global safety regulations and manufacturing tolerances." },
       { step: 2, title: "Drone Regulations (DGCA)", desc: "Navigate local and international compliance for UAV operations." },

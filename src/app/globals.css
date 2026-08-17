@@ -48,23 +48,23 @@
   --text-muted: #94A3B8;
 }
 
-/* Theme: Dark Mode (High Contrast Orange/Black/Navy with Space Cyber accents) */
+/* Theme: Dark Mode (High Contrast Premium Space/Cyber feel) */
 :root.dark {
-  --bg-main: #030712; /* Deep Slate Black */
-  --fg-main: #F9FAFB;
-  --primary: #FF6600; /* Vibrant Orange */
-  --primary-fg: #000000;
-  --primary-dim: #D94600;
-  --primary-glow: rgba(255, 102, 0, 0.25);
-  --secondary: #00E5FF; /* Electric Cyber Cyan */
-  --secondary-fg: #000000;
-  --secondary-dim: #00B4D8;
-  --surface: #0B1329; /* Deep Cyber Navy */
-  --surface-elevated: #111A33;
-  --surface-hover: #1C2A4F;
-  --border-subtle: rgba(0, 229, 255, 0.1); /* Subtle Cyan Borders */
-  --border-default: rgba(255, 102, 0, 0.25); /* Orange Borders */
-  --text-primary: #FFFFFF;
+  --bg-main: #0F1117; /* Deep Charcoal */
+  --fg-main: #F5F7FA; /* Soft White */
+  --primary: #FF9F43; /* Warm Orange */
+  --primary-fg: #0F1117;
+  --primary-dim: #E68F3C;
+  --primary-glow: rgba(255, 159, 67, 0.25);
+  --secondary: #4C6FFF; /* Royal Blue */
+  --secondary-fg: #FFFFFF;
+  --secondary-dim: #3D5AD4;
+  --surface: #151922; /* Midnight Slate */
+  --surface-elevated: #1C212B; /* Dark Slate */
+  --surface-hover: #242A35; /* Elevated Slate */
+  --border-subtle: rgba(48, 55, 70, 0.4); /* Slate Gray subtle */
+  --border-default: #303746; /* Slate Gray */
+  --text-primary: #F5F7FA;
   --text-secondary: #E2E8F0;
   --text-muted: #94A3B8;
 }
@@ -74,40 +74,137 @@
 /* Blue / Aero Accent (Default) */
 :root[data-accent="blue"] {
   --primary: #003087;
+  --primary-fg: #FFFFFF;
+  --primary-dim: #001A57;
   --primary-glow: rgba(0, 48, 135, 0.1);
+  --secondary: #FF6600;
+  --secondary-fg: #FFFFFF;
+  --secondary-dim: #E65C00;
   --border-default: rgba(0, 48, 135, 0.1);
+  --border-subtle: rgba(255, 102, 0, 0.05);
 }
 :root.dark[data-accent="blue"] {
-  --primary: #00a3ff;
-  --primary-glow: rgba(0, 163, 255, 0.25);
-  --border-default: rgba(0, 163, 255, 0.25);
-  --secondary: #00E5FF;
+  --bg-main: #0F1117;
+  --surface: #151922;
+  --surface-elevated: #1C212B;
+  --surface-hover: #242A35;
+  --primary: #4C6FFF; /* Royal Blue */
+  --primary-fg: #FFFFFF;
+  --primary-dim: #3D5AD4;
+  --primary-glow: rgba(76, 111, 255, 0.25);
+  --secondary: #FF9F43; /* Warm Orange */
+  --secondary-fg: #0F1117;
+  --secondary-dim: #E68F3C;
+  --border-subtle: rgba(48, 55, 70, 0.4);
+  --border-default: #303746;
 }
 
-/* Green / Emerald Accent */
+/* Orange Accent */
+:root[data-accent="orange"] {
+  --primary: #FF6600;
+  --primary-fg: #FFFFFF;
+  --primary-dim: #E65C00;
+  --primary-glow: rgba(255, 102, 0, 0.1);
+  --secondary: #003087;
+  --secondary-fg: #FFFFFF;
+  --secondary-dim: #001A57;
+  --border-default: rgba(255, 102, 0, 0.1);
+  --border-subtle: rgba(0, 48, 135, 0.05);
+}
+:root.dark[data-accent="orange"] {
+  --bg-main: #0F1117;
+  --surface: #151922;
+  --surface-elevated: #1C212B;
+  --surface-hover: #242A35;
+  --primary: #FF9F43; /* Warm Orange */
+  --primary-fg: #0F1117;
+  --primary-dim: #E68F3C;
+  --primary-glow: rgba(255, 159, 67, 0.25);
+  --secondary: #4C6FFF; /* Royal Blue */
+  --secondary-fg: #FFFFFF;
+  --secondary-dim: #3D5AD4;
+  --border-subtle: rgba(48, 55, 70, 0.4);
+  --border-default: #303746;
+}
+
+/* Green / Nature Green Accent */
 :root[data-accent="green"] {
-  --primary: #059669;
-  --primary-glow: rgba(5, 150, 105, 0.1);
-  --border-default: rgba(5, 150, 105, 0.1);
+  --primary: #2e7d32;
+  --primary-fg: #FFFFFF;
+  --primary-dim: #1b5e20;
+  --primary-glow: rgba(46, 125, 50, 0.1);
+  --secondary: #4caf50;
+  --secondary-fg: #FFFFFF;
+  --secondary-dim: #388e3c;
+  --border-default: rgba(46, 125, 50, 0.1);
+  --border-subtle: rgba(76, 175, 80, 0.05);
 }
 :root.dark[data-accent="green"] {
-  --primary: #10b981;
-  --primary-glow: rgba(16, 185, 129, 0.25);
-  --border-default: rgba(16, 185, 129, 0.25);
-  --secondary: #34d399;
+  --bg-main: #0F1117;
+  --surface: #151922;
+  --surface-elevated: #1C212B;
+  --surface-hover: #242A35;
+  --primary: #2ED47A; /* Emerald Green */
+  --primary-fg: #0F1117;
+  --primary-dim: #229D5B;
+  --primary-glow: rgba(46, 212, 122, 0.25);
+  --secondary: #4C6FFF; /* Royal Blue */
+  --secondary-fg: #FFFFFF;
+  --secondary-dim: #3D5AD4;
+  --border-subtle: rgba(48, 55, 70, 0.4);
+  --border-default: #303746;
+}
+
+/* Gold Accent */
+:root[data-accent="gold"] {
+  --primary: #b57c00;
+  --primary-fg: #FFFFFF;
+  --primary-dim: #8c6000;
+  --primary-glow: rgba(181, 124, 0, 0.1);
+  --secondary: #e5a93b;
+  --secondary-fg: #030712;
+  --secondary-dim: #c48c2c;
+  --border-default: rgba(181, 124, 0, 0.1);
+  --border-subtle: rgba(229, 169, 59, 0.05);
+}
+:root.dark[data-accent="gold"] {
+  --bg-main: #0F1117;
+  --surface: #151922;
+  --surface-elevated: #1C212B;
+  --surface-hover: #242A35;
+  --primary: #fbbf24;
+  --primary-fg: #0F1117;
+  --primary-dim: #d97706;
+  --primary-glow: rgba(251, 191, 36, 0.25);
+  --secondary: #4C6FFF; /* Royal Blue */
+  --secondary-fg: #FFFFFF;
+  --secondary-dim: #3D5AD4;
+  --border-subtle: rgba(48, 55, 70, 0.4);
+  --border-default: #303746;
 }
 
 /* Purple / Indigo Accent */
 :root[data-accent="purple"] {
   --primary: #7c3aed;
+  --primary-fg: #FFFFFF;
+  --primary-dim: #6d28d9;
   --primary-glow: rgba(124, 58, 237, 0.1);
+  --secondary: #4f46e5;
+  --secondary-fg: #FFFFFF;
+  --secondary-dim: #4338ca;
   --border-default: rgba(124, 58, 237, 0.1);
+  --border-subtle: rgba(79, 70, 229, 0.08);
 }
 :root.dark[data-accent="purple"] {
   --primary: #a855f7;
+  --primary-fg: #FFFFFF;
+  --primary-dim: #7c3aed;
   --primary-glow: rgba(168, 85, 247, 0.25);
+  --secondary: #F472B6;
+  --secondary-fg: #030712;
+  --secondary-dim: #db2777;
+  --border-subtle: rgba(168, 85, 247, 0.1);
   --border-default: rgba(168, 85, 247, 0.25);
-  --secondary: #c084fc;
 }
 
 * {

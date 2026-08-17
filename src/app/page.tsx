@@ -5,7 +5,7 @@ import { Footer } from "@/components/layout/footer";
 import { HeroSection } from "@/components/home/hero-section";
 import {
   FeaturedCourses,
-  StatsSection,
+  WhyAeroSparkSection,
   CareerPathwaysSection,
   ConsultingSection,
   TestimonialsSection,
@@ -29,12 +29,13 @@ export default function HomePage() {
         <FullPageFlightPath />
         <HeroSection />
         <div className="section-divider" />
+        <ConsultingSection />
+        <div className="section-divider" />
         <FeaturedCourses />
-        <StatsSection />
+        <div className="section-divider" />
+        <WhyAeroSparkSection />
         <div className="section-divider" />
         <CareerPathwaysSection />
-        <div className="section-divider" />
-        <ConsultingSection />
         <div className="section-divider" />
         <TestimonialsSection />
         <CTASection />

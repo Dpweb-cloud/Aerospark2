@@ -51,9 +51,9 @@ export function HeroSection() {
               transition={{ delay: 0.5, duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
               className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-[1.1] mb-6"
             >
-              <span className="text-foreground">Aviation Minds</span>
+              <span className="text-foreground">Engineering the</span>
               <br />
-              <span className="gradient-text">Re-Defining Drones and Education</span>
+              <span className="gradient-text">Future of Flight</span>
             </motion.h1>
 
             {/* Subheading */}
@@ -61,9 +61,9 @@ export function HeroSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.7, duration: 0.6 }}
-              className="text-text-secondary text-base sm:text-lg max-w-xl mb-8 leading-relaxed text-justify"
+              className="text-text-secondary text-base sm:text-lg max-w-xl mb-8 leading-relaxed text-left"
             >
-              Whether you’re advancing your skills through AI-powered aerospace courses, launching a custom drone, seeking expert consultation, or sourcing essential components, AeroSpark brings learning, engineering, and procurement together to turn bold ideas into flight-ready solutions.
+              From UAV development and drone certification to aerospace consulting and professional training, AeroSpark helps businesses and engineers turn ideas into real-world aviation solutions.
             </motion.p>
 
             {/* CTAs */}
@@ -71,20 +71,25 @@ export function HeroSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.9, duration: 0.6 }}
-              className="flex flex-col sm:flex-row items-start sm:items-center gap-4"
+              className="flex flex-row items-center gap-2 sm:gap-4 w-full sm:w-auto"
             >
-              <Button variant="primary" size="lg" href="/academy">
-                Explore Courses
-                <ChevronRight className="w-4 h-4" />
+              <Button 
+                variant="primary" 
+                size="md" 
+                href="/consultation"
+                className="text-xs sm:text-sm px-3.5 sm:px-5 py-2.5 sm:py-2.5 whitespace-nowrap"
+              >
+                Explore Engineering & Consulting
+                <ChevronRight className="w-3.5 h-3.5 shrink-0" />
               </Button>
               <Button
                 variant="secondary"
-                size="lg"
-                onClick={() => setIsModalOpen(true)}
-                className="hover:border-secondary/50 hover:text-secondary group"
+                size="md"
+                href="/academy"
+                className="text-xs sm:text-sm px-3.5 sm:px-5 py-2.5 sm:py-2.5 whitespace-nowrap"
               >
-                <Play className="w-4 h-4 text-secondary group-hover:scale-110 transition-transform" />
-                Discuss Your Project
+                Explore AeroSpark Academy
+                <ChevronRight className="w-3.5 h-3.5 shrink-0" />
               </Button>
             </motion.div>
           </div>

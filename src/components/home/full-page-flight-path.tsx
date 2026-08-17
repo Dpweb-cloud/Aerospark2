@@ -37,14 +37,14 @@ export function FullPageFlightPath() {
 
       let topOffset = 100;
 
-      // Try to find the exact position of the "A" in Aviation Minds
+      // Try to find the exact position of the "E" in Engineering the
       const heading = document.getElementById("hero-heading");
       if (heading) {
         const rect = heading.getBoundingClientRect();
         const absoluteTop = rect.top + window.scrollY;
-        // Position exactly to the left of the 'A', vertically aligned with the middle of the 'A'
+        // Position exactly to the left of the 'E', vertically aligned with the middle of the first line of text
         L = rect.left - 50;
-        topOffset = absoluteTop + 10;
+        topOffset = absoluteTop + 28;
       }
 
       const bottomOffset = 450;

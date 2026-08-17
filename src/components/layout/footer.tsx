@@ -8,30 +8,34 @@ import { staggerContainer, staggerItem } from "@/lib/motion";
 
 const footerSections = [
   {
-    title: "Platform",
+    title: "Engineering & Consulting",
     links: [
-      { label: "Consultation", href: "/consultation" },
-      { label: "Academy", href: "/academy" },
-      { label: "Insights", href: "/insights" },
-      { label: "Dashboard", href: "/dashboard" },
+      { label: "Drone Type Certification", href: "/consultation/uas-certification" },
+      { label: "UAV Design & Development", href: "/consultation/drone-rd" },
+      { label: "Design & Simulation", href: "/consultation/design-simulation" },
+      { label: "Aerospace Quality Systems", href: "/consultation/as9100d-quality" },
+      { label: "View All Engineering Services →", href: "/consultation" },
     ],
   },
   {
-    title: "Courses",
+    title: "AeroSpark Academy",
     links: [
-      { label: "Drone DGCA", href: "/academy" },
-      { label: "AS9100D", href: "/academy" },
-      { label: "CATIA V5", href: "/academy" },
-      { label: "CFD / FEA", href: "/academy" },
+      { label: "Aerospace Engineering Courses", href: "/academy/course/aerospace-fundamentals" },
+      { label: "Drone & UAV Courses", href: "/academy/course/dgca-drone-regulations" },
+      { label: "CAD / CAE & CFD", href: "/academy/course/cfd-analysis" },
+      { label: "Quality & Certification Training", href: "/academy/course/as9100d-quality" },
+      { label: "Explore All Courses →", href: "/academy" },
     ],
   },
   {
     title: "Company",
     links: [
-      { label: "About", href: "/about" },
+      { label: "About AeroSpark", href: "/about" },
       { label: "Contact", href: "/contact" },
-      { label: "Careers", href: "/about" },
-      { label: "Privacy Policy", href: "/about" },
+      { label: "Insights", href: "/insights" },
+      { label: "Privacy Policy", href: "/privacy-policy" },
+      { label: "Terms & Conditions", href: "/terms-and-conditions" },
+      { label: "Refund Policy", href: "/refund-policy" },
     ],
   },
 ];
@@ -54,13 +58,14 @@ export function Footer() {
           {/* Brand Column */}
           <motion.div variants={staggerItem} className="lg:col-span-2 space-y-5">
             <Link href="/" className="flex items-center gap-2.5">
-              <img src="/logo.png" alt="Logo" className="w-7 h-7 object-contain" />
-              <span className="text-lg font-bold text-foreground">{SITE_CONFIG.name}</span>
+              <span className="text-lg font-bold tracking-tight">
+                <span className="text-[#00008B]">Aero</span>
+                <span className="text-orange-500">Spark</span>
+              </span>
+              <img src="/logo.png" alt="Logo" className="w-7 h-7 object-contain relative -top-[2px]" />
             </Link>
             <p className="text-text-secondary text-sm leading-relaxed max-w-sm">
-              A futuristic aerospace engineering ecosystem combining education,
-              R&D, and enterprise solutions for the next generation of aerospace
-              professionals.
+              Aerospace engineering, UAV development, drone certification support, design & simulation, and industry-focused technical training — from engineering challenges to practical solutions.
             </p>
             <div className="space-y-3">
               <div className="flex items-center gap-2.5 text-text-secondary text-sm">
@@ -104,16 +109,8 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="py-6 border-t border-border-subtle flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-xs text-text-muted">
-            © {new Date().getFullYear()} {SITE_CONFIG.name}. All rights reserved.
+            © 2026 AeroSpark. All rights reserved.
           </p>
-          <div className="flex items-center gap-6">
-            <span className="hud-label text-text-muted">
-              SYS.STATUS: <span className="text-emerald-400">OPERATIONAL</span>
-            </span>
-            <span className="hud-label text-text-muted">
-              v2.0.1
-            </span>
-          </div>
         </div>
       </div>
     </footer>

@@ -36,7 +36,7 @@ export default function SettingsPage() {
 
   // Appearance State
   const [themeMode, setThemeMode] = useState<"dark" | "light">("dark");
-  const [accentColor, setAccentColor] = useState<"blue" | "green" | "purple">("blue");
+  const [accentColor, setAccentColor] = useState<"blue" | "green" | "purple" | "orange" | "gold">("blue");
 
   // Loading States
   const [loading, setLoading] = useState(true);
@@ -56,7 +56,12 @@ export default function SettingsPage() {
           setAssignments(res.data.assignmentAlerts);
           setReminders(res.data.classReminders);
           if (res.data.accentTheme) {
-            setAccentColor(res.data.accentTheme as "blue" | "green" | "purple");
+            let loadedTheme = res.data.accentTheme as "blue" | "green" | "purple" | "orange" | "gold";
+            const isDarkTheme = document.documentElement.classList.contains("dark");
+            if (isDarkTheme && (loadedTheme === "blue" || loadedTheme === "purple")) {
+              loadedTheme = "orange";
+            }
+            setAccentColor(loadedTheme);
           }
         }
       } catch (err: any) {
@@ -74,10 +79,13 @@ export default function SettingsPage() {
     if (theme === "dark" || theme === "light") {
       setThemeMode(theme);
     }
-    const savedAccent = localStorage.getItem("accentColor") as "blue" | "green" | "purple";
-    if (savedAccent) {
-      setAccentColor(savedAccent);
+    let savedAccent = localStorage.getItem("accentColor") as "blue" | "green" | "purple" | "orange" | "gold";
+    if (!savedAccent) {
+      savedAccent = theme === "light" ? "blue" : "orange";
+    } else if (theme === "dark" && (savedAccent === "blue" || savedAccent === "purple")) {
+      savedAccent = "orange";
     }
+    setAccentColor(savedAccent);
   }, [theme]);
 
   const handleProfileSave = async (e: React.FormEvent) => {
@@ -464,20 +472,22 @@ export default function SettingsPage() {
                         </label>
                         <div className="flex gap-4">
                           {[
-                            { id: "blue" as const, name: "Aero Blue", class: "bg-aero-blue" },
-                            { id: "green" as const, name: "Emerald Green", class: "bg-emerald-400" },
-                            { id: "purple" as const, name: "Indigo Purple", class: "bg-purple-500" },
-                          ].map((color) => {
+                            { id: "blue" as const, name: themeMode === "dark" ? "Royal Blue" : "Aero Blue", class: "bg-[#003087] dark:bg-[#4C6FFF]" },
+                            { id: "orange" as const, name: "Vibrant Orange", class: "bg-[#FF6600] dark:bg-[#FF9F43]" },
+                            { id: "green" as const, name: themeMode === "dark" ? "Emerald Green" : "Nature Green", class: "bg-[#2e7d32] dark:bg-[#2ED47A]" },
+                            { id: "gold" as const, name: "Golden Aura", class: "bg-[#b57c00] dark:bg-[#fbbf24]" },
+                            { id: "purple" as const, name: "Indigo Purple", class: "bg-[#7c3aed] dark:bg-[#a855f7]" },
+                          ].filter((color) => themeMode === "light" || (color.id !== "gold" && color.id !== "purple")).map((color) => {
                             const isSelected = accentColor === color.id;
                             return (
                               <button
                                 key={color.id}
                                 type="button"
                                 onClick={() => setAccentColor(color.id)}
-                                className={`flex items-center gap-2 px-3 py-1.5 rounded-xl border text-xs font-semibold transition-all duration-300 ${
+                                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl border text-xs font-semibold transition-all duration-300 ${
                                   isSelected
-                                    ? "bg-surface-elevated border-aero-blue/40 text-foreground"
-                                    : "bg-surface border-border-default text-text-secondary hover:border-border-default/80"
+                                    ? "bg-surface-elevated border-aero-blue text-foreground shadow-lg shadow-aero-blue/10"
+                                    : "bg-surface border-border-subtle/40 text-text-secondary hover:border-aero-blue/40 hover:text-foreground"
                                 }`}
                               >
                                 <span className={`w-3 h-3 rounded-full ${color.class}`} />

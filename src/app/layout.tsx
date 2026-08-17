@@ -44,7 +44,14 @@ export default function RootLayout({
             __html: `
               (function() {
                 try {
-                  var accent = localStorage.getItem('accentColor') || 'blue';
+                  var theme = localStorage.getItem('theme');
+                  if (!theme) {
+                    theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                  }
+                  var accent = localStorage.getItem('accentColor');
+                  if (!accent) {
+                    accent = theme === 'light' ? 'blue' : 'orange';
+                  }
                   document.documentElement.setAttribute('data-accent', accent);
                 } catch (e) {}
               })();

@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { SectionHeader, GlassCard, Badge } from "@/components/ui/cards";
 import { Button } from "@/components/ui/button";
-import { COURSES, STATS, TESTIMONIALS } from "@/lib/constants";
+import { COURSES } from "@/lib/constants";
 import { staggerContainer, staggerItem } from "@/lib/motion";
 import {
   BookOpen,
@@ -34,12 +34,6 @@ import {
 } from "lucide-react";
 import { ConsultationModal } from "./consultation-modal";
 
-const iconMap: Record<string, React.ReactNode> = {
-  Users: <Users className="w-5 h-5" />,
-  BookOpen: <BookOpen className="w-5 h-5" />,
-  Building: <Building className="w-5 h-5" />,
-  Award: <Award className="w-5 h-5" />,
-};
 
 const levelColors = {
   Beginner: "green",
@@ -90,12 +84,20 @@ export function FeaturedCourses() {
   return (
     <section className="py-24 relative overflow-hidden">
       <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-12">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
-          <SectionHeader
-            label="Academy"
-            title="Featured Courses"
-            description="Industry-grade aerospace training programs designed by engineering experts and validated by industry leaders."
-          />
+        <div className="flex flex-col items-center mb-12">
+          <div className="text-center max-w-3xl mx-auto mb-6">
+            <span className="text-[#FF6600] font-bold text-xs uppercase tracking-widest block mb-3">
+              Learn the Engineering Behind Flight.
+            </span>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-foreground tracking-tight mb-6">
+              AeroSpark Academy
+            </h2>
+            <p className="text-text-secondary text-base md:text-lg leading-relaxed">
+              Build practical skills for modern aerospace and UAV careers through focused courses, bridging the gap between textbook theory and real-world engineering.
+            </p>
+          </div>
+          
+          {/* Navigation Controls */}
           <div className="flex items-center gap-3">
             <button
               onClick={scrollLeft}
@@ -198,7 +200,7 @@ export function FeaturedCourses() {
           className="mt-6 text-center"
         >
           <Button variant="outline" href="/academy">
-            View All Courses
+            Explore AeroSpark Academy
             <ArrowRight className="w-4 h-4" />
           </Button>
         </motion.div>
@@ -207,28 +209,51 @@ export function FeaturedCourses() {
   );
 }
 
-/* ─── Stats Section ─── */
-export function StatsSection() {
-  const trends = [
-    { trend: "+14% this year", isPositive: true },
-    { trend: "New modules added", isPositive: true },
-    { trend: "Global reach", isPositive: true },
-    { trend: "98% pass rate", isPositive: true },
+/* ─── Why AeroSpark Section ─── */
+export function WhyAeroSparkSection() {
+  const points = [
+    {
+      title: "Engineering-Led",
+      description: "Our approach starts with practical engineering problems, not just textbook theory.",
+      icon: <Cpu className="w-6 h-6 text-[#FF6600]" />,
+      glowColor: "from-[#FF6600]/10 to-transparent",
+    },
+    {
+      title: "Focused on UAVs & Aerospace",
+      description: "We work across drone development, design, simulation, certification, and emerging aviation technologies.",
+      icon: <Plane className="w-6 h-6 text-[#003087] dark:text-blue-400" />,
+      glowColor: "from-[#003087]/10 to-transparent",
+    },
+    {
+      title: "Built Around Industry Skills",
+      description: "Our learning programs focus on technical knowledge and tools that matter in real engineering environments.",
+      icon: <Award className="w-6 h-6 text-emerald-500" />,
+      glowColor: "from-emerald-500/10 to-transparent",
+    },
+    {
+      title: "From Learning to Application",
+      description: "Whether you're developing your skills or developing an aircraft, AeroSpark is built to help move ideas forward.",
+      icon: <Activity className="w-6 h-6 text-purple-500" />,
+      glowColor: "from-purple-500/10 to-transparent",
+    },
   ];
 
   return (
-    <section className="py-24 relative overflow-hidden">
+    <section className="py-24 relative overflow-hidden bg-surface-elevated/10">
       {/* Decorative background gradients */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-aero-blue/[0.03] to-transparent" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[800px] h-[300px] bg-[#FF6600]/5 blur-[120px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="text-center mb-12">
-          <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
-            AeroSpark by the Numbers
+        <div className="text-center mb-16 max-w-3xl mx-auto">
+          <span className="text-[#FF6600] font-bold text-xs uppercase tracking-widest block mb-3">
+            Real Engineering. Practical Learning.
+          </span>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-foreground tracking-tight mb-6">
+            Why AeroSpark?
           </h2>
-          <p className="text-text-secondary max-w-2xl mx-auto text-sm md:text-base">
-            Delivering excellence in aerospace and drone technology education across the globe.
+          <p className="text-text-secondary text-base md:text-lg leading-relaxed">
+            AeroSpark brings engineering services and technical education together, creating a place where aerospace knowledge is applied, not just taught.
           </p>
         </div>
 
@@ -237,31 +262,27 @@ export function StatsSection() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-50px" }}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+          className="grid grid-cols-2 lg:grid-cols-4 gap-6"
         >
-          {STATS.map((stat, i) => (
-            <motion.div key={stat.label} variants={staggerItem} className="h-full">
-              <div className="group relative h-full bg-surface-elevated/40 backdrop-blur-md rounded-2xl border border-border-default hover:border-aero-blue/40 transition-all duration-500 overflow-hidden flex flex-col p-6 shadow-sm hover:shadow-[0_8px_30px_rgb(0,48,135,0.08)]">
+          {points.map((point) => (
+            <motion.div key={point.title} variants={staggerItem} className="h-full">
+              <div className="group relative h-full bg-surface-elevated/40 backdrop-blur-md rounded-2xl border border-border-default hover:border-aero-blue/40 transition-all duration-500 overflow-hidden flex flex-col p-5 sm:p-6 shadow-sm hover:shadow-[0_8px_30px_rgba(0,48,135,0.08)]">
+                
+                {/* Subtle gradient background glow on hover */}
+                <div className={`absolute -inset-24 bg-gradient-to-tr ${point.glowColor} opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-xl rounded-full`} />
 
-                {/* Glow effect on hover */}
-                <div className="absolute -inset-24 bg-gradient-to-tr from-aero-blue/0 via-aero-blue/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-xl rounded-full" />
-
-                <div className="relative z-10 flex items-start justify-between mb-8">
-                  <div className="p-3 rounded-xl bg-gradient-to-br from-[#003087]/10 to-[#FF6600]/10 text-aero-blue ring-1 ring-border-default group-hover:scale-110 group-hover:text-[#FF6600] transition-all duration-500">
-                    {iconMap[stat.icon]}
-                  </div>
-                  <div className="flex items-center gap-1 text-[11px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-500/10 px-2 py-1 rounded-md">
-                    <Activity className="w-3 h-3" />
-                    {trends[i].trend}
+                <div className="relative z-10 flex items-center justify-between mb-5">
+                  <div className="p-3 rounded-xl bg-gradient-to-br from-surface-elevated to-surface border border-border-default group-hover:scale-110 transition-transform duration-500 shadow-sm">
+                    {point.icon}
                   </div>
                 </div>
 
-                <div className="relative z-10 mt-auto">
-                  <h4 className="text-4xl md:text-5xl font-extrabold text-foreground tracking-tight mb-2 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-aero-blue group-hover:to-[#FF6600] transition-all duration-500">
-                    {stat.value}
-                  </h4>
-                  <p className="text-xs md:text-sm font-semibold text-text-secondary uppercase tracking-wider">
-                    {stat.label}
+                <div className="relative z-10 flex-1 flex flex-col">
+                  <h3 className="text-[17px] font-bold text-foreground mb-2 group-hover:text-[#FF6600] transition-colors duration-300 leading-tight">
+                    {point.title}
+                  </h3>
+                  <p className="text-sm text-text-secondary leading-relaxed font-medium">
+                    {point.description}
                   </p>
                 </div>
 
@@ -276,29 +297,33 @@ export function StatsSection() {
   );
 }
 
+
 /* ─── Career Pathways Section ─── */
 export function CareerPathwaysSection() {
   const pathways = [
     {
       icon: <PenTool className="w-8 h-8" />,
+      subheading: "DESIGN & DEVELOPMENT",
       title: "UAV Design Engineer",
-      description: "Master CATIA and structural analysis to design the next generation of autonomous aerial vehicles.",
-      badge: "High Demand",
-      color: "from-blue-500 to-[#003087]"
+      description: "Learn the foundations of UAV systems, aircraft design, CAD, structures, aerodynamics, and engineering analysis involved in developing unmanned aircraft.",
+      buttonText: "Explore UAV Engineering Path",
+      color: "from-blue-500 to-[#003087]",
     },
     {
       icon: <Wind className="w-8 h-8" />,
-      title: "Aerodynamics Specialist",
-      description: "Specialize in fluid dynamics and CFD analysis to optimize flight performance and efficiency.",
-      badge: "Core Discipline",
-      color: "from-[#FF6600] to-orange-600"
+      subheading: "AERODYNAMICS & SIMULATION",
+      title: "Aerodynamics Engineer",
+      description: "Build your understanding of aerodynamics, fluid mechanics, CFD, aircraft performance, and simulation for aerospace and UAV applications.",
+      buttonText: "Explore Aerodynamics Path",
+      color: "from-[#FF6600] to-orange-600",
     },
     {
       icon: <ShieldCheck className="w-8 h-8" />,
-      title: "Quality Systems Manager",
-      description: "Ensure aerospace safety and AS9100D compliance in modern manufacturing environments.",
-      badge: "Leadership",
-      color: "from-emerald-400 to-emerald-600"
+      subheading: "QUALITY & COMPLIANCE",
+      title: "Aerospace Quality Engineer",
+      description: "Develop knowledge of aerospace quality management, AS9100D, compliance, documentation, risk management, and certification processes.",
+      buttonText: "Explore Aerospace Quality Path",
+      color: "from-emerald-400 to-emerald-600",
     },
   ];
 
@@ -307,11 +332,17 @@ export function CareerPathwaysSection() {
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-aero-blue/5 via-transparent to-transparent pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <SectionHeader
-          label="Career Pathways"
-          title="Your Future in Aerospace"
-          description="Discover the specialized, high-growth roles you can master through our industry-aligned curriculum."
-        />
+        <div className="text-center mb-16 max-w-3xl mx-auto">
+          <span className="text-[#FF6600] font-bold text-xs uppercase tracking-widest block mb-3">
+            Build Skills for the Engineering Roles That Shape Flight.
+          </span>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-foreground tracking-tight mb-6">
+            Explore Your Path in Aerospace
+          </h2>
+          <p className="text-text-secondary text-base md:text-lg leading-relaxed">
+            Explore focused learning paths across UAV design, aerodynamics, CFD, aerospace quality, and certification. Each path brings together the technical knowledge and practical skills relevant to a specific area of aerospace engineering.
+          </p>
+        </div>
 
         <motion.div
           variants={staggerContainer}
@@ -339,7 +370,7 @@ export function CareerPathwaysSection() {
                       {path.icon}
                     </div>
                     <span className="text-[10px] font-bold uppercase tracking-widest text-text-secondary bg-surface-elevated px-3 py-1.5 rounded-full border border-border-default">
-                      {path.badge}
+                      {path.subheading}
                     </span>
                   </div>
 
@@ -352,8 +383,8 @@ export function CareerPathwaysSection() {
                     </p>
 
                     {/* Interactive Footer */}
-                    <div className="flex items-center gap-2 text-sm font-bold text-aero-blue opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
-                      Explore This Path <ArrowRight className="w-4 h-4" />
+                    <div className="flex items-center gap-2 text-sm font-bold text-aero-blue opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 mt-auto pt-4">
+                      {path.buttonText} <ArrowRight className="w-4 h-4" />
                     </div>
                   </div>
 
@@ -373,14 +404,14 @@ export function CareerPathwaysSection() {
 export function ConsultingSection() {
   const consultingServices = [
     {
-      title: "Drone Type Certification Services",
-      description: "End-to-end DGCA & FAA type certification support for UAS manufacturers — from initial documentation to final flight testing.",
+      tag: "CERTIFICATION",
+      title: "Drone Certification Support",
+      description: "Get structured support across certification planning, technical documentation, compliance reviews, test readiness, and the UAS certification process.",
       href: "/consultation/uas-certification",
-      badge: "Open for Consultation",
-      badgeColor: "text-[#FF6600]",
-      icon: <FileCheck className="w-6 h-6 text-[#FF6600]" />,
+      btnText: "Explore Certification Support →",
+      glow: "blue" as const,
       bgElement: (
-        <svg className="absolute -right-8 -bottom-8 w-64 h-64 text-[#FF6600]/20 transform rotate-12" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <svg className="absolute -right-8 -bottom-8 w-64 h-64 text-[#FF6600]/15 dark:text-[#FF6600]/10 transform rotate-12" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
           {/* Drone Quadcopter Silhouette */}
           <path d="M100 60 A20 20 0 1 0 100 100 A20 20 0 1 0 100 60 Z" fill="currentColor" opacity="0.8" />
           <path d="M50 40 L90 80 M150 40 L110 80 M50 160 L90 120 M150 160 L110 120" stroke="currentColor" strokeWidth="8" strokeLinecap="round" />
@@ -392,31 +423,14 @@ export function ConsultingSection() {
       )
     },
     {
-      title: "Quality Management System Services",
-      description: "Implement and maintain robust aerospace quality management systems required to participate in the global supply chain.",
-      href: "/consultation/as9100d-quality",
-      badge: "Quality Systems",
-      badgeColor: "text-emerald-500",
-      icon: <ShieldCheck className="w-6 h-6 text-emerald-500" />,
-      bgElement: (
-        <svg className="absolute -right-12 -bottom-12 w-72 h-72 text-emerald-500/10" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-          {/* Science/Atom & Quality Gear */}
-          <circle cx="100" cy="100" r="60" fill="none" stroke="currentColor" strokeWidth="12" strokeDasharray="20 10" />
-          <ellipse cx="100" cy="100" rx="30" ry="80" fill="none" stroke="currentColor" strokeWidth="4" transform="rotate(45 100 100)" />
-          <ellipse cx="100" cy="100" rx="30" ry="80" fill="none" stroke="currentColor" strokeWidth="4" transform="rotate(-45 100 100)" />
-          <circle cx="100" cy="100" r="15" fill="currentColor" opacity="0.8" />
-        </svg>
-      )
-    },
-    {
-      title: "Drone R&D and Product Development Services",
-      description: "End-to-end design and rapid prototyping for specialized unmanned aerial vehicles, tailored to your exact payload and range.",
+      tag: "DESIGN & DEVELOPMENT",
+      title: "UAV Design & Product Development",
+      description: "Engineering support for UAV configuration, airframe design, payload integration, subsystem selection, performance analysis, prototyping, and design refinement.",
       href: "/consultation/drone-rd",
-      badge: "R&D Priority",
-      badgeColor: "text-purple-500",
-      icon: <Hexagon className="w-6 h-6 text-purple-500" />,
+      btnText: "Explore UAV Engineering →",
+      glow: "red" as const,
       bgElement: (
-        <svg className="absolute -right-4 -bottom-10 w-64 h-64 text-purple-500/10" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <svg className="absolute -right-4 -bottom-10 w-64 h-64 text-purple-500/10 dark:text-purple-500/5" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
           {/* Satellite / Blueprint */}
           <rect x="70" y="40" width="60" height="120" rx="10" fill="currentColor" opacity="0.4" />
           <rect x="20" y="80" width="50" height="40" fill="currentColor" opacity="0.7" />
@@ -427,19 +441,36 @@ export function ConsultingSection() {
       )
     },
     {
-      title: "Engineering Design & Simulation Services",
-      description: "Advanced computational fluid dynamics (CFD) to optimize airframe performance, reduce drag, and improve battery efficiency.",
+      tag: "ANALYSIS & SIMULATION",
+      title: "Design, CFD & Simulation",
+      description: "Use CAD/CAE, CFD, aerodynamic analysis, and engineering simulation to evaluate designs, understand performance, and make better technical decisions.",
       href: "/consultation/design-simulation",
-      badge: "Simulation & Design",
-      badgeColor: "text-blue-500",
-      icon: <Wind className="w-6 h-6 text-blue-500" />,
+      btnText: "Explore Design & Simulation →",
+      glow: "blue" as const,
       bgElement: (
-        <svg className="absolute -right-10 -bottom-10 w-72 h-72 text-blue-500/10 transform -rotate-12" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <svg className="absolute -right-10 -bottom-10 w-72 h-72 text-blue-500/10 dark:text-blue-500/5 transform -rotate-12" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
           {/* Airplane Wing & Wind Flow */}
           <path d="M20 120 C 60 100 140 80 180 120 L 160 140 C 120 120 60 130 20 140 Z" fill="currentColor" opacity="0.6" />
           <path d="M0 60 Q 50 30 200 70" fill="none" stroke="currentColor" strokeWidth="4" strokeDasharray="15 10" />
           <path d="M0 90 Q 70 70 200 100" fill="none" stroke="currentColor" strokeWidth="4" strokeDasharray="15 10" opacity="0.5" />
           <path d="M0 160 Q 60 140 200 170" fill="none" stroke="currentColor" strokeWidth="4" strokeDasharray="15 10" opacity="0.3" />
+        </svg>
+      )
+    },
+    {
+      tag: "QUALITY & COMPLIANCE",
+      title: "Aerospace Quality Systems",
+      description: "Build stronger aerospace processes with support across quality management systems, documentation, risk management, process control, corrective actions, and audit readiness.",
+      href: "/consultation/as9100d-quality",
+      btnText: "Explore Quality Services →",
+      glow: "red" as const,
+      bgElement: (
+        <svg className="absolute -right-12 -bottom-12 w-72 h-72 text-emerald-500/10 dark:text-emerald-500/5" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          {/* Science/Atom & Quality Gear */}
+          <circle cx="100" cy="100" r="60" fill="none" stroke="currentColor" strokeWidth="12" strokeDasharray="20 10" />
+          <ellipse cx="100" cy="100" rx="30" ry="80" fill="none" stroke="currentColor" strokeWidth="4" transform="rotate(45 100 100)" />
+          <ellipse cx="100" cy="100" rx="30" ry="80" fill="none" stroke="currentColor" strokeWidth="4" transform="rotate(-45 100 100)" />
+          <circle cx="100" cy="100" r="15" fill="currentColor" opacity="0.8" />
         </svg>
       )
     }
@@ -448,50 +479,59 @@ export function ConsultingSection() {
   return (
     <section className="py-24 relative overflow-hidden bg-surface">
       <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-12">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
-          <SectionHeader
-            label="Expert Advisory"
-            title="Aerospace Consulting"
-            description="Leverage our industry expertise to streamline your manufacturing processes, achieve global certifications, and innovate your UAV designs."
-          />
+        <div className="text-center mb-16 max-w-3xl mx-auto">
+          <span className="text-[#FF6600] font-bold text-xs uppercase tracking-widest block mb-3">
+            From Concept to Certified Flight.
+          </span>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-foreground tracking-tight mb-6">
+            Aerospace Engineering & Consulting
+          </h2>
+          <p className="text-text-secondary text-base md:text-lg leading-relaxed">
+            Building a UAV takes more than a great idea. AeroSpark supports businesses through the critical stages of drone development, certification, engineering analysis, simulation, and quality compliance.
+          </p>
         </div>
 
-        {/* 2x2 Grid Layout for large spacious cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {/* 2x2 Grid Layout for GlassCards with Vector SVGs */}
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="grid grid-cols-1 md:grid-cols-2 gap-8"
+        >
           {consultingServices.map((service) => (
-            <Link href={service.href} key={service.title} className="relative group bg-surface border border-border-default rounded-[32px] p-10 hover:border-aero-blue/40 hover:shadow-2xl transition-all duration-500 overflow-hidden flex flex-col h-full z-10 block cursor-pointer">
-
-              {/* Background 3D Elements (Colored) */}
-              <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden rounded-[32px]">
-                {service.bgElement}
-              </div>
-
-              <div className="relative z-10 flex flex-col flex-1">
-                {/* Top Badge */}
-                <div className="flex items-center gap-2 mb-8">
-                  <div className="flex items-center gap-2 bg-surface-elevated border border-border-subtle rounded-full px-3 py-1.5 shadow-sm">
-                    <div className={`w-2 h-2 rounded-full ${service.badgeColor} bg-current`} />
-                    <span className="text-xs font-bold text-foreground">
-                      {service.badge}
-                    </span>
-                  </div>
+            <motion.div key={service.title} variants={staggerItem} className="h-full">
+              <GlassCard
+                padding="lg"
+                className="h-full flex flex-col justify-between relative overflow-hidden group hover:border-aero-blue/40 hover:shadow-2xl transition-all duration-500"
+                glow={service.glow}
+              >
+                {/* Background Vector Art SVG */}
+                <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden opacity-90 group-hover:scale-105 transition-transform duration-500">
+                  {service.bgElement}
                 </div>
 
-                <h3 className="text-3xl md:text-4xl font-extrabold text-foreground mb-4 max-w-[80%]">
-                  {service.title}
-                </h3>
-
-                <p className="text-lg text-text-secondary leading-relaxed mb-12 max-w-[85%] flex-1">
-                  {service.description}
-                </p>
-
-                <div className="self-start text-foreground font-bold group-hover:gap-3 transition-all mt-auto text-base flex items-center group-hover:text-aero-blue">
-                  Explore Services <ArrowRight className="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" />
+                <div className="relative z-10 space-y-4">
+                  <span className="text-[#FF6600] font-bold text-xs uppercase tracking-widest block">
+                    {service.tag}
+                  </span>
+                  <h3 className="text-2xl font-bold text-foreground tracking-tight group-hover:text-aero-blue transition-colors">
+                    {service.title}
+                  </h3>
+                  <p className="text-text-secondary text-sm md:text-base leading-relaxed">
+                    {service.description}
+                  </p>
                 </div>
-              </div>
-            </Link>
+
+                <div className="pt-6 relative z-10">
+                  <Button variant="outline" href={service.href} className="group">
+                    {service.btnText}
+                  </Button>
+                </div>
+              </GlassCard>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
@@ -606,50 +646,77 @@ export function LearningJourneySection() {
 
 /* ─── Testimonials ─── */
 export function TestimonialsSection() {
+  // PLACEHOLDER — DO NOT PUBLISH (Waiting for approved text/metadata)
+  const testimonials = [
+    {
+      id: "placeholder-1",
+      name: "[Student Name]",
+      role: "Aerospace Engineering Student, [College Name]",
+      content: "Genuine approved feedback from student goes here.",
+      isPlaceholder: true,
+    },
+    {
+      id: "placeholder-2",
+      name: "[Student Name]",
+      role: "Mechanical Engineering Student, [College Name]",
+      content: "Genuine approved feedback from student goes here.",
+      isPlaceholder: true,
+    },
+    {
+      id: "darshan-parekh",
+      name: "Darshan Parekh",
+      role: "Topsun Energy Limited",
+      content: "Genuine approved feedback from Darshan goes here.",
+      isPlaceholder: true,
+    },
+    {
+      id: "placeholder-4",
+      name: "[Name]",
+      role: "[Role], [Organisation]",
+      content: "Genuine approved feedback from partner organisation goes here.",
+      isPlaceholder: true,
+    },
+  ];
+
+  // Filter out placeholders to avoid publishing unfinished cards
+  const publishedTestimonials = testimonials.filter(t => !t.isPlaceholder);
+
   return (
     <section className="py-24 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <SectionHeader
-          label="Testimonials"
-          title="Trusted by Engineers"
-          description="Hear from aerospace professionals who transformed their careers through AeroSpark."
-        />
+        <div className="text-center mb-16 max-w-3xl mx-auto">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-foreground tracking-tight mb-6">
+            What Engineers & Teams Say
+          </h2>
+          <p className="text-text-secondary text-base md:text-lg leading-relaxed">
+            Real feedback from learners, engineers, and teams who have worked with AeroSpark across aerospace education, UAV engineering, and technical consulting.
+          </p>
+        </div>
 
-        <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6"
-        >
-          {TESTIMONIALS.map((t) => (
-            <motion.div key={t.name} variants={staggerItem}>
-              <GlassCard className="h-full flex flex-col" padding="lg">
-                <Quote className="w-8 h-8 text-aero-blue/20 mb-4" />
-                <p className="text-sm text-text-secondary leading-relaxed flex-1 mb-6">
-                  &ldquo;{t.content}&rdquo;
-                </p>
-                <div className="flex items-center gap-3 pt-4 border-t border-border-subtle">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-aero-blue/20 to-aero-red/20 flex items-center justify-center text-foreground text-sm font-semibold">
-                    {t.name[0]}
+        {publishedTestimonials.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
+            {publishedTestimonials.map((t) => (
+              <motion.div key={t.id} variants={staggerItem} className="h-full">
+                <GlassCard className="h-full flex flex-col" padding="lg">
+                  <Quote className="w-8 h-8 text-aero-blue/20 mb-4" />
+                  <p className="text-sm text-text-secondary leading-relaxed flex-1 mb-6">
+                    &ldquo;{t.content}&rdquo;
+                  </p>
+                  <div className="flex items-center gap-3 pt-4 border-t border-border-subtle">
+                    <div>
+                      <p className="text-sm font-bold text-foreground">{t.name}</p>
+                      <p className="text-xs text-text-muted">{t.role}</p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="text-sm font-medium text-foreground">{t.name}</p>
-                    <p className="text-xs text-text-muted">{t.role}</p>
-                  </div>
-                  <div className="ml-auto flex gap-0.5">
-                    {Array.from({ length: t.rating }).map((_, i) => (
-                      <Star
-                        key={i}
-                        className="w-3 h-3 text-amber-400 fill-amber-400"
-                      />
-                    ))}
-                  </div>
-                </div>
-              </GlassCard>
-            </motion.div>
-          ))}
-        </motion.div>
+                </GlassCard>
+              </motion.div>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-12 text-text-muted italic border border-dashed border-border-default rounded-2xl max-w-md mx-auto">
+            Testimonials are being compiled and will be published once verified.
+          </div>
+        )}
       </div>
     </section>
   );
@@ -657,8 +724,6 @@ export function TestimonialsSection() {
 
 /* ─── CTA Section ─── */
 export function CTASection() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
   return (
     <section className="py-24 relative">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -674,29 +739,28 @@ export function CTASection() {
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-px bg-gradient-to-r from-transparent via-aero-blue/30 to-transparent" />
 
           <div className="relative z-10">
-            <span className="hud-label text-aero-blue mb-4 block">
-              Ready to Launch?
+            <span className="text-[#FF6600] font-bold text-xs uppercase tracking-widest block mb-4">
+              READY TO MOVE FORWARD?
             </span>
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 tracking-tight">
-              Elevate Your Aerospace Career
+            <h2 className="text-3xl md:text-4xl font-extrabold text-foreground mb-4 tracking-tight">
+              Turn Your Next Idea Into Flight.
             </h2>
-            <p className="text-text-secondary text-base md:text-lg max-w-xl mx-auto mb-8 leading-relaxed">
-              Join thousands of aerospace professionals already learning on
-              AeroSpark. Start with a free consultation.
+            <p className="text-text-secondary text-base md:text-lg max-w-2xl mx-auto mb-8 leading-relaxed">
+              Whether you're developing a UAV, navigating certification, or building your aerospace skills, AeroSpark gives you a practical way to take the next step.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Button variant="primary" size="lg" href="/academy">
-                Start Learning
-                <ChevronRight className="w-4 h-4" />
+              <Button variant="primary" size="lg" href="/consultation" className="bg-[#FF6600] text-white hover:bg-[#e65c00] border-none shadow-lg">
+                Discuss Your Project
+                <ArrowRight className="w-4 h-4" />
               </Button>
-              <Button variant="secondary" size="lg" onClick={() => setIsModalOpen(true)}>
-                Book Consultation
+              <Button variant="secondary" size="lg" href="/academy">
+                Explore AeroSpark Academy
+                <ArrowRight className="w-4 h-4" />
               </Button>
             </div>
           </div>
         </motion.div>
       </div>
-      <ConsultationModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </section>
   );
 }

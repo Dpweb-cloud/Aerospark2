@@ -49,7 +49,11 @@ export function Navbar() {
           <div className="flex items-center justify-between h-16 lg:h-18">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2.5 group">
-              <div className="relative">
+              <span className="text-lg font-bold tracking-tight">
+                <span className="text-[#00008B]">Aero</span>
+                <span className="text-orange-500">Spark</span>
+              </span>
+              <div className="relative -top-[3px]">
                 <img
                   src="/logo.png"
                   alt="AeroSpark"
@@ -57,10 +61,6 @@ export function Navbar() {
                 />
                 <div className="absolute inset-0 bg-secondary/30 blur-lg rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </div>
-              <span className="text-lg font-bold tracking-tight">
-                <span className="text-[#00008B] dark:text-white">Aero</span>
-                <span className="text-orange-500">Spark</span>
-              </span>
             </Link>
 
             {/* Desktop Nav */}
