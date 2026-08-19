@@ -109,123 +109,7 @@ export default function AcademyClient() {
           </div>
         </section>
 
-        {/* What You Get With Every Course */}
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-24">
-          <div className="glass-panel rounded-3xl p-8 md:p-12 relative overflow-hidden border border-border-default shadow-2xl">
-            <div className="absolute inset-0 bg-gradient-to-br from-aero-blue/5 via-transparent to-aero-red/5" />
-            <div className="relative z-10">
-              <div className="text-center max-w-3xl mx-auto mb-12">
-                <span className="text-[#FF6600] font-bold text-xs uppercase tracking-widest block mb-3">
-                  What You Get With Every Course
-                </span>
-                <h2 className="text-3xl md:text-4xl font-extrabold text-foreground tracking-tight mb-4">
-                  Structured Learning. Practical Understanding.
-                </h2>
-              </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {[
-                  {
-                    title: "Live Interactive Sessions",
-                    desc: "Learn directly through instructor-led sessions with opportunities to ask questions and discuss technical concepts.",
-                  },
-                  {
-                    title: "Practical Engineering Examples",
-                    desc: "Understand how concepts are applied across aircraft, UAVs, design, simulation, quality, and aerospace operations.",
-                  },
-                  {
-                    title: "Learning Resources",
-                    desc: "Get structured course materials, references, and resources relevant to the subject being studied.",
-                  },
-                  {
-                    title: "Doubt-Solving & Guidance",
-                    desc: "Get support for technical questions, assessments, projects, and areas that need additional explanation.",
-                  },
-                  {
-                    title: "Assessments",
-                    desc: "Check your understanding through structured assessments based on the topics covered in the course.",
-                  },
-                  {
-                    title: "Course Completion Certificate",
-                    desc: "Receive an AeroSpark course completion certificate after successfully meeting the course completion requirements.",
-                  },
-                ].map((benefit, i) => (
-                  <div key={i} className="space-y-2 p-5 rounded-2xl bg-surface-elevated/40 border border-border-subtle">
-                    <div className="flex items-center gap-2 text-foreground font-bold text-base">
-                      <CheckCircle2 className="w-5 h-5 text-aero-blue shrink-0" />
-                      <span>{benefit.title}</span>
-                    </div>
-                    <p className="text-sm text-text-secondary leading-relaxed pl-7">
-                      {benefit.desc}
-                    </p>
-                  </div>
-                ))}
-              </div>
-
-              {/* Certificate Regulatory Note */}
-              <div className="mt-12 p-6 rounded-2xl border border-dashed border-border-default bg-background/50">
-                <p className="text-xs text-text-muted leading-relaxed">
-                  <span className="font-bold text-foreground block mb-1">Certificate Note:</span>
-                  AeroSpark course completion certificates recognise completion of the respective training program. Courses covering DGCA, FAA, EASA, AS9100D, or other regulatory frameworks are educational programs and should not be interpreted as licences, approvals, or certifications issued by those regulatory bodies unless explicitly stated.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Built for Practical Learning */}
-        <section className="py-20 bg-surface-elevated/10 mb-20">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-16 max-w-3xl mx-auto">
-              <span className="text-[#FF6600] font-bold text-xs uppercase tracking-widest block mb-3">
-                Built for Practical Learning
-              </span>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-foreground tracking-tight mb-6">
-                Go Beyond Watching Lessons.
-              </h2>
-              <p className="text-text-secondary text-base md:text-lg leading-relaxed">
-                Aerospace engineering is easier to understand when you can connect theory with how aircraft and UAV systems actually work. AeroSpark courses focus on building that connection through technical explanations, practical examples, engineering tools, and applied learning.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {[
-                {
-                  icon: <Compass className="w-5 h-5" />,
-                  title: "Understand the Fundamentals",
-                  desc: "Build a strong foundation before moving into advanced engineering topics.",
-                },
-                {
-                  icon: <Wrench className="w-5 h-5" />,
-                  title: "Work With Engineering Tools",
-                  desc: "Develop familiarity with tools and workflows used across CAD, CAE, CFD, simulation, and technical analysis.",
-                },
-                {
-                  icon: <Cpu className="w-5 h-5" />,
-                  title: "Connect Theory With Application",
-                  desc: "See how engineering principles relate to aircraft, drones, structures, aerodynamics, quality, and certification.",
-                },
-                {
-                  icon: <BookOpen className="w-5 h-5" />,
-                  title: "Build Skills Step by Step",
-                  desc: "Progress from foundational courses into more specialised areas of aerospace and UAV engineering.",
-                },
-              ].map((item, idx) => (
-                <GlassCard key={idx} padding="md" className="space-y-4" glow="none">
-                  <div className="flex items-center gap-3">
-                    <div className="p-2.5 rounded-lg bg-aero-blue/10 text-aero-blue">
-                      {item.icon}
-                    </div>
-                    <h3 className="text-lg font-bold text-foreground">{item.title}</h3>
-                  </div>
-                  <p className="text-sm text-text-secondary leading-relaxed pl-1">
-                    {item.desc}
-                  </p>
-                </GlassCard>
-              ))}
-            </div>
-          </div>
-        </section>
 
         {/* Tab Navigation & Course Catalogue */}
         <section ref={catalogRef} id="catalogue-section" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8 scroll-mt-28">
@@ -560,8 +444,8 @@ export default function AcademyClient() {
                 Explore aerospace and UAV courses designed to strengthen your technical understanding and help you move from engineering fundamentals to specialised skills.
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <Button variant="primary" size="lg" onClick={scrollToCatalog} className="bg-[#FF6600] text-white hover:bg-[#e65c00] border-none shadow-lg">
-                  Explore All Courses
+                <Button variant="primary" size="lg" href="/contact" className="bg-[#FF6600] text-white hover:bg-[#e65c00] border-none shadow-lg">
+                  Free Career Mentor Guides
                   <ArrowRight className="w-4 h-4" />
                 </Button>
                 <Button variant="secondary" size="lg" href="/contact">

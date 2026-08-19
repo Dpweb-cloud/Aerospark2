@@ -23,7 +23,39 @@ import {
 } from "lucide-react";
 
 export default function DesignSimulationPage() {
-  const [activePhase, setActivePhase] = useState("phase1");
+  const [activeStep, setActiveStep] = useState<string | null>(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY < 300) {
+        setActiveStep(null);
+        return;
+      }
+
+      const viewportCenter = window.innerHeight / 2;
+      let closestStep = null;
+      let closestDistance = Infinity;
+
+      processSteps.forEach((step) => {
+        const el = document.getElementById(`step-${step.step}`);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          const elementCenter = rect.top + rect.height / 2;
+          const distance = Math.abs(elementCenter - viewportCenter);
+          if (distance < closestDistance) {
+            closestDistance = distance;
+            closestStep = step.step;
+          }
+        }
+      });
+
+      setActiveStep(closestStep);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const stepIcons = [
     <Monitor className="w-4 h-4 md:w-5 md:h-5" key="1" />,
@@ -60,44 +92,6 @@ export default function DesignSimulationPage() {
       stepRange: "Step 06",
     },
   ];
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 120) {
-        setActivePhase("phase4");
-        return;
-      }
-
-      let currentActive = "phase1";
-      for (const phase of phasesList) {
-        const el = document.getElementById(phase.id);
-        if (el) {
-          const rect = el.getBoundingClientRect();
-          if (rect.top <= 180 && rect.bottom > 180) {
-            currentActive = phase.id;
-            break;
-          }
-        }
-      }
-      setActivePhase(currentActive);
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const scrollToPhase = (id: string) => {
-    const el = document.getElementById(id);
-    if (el) {
-      const topOffset = el.getBoundingClientRect().top + window.scrollY - 120;
-      window.scrollTo({
-        top: topOffset,
-        behavior: "smooth"
-      });
-      setActivePhase(id);
-    }
-  };
   const coreServices = [
     { title: "CAD Design & Product Development", desc: "3D part modelling, assemblies, concept development, design modifications and production-ready drawings.", icon: <Box className="w-6 h-6" /> },
     { title: "Finite Element Analysis (FEA)", desc: "Structural strength, stress, deformation, fatigue, buckling, modal and vibration assessments.", icon: <Activity className="w-6 h-6" /> },
@@ -155,8 +149,18 @@ export default function DesignSimulationPage() {
       <Navbar />
       <main className="pt-24 pb-16">
         {/* Hero */}
-        <section className="py-24 relative overflow-hidden">
+        <section className="pt-24 pb-32 relative overflow-hidden">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-aero-blue/10 blur-[120px] rounded-[100%] pointer-events-none z-0" />
+          {/* Background Image */}
+          <div className="absolute inset-0 z-0">
+            <img
+              src="/service-sim.png"
+              alt="Simulation Background"
+              className="w-full h-full object-cover opacity-15 dark:opacity-25"
+            />
+            <div className="absolute inset-0 bg-background/40 backdrop-blur-[1px]" />
+          </div>
+
           <div className="absolute inset-0 radar-grid opacity-30 z-0" />
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col items-center text-center">
             <span className="text-aero-blue font-semibold tracking-wider uppercase mb-4">CAD • FEA • CFD • THERMAL • DESIGN OPTIMIZATION</span>
@@ -166,18 +170,18 @@ export default function DesignSimulationPage() {
             <p className="text-lg md:text-xl text-text-secondary max-w-3xl mx-auto leading-relaxed mb-8">
               Design smarter. Validate earlier. Build with confidence.
             </p>
-            <div className="flex gap-4">
+            <div className="flex gap-4 mb-8">
               <Button variant="primary" size="lg">START YOUR SIMULATION PROJECT</Button>
             </div>
+            <p className="text-text-secondary text-base max-w-3xl mx-auto leading-relaxed mt-8">
+              AeroSpark provides professional engineering design and simulation services for products, components, structures and complex systems. From concept development and 3D CAD modelling to FEA, CFD, thermal analysis and optimization, we help identify design risks before manufacturing and turn engineering ideas into validated solutions.
+            </p>
           </div>
         </section>
 
         {/* Intro */}
-        <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-24 text-center">
+        <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 mb-24 text-center">
           <h2 className="text-2xl md:text-3xl font-bold mb-6 text-foreground">Design Smarter. Validate Earlier. Build Better.</h2>
-          <p className="text-text-secondary leading-relaxed md:text-lg mb-8">
-            AeroSpark provides professional engineering design and simulation services for products, components, structures and complex systems. From concept development and 3D CAD modelling to FEA, CFD, thermal analysis and optimization, we help identify design risks before manufacturing and turn engineering ideas into validated solutions.
-          </p>
           <div className="p-8 bg-surface-elevated border border-border-default rounded-2xl inline-block max-w-4xl text-left">
             <h3 className="text-xl font-bold mb-3 text-foreground">Complete Design and Simulation Support</h3>
             <p className="text-text-secondary">
@@ -204,101 +208,67 @@ export default function DesignSimulationPage() {
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
           <SectionHeader
             title="How We Work"
-            description="Our structured engineering design & simulation process. Click on a phase to explore the details."
+            description="Our structured engineering design & simulation process."
           />
           
-          <div className="mt-16 grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-            {/* Left Column: Sticky Phase Navigation (Desktop Only) */}
-            <div className="hidden lg:flex lg:col-span-4 sticky top-32 items-center gap-6">
-              {/* Vertical Title Decoration */}
-              <div className="flex items-center select-none shrink-0 w-8 relative self-stretch justify-center">
-                <div className="absolute whitespace-nowrap -rotate-90 flex items-center gap-3">
-                  <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-aero-blue font-bold">
-                    simulation
-                  </span>
-                  <span className="text-3xl font-black uppercase tracking-[0.15em] text-text-secondary/20 dark:text-text-secondary/15">
-                    process
+          <div className="mt-16 max-w-5xl mx-auto relative space-y-16">
+            {/* Vertical timeline line */}
+            <div className="absolute top-0 bottom-0 left-4 md:left-1/2 w-[2px] bg-gradient-to-b from-border-default/20 via-border-default/80 to-border-default/20 -translate-x-1/2" />
+
+            {phasesList.map((phase, phaseIdx) => (
+              <div key={phase.id} id={phase.id} className="scroll-mt-32 space-y-12">
+                {/* Phase Header on Timeline */}
+                <div className="relative flex justify-start md:justify-center pl-12 md:pl-0">
+                  <span className="text-xs font-mono font-bold text-aero-blue bg-aero-blue/10 border border-aero-blue/20 px-4 py-1.5 rounded-full uppercase tracking-wider shadow-sm z-10">
+                    {phase.title}
                   </span>
                 </div>
-              </div>
 
-              {/* The Menu Card */}
-              <div className="flex-1 glass-panel p-6 rounded-2xl border border-border-default/60 bg-surface/50 backdrop-blur-md">
-                <span className="text-xs font-mono font-bold text-text-muted uppercase tracking-wider block mb-4">
-                  Simulation Progress
-                </span>
-                <div className="space-y-3">
-                  {phasesList.map((phase) => {
-                    const isActive = activePhase === phase.id;
-                    return (
-                      <button
-                        key={phase.id}
-                        onClick={() => scrollToPhase(phase.id)}
-                        className={`w-full text-left p-4 rounded-xl border transition-all duration-300 flex flex-col ${
-                          isActive
-                            ? "bg-aero-blue/10 border-aero-blue/40 text-foreground shadow-sm"
-                            : "border-transparent text-text-secondary hover:bg-surface-elevated/40 hover:text-foreground"
-                        }`}
-                      >
-                        <div className="flex items-center justify-between mb-1">
-                          <span className={`text-xs font-mono font-bold ${isActive ? "text-aero-blue" : "text-text-muted"}`}>
-                            {phase.stepRange}
-                          </span>
-                          {isActive && (
-                            <span className="w-1.5 h-1.5 rounded-full bg-aero-blue animate-pulse" />
-                          )}
-                        </div>
-                        <span className="font-bold text-sm mb-1">{phase.title}</span>
-                        <span className="text-xs text-text-secondary leading-snug">{phase.desc}</span>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
+                {/* Steps under this phase */}
+                <div className="space-y-12">
+                  {processSteps
+                    .filter((_, idx) => {
+                      if (phaseIdx === 0) return idx === 0 || idx === 1;
+                      if (phaseIdx === 1) return idx === 2;
+                      if (phaseIdx === 2) return idx === 3 || idx === 4;
+                      if (phaseIdx === 3) return idx === 5;
+                      return false;
+                    })
+                    .map((item) => {
+                      // find original index
+                      const originalIdx = processSteps.findIndex((s) => s.step === item.step);
+                      const isOdd = originalIdx % 2 !== 0;
+                      const isActive = activeStep === item.step;
+                      return (
+                        <motion.div
+                          key={item.step}
+                          id={`step-${item.step}`}
+                          initial={{ opacity: 0, y: 20 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          viewport={{ once: true, margin: "-100px" }}
+                          transition={{ duration: 0.5, ease: "easeOut" }}
+                          className={`relative flex flex-col md:flex-row items-center justify-between w-full group ${isOdd ? "md:flex-row-reverse" : ""}`}
+                        >
+                          {/* Connector line dot/node */}
+                          <div className={`absolute left-4 md:left-1/2 -translate-x-1/2 top-2 md:top-1/2 md:-translate-y-1/2 w-8 h-8 rounded-full border flex items-center justify-center transition-all duration-300 z-10 shadow-sm ${
+                            isActive
+                              ? "border-[#FF6600] bg-[#FF6600] text-white scale-125 shadow-[0_0_20px_rgba(255,102,0,0.35)]"
+                              : "border-border-default/80 bg-background text-text-muted group-hover:border-[#FF6600] group-hover:text-[#FF6600] group-hover:scale-110"
+                          }`}>
+                            {stepIcons[originalIdx]}
+                          </div>
 
-            {/* Right Column: Timeline Steps */}
-            <div className="lg:col-span-8 relative ml-2 md:ml-4 space-y-16">
-              {/* Vertical timeline line */}
-              <div className="absolute top-0 bottom-0 left-0 w-[1px] bg-border-default/50" />
-
-              {phasesList.map((phase, phaseIdx) => (
-                <div key={phase.id} id={phase.id} className="scroll-mt-32 space-y-12">
-                  {/* Phase Header on Timeline */}
-                  <div className="relative pl-8 md:pl-10">
-                    <span className="text-xs font-mono font-bold text-aero-blue bg-aero-blue/10 border border-aero-blue/20 px-3 py-1 rounded-full uppercase tracking-wider shadow-sm">
-                      {phase.title}
-                    </span>
-                  </div>
-
-                  {/* Steps under this phase */}
-                  <div className="space-y-12">
-                    {processSteps
-                      .filter((_, idx) => {
-                        if (phaseIdx === 0) return idx === 0 || idx === 1;
-                        if (phaseIdx === 1) return idx === 2;
-                        if (phaseIdx === 2) return idx === 3 || idx === 4;
-                        if (phaseIdx === 3) return idx === 5;
-                        return false;
-                      })
-                      .map((item) => {
-                        // find original index
-                        const originalIdx = processSteps.findIndex((s) => s.step === item.step);
-                        return (
-                          <motion.div
-                            key={item.step}
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, margin: "-100px" }}
-                            transition={{ duration: 0.5, ease: "easeOut" }}
-                            className="relative pl-8 md:pl-10 group"
-                          >
-                            {/* Connector line dot/node */}
-                            <div className="absolute -left-3 md:-left-4 top-2 w-6 h-6 md:w-8 md:h-8 rounded-full border border-border-default/80 bg-background flex items-center justify-center text-text-muted group-hover:border-aero-blue group-hover:text-aero-blue group-hover:scale-110 transition-all duration-300 z-10 shadow-sm group-hover:shadow-[0_0_12px_rgba(var(--primary),0.15)]">
-                              {stepIcons[originalIdx]}
-                            </div>
-
-                            <GlassCard className="hover:border-aero-blue/30 hover:shadow-md transition-all duration-300" padding="md">
+                          {/* The Card */}
+                          <div className="w-full md:w-[45%] pl-12 md:pl-0">
+                            <GlassCard
+                              hover={!isActive}
+                              className={`!border-2 transition-all duration-300 ${
+                                isActive
+                                  ? "!border-[#FF6600] bg-[#FF6600]/5 shadow-[0_0_30px_rgba(255,102,0,0.18)] scale-[1.03]"
+                                  : "!border-border-default/60 hover:!border-[#FF6600]/60 hover:scale-[1.03] hover:shadow-md"
+                              }`}
+                              padding="md"
+                            >
                               <div className="flex items-center justify-between mb-2">
                                 <span className="text-xs font-mono text-text-muted font-bold">
                                   STEP {item.step}
@@ -311,13 +281,16 @@ export default function DesignSimulationPage() {
                                 {item.desc}
                               </p>
                             </GlassCard>
-                          </motion.div>
-                        );
-                      })}
-                  </div>
+                          </div>
+
+                          {/* Spacer for desktop */}
+                          <div className="hidden md:block w-[45%]" />
+                        </motion.div>
+                      );
+                    })}
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         </section>
 

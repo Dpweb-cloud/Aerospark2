@@ -488,10 +488,17 @@ function TeacherDashboardContent() {
                   <Button
                     type="submit"
                     variant="primary"
-                    className="w-full py-2 shadow-md"
+                    className="w-full py-2 shadow-md flex items-center justify-center gap-2"
                     disabled={scheduling}
                   >
-                    {scheduling ? "Creating Class..." : "Create Class Slot"}
+                    {scheduling ? (
+                      <>
+                        <div className="w-3.5 h-3.5 border-2 border-t-white border-r-transparent border-b-transparent border-l-transparent rounded-full animate-spin" />
+                        <span>Creating Class...</span>
+                      </>
+                    ) : (
+                      "Create Class Slot"
+                    )}
                   </Button>
                 </form>
               </GlassCard>
@@ -764,10 +771,17 @@ function TeacherDashboardContent() {
                   <Button
                     type="submit"
                     variant="primary"
-                    className="w-full py-2 shadow-md"
+                    className="w-full py-2 shadow-md flex items-center justify-center gap-2"
                     disabled={uploading}
                   >
-                    {uploading ? "Uploading Resource..." : "Upload Resource"}
+                    {uploading ? (
+                      <>
+                        <div className="w-3.5 h-3.5 border-2 border-t-white border-r-transparent border-b-transparent border-l-transparent rounded-full animate-spin" />
+                        <span>Uploading Resource...</span>
+                      </>
+                    ) : (
+                      "Upload Resource"
+                    )}
                   </Button>
                 </form>
               </GlassCard>

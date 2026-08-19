@@ -25,6 +25,7 @@ const services = [
     btnText: "Explore Certification Support →",
     href: "/consultation/uas-certification",
     glow: "blue" as const,
+    image: "/service-cert.png",
   },
   {
     id: "drone-rd",
@@ -34,6 +35,7 @@ const services = [
     btnText: "Explore UAV Engineering →",
     href: "/consultation/drone-rd",
     glow: "red" as const,
+    image: "/service-design.png",
   },
   {
     id: "design-simulation",
@@ -43,6 +45,7 @@ const services = [
     btnText: "Explore Design & Simulation →",
     href: "/consultation/design-simulation",
     glow: "blue" as const,
+    image: "/service-sim.png",
   },
   {
     id: "as9100d-quality",
@@ -52,6 +55,7 @@ const services = [
     btnText: "Explore Quality Services →",
     href: "/consultation/as9100d-quality",
     glow: "red" as const,
+    image: "/service-quality.png",
   },
 ];
 
@@ -116,7 +120,6 @@ export default function ConsultationClient() {
           {/* Ambient orbs */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-aero-blue/10 blur-[120px] rounded-[100%] pointer-events-none z-0" />
           <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-aero-red/5 blur-[120px] rounded-full pointer-events-none z-0" />
-
           <div className="absolute inset-0 radar-grid opacity-30 z-0" />
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col items-center text-center">
             <span className="text-[#FF6600] font-bold text-xs uppercase tracking-widest block mb-4">
@@ -152,12 +155,19 @@ export default function ConsultationClient() {
           >
             {services.map((service) => (
               <motion.div key={service.id} variants={staggerItem}>
-                <GlassCard padding="lg" className="h-full flex flex-col justify-between" glow={service.glow}>
+                <GlassCard padding="lg" className="group h-full flex flex-col justify-between" glow={service.glow}>
                   <div className="space-y-4">
+                    <div className="relative w-full aspect-[2.1] rounded-xl overflow-hidden border border-border-subtle bg-surface-elevated shadow-sm mb-4">
+                      <img
+                        src={service.image}
+                        alt={service.title}
+                        className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                    </div>
                     <span className="text-[#FF6600] font-bold text-xs uppercase tracking-widest block">
                       {service.tag}
                     </span>
-                    <h3 className="text-2xl font-bold text-foreground tracking-tight">
+                    <h3 className="text-2xl font-bold text-foreground tracking-tight group-hover:text-aero-blue transition-colors">
                       {service.title}
                     </h3>
                     <p className="text-text-secondary text-sm md:text-base leading-relaxed">
@@ -165,7 +175,7 @@ export default function ConsultationClient() {
                     </p>
                   </div>
                   <div className="pt-6">
-                    <Button variant="outline" href={service.href} className="group">
+                    <Button variant="outline" href={service.href} className="group-hover:border-aero-blue/40 group-hover:bg-aero-blue/5 transition-all">
                       {service.btnText}
                     </Button>
                   </div>

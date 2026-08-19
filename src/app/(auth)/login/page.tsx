@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { loginAction } from "@/app/actions/authActions";
@@ -14,6 +14,15 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
+
+  useEffect(() => {
+    const savedEmail = localStorage.getItem("rememberedEmail");
+    if (savedEmail) {
+      setEmail(savedEmail);
+      setRememberMe(true);
+    }
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,6 +35,11 @@ export default function LoginPage() {
     try {
       const res = await loginAction({ email, password });
       if (res.success) {
+        if (rememberMe) {
+          localStorage.setItem("rememberedEmail", email);
+        } else {
+          localStorage.removeItem("rememberedEmail");
+        }
         toast.success("Successfully logged in!");
         if (res.role === "ADMIN") {
           router.push("/dashboard/admin");
@@ -102,6 +116,19 @@ export default function LoginPage() {
                   required
                 />
               </div>
+            </div>
+
+            {/* Remember Me */}
+            <div className="flex items-center justify-between py-1 text-xs">
+              <label className="flex items-center gap-2 text-text-secondary cursor-pointer hover:text-foreground transition-colors select-none">
+                <input
+                  type="checkbox"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                  className="w-4 h-4 rounded border-border-default bg-surface/50 text-aero-blue focus:ring-aero-blue accent-[#FF6600]"
+                />
+                <span>Remember Me</span>
+              </label>
             </div>
 
             <Button

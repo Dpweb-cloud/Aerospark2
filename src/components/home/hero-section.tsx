@@ -63,7 +63,7 @@ export function HeroSection() {
               transition={{ delay: 0.7, duration: 0.6 }}
               className="text-text-secondary text-base sm:text-lg max-w-xl mb-8 leading-relaxed text-left"
             >
-              From UAV development and drone certification to aerospace consulting and professional training, AeroSpark helps businesses and engineers turn ideas into real-world aviation solutions.
+              From UAVs development and drone certification to aerospace consulting and professional training, AeroSpark helps businesses and engineers turn ideas into real-world aviation solutions.
             </motion.p>
 
             {/* CTAs */}

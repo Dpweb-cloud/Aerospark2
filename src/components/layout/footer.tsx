@@ -58,11 +58,11 @@ export function Footer() {
           {/* Brand Column */}
           <motion.div variants={staggerItem} className="lg:col-span-2 space-y-5">
             <Link href="/" className="flex items-center gap-2.5">
-              <span className="text-lg font-bold tracking-tight">
+              <img src="/logo1.png" alt="Logo" className="w-9 h-9 object-contain relative -top-[2px]" />
+              <span className="text-xl font-bold tracking-tight">
                 <span className="text-[#00008B]">Aero</span>
                 <span className="text-orange-500">Spark</span>
               </span>
-              <img src="/logo.png" alt="Logo" className="w-7 h-7 object-contain relative -top-[2px]" />
             </Link>
             <p className="text-text-secondary text-sm leading-relaxed max-w-sm">
               Aerospace engineering, UAV development, drone certification support, design & simulation, and industry-focused technical training — from engineering challenges to practical solutions.

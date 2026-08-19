@@ -348,10 +348,7 @@ export default function CourseClient({ courseId }: { courseId: string }) {
       q: "Are the sessions live?",
       a: "Yes, our academy programs feature live interactive training sessions with engineering instructors to discuss concepts and ask questions.",
     },
-    {
-      q: "Will I receive a certificate?",
-      a: "Yes. You will receive an AeroSpark course completion certificate after successfully meeting the attendance, project, and course-completion requirements.",
-    },
+
     {
       q: "Is this an official DGCA / FAA / EASA certification?",
       a: course.category.toLowerCase().includes("compliance")
@@ -556,42 +553,13 @@ export default function CourseClient({ courseId }: { courseId: string }) {
                     "Learning materials and references",
                     "Practical engineering examples",
                     "Doubt-solving & guidance support",
-                    "Course completion certificate",
+
                   ].map((inc, idx) => (
                     <div key={idx} className="flex items-center gap-2 text-sm text-text-secondary">
                       <CheckCircle2 className="w-4 h-4 text-aero-blue shrink-0" />
                       <span>{inc}</span>
                     </div>
                   ))}
-                </div>
-              </GlassCard>
-
-              {/* Course Completion Certificate */}
-              <GlassCard padding="lg" className="space-y-4">
-                <h2 className="text-2xl font-bold text-foreground">Course Completion Certificate</h2>
-                <p className="text-sm text-text-secondary leading-relaxed">
-                  Learners who successfully complete the course requirements will receive an AeroSpark course completion certificate for the respective training program.
-                </p>
-                <div className="p-4 rounded-xl border border-dashed border-border-default bg-background/50">
-                  <p className="text-xs text-text-muted leading-relaxed">
-                    <span className="font-bold text-foreground block mb-1">Important Disclaimer:</span>
-                    AeroSpark course completion certificates recognise completion of AeroSpark training. Courses covering DGCA, FAA, EASA, AS9100D, or other regulatory frameworks do not represent licences, approvals, or certifications issued by those regulatory bodies unless explicitly stated.
-                  </p>
-                </div>
-              </GlassCard>
-
-              {/* Your Instructor */}
-              <GlassCard padding="lg" className="space-y-4">
-                <h2 className="text-2xl font-bold text-foreground">Your Instructor</h2>
-                <div className="flex flex-col sm:flex-row items-center gap-4 p-5 rounded-2xl bg-surface-elevated/40 border border-border-subtle">
-                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-aero-blue/20 to-aero-red/20 flex items-center justify-center text-foreground text-xl font-bold shrink-0">
-                    {enrich.instructor.initials}
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-bold text-foreground">{enrich.instructor.name}</h3>
-                    <p className="text-xs text-aero-blue font-bold uppercase tracking-wider mb-2">{enrich.instructor.role}</p>
-                    <p className="text-sm text-text-secondary leading-relaxed">{enrich.instructor.bio}</p>
-                  </div>
                 </div>
               </GlassCard>
 
@@ -670,13 +638,7 @@ export default function CourseClient({ courseId }: { courseId: string }) {
                         <p className="font-semibold text-foreground">{course.lessons} lessons</p>
                       </div>
                     </div>
-                    <div className="flex items-start gap-3 text-text-secondary text-sm">
-                      <Award className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
-                      <div>
-                        <p className="text-[10px] text-text-muted uppercase tracking-wider font-semibold">Certification</p>
-                        <p className="font-semibold text-foreground">Completion Certificate</p>
-                      </div>
-                    </div>
+
                   </div>
                 </div>
               </div>

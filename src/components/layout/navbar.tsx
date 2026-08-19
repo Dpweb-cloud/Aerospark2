@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { NAV_LINKS, SITE_CONFIG } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
 import { ThemeSwitcher } from "./theme-switcher";
+import { getCurrentUserAction } from "@/app/actions/authActions";
 import {
   Menu,
   X,
@@ -19,6 +20,7 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [user, setUser] = useState<{ id: number; email: string; name: string; role: string } | null>(null);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -30,7 +32,15 @@ export function Navbar() {
 
   useEffect(() => {
     setMobileOpen(false);
+    getCurrentUserAction().then((u) => {
+      setUser(u as any);
+    });
   }, [pathname]);
+
+  const getDashboardHref = (role: string) => {
+    if (role === "TEACHER") return "/dashboard/teacher";
+    return "/dashboard";
+  };
 
   return (
     <>
@@ -39,28 +49,36 @@ export function Navbar() {
         animate={{ y: 0 }}
         transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
         className={cn(
-          "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+          "fixed left-0 right-0 z-50 transition-all duration-500",
           scrolled
-            ? "bg-background/90 backdrop-blur-md border-b border-border-subtle shadow-sm"
-            : "bg-transparent"
+            ? "top-3 md:top-4 px-4 sm:px-6 lg:px-8"
+            : "top-0 px-0"
         )}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16 lg:h-18">
+        <div className={cn(
+          "mx-auto transition-all duration-500",
+          scrolled
+            ? "max-w-7xl bg-background/85 dark:bg-background/75 backdrop-blur-md border border-border-default/60 shadow-[0_12px_40px_rgba(0,0,0,0.08)] rounded-2xl px-6 md:px-8"
+            : "max-w-full border-b border-border-subtle/10 px-4 sm:px-6 lg:px-8 bg-transparent"
+        )}>
+          <div className={cn(
+            "flex items-center justify-between transition-all duration-500",
+            scrolled ? "h-14 lg:h-16" : "h-16 lg:h-20"
+          )}>
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2.5 group">
-              <span className="text-lg font-bold tracking-tight">
-                <span className="text-[#00008B]">Aero</span>
-                <span className="text-orange-500">Spark</span>
-              </span>
-              <div className="relative -top-[3px]">
+              <div className="relative -top-[2px]">
                 <img
-                  src="/logo.png"
+                  src="/logo1.png"
                   alt="AeroSpark"
-                  className="w-8 h-8 object-contain transition-transform duration-300 group-hover:scale-110"
+                  className="w-9 h-9 md:w-10 h-10 object-contain transition-transform duration-300 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-secondary/30 blur-lg rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </div>
+              <span className="text-xl md:text-2xl font-bold tracking-tight">
+                <span className="text-[#00008B]">Aero</span>
+                <span className="text-[#FF6600]">Spark</span>
+              </span>
             </Link>
 
             {/* Desktop Nav */}
@@ -74,7 +92,7 @@ export function Navbar() {
                     className={cn(
                       "relative px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300",
                       isActive
-                        ? "text-aero-blue"
+                        ? "text-[#FF6600]"
                         : "text-text-secondary hover:text-foreground"
                     )}
                   >
@@ -82,7 +100,7 @@ export function Navbar() {
                     {isActive && (
                       <motion.div
                         layoutId="navbar-indicator"
-                        className="absolute inset-0 bg-aero-blue/8 rounded-lg border border-aero-blue/15"
+                        className="absolute inset-0 bg-[#FF6600]/8 rounded-lg border border-[#FF6600]/15"
                         transition={{
                           type: "spring",
                           stiffness: 400,
@@ -96,14 +114,27 @@ export function Navbar() {
             </nav>
 
             {/* Desktop CTA */}
-            <div className="hidden lg:flex items-center gap-3">
+            <div className="hidden lg:flex items-center gap-4">
               <ThemeSwitcher />
-              <Button variant="ghost" size="sm" href="/login">
-                Sign In
-              </Button>
-              <Button variant="primary" size="sm" href="/signup">
-                Sign Up
-              </Button>
+              {mounted && user ? (
+                <Button
+                  variant="primary"
+                  size="sm"
+                  href={getDashboardHref(user.role)}
+                  className="bg-[#FF6600] text-white hover:bg-[#e65c00] border-none shadow-md animate-fade-in"
+                >
+                  Dashboard
+                </Button>
+              ) : (
+                <Button
+                  variant="primary"
+                  size="sm"
+                  href="/login"
+                  className="bg-[#FF6600] text-white hover:bg-[#e65c00] border-none shadow-md"
+                >
+                  Sign In
+                </Button>
+              )}
             </div>
 
             {/* Mobile Menu Toggle */}
@@ -163,7 +194,7 @@ export function Navbar() {
                       className={cn(
                         "flex items-center justify-between px-4 py-3 rounded-lg text-sm font-medium transition-colors",
                         mounted && pathname === link.href
-                          ? "bg-aero-blue/10 text-aero-blue"
+                          ? "bg-[#FF6600]/10 text-[#FF6600]"
                           : "text-text-secondary hover:text-foreground hover:bg-surface-elevated"
                       )}
                     >
@@ -173,13 +204,26 @@ export function Navbar() {
                   </motion.div>
                 ))}
               </nav>
-              <div className="p-4 space-y-3 border-t border-border-subtle">
-                <Button variant="secondary" size="md" href="/login" className="w-full">
-                  Sign In
-                </Button>
-                <Button variant="primary" size="md" href="/signup" className="w-full">
-                  Sign Up
-                </Button>
+              <div className="p-4 border-t border-border-subtle">
+                {mounted && user ? (
+                  <Button
+                    variant="primary"
+                    size="md"
+                    href={getDashboardHref(user.role)}
+                    className="w-full bg-[#FF6600] text-white hover:bg-[#e65c00] border-none"
+                  >
+                    Dashboard
+                  </Button>
+                ) : (
+                  <Button
+                    variant="primary"
+                    size="md"
+                    href="/login"
+                    className="w-full bg-[#FF6600] text-white hover:bg-[#e65c00] border-none"
+                  >
+                    Sign In
+                  </Button>
+                )}
               </div>
             </motion.div>
           </motion.div>

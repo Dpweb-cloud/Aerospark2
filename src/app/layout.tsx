@@ -30,6 +30,7 @@ export const metadata: Metadata = {
 import { GlobalBackground } from "@/components/layout/global-bg";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "sonner";
+import { CookieConsent } from "@/components/layout/cookie-consent";
 
 export default function RootLayout({
   children,
@@ -65,6 +66,7 @@ export default function RootLayout({
           <div className="scan-line" />
           {children}
           <Toaster position="top-center" richColors closeButton />
+          <CookieConsent />
         </ThemeProvider>
       </body>
     </html>

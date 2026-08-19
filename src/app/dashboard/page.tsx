@@ -441,10 +441,17 @@ function StudentDashboardContent() {
                   <Button
                     type="submit"
                     variant="primary"
-                    className="w-full py-2 shadow-md shadow-aero-blue/20"
+                    className="w-full py-2 shadow-md shadow-aero-blue/20 flex items-center justify-center gap-2"
                     disabled={uploadingNote}
                   >
-                    {uploadingNote ? "Uploading..." : "Submit for Verification"}
+                    {uploadingNote ? (
+                      <>
+                        <div className="w-3.5 h-3.5 border-2 border-t-white border-r-transparent border-b-transparent border-l-transparent rounded-full animate-spin" />
+                        <span>Uploading...</span>
+                      </>
+                    ) : (
+                      "Submit for Verification"
+                    )}
                   </Button>
                 </form>
               </GlassCard>

@@ -56,6 +56,9 @@ function AdminDashboardContent() {
   const [updatingNoteId, setUpdatingNoteId] = useState<number | null>(null);
   const [deletingResourceId, setDeletingResourceId] = useState<number | null>(null);
   const [deletingClassId, setDeletingClassId] = useState<number | null>(null);
+  const [deletingUserId, setDeletingUserId] = useState<number | null>(null);
+  const [addingUser, setAddingUser] = useState(false);
+  const [schedulingClass, setSchedulingClass] = useState(false);
 
   // Modal control states
   const [activeModal, setActiveModal] = useState<"student" | "teacher" | "course" | null>(null);
@@ -100,6 +103,7 @@ function AdminDashboardContent() {
       toast.error("Please fill in all required fields (Name, Email, and Password).");
       return;
     }
+    setAddingUser(true);
     try {
       const res = await adminAddUserAction(formName, formEmail, formPassword, role, formSubject);
       if (res.success) {
@@ -115,6 +119,8 @@ function AdminDashboardContent() {
       }
     } catch (err: any) {
       toast.error("Error adding user: " + err.message);
+    } finally {
+      setAddingUser(false);
     }
   };
 
@@ -122,6 +128,7 @@ function AdminDashboardContent() {
     if (!confirm(`Are you sure you want to permanently delete user "${name}"? This cannot be undone.`)) {
       return;
     }
+    setDeletingUserId(userId);
     try {
       const res = await adminDeleteUserAction(userId);
       if (res.success) {
@@ -132,6 +139,8 @@ function AdminDashboardContent() {
       }
     } catch (err: any) {
       toast.error("Error: " + err.message);
+    } finally {
+      setDeletingUserId(null);
     }
   };
 
@@ -210,6 +219,7 @@ function AdminDashboardContent() {
       toast.error("Please fill out all class requirements.");
       return;
     }
+    setSchedulingClass(true);
     try {
       const res = await adminCreateClassAction(
         courseTitle,
@@ -230,6 +240,8 @@ function AdminDashboardContent() {
       }
     } catch (err: any) {
       toast.error("Error: " + err.message);
+    } finally {
+      setSchedulingClass(false);
     }
   };
 
@@ -409,13 +421,17 @@ function AdminDashboardContent() {
                             )}
                           </td>
                           <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm text-text-secondary text-right">
-                            <button
-                              onClick={() => handleDeleteUser(user.id, user.name)}
-                              className="text-red-400 hover:text-red-500 transition-colors p-1"
-                              title="Delete Account"
-                            >
-                              <Trash2 className="w-4 h-4" />
-                            </button>
+                            {deletingUserId === user.id ? (
+                              <div className="w-4 h-4 border-2 border-red-400 border-t-transparent rounded-full animate-spin ml-auto" />
+                            ) : (
+                              <button
+                                onClick={() => handleDeleteUser(user.id, user.name)}
+                                className="text-red-400 hover:text-red-500 transition-colors p-1"
+                                title="Delete Account"
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </button>
+                            )}
                           </td>
                         </tr>
                       ))}
@@ -542,13 +558,17 @@ function AdminDashboardContent() {
                           )}
                         </td>
                         <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm text-right">
-                          <button
-                            onClick={() => handleDeleteUser(user.id, user.name)}
-                            className="text-red-400 hover:text-red-500 transition-colors p-1"
-                            title="Delete Account"
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </button>
+                          {deletingUserId === user.id ? (
+                            <div className="w-4 h-4 border-2 border-red-400 border-t-transparent rounded-full animate-spin ml-auto" />
+                          ) : (
+                            <button
+                              onClick={() => handleDeleteUser(user.id, user.name)}
+                              className="text-red-400 hover:text-red-500 transition-colors p-1"
+                              title="Delete Account"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          )}
                         </td>
                       </tr>
                     ))}
@@ -618,13 +638,17 @@ function AdminDashboardContent() {
                           )}
                         </td>
                         <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-sm text-right">
-                          <button
-                            onClick={() => handleDeleteUser(user.id, user.name)}
-                            className="text-red-400 hover:text-red-500 transition-colors p-1"
-                            title="Delete Account"
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </button>
+                          {deletingUserId === user.id ? (
+                            <div className="w-4 h-4 border-2 border-red-400 border-t-transparent rounded-full animate-spin ml-auto" />
+                          ) : (
+                            <button
+                              onClick={() => handleDeleteUser(user.id, user.name)}
+                              className="text-red-400 hover:text-red-500 transition-colors p-1"
+                              title="Delete Account"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          )}
                         </td>
                       </tr>
                     ))}
@@ -1074,13 +1098,22 @@ function AdminDashboardContent() {
                     </div>
                   </div>
                   <div className="flex gap-3 justify-end pt-3">
-                    <Button variant="outline" onClick={() => setActiveModal(null)}>Cancel</Button>
-                    <Button
-                      variant="primary"
-                      onClick={() => handleAddUser(activeModal === "student" ? "STUDENT" : "TEACHER")}
-                    >
-                      Create Profile
-                    </Button>
+                     <Button variant="outline" onClick={() => setActiveModal(null)} disabled={addingUser}>Cancel</Button>
+                     <Button
+                       variant="primary"
+                       onClick={() => handleAddUser(activeModal === "student" ? "STUDENT" : "TEACHER")}
+                       disabled={addingUser}
+                       className="flex items-center gap-1.5"
+                     >
+                       {addingUser ? (
+                         <>
+                           <div className="w-3.5 h-3.5 border-2 border-t-white border-r-transparent border-b-transparent border-l-transparent rounded-full animate-spin" />
+                           <span>Creating...</span>
+                         </>
+                       ) : (
+                         "Create Profile"
+                       )}
+                     </Button>
                   </div>
                 </>
               )}
@@ -1142,8 +1175,22 @@ function AdminDashboardContent() {
                     </div>
                   </div>
                   <div className="flex gap-3 justify-end pt-3">
-                    <Button variant="outline" onClick={() => setActiveModal(null)}>Cancel</Button>
-                    <Button variant="primary" onClick={handleCreateCourse}>Schedule Course</Button>
+                     <Button variant="outline" onClick={() => setActiveModal(null)} disabled={schedulingClass}>Cancel</Button>
+                     <Button
+                       variant="primary"
+                       onClick={handleCreateCourse}
+                       disabled={schedulingClass}
+                       className="flex items-center gap-1.5"
+                     >
+                       {schedulingClass ? (
+                         <>
+                           <div className="w-3.5 h-3.5 border-2 border-t-white border-r-transparent border-b-transparent border-l-transparent rounded-full animate-spin" />
+                           <span>Scheduling...</span>
+                         </>
+                       ) : (
+                         "Schedule Course"
+                       )}
+                     </Button>
                   </div>
                 </>
               )}
