@@ -89,9 +89,9 @@ export default function AboutClient() {
   return (
     <>
       <Navbar />
-      <main className="pt-24 pb-16">
+      <main className="pb-16">
         {/* Hero Section */}
-        <section className="pt-24 pb-32 relative overflow-hidden">
+        <section className="pt-28 pb-32 relative overflow-hidden">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-aero-blue/10 blur-[120px] rounded-[100%] pointer-events-none z-0" />
           <div className="absolute inset-0 radar-grid opacity-30 z-0" />
           
@@ -112,9 +112,11 @@ export default function AboutClient() {
                   <p>
                     From the beginning, the focus was practical. The team spent time working around aircraft and UAV design, CAD modelling, aerodynamics, engineering analysis, and understanding how aerospace concepts translate into real engineering work.
                   </p>
-                  <p className="font-semibold text-foreground border-l-2 border-[#FF6600] pl-4">
-                    Design has been part of AeroSpark from the very beginning. It was not something introduced later when consultancy started.
-                  </p>
+                  <div className="border-l-4 border-[#FF6600] bg-[#FF6600]/5 p-4 rounded-r-xl my-4">
+                    <p className="font-semibold text-foreground text-sm md:text-base leading-relaxed">
+                      Design has been part of AeroSpark from the very beginning. It was not something introduced later when consultancy started.
+                    </p>
+                  </div>
                   <p>
                     As the team gained experience, AeroSpark gradually expanded into technical education, engineering consultancy, simulation, certification support, and aerospace quality systems.
                   </p>
@@ -138,12 +140,14 @@ export default function AboutClient() {
 
         {/* Why AeroSpark Exists */}
         <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-24 text-center">
-          <div className="p-8 bg-surface-elevated border border-border-default rounded-2xl inline-block max-w-4xl text-left">
-            <h3 className="text-xl font-bold mb-3 text-foreground">A Philosophy Built on Practical Application</h3>
+          <GlassCard padding="lg" className="border-l-4 border-l-[#FF6600] border-border-default/60 shadow-lg text-left max-w-4xl mx-auto" glow="none">
+            <h3 className="text-xl font-bold mb-3 text-foreground flex items-center gap-2">
+              <Compass className="w-5 h-5 text-[#FF6600]" /> A Philosophy Built on Practical Application
+            </h3>
             <p className="text-text-secondary text-sm md:text-base leading-relaxed">
               Aerospace is a field where theory and application have to work together. AeroSpark was created to bring those two sides closer — helping businesses tackle engineering challenges while helping learners understand how aerospace concepts are applied in practice.
             </p>
-          </div>
+          </GlassCard>
         </section>
 
         {/* Our Journey (Grid Layout) */}
@@ -263,131 +267,20 @@ export default function AboutClient() {
           </div>
         </section>
 
-        {/* AeroSpark Today Section */}
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
-          <SectionHeader
-            title="AeroSpark Today"
-            description="Today, AeroSpark brings these areas together through AeroSpark Academy and Aerospace Engineering & Consulting."
-          />
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-12">
-            {/* Academy Card */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="h-full"
-            >
-              <GlassCard padding="none" className="h-full flex flex-col justify-between overflow-hidden border border-border-default shadow-lg hover:shadow-xl transition-all duration-300" glow="blue">
-                <div className="relative h-64 overflow-hidden border-b border-border-subtle bg-surface-elevated/40">
-                  <img
-                    src="/acad_card.png"
-                    alt="AeroSpark Academy"
-                    className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
-                </div>
-                <div className="p-8 space-y-6 flex-1 flex flex-col justify-between">
-                  <div className="space-y-4">
-                    <span className="text-[#FF6600] font-bold text-sm uppercase tracking-widest block">
-                      AeroSpark Academy
-                    </span>
-                    <p className="text-foreground text-base leading-relaxed font-semibold">
-                      AeroSpark Academy focuses on practical technical learning for students, engineers, and professionals interested in aerospace and UAV technology.
-                    </p>
-                    <p className="text-text-secondary text-sm leading-relaxed">
-                      Our learning areas include aerospace engineering, UAV systems, CAD, aerodynamics, CFD, simulation, drone regulations, aerospace quality, and certification-related topics. Our aim is to help learners understand how technical concepts connect with practical engineering work.
-                    </p>
-                  </div>
-                  <div className="pt-6">
-                    <Button variant="primary" href="/academy" className="w-full justify-center bg-[#FF6600] text-white hover:bg-[#e65c00] border-none shadow-lg">
-                      Explore AeroSpark Academy
-                      <ArrowRight className="w-4 h-4" />
-                    </Button>
-                  </div>
-                </div>
-              </GlassCard>
-            </motion.div>
 
-            {/* Engineering & Consulting Card */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="h-full"
-            >
-              <GlassCard padding="none" className="h-full flex flex-col justify-between overflow-hidden border border-border-default shadow-lg hover:shadow-xl transition-all duration-300" glow="blue">
-                <div className="relative h-64 overflow-hidden border-b border-border-subtle bg-surface-elevated/40">
-                  <img
-                    src="/eng_consulting_card.png"
-                    alt="Engineering & Consulting"
-                    className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
-                </div>
-                <div className="p-8 space-y-6 flex-1 flex flex-col justify-between">
-                  <div className="space-y-4">
-                    <span className="text-[#FF6600] font-bold text-sm uppercase tracking-widest block">
-                      Aerospace Engineering & Consulting
-                    </span>
-                    <p className="text-foreground text-base leading-relaxed font-semibold">
-                      Our engineering work covers aircraft and UAV design, UAV development, CAD/CAE, CFD, simulation, certification support, technical documentation, quality systems, and product development.
-                    </p>
-                    <p className="text-text-secondary text-sm leading-relaxed">
-                      Design remains an important part of AeroSpark&apos;s work today, just as it was when the journey began. We translate standard engineering analysis into reliable, certification-ready product validation.
-                    </p>
-                  </div>
-                  <div className="pt-6">
-                    <Button variant="primary" href="/consultation" className="w-full justify-center bg-[#FF6600] text-white hover:bg-[#e65c00] border-none shadow-lg">
-                      Explore Engineering & Consulting
-                      <ArrowRight className="w-4 h-4" />
-                    </Button>
-                  </div>
-                </div>
-              </GlassCard>
-            </motion.div>
-          </div>
-        </section>
-
-        {/* What Has Stayed Consistent (Philosophy) */}
-        <section className="py-20 bg-surface-elevated/10">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <span className="text-[#FF6600] font-bold text-xs uppercase tracking-widest block mb-4">
+        {/* Core Philosophy Section */}
+        <section className="py-24 border-t border-b border-border-subtle/50 bg-surface-elevated/5 relative overflow-hidden">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[250px] bg-[#FF6600]/5 blur-[80px] rounded-full pointer-events-none" />
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8 relative z-10">
+            <span className="text-[#FF6600] font-bold text-xs uppercase tracking-widest block">
               Our Core Philosophy
             </span>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-foreground mb-6">
-              What Has Stayed Consistent
-            </h2>
-            <div className="p-8 bg-surface-elevated/40 backdrop-blur-md border border-border-default rounded-3xl text-left space-y-6">
-              <p className="text-text-secondary text-base md:text-lg leading-relaxed">
-                AeroSpark has evolved since 2020, but the foundation has remained fairly simple:
-              </p>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4 border-t border-border-subtle">
-                <div className="space-y-2">
-                  <div className="text-xs font-mono font-bold text-[#FF6600]">STAGE 01</div>
-                  <h4 className="font-bold text-foreground">We Learn & Design</h4>
-                  <p className="text-xs text-text-secondary leading-relaxed">Starting by testing concepts, analyzing aerodynamics, and building CAD models.</p>
-                </div>
-                <div className="space-y-2">
-                  <div className="text-xs font-mono font-bold text-[#FF6600]">STAGE 02</div>
-                  <h4 className="font-bold text-foreground">We Teach</h4>
-                  <p className="text-xs text-text-secondary leading-relaxed">Sharing aerospace knowledge and design workflows in a highly practical way.</p>
-                </div>
-                <div className="space-y-2">
-                  <div className="text-xs font-mono font-bold text-[#FF6600]">STAGE 03</div>
-                  <h4 className="font-bold text-foreground">We Consult</h4>
-                  <p className="text-xs text-text-secondary leading-relaxed">Applying our technical capabilities to external engineering and certification projects.</p>
-                </div>
-              </div>
-              <p className="text-text-secondary text-base leading-relaxed pt-4 border-t border-border-subtle">
-                Over time, those areas began supporting each other. The engineering side gives us practical problems to work on. The education side gives us an opportunity to share what we learn. And continued learning helps us improve both.
-              </p>
-              <p className="text-foreground font-semibold text-lg leading-relaxed text-center pt-2">
-                AeroSpark is still growing, and we prefer to describe that journey for what it is — gradual, technical, and built through experience.
-              </p>
-              <div className="text-center text-xs font-mono font-bold text-[#FF6600] uppercase tracking-widest pt-2">
-                Learn. Design. Engineer. Build.
-              </div>
+            <p className="text-xl md:text-2xl lg:text-3xl font-semibold text-foreground leading-relaxed max-w-3xl mx-auto">
+              AeroSpark is still growing, and we prefer to describe that journey for what it is — gradual, technical, and built through experience.
+            </p>
+            <div className="text-xs font-mono font-bold text-[#FF6600] uppercase tracking-widest pt-4">
+              Learn. Design. Engineer. Build.
             </div>
           </div>
         </section>

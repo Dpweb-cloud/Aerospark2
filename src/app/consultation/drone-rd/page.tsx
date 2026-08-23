@@ -134,35 +134,34 @@ export default function DroneRDPage() {
   return (
     <>
       <Navbar />
-      <main className="pt-24 pb-16">
+      <main className="pb-16">
         {/* Hero */}
-        <section className="pt-24 pb-32 relative overflow-hidden">
+        <section className="pt-28 pb-32 relative overflow-hidden">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-aero-blue/10 blur-[120px] rounded-[100%] pointer-events-none z-0" />
           {/* Background Image */}
           <div className="absolute inset-0 z-0">
             <img
               src="/service-design.png"
               alt="Drone R&D Background"
-              className="w-full h-full object-cover opacity-15 dark:opacity-25"
+              className="w-full h-full object-cover opacity-35 dark:opacity-45"
             />
             <div className="absolute inset-0 bg-background/40 backdrop-blur-[1px]" />
           </div>
 
           <div className="absolute inset-0 radar-grid opacity-30 z-0" />
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col items-center text-center">
-            <span className="text-aero-blue font-semibold tracking-wider uppercase mb-4">DRONE R&D • DESIGN • MANUFACTURING • FLIGHT VALIDATION</span>
+            <span className="text-[#FF6B00] font-bold tracking-widest uppercase mb-4 text-xs md:text-sm">DRONE R&D • DESIGN • MANUFACTURING • FLIGHT VALIDATION</span>
             <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold mb-6 tracking-tight bg-clip-text text-transparent bg-gradient-to-b from-foreground via-foreground/90 to-foreground/50">
               Drone R&D and Product Development Services
             </h1>
             <p className="text-lg md:text-xl text-text-secondary max-w-3xl mx-auto leading-relaxed mb-8">
               From an initial requirement to a manufactured, flight-tested and handover-ready drone.
             </p>
-            <div className="flex gap-4 mb-8">
-              <Button variant="primary" size="lg">START YOUR R&D PROJECT</Button>
+            <div className="flex gap-4">
+              <Button size="lg" href="/contact" className="bg-[#FF6B00] hover:bg-[#E05E00] text-white font-bold shadow-md shadow-[#FF6B00]/10 hover:shadow-[#FF6B00]/20 transition-all duration-300">
+                START YOUR R&D PROJECT
+              </Button>
             </div>
-            <p className="text-text-secondary text-base max-w-3xl mx-auto leading-relaxed mt-8">
-              AeroSpark turns customer requirements into custom-built, flight-tested drone solutions, technically known as Unmanned Aircraft Systems (UAS) or Unmanned Aerial Vehicles (UAVs). We manage the complete product development journey—from CAD design and component selection to manufacturing, software development, flight testing and final handover.
-            </p>
           </div>
         </section>
 
@@ -181,7 +180,7 @@ export default function DroneRDPage() {
             {coreServices.map((service, idx) => (
               <GlassCard key={idx} padding="md" className="h-full flex flex-col justify-between" glow="none">
                 <div>
-                  <div className="text-aero-blue mb-4 inline-flex p-3 rounded-xl bg-aero-blue/10">
+                  <div className="text-[#FF6B00] mb-4 inline-flex p-3 rounded-xl bg-[#062B49]/5 border border-[#D9E4EE]">
                     {service.icon}
                   </div>
                   <h4 className="font-bold text-foreground mb-2 text-lg">{service.title}</h4>
@@ -207,7 +206,7 @@ export default function DroneRDPage() {
               <div key={phase.id} id={phase.id} className="scroll-mt-32 space-y-12">
                 {/* Phase Header on Timeline */}
                 <div className="relative flex justify-start md:justify-center pl-12 md:pl-0">
-                  <span className="text-xs font-mono font-bold text-aero-blue bg-aero-blue/10 border border-aero-blue/20 px-4 py-1.5 rounded-full uppercase tracking-wider shadow-sm z-10">
+                  <span className="text-xs font-mono font-bold text-[#FF6B00] bg-[#FF6B00]/5 border border-[#FF6B00]/20 px-4 py-1.5 rounded-full uppercase tracking-wider shadow-sm z-10">
                     {phase.title}
                   </span>
                 </div>
@@ -262,7 +261,7 @@ export default function DroneRDPage() {
                                   STEP {item.step}
                                 </span>
                               </div>
-                              <h4 className="text-lg font-bold text-foreground mb-2 group-hover:text-aero-blue transition-colors">
+                              <h4 className="text-lg font-bold text-[#062B49] mb-2 group-hover:text-[#FF6B00] transition-colors">
                                 {item.title}
                               </h4>
                               <p className="text-sm text-text-secondary leading-relaxed">
@@ -304,7 +303,7 @@ export default function DroneRDPage() {
                   "Operating and maintenance guidance"
                 ].map((item, idx) => (
                   <li key={idx} className="flex items-center gap-3 text-text-secondary">
-                    <CheckCircle2 className="w-5 h-5 text-aero-blue flex-shrink-0" />
+                    <CheckCircle2 className="w-5 h-5 text-[#FF6B00] flex-shrink-0" />
                     <span className="leading-relaxed text-sm sm:text-base">{item}</span>
                   </li>
                 ))}
@@ -326,7 +325,7 @@ export default function DroneRDPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 {applications.map((app, idx) => (
                   <div key={idx} className="p-6 border border-border-default rounded-2xl bg-surface-elevated shadow-sm hover:shadow-md transition-shadow">
-                    <div className="text-aero-blue mb-4">{app.icon}</div>
+                    <div className="text-[#FF6B00] mb-4">{app.icon}</div>
                     <h4 className="font-bold text-foreground mb-2">{app.title}</h4>
                     <p className="text-sm text-text-secondary leading-relaxed">{app.desc}</p>
                   </div>
@@ -338,40 +337,48 @@ export default function DroneRDPage() {
 
         {/* Why Choose AeroSpark Section */}
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-            <div className="lg:col-span-5 lg:sticky lg:top-32">
-              <h2 className="text-4xl md:text-5xl font-bold text-foreground tracking-tight leading-tight">
-                Why Choose<br className="hidden lg:block" /> AeroSpark?
-              </h2>
-            </div>
-            <div className="lg:col-span-7">
-              <div className="space-y-5">
-                {[
-                  { title: "Mission-Driven Engineering", desc: "The drone is developed around the required application, payload and performance." },
-                  { title: "Complete Development Support", desc: "Design, manufacturing, software and flight validation are managed through one coordinated team." },
-                  { title: "Flexible Component Selection", desc: "We balance performance, reliability, availability, budget and customer preference." },
-                  { title: "Tested Before Handover", desc: "The final configuration is checked through structured ground and flight testing." },
-                  { title: "Clear Design Handover", desc: "The agreed design files, BOM and technical records are provided at project completion." },
-                  { title: "Continued Engineering Support", desc: "Further support, upgrades and development can be provided as defined in the proposal or MOU." }
-                ].map((feature, idx) => (
-                  <GlassCard key={idx} padding="md" className="hover:-translate-y-1 transition-transform duration-300 shadow-sm hover:shadow-lg">
-                    <h4 className="font-bold text-foreground mb-2">{feature.title}</h4>
-                    <p className="text-sm text-text-secondary leading-relaxed">{feature.desc}</p>
-                  </GlassCard>
-                ))}
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-[#062B49] tracking-tight">
+              Why Choose AeroSpark?
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              { title: "Mission-Driven Engineering", desc: "The drone is developed around the required application, payload and performance." },
+              { title: "Complete Development Support", desc: "Design, manufacturing, software and flight validation are managed through one coordinated team." },
+              { title: "Flexible Component Selection", desc: "We balance performance, reliability, availability, budget and customer preference." },
+              { title: "Tested Before Handover", desc: "The final configuration is checked through structured ground and flight testing." },
+              { title: "Clear Design Handover", desc: "The agreed design files, BOM and technical records are provided at project completion." },
+              { title: "Continued Engineering Support", desc: "Further support, upgrades and development can be provided as defined in the proposal or MOU." }
+            ].map((feature, idx) => (
+              <div key={idx} className="flex flex-col gap-3 p-5 rounded-2xl bg-white border border-[#D9E4EE] shadow-sm">
+                <CheckCircle2 className="w-5 h-5 text-[#2F80ED] flex-shrink-0 mt-0.5" />
+                <div>
+                  <h4 className="font-bold text-[#062B49] mb-1.5 text-base">{feature.title}</h4>
+                  <p className="text-xs text-[#52677D] leading-relaxed">{feature.desc}</p>
+                </div>
               </div>
-            </div>
+            ))}
           </div>
         </section>
 
-        {/* FAQs */}
-        <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-24">
-          <SectionHeader title="Frequently Asked Questions" />
-          <div className="mt-12 space-y-6">
+        {/* FAQs Section */}
+        <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-[#062B49] tracking-tight">
+              Frequently Asked Questions
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {faqs.map((faq, idx) => (
-              <div key={idx} className="p-6 border border-border-subtle rounded-2xl bg-surface-elevated">
-                <h4 className="text-lg font-bold text-foreground mb-2 flex gap-3"><HelpCircle className="text-aero-blue w-6 h-6 flex-shrink-0" /> {faq.q}</h4>
-                <p className="text-text-secondary pl-9">{faq.a}</p>
+              <div key={idx} className="p-5 border border-[#D9E4EE] rounded-2xl bg-white shadow-sm flex flex-col gap-2">
+                <h4 className="text-[15px] font-bold text-[#062B49] flex gap-2.5 items-start">
+                  <HelpCircle className="text-[#2F80ED] w-4.5 h-4.5 flex-shrink-0 mt-0.5" />
+                  {faq.q}
+                </h4>
+                <p className="text-xs text-[#52677D] pl-7 leading-relaxed">
+                  {faq.a}
+                </p>
               </div>
             ))}
           </div>
@@ -383,7 +390,7 @@ export default function DroneRDPage() {
           <p className="text-text-secondary mb-8 text-lg max-w-2xl mx-auto">
             Share your mission requirement, payload or existing concept with AeroSpark. Our engineering team will help turn it into a practical, manufactured and flight-ready drone solution.
           </p>
-          <Button variant="primary" size="lg" className="inline-flex items-center gap-2">
+          <Button size="lg" href="/contact" className="inline-flex items-center gap-2 bg-[#FF6B00] hover:bg-[#E05E00] text-white font-bold shadow-md shadow-[#FF6B00]/10 hover:shadow-[#FF6B00]/20 transition-all duration-300">
             START YOUR DRONE DEVELOPMENT PROJECT <Send className="w-4 h-4" />
           </Button>
         </section>

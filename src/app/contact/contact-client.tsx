@@ -85,9 +85,9 @@ export default function ContactClient() {
   return (
     <>
       <Navbar />
-      <main className="pt-24 pb-16">
+      <main className="pb-16">
         {/* Top Section */}
-        <section className="py-20 relative">
+        <section className="pt-28 pb-20 relative">
           <div className="absolute inset-0 radar-grid opacity-40" />
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
             <motion.div

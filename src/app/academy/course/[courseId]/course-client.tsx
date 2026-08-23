@@ -368,13 +368,13 @@ export default function CourseClient({ courseId }: { courseId: string }) {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen pt-24 pb-20 bg-background overflow-hidden relative">
+      <main className="min-h-screen pb-20 bg-background overflow-x-hidden relative">
         {/* Background Grids */}
         <div className="absolute inset-0 radar-grid opacity-30 pointer-events-none" />
         <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-aero-blue/5 rounded-full blur-[120px] pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-aero-red/5 rounded-full blur-[120px] pointer-events-none" />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pt-28">
           {/* Back link */}
           <div className="mb-8">
             <Link
@@ -510,58 +510,9 @@ export default function CourseClient({ courseId }: { courseId: string }) {
                 </div>
               </div>
 
-              {/* Audience & Prerequisites */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <GlassCard padding="md" className="space-y-3">
-                  <h3 className="text-lg font-bold text-foreground">Who This Course Is For</h3>
-                  <p className="text-sm text-text-secondary leading-relaxed">
-                    {course.eligibility}
-                  </p>
-                </GlassCard>
-                <GlassCard padding="md" className="space-y-3">
-                  <h3 className="text-lg font-bold text-foreground">Prerequisites</h3>
-                  <p className="text-sm text-text-secondary leading-relaxed">
-                    {enrich.prerequisites}
-                  </p>
-                </GlassCard>
-              </div>
 
-              {/* Tools & Topics Covered */}
-              <GlassCard padding="md" className="space-y-3">
-                <h3 className="text-lg font-bold text-foreground">Tools & Topics Covered</h3>
-                <div className="flex flex-wrap gap-2 pt-1">
-                  {enrich.tools.map((tool, idx) => (
-                    <span key={idx} className="text-xs bg-surface-elevated border border-border-subtle text-foreground px-3 py-1 rounded-full">
-                      {tool}
-                    </span>
-                  ))}
-                  {course.topics.slice(0, 5).map((topic, idx) => (
-                    <span key={idx} className="text-xs bg-aero-blue/10 border border-aero-blue/20 text-aero-blue px-3 py-1 rounded-full">
-                      {topic}
-                    </span>
-                  ))}
-                </div>
-              </GlassCard>
 
-              {/* Course Inclusions */}
-              <GlassCard padding="md" className="space-y-3">
-                <h3 className="text-lg font-bold text-foreground">What&apos;s Included</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pl-1">
-                  {[
-                    "Live instructor-led sessions",
-                    "Structured course lessons",
-                    "Learning materials and references",
-                    "Practical engineering examples",
-                    "Doubt-solving & guidance support",
 
-                  ].map((inc, idx) => (
-                    <div key={idx} className="flex items-center gap-2 text-sm text-text-secondary">
-                      <CheckCircle2 className="w-4 h-4 text-aero-blue shrink-0" />
-                      <span>{inc}</span>
-                    </div>
-                  ))}
-                </div>
-              </GlassCard>
 
               {/* FAQs */}
               <div className="space-y-4">
@@ -598,49 +549,102 @@ export default function CourseClient({ courseId }: { courseId: string }) {
 
             {/* Right Sidebar */}
             <div className="lg:col-span-1">
-              <div className="sticky top-32 glass-panel rounded-3xl p-8 border border-border-default shadow-2xl">
-                <div className="mb-6 relative rounded-xl overflow-hidden aspect-[1.8] bg-surface-elevated border border-border-subtle">
-                  {course.image ? (
-                    <img
-                      src={course.image}
-                      alt={course.title}
-                      className="absolute inset-0 w-full h-full object-cover"
-                    />
-                  ) : (
-                    <div className="absolute inset-0 bg-gradient-to-br from-aero-blue/15 to-aero-red/15 flex items-center justify-center">
-                      <Zap className="w-12 h-12 text-aero-blue opacity-55" />
+              <div className="sticky top-32 space-y-6">
+                <div className="glass-panel rounded-3xl p-8 border border-border-default shadow-2xl bg-surface-elevated/40">
+                  <div className="mb-6 relative rounded-xl overflow-hidden aspect-[1.8] bg-surface-elevated border border-border-subtle">
+                    {course.image ? (
+                      <img
+                        src={course.image}
+                        alt={course.title}
+                        className="absolute inset-0 w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="absolute inset-0 bg-gradient-to-br from-aero-blue/15 to-aero-red/15 flex items-center justify-center">
+                        <Zap className="w-12 h-12 text-aero-blue opacity-55" />
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="space-y-6">
+                    <div>
+                      <span className="text-[28px] font-extrabold text-foreground tracking-tight block">₹{course.price.toLocaleString()}</span>
                     </div>
-                  )}
+
+                    <Button variant="primary" size="lg" href={`/contact?subject=Enrollment%20Request%20-%20${encodeURIComponent(course.title)}`} className="w-full text-base group h-14 bg-[#FF6600] text-white hover:bg-[#e65c00] border-none shadow-lg">
+                      Enroll in Course
+                      <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </Button>
+
+                    <div className="pt-6 border-t border-border-subtle space-y-4">
+                      <div className="flex items-start gap-3 text-text-secondary text-sm">
+                        <Clock className="w-5 h-5 text-aero-blue shrink-0 mt-0.5" />
+                        <div>
+                          <p className="text-[10px] text-text-muted uppercase tracking-wider font-semibold">Duration</p>
+                          <p className="font-semibold text-foreground">{course.duration}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-3 text-text-secondary text-sm">
+                        <BookOpen className="w-5 h-5 text-aero-blue shrink-0 mt-0.5" />
+                        <div>
+                          <p className="text-[10px] text-text-muted uppercase tracking-wider font-semibold">Lessons</p>
+                          <p className="font-semibold text-foreground">{course.lessons} lessons</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
+                {/* Audience & Prerequisites */}
                 <div className="space-y-6">
-                  <div>
-                    <span className="text-[28px] font-extrabold text-foreground tracking-tight block">₹{course.price.toLocaleString()}</span>
-                  </div>
-
-                  <Button variant="primary" size="lg" href={`/contact?subject=Enrollment%20Request%20-%20${encodeURIComponent(course.title)}`} className="w-full text-base group h-14 bg-[#FF6600] text-white hover:bg-[#e65c00] border-none shadow-lg">
-                    Enroll in Course
-                    <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </Button>
-
-                  <div className="pt-6 border-t border-border-subtle space-y-4">
-                    <div className="flex items-start gap-3 text-text-secondary text-sm">
-                      <Clock className="w-5 h-5 text-aero-blue shrink-0 mt-0.5" />
-                      <div>
-                        <p className="text-[10px] text-text-muted uppercase tracking-wider font-semibold">Duration</p>
-                        <p className="font-semibold text-foreground">{course.duration}</p>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-3 text-text-secondary text-sm">
-                      <BookOpen className="w-5 h-5 text-aero-blue shrink-0 mt-0.5" />
-                      <div>
-                        <p className="text-[10px] text-text-muted uppercase tracking-wider font-semibold">Lessons</p>
-                        <p className="font-semibold text-foreground">{course.lessons} lessons</p>
-                      </div>
-                    </div>
-
-                  </div>
+                  <GlassCard padding="md" className="space-y-3 border-border-default/60 shadow-md">
+                    <h3 className="text-lg font-bold text-foreground">Who This Course Is For</h3>
+                    <p className="text-sm text-text-secondary leading-relaxed">
+                      {course.eligibility}
+                    </p>
+                  </GlassCard>
+                  <GlassCard padding="md" className="space-y-3 border-border-default/60 shadow-md">
+                    <h3 className="text-lg font-bold text-foreground">Prerequisites</h3>
+                    <p className="text-sm text-text-secondary leading-relaxed">
+                      {enrich.prerequisites}
+                    </p>
+                  </GlassCard>
                 </div>
+
+                {/* Tools & Topics Covered */}
+                <GlassCard padding="md" className="space-y-3 border-border-default/60 shadow-md">
+                  <h3 className="text-lg font-bold text-foreground">Tools & Topics Covered</h3>
+                  <div className="flex flex-wrap gap-2 pt-1">
+                    {enrich.tools.map((tool, idx) => (
+                      <span key={idx} className="text-xs bg-surface-elevated border border-border-subtle text-foreground px-3 py-1 rounded-full">
+                        {tool}
+                      </span>
+                    ))}
+                    {course.topics.slice(0, 5).map((topic, idx) => (
+                      <span key={idx} className="text-xs bg-aero-blue/10 border border-aero-blue/20 text-aero-blue px-3 py-1 rounded-full">
+                        {topic}
+                      </span>
+                    ))}
+                  </div>
+                </GlassCard>
+
+                {/* Course Inclusions */}
+                <GlassCard padding="md" className="space-y-3 border-border-default/60 shadow-md">
+                  <h3 className="text-lg font-bold text-foreground">What&apos;s Included</h3>
+                  <div className="grid grid-cols-1 gap-3 pl-1">
+                    {[
+                      "Live instructor-led sessions",
+                      "Structured course lessons",
+                      "Learning materials and references",
+                      "Practical engineering examples",
+                      "Doubt-solving & guidance support",
+                    ].map((inc, idx) => (
+                      <div key={idx} className="flex items-center gap-2 text-sm text-text-secondary">
+                        <CheckCircle2 className="w-4 h-4 text-aero-blue shrink-0" />
+                        <span>{inc}</span>
+                      </div>
+                    ))}
+                  </div>
+                </GlassCard>
               </div>
             </div>
 

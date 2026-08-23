@@ -111,10 +111,10 @@ export default function DesignSimulationPage() {
   ];
 
   const softwareStack = [
-    { title: "Design & CAD", desc: "CATIA, Siemens NX, SolidWorks and Autodesk Fusion 360", icon: <Monitor className="w-5 h-5 text-aero-blue" /> },
-    { title: "Simulation & Analysis", desc: "ANSYS and other suitable engineering simulation tools based on the project scope", icon: <Laptop className="w-5 h-5 text-aero-blue" /> },
-    { title: "File Compatibility", desc: "Common CAD and neutral exchange formats for smooth collaboration and handover", icon: <FileCode className="w-5 h-5 text-aero-blue" /> },
-    { title: "Flexible Workflow", desc: "Client-specific software environments can be considered during project planning", icon: <Repeat className="w-5 h-5 text-aero-blue" /> },
+    { title: "Design & CAD", desc: "CATIA, Siemens NX, SolidWorks and Autodesk Fusion 360", icon: <Monitor className="w-5 h-5 text-[#FF6B00]" /> },
+    { title: "Simulation & Analysis", desc: "ANSYS and other suitable engineering simulation tools based on the project scope", icon: <Laptop className="w-5 h-5 text-[#FF6B00]" /> },
+    { title: "File Compatibility", desc: "Common CAD and neutral exchange formats for smooth collaboration and handover", icon: <FileCode className="w-5 h-5 text-[#FF6B00]" /> },
+    { title: "Flexible Workflow", desc: "Client-specific software environments can be considered during project planning", icon: <Repeat className="w-5 h-5 text-[#FF6B00]" /> },
   ];
 
   const deliverables = [
@@ -147,35 +147,34 @@ export default function DesignSimulationPage() {
   return (
     <>
       <Navbar />
-      <main className="pt-24 pb-16">
+      <main className="pb-16">
         {/* Hero */}
-        <section className="pt-24 pb-32 relative overflow-hidden">
+        <section className="pt-28 pb-32 relative overflow-hidden">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-aero-blue/10 blur-[120px] rounded-[100%] pointer-events-none z-0" />
           {/* Background Image */}
           <div className="absolute inset-0 z-0">
             <img
               src="/service-sim.png"
               alt="Simulation Background"
-              className="w-full h-full object-cover opacity-15 dark:opacity-25"
+              className="w-full h-full object-cover opacity-35 dark:opacity-45"
             />
             <div className="absolute inset-0 bg-background/40 backdrop-blur-[1px]" />
           </div>
 
           <div className="absolute inset-0 radar-grid opacity-30 z-0" />
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col items-center text-center">
-            <span className="text-aero-blue font-semibold tracking-wider uppercase mb-4">CAD • FEA • CFD • THERMAL • DESIGN OPTIMIZATION</span>
+            <span className="text-[#FF6B00] font-bold tracking-widest uppercase mb-4 text-xs md:text-sm">CAD • FEA • CFD • THERMAL • DESIGN OPTIMIZATION</span>
             <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold mb-6 tracking-tight bg-clip-text text-transparent bg-gradient-to-b from-foreground via-foreground/90 to-foreground/50">
               Engineering Design &<br />Simulation Services
             </h1>
             <p className="text-lg md:text-xl text-text-secondary max-w-3xl mx-auto leading-relaxed mb-8">
               Design smarter. Validate earlier. Build with confidence.
             </p>
-            <div className="flex gap-4 mb-8">
-              <Button variant="primary" size="lg">START YOUR SIMULATION PROJECT</Button>
+            <div className="flex gap-4">
+              <Button size="lg" href="/contact" className="bg-[#FF6B00] hover:bg-[#E05E00] text-white font-bold shadow-md shadow-[#FF6B00]/10 hover:shadow-[#FF6B00]/20 transition-all duration-300">
+                START YOUR SIMULATION PROJECT
+              </Button>
             </div>
-            <p className="text-text-secondary text-base max-w-3xl mx-auto leading-relaxed mt-8">
-              AeroSpark provides professional engineering design and simulation services for products, components, structures and complex systems. From concept development and 3D CAD modelling to FEA, CFD, thermal analysis and optimization, we help identify design risks before manufacturing and turn engineering ideas into validated solutions.
-            </p>
           </div>
         </section>
 
@@ -196,7 +195,7 @@ export default function DesignSimulationPage() {
           <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {coreServices.map((service, idx) => (
               <GlassCard key={idx} className="h-full" padding="md">
-                <div className="text-aero-blue mb-4 inline-flex p-3 rounded-xl bg-aero-blue/5">{service.icon}</div>
+                <div className="text-[#FF6B00] mb-4 inline-flex p-3 rounded-xl bg-[#062B49]/5 border border-[#D9E4EE]">{service.icon}</div>
                 <h4 className="font-bold text-foreground mb-3 text-lg">{service.title}</h4>
                 <p className="text-sm text-text-secondary leading-relaxed">{service.desc}</p>
               </GlassCard>
@@ -219,7 +218,7 @@ export default function DesignSimulationPage() {
               <div key={phase.id} id={phase.id} className="scroll-mt-32 space-y-12">
                 {/* Phase Header on Timeline */}
                 <div className="relative flex justify-start md:justify-center pl-12 md:pl-0">
-                  <span className="text-xs font-mono font-bold text-aero-blue bg-aero-blue/10 border border-aero-blue/20 px-4 py-1.5 rounded-full uppercase tracking-wider shadow-sm z-10">
+                  <span className="text-xs font-mono font-bold text-[#FF6B00] bg-[#FF6B00]/5 border border-[#FF6B00]/20 px-4 py-1.5 rounded-full uppercase tracking-wider shadow-sm z-10">
                     {phase.title}
                   </span>
                 </div>
@@ -274,7 +273,7 @@ export default function DesignSimulationPage() {
                                   STEP {item.step}
                                 </span>
                               </div>
-                              <h3 className="text-lg font-bold text-foreground mb-2 group-hover:text-aero-blue transition-colors">
+                              <h3 className="text-lg font-bold text-[#062B49] mb-2 group-hover:text-[#FF6B00] transition-colors">
                                 {item.title}
                               </h3>
                               <p className="text-sm text-text-secondary leading-relaxed">
@@ -332,7 +331,7 @@ export default function DesignSimulationPage() {
               <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
                 {deliverables.map((item, idx) => (
                   <li key={idx} className="flex items-center gap-3 text-text-secondary">
-                    <CheckCircle2 className="w-5 h-5 text-emerald-400 flex-shrink-0" />
+                    <CheckCircle2 className="w-5 h-5 text-[#FF6B00] flex-shrink-0" />
                     <span className="leading-relaxed text-sm sm:text-base">{item}</span>
                   </li>
                 ))}
@@ -343,33 +342,41 @@ export default function DesignSimulationPage() {
 
         {/* Why Choose Us Section */}
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-            <div className="lg:col-span-5 lg:sticky lg:top-32">
-              <h2 className="text-4xl md:text-5xl font-bold text-foreground tracking-tight leading-tight">
-                Why Choose<br className="hidden lg:block" /> AeroSpark?
-              </h2>
-            </div>
-            <div className="lg:col-span-7">
-              <div className="space-y-5">
-                {whyChooseUs.map((feature, idx) => (
-                  <GlassCard key={idx} padding="md" className="hover:-translate-y-1 transition-transform duration-300 shadow-sm hover:shadow-lg">
-                    <h4 className="font-bold text-foreground mb-2">{feature.title}</h4>
-                    <p className="text-sm text-text-secondary leading-relaxed">{feature.desc}</p>
-                  </GlassCard>
-                ))}
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-[#062B49] tracking-tight">
+              Why Choose AeroSpark?
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {whyChooseUs.map((feature, idx) => (
+              <div key={idx} className="flex flex-col gap-3 p-5 rounded-2xl bg-white border border-[#D9E4EE] shadow-sm">
+                <CheckCircle2 className="w-5 h-5 text-[#2F80ED] flex-shrink-0 mt-0.5" />
+                <div>
+                  <h4 className="font-bold text-[#062B49] mb-1.5 text-base">{feature.title}</h4>
+                  <p className="text-xs text-[#52677D] leading-relaxed">{feature.desc}</p>
+                </div>
               </div>
-            </div>
+            ))}
           </div>
         </section>
 
-        {/* FAQs */}
-        <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-24">
-          <SectionHeader title="Frequently Asked Questions" />
-          <div className="mt-12 space-y-6">
+        {/* FAQs Section */}
+        <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-[#062B49] tracking-tight">
+              Frequently Asked Questions
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {faqs.map((faq, idx) => (
-              <div key={idx} className="p-6 border border-border-subtle rounded-2xl bg-surface-elevated">
-                <h4 className="text-lg font-bold text-foreground mb-2 flex gap-3"><HelpCircle className="text-aero-blue w-6 h-6 flex-shrink-0" /> {faq.q}</h4>
-                <p className="text-text-secondary pl-9">{faq.a}</p>
+              <div key={idx} className="p-5 border border-[#D9E4EE] rounded-2xl bg-white shadow-sm flex flex-col gap-2">
+                <h4 className="text-[15px] font-bold text-[#062B49] flex gap-2.5 items-start">
+                  <HelpCircle className="text-[#2F80ED] w-4.5 h-4.5 flex-shrink-0 mt-0.5" />
+                  {faq.q}
+                </h4>
+                <p className="text-xs text-[#52677D] pl-7 leading-relaxed">
+                  {faq.a}
+                </p>
               </div>
             ))}
           </div>
@@ -381,7 +388,7 @@ export default function DesignSimulationPage() {
           <p className="text-text-secondary mb-8 text-lg max-w-2xl mx-auto">
             Share your concept, CAD model or simulation requirement with AeroSpark and move forward with clear engineering evidence.
           </p>
-          <Button variant="primary" size="lg" className="inline-flex items-center gap-2">
+          <Button size="lg" href="/contact" className="inline-flex items-center gap-2 bg-[#FF6B00] hover:bg-[#E05E00] text-white font-bold shadow-md shadow-[#FF6B00]/10 hover:shadow-[#FF6B00]/20 transition-all duration-300">
             START YOUR DESIGN AND SIMULATION PROJECT <Send className="w-4 h-4" />
           </Button>
         </section>

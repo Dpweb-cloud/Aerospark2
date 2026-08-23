@@ -25,26 +25,26 @@
 
 /* Theme: Light Mode (Default) */
 :root {
-  --bg-main: #FFFFFF;
-  --fg-main: #0A0A0A;
-  --primary: #003087;
-  /* Duke Blue */
+  --bg-main: #F8FAFC;
+  --fg-main: #102A43;
+  --primary: #062B49;
+  /* Deep Aerospace Navy */
   --primary-fg: #FFFFFF;
-  --primary-dim: #001A57;
-  --primary-glow: rgba(0, 48, 135, 0.1);
-  --secondary: #FF6600;
-  /* Vibrant Royal Orange */
+  --primary-dim: #0B3558;
+  --primary-glow: rgba(6, 43, 73, 0.1);
+  --secondary: #FF6B00;
+  /* Accent Safety Orange */
   --secondary-fg: #FFFFFF;
   --secondary-dim: #E65C00;
   --surface: #FFFFFF;
-  --surface-elevated: #FFF7ED;
-  /* Very subtle orange tint for elevation */
-  --surface-hover: #FFEDD5;
-  --border-subtle: rgba(255, 102, 0, 0.1);
-  /* Orange tinted borders */
-  --border-default: rgba(0, 48, 135, 0.1);
-  --text-primary: #003087;
-  --text-secondary: #475569;
+  --surface-elevated: #F8FAFC;
+  /* Cool Gray White */
+  --surface-hover: #F1F5F9;
+  --border-subtle: rgba(217, 228, 238, 0.6);
+  /* Cool Gray-Blue Border */
+  --border-default: rgba(217, 228, 238, 0.8);
+  --text-primary: #062B49;
+  --text-secondary: #52677D;
   --text-muted: #94A3B8;
 }
 
@@ -73,15 +73,15 @@
 
 /* Blue / Aero Accent (Default) */
 :root[data-accent="blue"] {
-  --primary: #003087;
+  --primary: #062B49;
   --primary-fg: #FFFFFF;
-  --primary-dim: #001A57;
-  --primary-glow: rgba(0, 48, 135, 0.1);
-  --secondary: #FF6600;
+  --primary-dim: #0B3558;
+  --primary-glow: rgba(6, 43, 73, 0.1);
+  --secondary: #FF6B00;
   --secondary-fg: #FFFFFF;
   --secondary-dim: #E65C00;
-  --border-default: rgba(0, 48, 135, 0.1);
-  --border-subtle: rgba(255, 102, 0, 0.05);
+  --border-default: rgba(217, 228, 238, 0.8);
+  --border-subtle: rgba(217, 228, 238, 0.5);
 }
 :root.dark[data-accent="blue"] {
   --bg-main: #0F1117;

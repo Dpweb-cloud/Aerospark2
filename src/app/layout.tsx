@@ -31,6 +31,7 @@ import { GlobalBackground } from "@/components/layout/global-bg";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "sonner";
 import { CookieConsent } from "@/components/layout/cookie-consent";
+import { FloatingContact } from "@/components/layout/floating-contact";
 
 export default function RootLayout({
   children,
@@ -65,6 +66,7 @@ export default function RootLayout({
           <GlobalBackground />
           <div className="scan-line" />
           {children}
+          <FloatingContact />
           <Toaster position="top-center" richColors closeButton />
           <CookieConsent />
         </ThemeProvider>

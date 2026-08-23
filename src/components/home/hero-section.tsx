@@ -53,7 +53,7 @@ export function HeroSection() {
             >
               <span className="text-foreground">Engineering the</span>
               <br />
-              <span className="gradient-text">Future of Flight</span>
+              <span className="gradient-text">Future of Skies</span>
             </motion.h1>
 
             {/* Subheading */}

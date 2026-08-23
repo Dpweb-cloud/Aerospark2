@@ -176,16 +176,16 @@ export default function AS9100DQualityPage() {
   return (
     <>
       <Navbar />
-      <main className="pt-24 pb-16">
+      <main className="pb-16">
         {/* Hero */}
-        <section className="pt-24 pb-32 relative overflow-hidden">
+        <section className="pt-28 pb-32 relative overflow-hidden">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-aero-blue/10 blur-[120px] rounded-[100%] pointer-events-none z-0" />
           {/* Background Image */}
           <div className="absolute inset-0 z-0">
             <img
               src="/service-quality.png"
               alt="Quality Background"
-              className="w-full h-full object-cover opacity-15 dark:opacity-25"
+              className="w-full h-full object-cover opacity-35 dark:opacity-45"
             />
             <div className="absolute inset-0 bg-background/40 backdrop-blur-[1px]" />
           </div>
@@ -195,16 +195,15 @@ export default function AS9100DQualityPage() {
             <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold mb-4 tracking-tight bg-clip-text text-transparent bg-gradient-to-b from-foreground via-foreground/90 to-foreground/50">
               Quality Management System Services
             </h1>
-            <h2 className="text-2xl text-aero-blue font-semibold mb-8">ISO 9001:2015 & AS9100D</h2>
+            <h2 className="text-2xl text-[#FF6B00] font-semibold mb-8">ISO 9001:2015 & AS9100D</h2>
             <p className="text-lg md:text-xl text-text-secondary max-w-3xl mx-auto leading-relaxed mb-8">
               Implementation, documentation, training and certification readiness.
             </p>
-            <div className="flex gap-4 mb-8">
-              <Button variant="primary" size="lg">Request a QMS gap assessment</Button>
+            <div className="flex gap-4">
+              <Button size="lg" href="/contact" className="bg-[#FF6B00] hover:bg-[#E05E00] text-white font-bold shadow-md shadow-[#FF6B00]/10 hover:shadow-[#FF6B00]/20 transition-all duration-300">
+                Request a QMS gap assessment
+              </Button>
             </div>
-            <p className="text-text-secondary text-base max-w-3xl mx-auto leading-relaxed mt-8">
-              AeroSpark helps manufacturing, engineering and aerospace organizations build Quality Management Systems (QMS) that improve operational control, reduce nonconformances and meet customer requirements. From initial gap analysis to formal ISO 9001:2015 or AS9100D certification readiness, we develop practical systems tailored to the way your business works.
-            </p>
           </div>
         </section>
 
@@ -223,7 +222,7 @@ export default function AS9100DQualityPage() {
             {coreServices.map((service, idx) => (
               <GlassCard key={idx} padding="md" className="h-full flex flex-col justify-between" glow="none">
                 <div>
-                  <div className="text-aero-blue mb-4 inline-flex p-3 rounded-xl bg-aero-blue/10">
+                  <div className="text-[#FF6B00] mb-4 inline-flex p-3 rounded-xl bg-[#062B49]/5 border border-[#D9E4EE]">
                     {service.icon}
                   </div>
                   <h4 className="font-bold text-foreground mb-2 text-lg">{service.title}</h4>
@@ -249,7 +248,7 @@ export default function AS9100DQualityPage() {
               <div key={phase.id} id={phase.id} className="scroll-mt-32 space-y-12">
                 {/* Phase Header on Timeline */}
                 <div className="relative flex justify-start md:justify-center pl-12 md:pl-0">
-                  <span className="text-xs font-mono font-bold text-aero-blue bg-aero-blue/10 border border-aero-blue/20 px-4 py-1.5 rounded-full uppercase tracking-wider shadow-sm z-10">
+                  <span className="text-xs font-mono font-bold text-[#FF6B00] bg-[#FF6B00]/5 border border-[#FF6B00]/20 px-4 py-1.5 rounded-full uppercase tracking-wider shadow-sm z-10">
                     {phase.title}
                   </span>
                 </div>
@@ -304,7 +303,7 @@ export default function AS9100DQualityPage() {
                                   STEP {item.step}
                                 </span>
                               </div>
-                              <h3 className="text-lg font-bold text-foreground mb-2 group-hover:text-aero-blue transition-colors">
+                              <h3 className="text-lg font-bold text-[#062B49] mb-2 group-hover:text-[#FF6B00] transition-colors">
                                 {item.title}
                               </h3>
                               <p className="text-sm text-text-secondary leading-relaxed">
@@ -337,7 +336,7 @@ export default function AS9100DQualityPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
                 {documents.map((item, idx) => (
                   <div key={idx} className="flex items-start gap-3 text-text-secondary text-sm">
-                    <CheckCircle2 className="w-5 h-5 text-aero-blue flex-shrink-0 mt-0.5" />
+                    <CheckCircle2 className="w-5 h-5 text-[#FF6B00] flex-shrink-0 mt-0.5" />
                     <span className="leading-relaxed">{item}</span>
                   </div>
                 ))}
@@ -354,8 +353,8 @@ export default function AS9100DQualityPage() {
               <p className="text-text-secondary leading-relaxed text-sm sm:text-base mb-6">
                 For AS9100D projects, AeroSpark strengthens the ISO 9001 foundation with aerospace-focused controls that support product integrity, traceability and supply-chain confidence.
               </p>
-              <div className="p-6 border border-aero-blue/20 bg-aero-blue/5 rounded-xl">
-                <h4 className="font-bold text-aero-blue mb-2">Already certified to ISO 9001?</h4>
+              <div className="p-6 border border-[#FF6B00]/20 bg-[#FF6B00]/5 rounded-xl">
+                <h4 className="font-bold text-[#FF6B00] mb-2">Already certified to ISO 9001?</h4>
                 <p className="text-sm text-text-secondary leading-relaxed">
                   We can assess the existing QMS, identify the aerospace-specific gaps and create a structured upgrade path toward AS9100D.
                 </p>
@@ -365,7 +364,7 @@ export default function AS9100DQualityPage() {
               <ul className="space-y-6">
                 {as9100dControls.map((item, idx) => (
                   <li key={idx} className="flex items-start gap-4 text-text-secondary text-sm sm:text-base">
-                    <Target className="w-5 h-5 text-aero-blue flex-shrink-0 mt-0.5" />
+                    <Target className="w-5 h-5 text-[#FF6B00] flex-shrink-0 mt-0.5" />
                     <span className="leading-relaxed">{item}</span>
                   </li>
                 ))}
@@ -375,17 +374,26 @@ export default function AS9100DQualityPage() {
         </section>
 
         {/* Audiences Section */}
-        <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-32 flex flex-col items-center text-center">
-          <h2 className="text-5xl md:text-6xl font-bold text-foreground tracking-tight mb-6">Who we support</h2>
-          <p className="text-[#6b7280] leading-relaxed text-base md:text-lg mb-12 max-w-2xl">
+        <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-32 flex flex-col items-center text-center">
+          <h2 className="text-4xl md:text-5xl font-extrabold text-[#062B49] tracking-tight mb-4">
+            Who We Support
+          </h2>
+          <p className="text-[#52677D] leading-relaxed text-base md:text-lg mb-12 max-w-2xl">
             Our Quality Management System services are suitable for new businesses, growing organizations and established companies looking to strengthen or certify their processes.
           </p>
 
-          <div className="w-full flex flex-col gap-4 mx-auto text-left max-w-3xl">
+          <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-5 text-left">
             {audiences.map((audience, idx) => (
-              <div key={idx} className="flex items-center gap-5 px-6 py-5 bg-surface-elevated/40 backdrop-blur-md rounded-2xl border border-border-default/50 shadow-sm hover:shadow-lg hover:bg-surface-elevated transition-all group hover:-translate-y-1 duration-300">
-                <div className="w-2.5 h-2.5 rounded-full bg-aero-blue shadow-[0_0_12px_rgba(34,211,238,0.6)] flex-shrink-0 group-hover:scale-150 transition-transform duration-300"></div>
-                <span className="text-foreground/90 font-medium md:text-lg leading-snug">{audience}</span>
+              <div
+                key={idx}
+                className="flex items-center gap-4 px-6 py-5 bg-white rounded-[20px] border border-[#D9E4EE] shadow-[0_4px_20px_rgba(16,42,67,0.03)]"
+              >
+                <div className="w-8 h-8 rounded-full bg-emerald-500/10 text-emerald-600 flex items-center justify-center shrink-0">
+                  <CheckCircle2 className="w-4.5 h-4.5" />
+                </div>
+                <span className="text-[#062B49] font-bold text-sm md:text-[15.5px] leading-snug tracking-tight">
+                  {audience}
+                </span>
               </div>
             ))}
           </div>
@@ -393,33 +401,41 @@ export default function AS9100DQualityPage() {
 
         {/* Features Section */}
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-            <div className="lg:col-span-5 lg:sticky lg:top-32">
-              <h2 className="text-4xl md:text-5xl font-bold text-foreground tracking-tight leading-tight">
-                Why choose<br className="hidden lg:block" /> AeroSpark?
-              </h2>
-            </div>
-            <div className="lg:col-span-7">
-              <div className="space-y-5">
-                {whyChooseUs.map((feature, idx) => (
-                  <GlassCard key={idx} padding="md" className="hover:-translate-y-1 transition-transform duration-300 shadow-sm hover:shadow-lg">
-                    <h4 className="font-bold text-foreground mb-2">{feature.title}</h4>
-                    <p className="text-sm text-text-secondary leading-relaxed">{feature.desc}</p>
-                  </GlassCard>
-                ))}
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-[#062B49] tracking-tight">
+              Why choose AeroSpark?
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {whyChooseUs.map((feature, idx) => (
+              <div key={idx} className="flex flex-col gap-3 p-5 rounded-2xl bg-white border border-[#D9E4EE] shadow-sm">
+                <CheckCircle2 className="w-5 h-5 text-[#2F80ED] flex-shrink-0 mt-0.5" />
+                <div>
+                  <h4 className="font-bold text-[#062B49] mb-1.5 text-base">{feature.title}</h4>
+                  <p className="text-xs text-[#52677D] leading-relaxed">{feature.desc}</p>
+                </div>
               </div>
-            </div>
+            ))}
           </div>
         </section>
 
-        {/* FAQs */}
-        <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-24">
-          <SectionHeader title="Frequently asked questions" />
-          <div className="mt-12 space-y-6">
+        {/* FAQs Section */}
+        <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-[#062B49] tracking-tight">
+              Frequently Asked Questions
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {faqs.map((faq, idx) => (
-              <div key={idx} className="p-6 border border-border-subtle rounded-2xl bg-surface-elevated">
-                <h4 className="text-lg font-bold text-foreground mb-2 flex gap-3"><HelpCircle className="text-aero-blue w-6 h-6 flex-shrink-0" /> {faq.q}</h4>
-                <p className="text-text-secondary pl-9">{faq.a}</p>
+              <div key={idx} className="p-5 border border-[#D9E4EE] rounded-2xl bg-white shadow-sm flex flex-col gap-2">
+                <h4 className="text-[15px] font-bold text-[#062B49] flex gap-2.5 items-start">
+                  <HelpCircle className="text-[#2F80ED] w-4.5 h-4.5 flex-shrink-0 mt-0.5" />
+                  {faq.q}
+                </h4>
+                <p className="text-xs text-[#52677D] pl-7 leading-relaxed">
+                  {faq.a}
+                </p>
               </div>
             ))}
           </div>
@@ -431,7 +447,7 @@ export default function AS9100DQualityPage() {
           <p className="text-text-secondary mb-8 text-lg max-w-2xl mx-auto">
             Tell us about your organization, current processes and certification goal. AeroSpark will help define the right ISO 9001:2015 or AS9100D implementation path.
           </p>
-          <Button variant="primary" size="lg" className="inline-flex items-center gap-2">
+          <Button size="lg" href="/contact" className="inline-flex items-center gap-2 bg-[#FF6B00] hover:bg-[#E05E00] text-white font-bold shadow-md shadow-[#FF6B00]/10 hover:shadow-[#FF6B00]/20 transition-all duration-300">
             Request a QMS gap assessment <Send className="w-4 h-4" />
           </Button>
         </section>

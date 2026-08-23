@@ -31,6 +31,7 @@ import {
   ShieldCheck,
   Hexagon,
   FileCheck,
+  Check,
 } from "lucide-react";
 import { ConsultationModal } from "./consultation-modal";
 
@@ -122,67 +123,89 @@ export function FeaturedCourses() {
             <div
               key={course.id}
               onClick={() => router.push(`/academy/course/${course.id}`)}
-              className="snap-start shrink-0 w-[300px] sm:w-[360px] group cursor-pointer rounded-[28px] border border-white/40 bg-white/40 backdrop-blur-xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] hover:shadow-[0_15px_40px_rgb(0,0,0,0.1)] hover:border-aero-blue/40 transition-all duration-500 overflow-hidden flex flex-col relative"
+              className="snap-start shrink-0 w-[300px] sm:w-[360px] group cursor-pointer rounded-[24px] border border-[#D9E4EE] bg-white shadow-[0_4px_20px_rgba(16,42,67,0.04)] hover:shadow-[0_8px_30px_rgba(16,42,67,0.08)] hover:border-[#2F80ED]/40 hover:-translate-y-1 transition-all duration-300 ease-out overflow-hidden flex flex-col relative"
             >
               {/* Image Header */}
-              <div className="relative w-full aspect-[2] shrink-0 overflow-hidden bg-slate-100">
+              <div className="relative w-full aspect-[1.85] shrink-0 overflow-hidden bg-slate-100 rounded-t-[24px]">
                 {course.image && (
                   <img
                     src={course.image}
                     alt={course.title}
-                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500 ease-out"
                   />
                 )}
                 <div className="absolute top-4 left-4 z-20">
-                  <span className="bg-[#B34700] text-white px-3 py-1 rounded text-[11px] font-bold uppercase tracking-wider shadow-sm">
+                  <span className="bg-[#062B49] text-white px-2.5 py-1 rounded-md text-[10px] font-semibold uppercase tracking-wider shadow-sm">
                     {course.tags[0] || course.category}
                   </span>
                 </div>
               </div>
 
               {/* Body */}
-              <div className="flex flex-col flex-1 px-6 pb-6 pt-5 bg-white/40">
-                <h3 className="text-[19px] font-bold text-[#001f3f] leading-tight group-hover:text-[#FF6600] transition-colors mb-3 line-clamp-2">
+              <div className="flex flex-col flex-1 px-6 pb-6 pt-5 bg-white">
+                <h3 className="text-[19px] font-bold text-[#FF6B00] hover:text-[#e65c00] transition-colors mb-2 line-clamp-2">
                   {course.title}
                 </h3>
 
-                <p className="text-sm text-slate-600 line-clamp-2 mb-5 font-medium leading-relaxed flex-1">
+                <p className="text-[13px] text-[#52677D] line-clamp-2 overflow-hidden mb-3 font-medium leading-relaxed">
                   {course.description}
                 </p>
 
-                <div className="flex items-center gap-3 mb-5">
-                  <div className="flex items-center gap-1.5 text-sm font-bold text-slate-900">
-                    <Star className="w-4 h-4 text-[#FF6600] fill-[#FF6600]" />
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="flex items-center gap-1.5 text-sm font-bold text-[#102A43]">
+                    <Star className="w-4 h-4 text-[#FF6B00] fill-[#FF6B00]" />
                     {course.rating}
                   </div>
-                  <div className="w-px h-4 bg-slate-300" />
-                  <div className="flex items-center gap-1.5 text-[12px] font-bold text-slate-900 truncate">
-                    <BarChart2 className="w-3.5 h-3.5 text-[#FF6600]" />
+                  <div className="w-px h-4 bg-[#D9E4EE]" />
+                  <div className="flex items-center gap-1.5 text-[12px] font-bold text-[#52677D] truncate">
+                    <BarChart2 className="w-3.5 h-3.5 text-[#52677D]" />
                     <span className="truncate">{course.level} • {course.tags[1] || course.tags[0]}</span>
                   </div>
                 </div>
 
-                {/* Footer Stats & Price */}
-                <div className="flex items-center justify-between mt-auto pt-5 border-t border-slate-200/50">
+                <div className="w-full h-px bg-[#D9E4EE]/50 my-2.5" />
+
+                {/* Duration & Content */}
+                <div className="flex items-center justify-between mb-3">
                   <div className="flex flex-col">
-                    <span className="text-[11px] text-slate-400 line-through font-medium leading-none mb-1">₹{Math.floor(course.price * 1.6).toLocaleString()}</span>
-                    <span className="text-[22px] font-bold text-[#001f3f] tracking-tight leading-none">₹{course.price.toLocaleString()}</span>
+                    <div className="flex items-center gap-1.5 text-[#52677D] text-[11px] font-medium">
+                      <Clock className="w-3.5 h-3.5 text-[#52677D] stroke-[2]" />
+                      <span>Duration</span>
+                    </div>
+                    <span className="text-sm font-bold text-[#102A43] mt-1">{course.duration}</span>
+                  </div>
+                  <div className="flex flex-col items-end">
+                    <div className="flex items-center gap-1.5 text-[#52677D] text-[11px] font-medium">
+                      <BookOpen className="w-3.5 h-3.5 text-[#52677D] stroke-[2]" />
+                      <span>Content</span>
+                    </div>
+                    <span className="text-sm font-bold text-[#102A43] mt-1">{course.lessons} lessons</span>
+                  </div>
+                </div>
+
+                {/* Footer Stats & Price */}
+                <div className="flex items-center justify-between mt-auto pt-3">
+                  <div className="flex flex-col gap-0.5">
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-[11px] text-[#52677D] line-through font-medium leading-none">₹{Math.floor(course.price * 1.6).toLocaleString()}</span>
+                      <span className="bg-[#FF6B00]/10 text-[#FF6B00] px-1 py-0.5 rounded-[4px] text-[8px] font-bold uppercase tracking-wider">37% OFF</span>
+                    </div>
+                    <span className="text-[22px] font-bold text-[#062B49] tracking-tight leading-none">₹{course.price.toLocaleString()}</span>
                   </div>
                   <button
                     onClick={(e) => handleApplyClick(e, course.id)}
-                    className="relative overflow-hidden bg-[#FF6600] text-white hover:bg-[#e65c00] px-5 py-2.5 rounded-lg text-sm font-bold transition-all shadow-md flex items-center justify-center min-w-[120px] gap-2"
+                    className="relative overflow-hidden h-[50px] bg-[#062B49] hover:bg-[#0B3558] text-white px-5 rounded-[14px] text-sm font-bold transition-all duration-300 shadow-md flex items-center justify-center min-w-[130px] gap-2 cursor-pointer border-none group/btn"
                   >
                     <span className={animatingCard === course.id ? "opacity-0" : "flex items-center gap-1.5"}>
-                      Apply Now <ArrowRight className="w-4 h-4" />
+                      Apply Now <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover/btn:translate-x-1" />
                     </span>
                     {animatingCard === course.id && (
                       <motion.div
                         initial={{ x: -20, y: 0, opacity: 0, scale: 0.5 }}
-                        animate={{ x: [0, 20, 60], y: [0, -10, -30], opacity: [1, 1, 0], scale: [1, 1.2, 1.5] }}
-                        transition={{ duration: 0.5, ease: "easeOut" }}
-                        className="absolute inset-0 flex items-center justify-center text-xl"
+                        animate={{ x: 0, y: 0, opacity: 1, scale: 1 }}
+                        className="absolute inset-0 flex items-center justify-center bg-emerald-500 text-white"
                       >
-                        🚀
+                        <Check className="w-5 h-5 mr-1" /> Applied!
                       </motion.div>
                     )}
                   </button>
@@ -405,36 +428,44 @@ export function ConsultingSection() {
   const consultingServices = [
     {
       tag: "CERTIFICATION",
+      tagColor: "text-[#FF6600]",
+      badgeBg: "bg-[#FF6600]/10",
+      hoverTitleColor: "group-hover:text-[#FF6600]",
+      hoverClass: "hover:border-[#FF6600]/40 hover:shadow-[0_15px_35px_rgba(255,102,0,0.06)]",
       title: "Drone Certification Support",
       description: "Get structured support across certification planning, technical documentation, compliance reviews, test readiness, and the UAS certification process.",
       href: "/consultation/uas-certification",
-      btnText: "Explore Certification Support →",
-      glow: "blue" as const,
+      btnText: "Explore Certification Support",
+      btnClass: "border-[#FF6600]/30 text-[#FF6600] hover:bg-[#FF6600] hover:text-white hover:border-[#FF6600]",
       bgElement: (
-        <svg className="absolute -right-8 -bottom-8 w-64 h-64 text-[#FF6600]/15 dark:text-[#FF6600]/10 transform rotate-12" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <svg className="absolute -right-12 -bottom-12 w-52 h-52 text-[#FF6600]/55 dark:text-[#FF6600]/35 transform rotate-12 transition-transform duration-700 group-hover:scale-110 group-hover:rotate-18 pointer-events-none" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
           {/* Drone Quadcopter Silhouette */}
-          <path d="M100 60 A20 20 0 1 0 100 100 A20 20 0 1 0 100 60 Z" fill="currentColor" opacity="0.8" />
+          <path d="M100 60 A20 20 0 1 0 100 100 A20 20 0 1 0 100 60 Z" fill="currentColor" opacity="0.95" />
           <path d="M50 40 L90 80 M150 40 L110 80 M50 160 L90 120 M150 160 L110 120" stroke="currentColor" strokeWidth="8" strokeLinecap="round" />
-          <circle cx="40" cy="30" r="25" fill="none" stroke="currentColor" strokeWidth="6" strokeDasharray="10 5" opacity="0.5" />
-          <circle cx="160" cy="30" r="25" fill="none" stroke="currentColor" strokeWidth="6" strokeDasharray="10 5" opacity="0.5" />
-          <circle cx="40" cy="170" r="25" fill="none" stroke="currentColor" strokeWidth="6" strokeDasharray="10 5" opacity="0.5" />
-          <circle cx="160" cy="170" r="25" fill="none" stroke="currentColor" strokeWidth="6" strokeDasharray="10 5" opacity="0.5" />
+          <circle cx="40" cy="30" r="25" fill="none" stroke="currentColor" strokeWidth="6" strokeDasharray="10 5" opacity="0.7" />
+          <circle cx="160" cy="30" r="25" fill="none" stroke="currentColor" strokeWidth="6" strokeDasharray="10 5" opacity="0.7" />
+          <circle cx="40" cy="170" r="25" fill="none" stroke="currentColor" strokeWidth="6" strokeDasharray="10 5" opacity="0.7" />
+          <circle cx="160" cy="170" r="25" fill="none" stroke="currentColor" strokeWidth="6" strokeDasharray="10 5" opacity="0.7" />
         </svg>
       )
     },
     {
       tag: "DESIGN & DEVELOPMENT",
+      tagColor: "text-purple-600 dark:text-purple-400",
+      badgeBg: "bg-purple-500/10",
+      hoverTitleColor: "group-hover:text-purple-600 dark:group-hover:text-purple-400",
+      hoverClass: "hover:border-purple-500/40 hover:shadow-[0_15px_35px_rgba(147,51,234,0.06)]",
       title: "UAV Design & Product Development",
       description: "Engineering support for UAV configuration, airframe design, payload integration, subsystem selection, performance analysis, prototyping, and design refinement.",
       href: "/consultation/drone-rd",
-      btnText: "Explore UAV Engineering →",
-      glow: "red" as const,
+      btnText: "Explore UAV Engineering",
+      btnClass: "border-purple-500/30 text-purple-600 dark:text-purple-400 hover:bg-purple-600 hover:text-white hover:border-purple-600 dark:hover:bg-purple-500 dark:hover:border-purple-500",
       bgElement: (
-        <svg className="absolute -right-4 -bottom-10 w-64 h-64 text-purple-500/10 dark:text-purple-500/5" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <svg className="absolute -right-10 -bottom-12 w-52 h-52 text-purple-500/55 dark:text-purple-500/35 transition-transform duration-700 group-hover:scale-110 group-hover:-rotate-6 pointer-events-none" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
           {/* Satellite / Blueprint */}
-          <rect x="70" y="40" width="60" height="120" rx="10" fill="currentColor" opacity="0.4" />
-          <rect x="20" y="80" width="50" height="40" fill="currentColor" opacity="0.7" />
-          <rect x="130" y="80" width="50" height="40" fill="currentColor" opacity="0.7" />
+          <rect x="70" y="40" width="60" height="120" rx="10" fill="currentColor" opacity="0.65" />
+          <rect x="20" y="80" width="50" height="40" fill="currentColor" opacity="0.85" />
+          <rect x="130" y="80" width="50" height="40" fill="currentColor" opacity="0.85" />
           <path d="M100 40 L100 10 M80 10 L120 10" stroke="currentColor" strokeWidth="6" strokeLinecap="round" />
           <circle cx="100" cy="100" r="15" fill="none" stroke="currentColor" strokeWidth="4" />
         </svg>
@@ -442,35 +473,43 @@ export function ConsultingSection() {
     },
     {
       tag: "ANALYSIS & SIMULATION",
+      tagColor: "text-blue-600 dark:text-blue-400",
+      badgeBg: "bg-blue-500/10",
+      hoverTitleColor: "group-hover:text-blue-600 dark:group-hover:text-blue-400",
+      hoverClass: "hover:border-blue-500/40 hover:shadow-[0_15px_35px_rgba(59,130,246,0.06)]",
       title: "Design, CFD & Simulation",
       description: "Use CAD/CAE, CFD, aerodynamic analysis, and engineering simulation to evaluate designs, understand performance, and make better technical decisions.",
       href: "/consultation/design-simulation",
-      btnText: "Explore Design & Simulation →",
-      glow: "blue" as const,
+      btnText: "Explore Design & Simulation",
+      btnClass: "border-blue-500/30 text-blue-600 dark:text-blue-400 hover:bg-blue-600 hover:text-white hover:border-blue-600 dark:hover:bg-blue-500 dark:hover:border-blue-500",
       bgElement: (
-        <svg className="absolute -right-10 -bottom-10 w-72 h-72 text-blue-500/10 dark:text-blue-500/5 transform -rotate-12" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <svg className="absolute -right-12 -bottom-12 w-56 h-56 text-blue-500/55 dark:text-blue-500/35 transform -rotate-12 transition-transform duration-700 group-hover:scale-110 group-hover:-rotate-18 pointer-events-none" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
           {/* Airplane Wing & Wind Flow */}
-          <path d="M20 120 C 60 100 140 80 180 120 L 160 140 C 120 120 60 130 20 140 Z" fill="currentColor" opacity="0.6" />
+          <path d="M20 120 C 60 100 140 80 180 120 L 160 140 C 120 120 60 130 20 140 Z" fill="currentColor" opacity="0.8" />
           <path d="M0 60 Q 50 30 200 70" fill="none" stroke="currentColor" strokeWidth="4" strokeDasharray="15 10" />
-          <path d="M0 90 Q 70 70 200 100" fill="none" stroke="currentColor" strokeWidth="4" strokeDasharray="15 10" opacity="0.5" />
-          <path d="M0 160 Q 60 140 200 170" fill="none" stroke="currentColor" strokeWidth="4" strokeDasharray="15 10" opacity="0.3" />
+          <path d="M0 90 Q 70 70 200 100" fill="none" stroke="currentColor" strokeWidth="4" strokeDasharray="15 10" opacity="0.75" />
+          <path d="M0 160 Q 60 140 200 170" fill="none" stroke="currentColor" strokeWidth="4" strokeDasharray="15 10" opacity="0.55" />
         </svg>
       )
     },
     {
       tag: "QUALITY & COMPLIANCE",
+      tagColor: "text-emerald-600 dark:text-emerald-400",
+      badgeBg: "bg-emerald-500/10",
+      hoverTitleColor: "group-hover:text-emerald-600 dark:group-hover:text-emerald-400",
+      hoverClass: "hover:border-emerald-500/40 hover:shadow-[0_15px_35px_rgba(16,185,129,0.06)]",
       title: "Aerospace Quality Systems",
       description: "Build stronger aerospace processes with support across quality management systems, documentation, risk management, process control, corrective actions, and audit readiness.",
       href: "/consultation/as9100d-quality",
-      btnText: "Explore Quality Services →",
-      glow: "red" as const,
+      btnText: "Explore Quality Services",
+      btnClass: "border-emerald-500/30 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-600 hover:text-white hover:border-emerald-600 dark:hover:bg-emerald-500 dark:hover:border-emerald-500",
       bgElement: (
-        <svg className="absolute -right-12 -bottom-12 w-72 h-72 text-emerald-500/10 dark:text-emerald-500/5" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <svg className="absolute -right-14 -bottom-14 w-56 h-56 text-emerald-500/55 dark:text-emerald-500/35 transition-transform duration-700 group-hover:scale-110 group-hover:rotate-12 pointer-events-none" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
           {/* Science/Atom & Quality Gear */}
           <circle cx="100" cy="100" r="60" fill="none" stroke="currentColor" strokeWidth="12" strokeDasharray="20 10" />
           <ellipse cx="100" cy="100" rx="30" ry="80" fill="none" stroke="currentColor" strokeWidth="4" transform="rotate(45 100 100)" />
           <ellipse cx="100" cy="100" rx="30" ry="80" fill="none" stroke="currentColor" strokeWidth="4" transform="rotate(-45 100 100)" />
-          <circle cx="100" cy="100" r="15" fill="currentColor" opacity="0.8" />
+          <circle cx="100" cy="100" r="15" fill="currentColor" opacity="0.95" />
         </svg>
       )
     }
@@ -483,7 +522,7 @@ export function ConsultingSection() {
           <span className="text-[#FF6600] font-bold text-xs uppercase tracking-widest block mb-3">
             From Concept to Certified Flight.
           </span>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-foreground tracking-tight mb-6">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-[#062B49] tracking-tight mb-6">
             Aerospace Engineering & Consulting
           </h2>
           <p className="text-text-secondary text-base md:text-lg leading-relaxed">
@@ -501,34 +540,38 @@ export function ConsultingSection() {
         >
           {consultingServices.map((service) => (
             <motion.div key={service.title} variants={staggerItem} className="h-full">
-              <GlassCard
-                padding="lg"
-                className="h-full flex flex-col justify-between relative overflow-hidden group hover:border-aero-blue/40 hover:shadow-2xl transition-all duration-500"
-                glow={service.glow}
+              <div
+                className={`h-full flex flex-col justify-between relative overflow-hidden group rounded-[24px] border border-[#D9E4EE] bg-white shadow-[0_4px_25px_rgba(16,42,67,0.03)] hover:-translate-y-1.5 transition-all duration-500 ease-out p-6 md:p-8 ${service.hoverClass}`}
               >
                 {/* Background Vector Art SVG */}
-                <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden opacity-90 group-hover:scale-105 transition-transform duration-500">
+                <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
                   {service.bgElement}
                 </div>
 
-                <div className="relative z-10 space-y-4">
-                  <span className="text-[#FF6600] font-bold text-xs uppercase tracking-widest block">
-                    {service.tag}
-                  </span>
-                  <h3 className="text-2xl font-bold text-foreground tracking-tight group-hover:text-aero-blue transition-colors">
-                    {service.title}
-                  </h3>
-                  <p className="text-text-secondary text-sm md:text-base leading-relaxed">
+                <div className="relative z-10 flex flex-col h-full">
+                  <div>
+                    <span className={`inline-block px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider mb-4 ${service.badgeBg} ${service.tagColor}`}>
+                      {service.tag}
+                    </span>
+                    <h3 className={`text-xl md:text-[23px] font-bold text-[#062B49] tracking-tight transition-colors duration-300 leading-snug ${service.hoverTitleColor}`}>
+                      {service.title}
+                    </h3>
+                  </div>
+                  <p className="text-[#52677D] text-[13.5px] leading-relaxed font-medium mt-3 mb-6 max-w-[85%] flex-1">
                     {service.description}
                   </p>
-                </div>
 
-                <div className="pt-6 relative z-10">
-                  <Button variant="outline" href={service.href} className="group">
-                    {service.btnText}
-                  </Button>
+                  <div className="pt-2">
+                    <Link
+                      href={service.href}
+                      className={`inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-[12px] text-xs md:text-sm font-bold border transition-all duration-300 group/btn shadow-sm hover:shadow-md ${service.btnClass}`}
+                    >
+                      <span>{service.btnText}</span>
+                      <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover/btn:translate-x-1" />
+                    </Link>
+                  </div>
                 </div>
-              </GlassCard>
+              </div>
             </motion.div>
           ))}
         </motion.div>

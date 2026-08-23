@@ -533,15 +533,57 @@ export function AnimeHeroAnimation() {
         ctx.fillText(`DAMAGE: ${gameState.strikes} / ${gameState.maxStrikes}`, padding, padding + 40);
       }
 
-      animationId = requestAnimationFrame(render);
+      if (isVisible) {
+        animationId = requestAnimationFrame(render);
+      } else {
+        animationId = 0;
+      }
     };
 
-    render();
+    let isVisible = true;
+    let observer: IntersectionObserver | null = null;
+
+    if (typeof window !== "undefined" && "IntersectionObserver" in window) {
+      observer = new IntersectionObserver(
+        ([entry]) => {
+          isVisible = entry.isIntersecting;
+          if (isVisible && !animationId) {
+            animationId = requestAnimationFrame(render);
+          } else if (!isVisible && animationId) {
+            cancelAnimationFrame(animationId);
+            animationId = 0;
+          }
+        },
+        { threshold: 0.05 }
+      );
+      observer.observe(canvas);
+    }
+
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        isVisible = false;
+        if (animationId) {
+          cancelAnimationFrame(animationId);
+          animationId = 0;
+        }
+      } else {
+        isVisible = true;
+        if (!animationId) {
+          animationId = requestAnimationFrame(render);
+        }
+      }
+    };
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    // Start initial loop
+    animationId = requestAnimationFrame(render);
 
     return () => {
       window.removeEventListener("resize", resizeCanvas);
-      canvas.removeEventListener('mousedown', handleCanvasClick);
-      cancelAnimationFrame(animationId);
+      canvas.removeEventListener("mousedown", handleCanvasClick);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      if (animationId) cancelAnimationFrame(animationId);
+      if (observer) observer.disconnect();
       anime.remove(engineState);
     };
   }, []);

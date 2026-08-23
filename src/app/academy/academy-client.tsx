@@ -85,9 +85,9 @@ export default function AcademyClient() {
   return (
     <>
       <Navbar />
-      <main className="pt-24 pb-16">
+      <main className="pb-16">
         {/* Header */}
-        <section className="py-24 relative overflow-hidden">
+        <section className="pt-28 pb-24 relative overflow-hidden">
           {/* Ambient orbs */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-aero-blue/10 blur-[120px] rounded-[100%] pointer-events-none z-0" />
           <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-aero-red/5 blur-[120px] rounded-full pointer-events-none z-0" />
@@ -248,79 +248,86 @@ export default function AcademyClient() {
                     <motion.div key={course.id} variants={staggerItem} layout>
                       <div
                         onClick={() => router.push(`/academy/course/${course.id}`)}
-                        className={`group cursor-pointer rounded-[32px] border-2 ${course.id === 'catia-design' ? 'border-aero-blue shadow-[0_0_15px_-3px_rgba(var(--primary-glow),0.2)]' : 'border-border-subtle'} hover:border-aero-red/60 hover:shadow-2xl hover:shadow-aero-red/20 hover:-translate-y-1 transition-all duration-500 overflow-hidden flex flex-col relative h-full bg-surface`}
+                        className={`group cursor-pointer rounded-[24px] border ${
+                          course.id === 'catia-design'
+                            ? 'border-[#2F80ED] shadow-[0_0_15px_-3px_rgba(47,128,237,0.3)]'
+                            : 'border-[#D9E4EE]'
+                        } bg-white shadow-[0_4px_20px_rgba(16,42,67,0.04)] hover:shadow-[0_8px_30px_rgba(16,42,67,0.08)] hover:border-[#2F80ED]/40 hover:-translate-y-1 transition-all duration-300 ease-out overflow-hidden flex flex-col relative h-full`}
                       >
                         {/* Image Header */}
-                        <div className="relative w-full aspect-[2.1] shrink-0 bg-slate-100 overflow-hidden">
+                        <div className="relative w-full aspect-[1.85] shrink-0 bg-slate-100 overflow-hidden rounded-t-[24px]">
                           {course.image && (
                             <img
                               src={course.image}
                               alt={course.title}
-                              className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                              className="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500 ease-out"
                             />
                           )}
                           <div className="absolute top-4 left-4 z-20">
-                            <span className="bg-aero-red text-white px-3 py-1 rounded-sm text-[11px] font-bold uppercase tracking-wider shadow-sm">
+                            <span className="bg-[#062B49] text-white px-2.5 py-1 rounded-md text-[10px] font-semibold uppercase tracking-wider shadow-sm">
                               {course.tags[0] || course.category}
                             </span>
                           </div>
                         </div>
 
                         {/* Body */}
-                        <div className="flex flex-col flex-1 px-5 pb-5 pt-2 bg-surface">
-                          <h3 className="text-[18px] font-bold text-foreground leading-tight group-hover:text-aero-blue transition-colors mb-2 line-clamp-1">
+                        <div className="flex flex-col flex-1 px-6 pb-6 pt-5 bg-white">
+                          <h3 className="text-[19px] font-bold text-[#FF6B00] hover:text-[#e65c00] transition-colors mb-2 line-clamp-2">
                             {course.title}
                           </h3>
 
-                          <div className="w-10 h-1 bg-aero-red mb-3" />
-
-                          <p className="text-[13px] text-text-secondary line-clamp-2 mb-4 font-medium leading-relaxed flex-1">
+                          <p className="text-[13px] text-[#52677D] line-clamp-2 overflow-hidden mb-3 font-medium leading-relaxed">
                             {course.description}
                           </p>
 
-                          <div className="flex items-center gap-3 mb-3">
-                            <div className="flex items-center gap-1.5 text-lg font-bold text-text-primary">
-                              <Star className="w-4 h-4 text-aero-red fill-aero-red" />
+                          <div className="flex items-center gap-3 mb-2">
+                            <div className="flex items-center gap-1.5 text-sm font-bold text-[#102A43]">
+                              <Star className="w-4 h-4 text-[#FF6B00] fill-[#FF6B00]" />
                               {course.rating}
                             </div>
-                            <div className="w-px h-4 bg-border-subtle" />
-                            <div className="flex items-center gap-1.5 text-xs font-bold text-text-primary">
-                              <BarChart2 className="w-3.5 h-3.5 text-aero-red" />
+                            <div className="w-px h-4 bg-[#D9E4EE]" />
+                            <div className="flex items-center gap-1.5 text-[12px] font-bold text-[#52677D] truncate">
+                              <BarChart2 className="w-3.5 h-3.5 text-[#52677D]" />
                               <span className="truncate">{course.level} • {course.tags[1] || course.tags[0]}</span>
                             </div>
                           </div>
 
-                          <div className="w-full h-px bg-border-subtle mb-3" />
+                          <div className="w-full h-px bg-[#D9E4EE]/50 my-2.5" />
 
-                          <div className="flex items-center justify-between">
+                          {/* Duration & Content */}
+                          <div className="flex items-center justify-between mb-3">
                             <div className="flex flex-col">
-                              <div className="flex items-center gap-1.5 mb-0.5 text-text-muted">
-                                <Clock className="w-3.5 h-3.5 stroke-[2]" />
-                                <span className="text-[11px] font-medium">Duration</span>
+                              <div className="flex items-center gap-1.5 text-[#52677D] text-[11px] font-medium">
+                                <Clock className="w-3.5 h-3.5 text-[#52677D] stroke-[2]" />
+                                <span>Duration</span>
                               </div>
-                              <span className="text-xs font-semibold text-text-primary">{course.duration}</span>
+                              <span className="text-sm font-bold text-[#102A43] mt-1">{course.duration}</span>
                             </div>
                             <div className="flex flex-col items-end">
-                              <div className="flex items-center gap-1.5 mb-0.5 text-text-muted">
-                                <BookOpen className="w-3.5 h-3.5 stroke-[2]" />
-                                <span className="text-[11px] font-medium">Content</span>
+                              <div className="flex items-center gap-1.5 text-[#52677D] text-[11px] font-medium">
+                                <BookOpen className="w-3.5 h-3.5 text-[#52677D] stroke-[2]" />
+                                <span>Content</span>
                               </div>
-                              <span className="text-xs font-semibold text-text-primary">{course.lessons} lessons</span>
+                              <span className="text-sm font-bold text-[#102A43] mt-1">{course.lessons} lessons</span>
                             </div>
                           </div>
-                        </div>
 
-                        {/* Footer */}
-                        <div className="relative z-10 px-5 py-3 flex items-center justify-between bg-surface shrink-0 border-t border-border-subtle mt-auto">
-                          <div className="flex flex-col justify-center">
-                            <span className="text-[22px] font-bold text-foreground tracking-tight leading-none">₹{course.price.toLocaleString()}</span>
+                          {/* Footer Stats & Price */}
+                          <div className="flex items-center justify-between mt-auto pt-3 relative z-10">
+                            <div className="flex flex-col gap-0.5">
+                              <div className="flex items-center gap-1.5">
+                                <span className="text-[11px] text-[#52677D] line-through font-medium leading-none">₹{Math.floor(course.price * 1.6).toLocaleString()}</span>
+                                <span className="bg-[#FF6B00]/10 text-[#FF6B00] px-1 py-0.5 rounded-[4px] text-[8px] font-bold uppercase tracking-wider">37% OFF</span>
+                              </div>
+                              <span className="text-[22px] font-bold text-[#062B49] tracking-tight leading-none">₹{course.price.toLocaleString()}</span>
+                            </div>
+                            <button
+                              onClick={(e) => handleApplyClick(e, course.id)}
+                              className="relative overflow-hidden h-[50px] bg-[#062B49] hover:bg-[#0B3558] text-white px-5 rounded-[14px] text-sm font-bold transition-all duration-300 shadow-md flex items-center justify-center min-w-[130px] gap-2 cursor-pointer border-none group/btn"
+                            >
+                              View Course <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover/btn:translate-x-1" />
+                            </button>
                           </div>
-                          <button
-                            onClick={(e) => handleApplyClick(e, course.id)}
-                            className="bg-aero-red text-white hover:bg-aero-red-dim px-4 py-2 rounded-md text-xs font-bold transition-all shadow-md flex items-center justify-center min-w-[110px] gap-2 cursor-pointer"
-                          >
-                            View Course <ArrowRight className="w-3.5 h-3.5" />
-                          </button>
                         </div>
                       </div>
                     </motion.div>

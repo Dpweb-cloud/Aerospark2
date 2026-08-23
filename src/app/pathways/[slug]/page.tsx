@@ -70,7 +70,7 @@ export default async function PathwayPage({ params }: { params: Promise<{ slug: 
   }
 
   return (
-    <div className="min-h-screen pt-24 pb-16">
+    <div className="min-h-screen pt-28 pb-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <Link href="/" className="inline-flex items-center gap-2 text-text-secondary hover:text-aero-blue transition-colors mb-8">
           <ArrowLeft className="w-4 h-4" />
