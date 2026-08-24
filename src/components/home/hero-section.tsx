@@ -39,17 +39,17 @@ export function HeroSection() {
 
 
         {/* Main Content */}
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center gap-8 lg:gap-12 pt-24 lg:pt-16 lg:pb-0">
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 pr-16 sm:pr-6 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center gap-8 lg:gap-12 pt-24 lg:pt-16 lg:pb-0">
 
           {/* Left Text Content */}
-          <div className="flex-1 text-left">
+          <div className="flex-1 text-left w-full">
             {/* Heading */}
             <motion.h1
               id="hero-heading"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
-              className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-[1.1] mb-6"
+              className="text-[32px] min-[400px]:text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-[1.1] mb-6 break-words"
             >
               <span className="text-foreground">Engineering the</span>
               <br />

@@ -51,13 +51,16 @@ export function FeaturedCourses() {
 
   const scrollLeft = () => {
     if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ left: -370, behavior: "smooth" });
+      const containerWidth = scrollContainerRef.current.clientWidth;
+      scrollContainerRef.current.scrollBy({ left: -containerWidth, behavior: "smooth" });
     }
   };
 
   const scrollRight = () => {
     if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ left: 370, behavior: "smooth" });
+      // Calculate scroll amount based on visible width
+      const containerWidth = scrollContainerRef.current.clientWidth;
+      scrollContainerRef.current.scrollBy({ left: containerWidth, behavior: "smooth" });
     }
   };
 
@@ -123,7 +126,7 @@ export function FeaturedCourses() {
             <div
               key={course.id}
               onClick={() => router.push(`/academy/course/${course.id}`)}
-              className="snap-start shrink-0 w-[300px] sm:w-[360px] group cursor-pointer rounded-[24px] border border-[#D9E4EE] bg-white shadow-[0_4px_20px_rgba(16,42,67,0.04)] hover:shadow-[0_8px_30px_rgba(16,42,67,0.08)] hover:border-[#2F80ED]/40 hover:-translate-y-1 transition-all duration-300 ease-out overflow-hidden flex flex-col relative"
+              className="snap-start shrink-0 w-[85vw] sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] group cursor-pointer rounded-[24px] border border-[#D9E4EE] bg-white shadow-[0_4px_20px_rgba(16,42,67,0.04)] hover:shadow-[0_8px_30px_rgba(16,42,67,0.08)] hover:border-[#2F80ED]/40 hover:-translate-y-1 transition-all duration-300 ease-out overflow-hidden flex flex-col relative"
             >
               {/* Image Header */}
               <div className="relative w-full aspect-[1.85] shrink-0 overflow-hidden bg-slate-100 rounded-t-[24px]">
@@ -213,6 +216,8 @@ export function FeaturedCourses() {
               </div>
             </div>
           ))}
+          {/* Spacer to push the last card past the floating contact buttons */}
+          <div className="shrink-0 w-8 md:w-16" aria-hidden="true"></div>
         </div>
 
         <motion.div
