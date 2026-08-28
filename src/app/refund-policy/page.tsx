@@ -61,8 +61,8 @@ export default function RefundPolicyPage() {
                 <h2 className="text-lg font-bold text-foreground">Contact Us</h2>
                 <p>
                   If you have any questions or would like to submit a refund request, please contact us at{" "}
-                  <a href="mailto:hello@aerospark.io" className="text-aero-blue hover:underline">
-                    hello@aerospark.io
+                  <a href="mailto:connect@aerospark.in" className="text-aero-blue hover:underline">
+                    connect@aerospark.in
                   </a>.
                 </p>
               </section>

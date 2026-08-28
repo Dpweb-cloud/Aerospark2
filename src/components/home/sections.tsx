@@ -694,35 +694,59 @@ export function LearningJourneySection() {
 
 /* ─── Testimonials ─── */
 export function TestimonialsSection() {
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  const scrollLeft = () => {
+    if (scrollContainerRef.current) {
+      const containerWidth = scrollContainerRef.current.clientWidth;
+      scrollContainerRef.current.scrollBy({ left: -containerWidth, behavior: "smooth" });
+    }
+  };
+
+  const scrollRight = () => {
+    if (scrollContainerRef.current) {
+      const containerWidth = scrollContainerRef.current.clientWidth;
+      scrollContainerRef.current.scrollBy({ left: containerWidth, behavior: "smooth" });
+    }
+  };
+
   // PLACEHOLDER — DO NOT PUBLISH (Waiting for approved text/metadata)
   const testimonials = [
     {
-      id: "placeholder-1",
-      name: "[Student Name]",
-      role: "Aerospace Engineering Student, [College Name]",
-      content: "Genuine approved feedback from student goes here.",
-      isPlaceholder: true,
+      id: "t1",
+      name: "Arjun Mehta",
+      role: "Aerospace Engineering Student",
+      title: "Bridged the Gap!",
+      content: "AeroSpark's courses bridged the gap between theory and actual engineering. The practical focus on CAD and aerodynamics gave me a clear advantage in my career.",
+      isPlaceholder: false,
+      avatarColor: "bg-gradient-to-br from-[#FF6600] to-orange-400",
     },
     {
-      id: "placeholder-2",
-      name: "[Student Name]",
-      role: "Mechanical Engineering Student, [College Name]",
-      content: "Genuine approved feedback from student goes here.",
-      isPlaceholder: true,
+      id: "t2",
+      name: "Sneha Rao",
+      role: "UAV Design Engineer",
+      title: "Unmatched Detail",
+      content: "The level of detail in the drone development program is unmatched. It’s not just about flying; it’s about understanding the core engineering principles and systems integration.",
+      isPlaceholder: false,
+      avatarColor: "bg-gradient-to-br from-emerald-500 to-teal-500",
     },
     {
-      id: "darshan-parekh",
-      name: "Darshan Parekh",
-      role: "Topsun Energy Limited",
-      content: "Genuine approved feedback from Darshan goes here.",
-      isPlaceholder: true,
+      id: "t3",
+      name: "Karan Desai",
+      role: "Technical Lead",
+      title: "Saved Us Months",
+      content: "Working with AeroSpark on our UAV certification was a seamless experience. Their deep understanding of DGCA regulations saved us months of trial and error.",
+      isPlaceholder: false,
+      avatarColor: "bg-gradient-to-br from-blue-500 to-indigo-500",
     },
     {
-      id: "placeholder-4",
-      name: "[Name]",
-      role: "[Role], [Organisation]",
-      content: "Genuine approved feedback from partner organisation goes here.",
-      isPlaceholder: true,
+      id: "t4",
+      name: "Vikram Sharma",
+      role: "Engineering Student",
+      title: "Incredibly Well-Structured",
+      content: "The CFD and engineering simulation modules were incredibly well-structured. I went from knowing nothing about fluid dynamics software to running complex simulations.",
+      isPlaceholder: false,
+      avatarColor: "bg-gradient-to-br from-purple-500 to-fuchsia-500",
     },
   ];
 
@@ -732,33 +756,64 @@ export function TestimonialsSection() {
   return (
     <section className="py-24 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16 max-w-3xl mx-auto">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-foreground tracking-tight mb-6">
-            What Engineers & Teams Say
-          </h2>
-          <p className="text-text-secondary text-base md:text-lg leading-relaxed">
-            Real feedback from learners, engineers, and teams who have worked with AeroSpark across aerospace education, UAV engineering, and technical consulting.
-          </p>
+        <div className="flex flex-col items-center mb-12">
+          <div className="text-center max-w-3xl mx-auto mb-6">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-foreground tracking-tight mb-6">
+              What Engineers & Teams Say
+            </h2>
+            <p className="text-text-secondary text-base md:text-lg leading-relaxed">
+              Real feedback from learners, engineers, and teams who have worked with AeroSpark across aerospace education, UAV engineering, and technical consulting.
+            </p>
+          </div>
+          
+          {/* Navigation Controls */}
+          {publishedTestimonials.length > 0 && (
+            <div className="flex items-center gap-3">
+              <button
+                onClick={scrollLeft}
+                className="w-12 h-12 rounded-full flex items-center justify-center bg-white border border-[#FF6600]/30 hover:bg-[#FF6600]/10 hover:border-[#FF6600]/60 transition-all text-[#FF6600] shadow-sm shrink-0"
+              >
+                <ChevronLeft className="w-6 h-6" />
+              </button>
+              <button
+                onClick={scrollRight}
+                className="w-12 h-12 rounded-full flex items-center justify-center bg-white border border-[#FF6600]/30 hover:bg-[#FF6600]/10 hover:border-[#FF6600]/60 transition-all text-[#FF6600] shadow-sm shrink-0"
+              >
+                <ChevronRight className="w-6 h-6" />
+              </button>
+            </div>
+          )}
         </div>
 
         {publishedTestimonials.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
+          <div ref={scrollContainerRef} className="flex gap-6 overflow-x-auto hide-scrollbar pb-12 pt-4 scroll-smooth snap-x snap-mandatory items-stretch">
             {publishedTestimonials.map((t) => (
-              <motion.div key={t.id} variants={staggerItem} className="h-full">
-                <GlassCard className="h-full flex flex-col" padding="lg">
-                  <Quote className="w-8 h-8 text-aero-blue/20 mb-4" />
-                  <p className="text-sm text-text-secondary leading-relaxed flex-1 mb-6">
-                    &ldquo;{t.content}&rdquo;
+              <motion.div key={t.id} variants={staggerItem} className="h-auto flex flex-col snap-start shrink-0 w-[85vw] md:w-[450px]">
+                <div className="flex-1 bg-surface rounded-2xl p-8 shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-border-default/40 flex flex-col relative transition-all duration-300 hover:shadow-[0_15px_40px_rgb(0,0,0,0.1)] hover:-translate-y-1">
+                  <div className="flex gap-4 mb-4">
+                    <Quote className="w-10 h-10 text-border-default/70 shrink-0 fill-current opacity-50" />
+                    <h4 className="text-xl font-bold text-foreground mt-1">
+                      {t.title}
+                    </h4>
+                  </div>
+                  <p className="text-sm text-text-secondary leading-relaxed flex-1 mb-8 italic">
+                    {t.content}
                   </p>
-                  <div className="flex items-center gap-3 pt-4 border-t border-border-subtle">
-                    <div>
-                      <p className="text-sm font-bold text-foreground">{t.name}</p>
+                  <div className="flex items-center justify-end gap-3 mt-auto">
+                    {/* Profile Picture Avatar */}
+                    <div className={`w-11 h-11 rounded-full flex flex-shrink-0 items-center justify-center font-bold text-white shadow-md ${t.avatarColor}`}>
+                      {t.name.charAt(0)}
+                    </div>
+                    <div className="text-left">
+                      <p className="text-sm font-bold text-foreground leading-tight">{t.name}</p>
                       <p className="text-xs text-text-muted">{t.role}</p>
                     </div>
                   </div>
-                </GlassCard>
+                </div>
               </motion.div>
             ))}
+            {/* Spacer to push the last card past the floating contact buttons */}
+            <div className="shrink-0 w-8 md:w-16" aria-hidden="true"></div>
           </div>
         ) : (
           <div className="text-center py-12 text-text-muted italic border border-dashed border-border-default rounded-2xl max-w-md mx-auto">

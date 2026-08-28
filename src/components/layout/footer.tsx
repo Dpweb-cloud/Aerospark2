@@ -70,7 +70,7 @@ export function Footer() {
             <div className="space-y-3">
               <div className="flex items-center gap-2.5 text-text-secondary text-sm">
                 <Mail className="w-4 h-4 text-aero-blue/60" />
-                <span>hello@aerospark.io</span>
+                <span>connect@aerospark.in</span>
               </div>
               <div className="flex items-center gap-2.5 text-text-secondary text-sm">
                 <Phone className="w-4 h-4 text-aero-blue/60" />

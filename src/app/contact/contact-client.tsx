@@ -119,7 +119,7 @@ export default function ContactClient() {
                 {
                   icon: <Mail className="w-5 h-5" />,
                   title: "Email Us",
-                  detail: "hello@aerospark.io",
+                  detail: "connect@aerospark.in",
                   sub: "Send us an email",
                 },
                 {

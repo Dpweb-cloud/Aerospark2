@@ -27,8 +27,8 @@ const contacts = [
   {
     name: "WhatsApp",
     icon: <WhatsAppIcon />,
-    href: "https://wa.me/919316966504",
-    label: "+91 93169 66504",
+    href: "https://wa.me/919825855088",
+    label: "+91 98258 55088",
     sublabel: "Chat on WhatsApp",
     bg: "bg-[#25D366]",
     hoverBg: "hover:bg-[#1ebe5d]",
@@ -40,8 +40,8 @@ const contacts = [
   {
     name: "Call",
     icon: <PhoneIcon />,
-    href: "tel:+919316966504",
-    label: "+91 93169 66504",
+    href: "tel:+919825855088",
+    label: "+91 98258 55088",
     sublabel: "Tap to Call",
     bg: "bg-[#FF6600]",
     hoverBg: "hover:bg-[#e65c00]",

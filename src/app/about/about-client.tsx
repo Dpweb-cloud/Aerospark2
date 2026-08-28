@@ -21,14 +21,27 @@ import {
   TrendingUp,
   CheckCircle2,
   ShieldCheck,
-  Award
+  Award,
+  Phone
 } from "lucide-react";
 
 const team = [
   {
-    name: "Darshan Parekh",
+    name: "R. Hrithik",
     role: "Founder / Aerospace Engineer",
-    bio: "Focused on UAV engineering, aerospace consulting, product development, and building AeroSpark's technical direction.",
+    bio: "Focused on advanced aerospace engineering, aerodynamics, and UAV design.",
+    initials: "RH",
+  },
+  {
+    name: "A. Ashutosh",
+    role: "Founder / Aerospace Engineer",
+    bio: "Focused on advanced aerospace design, engineering analysis, and simulation.",
+    initials: "AA",
+  },
+  {
+    name: "Darshan Parekh",
+    role: "Firmware and Embedded Engineer",
+    bio: "Focused on UAV firmware, embedded systems development, and electronics integration.",
     initials: "DP",
   },
 ];
@@ -305,7 +318,7 @@ export default function AboutClient() {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
-              className="mt-16 max-w-md mx-auto"
+              className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto"
             >
               {team.map((member) => (
                 <motion.div key={member.name} variants={staggerItem}>
@@ -323,11 +336,14 @@ export default function AboutClient() {
                       {member.bio}
                     </p>
                     <div className="flex items-center justify-center gap-3 mt-4 pt-4 border-t border-border-subtle">
-                      <a href="mailto:hello@aerospark.io" className="text-text-muted hover:text-aero-blue transition-colors">
+                      <a href="mailto:connect@aerospark.in" className="text-text-muted hover:text-aero-blue transition-colors">
                         <Mail className="w-4 h-4" />
                       </a>
                       <a href="https://aerospark.io" target="_blank" rel="noopener noreferrer" className="text-text-muted hover:text-aero-blue transition-colors">
                         <Globe className="w-4 h-4" />
+                      </a>
+                      <a href="https://wa.me/919825855088" target="_blank" rel="noopener noreferrer" className="text-text-muted hover:text-green-500 transition-colors" title="WhatsApp: 9825855088">
+                        <Phone className="w-4 h-4" />
                       </a>
                     </div>
                   </GlassCard>

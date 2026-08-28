@@ -270,21 +270,25 @@ export default function ConsultationClient() {
                     step: "01",
                     title: "Understand the Requirement",
                     desc: "We start by understanding the aircraft, application, technical objectives, constraints, current development stage, and expected outcome.",
+                    color: "text-[#FF6600] border-[#FF6600]/30 bg-[#FF6600]/5 shadow-[#FF6600]/20",
                   },
                   {
                     step: "02",
                     title: "Define the Engineering Approach",
                     desc: "We identify the design, analysis, simulation, certification, or quality work needed to move the project forward.",
+                    color: "text-blue-500 border-blue-500/30 bg-blue-500/5 shadow-blue-500/20",
                   },
                   {
                     step: "03",
                     title: "Engineer & Review",
                     desc: "Our work may include design development, CAD/CAE, CFD, technical analysis, documentation, simulation, and structured engineering reviews.",
+                    color: "text-emerald-500 border-emerald-500/30 bg-emerald-500/5 shadow-emerald-500/20",
                   },
                   {
                     step: "04",
                     title: "Support the Next Stage",
                     desc: "We help translate the engineering work into clear next steps for development, testing, documentation, certification, or implementation.",
+                    color: "text-purple-500 border-purple-500/30 bg-purple-500/5 shadow-purple-500/20",
                   },
                 ].map((item, idx) => (
                   <motion.div
@@ -293,9 +297,9 @@ export default function ConsultationClient() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: idx * 0.1, duration: 0.5 }}
-                    className="flex flex-col items-center md:items-start text-center md:text-left space-y-4"
+                    className="flex flex-col items-center md:items-start text-center md:text-left space-y-4 group"
                   >
-                    <div className="w-20 h-20 rounded-2xl bg-surface border border-border-default flex items-center justify-center text-2xl font-mono font-bold text-aero-blue shadow-lg">
+                    <div className={`w-20 h-20 rounded-2xl border flex items-center justify-center text-2xl font-mono font-bold shadow-lg transition-all duration-300 group-hover:scale-110 group-hover:shadow-xl ${item.color}`}>
                       {item.step}
                     </div>
                     <div className="space-y-2">
