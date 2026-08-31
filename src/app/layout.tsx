@@ -27,6 +27,7 @@ export const metadata: Metadata = {
   },
 };
 
+import Script from "next/script";
 import { GlobalBackground } from "@/components/layout/global-bg";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "sonner";
@@ -41,8 +42,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <script
-          dangerouslySetInnerHTML={{
+        <Script id="theme-script" strategy="beforeInteractive" dangerouslySetInnerHTML={{
             __html: `
               (function() {
                 try {

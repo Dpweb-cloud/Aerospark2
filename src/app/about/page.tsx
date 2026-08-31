@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import AboutClient from "./about-client";
 
 export const metadata: Metadata = {
-  title: "About AeroSpark | Built Through Design, Learning & Engineering",
-  description: "AeroSpark started in 2020 as an aerospace engineering and technical learning team. Learn about our journey across aircraft and UAV design, simulation, and training.",
+  title: "About AeroSpark | Aerospace Engineering, UAV Consulting & Training",
+  description: "Learn how AeroSpark grew from aerospace design and practical learning into UAV engineering, drone certification support, simulation, quality consulting and technical training.",
 };
 
 export default function AboutPage() {

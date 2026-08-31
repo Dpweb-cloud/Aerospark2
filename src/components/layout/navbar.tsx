@@ -25,8 +25,17 @@ export function Navbar() {
 
   useEffect(() => {
     setMounted(true);
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll);
+    let ticking = false;
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setScrolled(window.scrollY > 20);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -44,27 +53,21 @@ export function Navbar() {
 
   return (
     <>
-      <motion.header
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
-        className={cn(
-          "fixed left-0 right-0 z-50 transition-all duration-500",
-          scrolled
-            ? "top-3 md:top-4 px-4 sm:px-6 lg:px-8"
-            : "top-0 px-0"
-        )}
-      >
-        <div className={cn(
-          "mx-auto transition-all duration-500",
-          scrolled
-            ? "max-w-7xl bg-background/85 dark:bg-background/75 backdrop-blur-md border border-border-default/60 shadow-[0_12px_40px_rgba(0,0,0,0.08)] rounded-2xl px-6 md:px-8"
-            : "max-w-full border-b border-border-subtle/10 px-4 sm:px-6 lg:px-8 bg-transparent"
-        )}>
-          <div className={cn(
-            "flex items-center justify-between transition-all duration-500",
-            scrolled ? "h-14 lg:h-16" : "h-16 lg:h-20"
-          )}>
+      <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-out transform-gpu">
+        <div
+          className={cn(
+            "mx-auto transition-all duration-300 ease-out transform-gpu px-4 sm:px-6 lg:px-8",
+            scrolled ? "max-w-7xl pt-3 md:pt-4" : "max-w-full pt-0"
+          )}
+        >
+          <div
+            className={cn(
+              "flex items-center justify-between transition-all duration-300 ease-out transform-gpu px-6 md:px-8",
+              scrolled
+                ? "h-14 lg:h-16 bg-background/85 dark:bg-background/75 backdrop-blur-md border border-border-default/60 shadow-[0_12px_40px_rgba(0,0,0,0.08)] rounded-2xl"
+                : "h-16 lg:h-20 bg-background/40 dark:bg-background/30 backdrop-blur-sm border-b border-border-subtle/20 rounded-none"
+            )}
+          >
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2.5 group">
               <div className="relative -top-[2px]">
@@ -90,17 +93,17 @@ export function Navbar() {
                     key={link.href}
                     href={link.href}
                     className={cn(
-                      "relative px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300",
+                      "relative px-4 py-2 text-sm font-bold rounded-xl transition-all duration-300 flex items-center justify-center",
                       isActive
-                        ? "text-[#FF6600]"
-                        : "text-text-secondary hover:text-foreground"
+                        ? "text-white shadow-md shadow-[#FF6600]/25"
+                        : "text-text-secondary hover:text-foreground font-medium"
                     )}
                   >
-                    {link.label}
+                    <span className="relative z-10">{link.label}</span>
                     {isActive && (
                       <motion.div
                         layoutId="navbar-indicator"
-                        className="absolute inset-0 bg-[#FF6600]/8 rounded-lg border border-[#FF6600]/15"
+                        className="absolute inset-0 bg-[#FF6600] rounded-xl z-0"
                         transition={{
                           type: "spring",
                           stiffness: 400,
@@ -121,7 +124,7 @@ export function Navbar() {
                   variant="primary"
                   size="sm"
                   href={getDashboardHref(user.role)}
-                  className="bg-[#FF6600] text-white hover:bg-[#e65c00] border-none shadow-md animate-fade-in"
+                  className="bg-[#062B49] text-white hover:bg-[#0B3558] border-none shadow-md hover:shadow-lg transition-all animate-fade-in"
                 >
                   Dashboard
                 </Button>
@@ -130,7 +133,7 @@ export function Navbar() {
                   variant="primary"
                   size="sm"
                   href="/login"
-                  className="bg-[#FF6600] text-white hover:bg-[#e65c00] border-none shadow-md"
+                  className="bg-[#062B49] text-white hover:bg-[#0B3558] border-none shadow-md hover:shadow-lg transition-all"
                 >
                   Sign In
                 </Button>
@@ -147,7 +150,7 @@ export function Navbar() {
             </button>
           </div>
         </div>
-      </motion.header>
+      </header>
 
       {/* Mobile Menu */}
       <AnimatePresence>

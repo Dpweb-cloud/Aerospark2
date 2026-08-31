@@ -145,49 +145,49 @@ export function FeaturedCourses() {
               </div>
 
               {/* Body */}
-              <div className="flex flex-col flex-1 px-6 pb-6 pt-5 bg-white">
-                <h3 className="text-[19px] font-bold text-[#FF6B00] hover:text-[#e65c00] transition-colors mb-2 line-clamp-2">
+              <div className="flex flex-col flex-1 px-6 pb-6 pt-5 bg-white rounded-b-[24px]">
+                <h3 className="text-[19px] font-bold text-[#062B49] group-hover:text-[#FF6600] transition-colors mb-2 line-clamp-2 leading-tight">
                   {course.title}
                 </h3>
 
-                <p className="text-[13px] text-[#52677D] line-clamp-2 overflow-hidden mb-3 font-medium leading-relaxed">
+                <p className="text-[13px] text-[#52677D] line-clamp-2 overflow-hidden mb-4 font-medium leading-relaxed">
                   {course.description}
                 </p>
 
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="flex items-center gap-1.5 text-sm font-bold text-[#102A43]">
-                    <Star className="w-4 h-4 text-[#FF6B00] fill-[#FF6B00]" />
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="flex items-center gap-1.5 text-sm font-bold text-[#062B49]">
+                    <Star className="w-4 h-4 text-[#FF6600] fill-[#FF6600]" />
                     {course.rating}
                   </div>
-                  <div className="w-px h-4 bg-[#D9E4EE]" />
+                  <div className="w-px h-4 bg-slate-200" />
                   <div className="flex items-center gap-1.5 text-[12px] font-bold text-[#52677D] truncate">
                     <BarChart2 className="w-3.5 h-3.5 text-[#52677D]" />
-                    <span className="truncate">{course.level} • {course.tags[1] || course.tags[0]}</span>
+                    <span className="truncate">{course.level}</span>
                   </div>
                 </div>
 
-                <div className="w-full h-px bg-[#D9E4EE]/50 my-2.5" />
+                <div className="w-full h-px bg-slate-100 mb-4" />
 
                 {/* Duration & Content */}
-                <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center justify-between mb-4">
                   <div className="flex flex-col">
-                    <div className="flex items-center gap-1.5 text-[#52677D] text-[11px] font-medium">
+                    <div className="flex items-center gap-1.5 text-[#52677D] text-[11px] font-medium mb-1">
                       <Clock className="w-3.5 h-3.5 text-[#52677D] stroke-[2]" />
                       <span>Duration</span>
                     </div>
-                    <span className="text-sm font-bold text-[#102A43] mt-1">{course.duration}</span>
+                    <span className="text-sm font-bold text-[#062B49]">{course.duration}</span>
                   </div>
                   <div className="flex flex-col items-end">
-                    <div className="flex items-center gap-1.5 text-[#52677D] text-[11px] font-medium">
+                    <div className="flex items-center gap-1.5 text-[#52677D] text-[11px] font-medium mb-1">
                       <BookOpen className="w-3.5 h-3.5 text-[#52677D] stroke-[2]" />
                       <span>Content</span>
                     </div>
-                    <span className="text-sm font-bold text-[#102A43] mt-1">{course.lessons} lessons</span>
+                    <span className="text-sm font-bold text-[#062B49]">{course.lessons} lessons</span>
                   </div>
                 </div>
 
                 {/* Footer Stats & Price */}
-                <div className="flex items-center justify-between mt-auto pt-3">
+                <div className="flex items-center justify-between mt-auto pt-1 relative z-10">
                   <div className="flex flex-col gap-0.5">
                     <div className="flex items-center gap-1.5">
                       <span className="text-[11px] text-[#52677D] line-through font-medium leading-none">₹{Math.floor(course.price * 1.6).toLocaleString()}</span>
@@ -197,7 +197,7 @@ export function FeaturedCourses() {
                   </div>
                   <button
                     onClick={(e) => handleApplyClick(e, course.id)}
-                    className="relative overflow-hidden h-[50px] bg-[#062B49] hover:bg-[#0B3558] text-white px-5 rounded-[14px] text-sm font-bold transition-all duration-300 shadow-md flex items-center justify-center min-w-[130px] gap-2 cursor-pointer border-none group/btn"
+                    className="relative overflow-hidden h-[40px] bg-[#062B49] hover:bg-[#FF6600] text-white px-5 rounded-[10px] text-sm font-bold transition-all duration-300 flex items-center justify-center min-w-[120px] gap-2 cursor-pointer border-none group/btn shadow-[0_4px_14px_rgba(6,43,73,0.2)] hover:shadow-[0_6px_20px_rgba(255,102,0,0.4)] hover:-translate-y-0.5"
                   >
                     <span className={animatingCard === course.id ? "opacity-0" : "flex items-center gap-1.5"}>
                       Apply Now <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover/btn:translate-x-1" />
@@ -206,7 +206,7 @@ export function FeaturedCourses() {
                       <motion.div
                         initial={{ x: -20, y: 0, opacity: 0, scale: 0.5 }}
                         animate={{ x: 0, y: 0, opacity: 1, scale: 1 }}
-                        className="absolute inset-0 flex items-center justify-center bg-emerald-500 text-white"
+                        className="absolute inset-0 flex items-center justify-center bg-[#FF6600] text-white"
                       >
                         <Check className="w-5 h-5 mr-1" /> Applied!
                       </motion.div>

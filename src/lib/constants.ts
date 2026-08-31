@@ -22,8 +22,7 @@ export const COURSES = [
     id: "dgca-drone-regulations",
     title: "DGCA Drone Regulations",
     category: "Compliance & Regulations",
-    description:
-      "Practical introduction to UAS (Drones) rules, compliance requirements, and safe operating practices in India. Covers DGCA, MoCA, and DigitalSky awareness.",
+    description: "Understand India’s drone rules, airspace, pilot responsibilities and basic compliance through simple explanations and practical flight situations.",
     duration: "6 weeks",
     lessons: 24,
     level: "Beginner" as const,
@@ -33,70 +32,86 @@ export const COURSES = [
     image: "/banner_dgca_1784991714820.png",
     tags: ["DGCA", "UAS", "Compliance", "India"],
     modules: [
-      {
-            "title": "Module 1: Introduction to DGCA Drone Regulations",
+        {
+            "title": "Module 1: India’s Drone Regulatory Framework",
             "items": [
-                  "Overview of drone regulations in India",
-                  "Role of DGCA and the Ministry of Civil Aviation",
-                  "Introduction to the Drone Rules 2021",
-                  "Responsibilities of drone owners, operators and pilots"
+                "Drone Rules 2021 and the current regulatory ecosystem",
+                "Key terms: drone/UAS, operator, remote pilot and type certification",
+                "Roles of MoCA, DGCA, eGCA and the Digital Sky ecosystem",
+                "Where to check current notices, airspace information and regulatory updates"
             ]
-      },
-      {
-            "title": "Module 2: Drone Classification and Registration",
+        },
+        {
+            "title": "Module 2: Categories, Registration & Certification Awareness",
             "items": [
-                  "Drone classification according to weight",
-                  "Overview of type-certification requirements",
-                  "Drone registration and Unique Identification Number",
-                  "Essential operational documents and records"
+                "Drone weight categories and why classification matters",
+                "Registration/UIN and ownership basics",
+                "Type certification: purpose, applicability and basic flow",
+                "eGCA service flow and common documentation awareness"
             ]
-      },
-      {
-            "title": "Module 3: Digital Sky and Airspace Regulations",
+        },
+        {
+            "title": "Module 3: Airspace & Flight Operations",
             "items": [
-                  "Introduction to the Digital Sky platform",
-                  "Green, yellow and red airspace zones",
-                  "Restrictions near airports and sensitive locations",
-                  "Overview of flight permissions and approvals"
+                "Green, Yellow and Red zones and how to read the airspace map",
+                "Basic altitude and operating limits",
+                "Airport / controlled-airspace restrictions and permission awareness",
+                "Pre-flight airspace, weather and operating-area checks"
             ]
-      },
-      {
-            "title": "Module 4: Remote Pilot Requirements",
+        },
+        {
+            "title": "Module 4: Remote Pilot & Operator Responsibilities",
             "items": [
-                  "Role and responsibilities of a remote pilot",
-                  "Overview of the Remote Pilot Certificate",
-                  "Basic eligibility and training requirements",
-                  "Role of Remote Pilot Training Organisations"
+                "Remote pilot certification and training basics",
+                "Responsibilities of the remote pilot and operator",
+                "VLOS, safe separation, people/property and responsible operation",
+                "Flight logs, records and incident-reporting awareness"
             ]
-      },
-      {
-            "title": "Module 5: Safe Drone Operating Practices",
+        },
+        {
+            "title": "Module 5: Safety, Compliance & Documentation",
             "items": [
-                  "Pre-flight planning and drone inspection",
-                  "Weather, location and airspace assessment",
-                  "Safe take-off, flight and landing practices",
-                  "Emergency awareness and operational records"
+                "Aircraft, battery and maintenance-readiness checks",
+                "Privacy, security, payload and responsible-use awareness",
+                "Simple compliance-document checklist for an operation",
+                "Non-compliance, incidents and enforcement awareness"
             ]
-      },
-      {
-            "title": "Module 6: Legal Responsibilities and Drone Compliance",
+        },
+        {
+            "title": "Module 6: Practical Regulatory Scenarios & Review",
             "items": [
-                  "Privacy and responsible aerial data collection",
-                  "Restrictions around sensitive locations",
-                  "Common regulatory violations",
-                  "Standard operating procedures and compliance examples"
+                "Planning a basic mapping / survey flight",
+                "Planning an operation near restricted or controlled airspace",
+                "Commercial-operation documentation walkthrough",
+                "How to check for rule updates + final compliance exercise"
             ]
-      }
-],
+        }
+    ],
     topics: [
-      "Introduction to UAS regulations in India",
-      "DGCA, MoCA, and DigitalSky overview",
-      "Drone categories and operational limitations",
-      "Registration and compliance awareness",
-      "Remote pilot responsibilities",
-      "Airspace, permissions, and safe flight planning",
-      "Documentation and operational discipline",
-      "Common compliance mistakes and safety risks",
+        "Drone Rules 2021 and the current regulatory ecosystem",
+        "Key terms: drone/UAS, operator, remote pilot and type certification",
+        "Roles of MoCA, DGCA, eGCA and the Digital Sky ecosystem",
+        "Where to check current notices, airspace information and regulatory updates",
+        "Drone weight categories and why classification matters",
+        "Registration/UIN and ownership basics",
+        "Type certification: purpose, applicability and basic flow",
+        "eGCA service flow and common documentation awareness",
+        "Green, Yellow and Red zones and how to read the airspace map",
+        "Basic altitude and operating limits",
+        "Airport / controlled-airspace restrictions and permission awareness",
+        "Pre-flight airspace, weather and operating-area checks",
+        "Remote pilot certification and training basics",
+        "Responsibilities of the remote pilot and operator",
+        "VLOS, safe separation, people/property and responsible operation",
+        "Flight logs, records and incident-reporting awareness",
+        "Aircraft, battery and maintenance-readiness checks",
+        "Privacy, security, payload and responsible-use awareness",
+        "Simple compliance-document checklist for an operation",
+        "Non-compliance, incidents and enforcement awareness",
+        "Planning a basic mapping / survey flight",
+        "Planning an operation near restricted or controlled airspace",
+        "Commercial-operation documentation walkthrough",
+        "How to check for rule updates + final compliance exercise"
     ],
     eligibility: "Students, aspiring drone pilots, entrepreneurs, and professionals from photography, surveying, agriculture, and inspection fields.",
     outcome: "Clear foundation in Indian UAS regulations and basic requirements for safe, responsible, and compliant drone operations.",
@@ -105,10 +120,9 @@ export const COURSES = [
     id: "faa-drone-regulations",
     title: "FAA Drone Regulations",
     category: "Compliance & Regulations",
-    description:
-      "Introduction to UAS rules and safe operating practices under the FAA framework in the United States. Covers Part 107, Remote ID, and airspace authorization.",
+    description: "Learn the main FAA Part 107 rules for small drone operations, remote-pilot responsibilities, airspace, Remote ID and authorizations.",
     duration: "6 weeks",
-    lessons: 22,
+    lessons: 24,
     level: "Beginner" as const,
     price: 1999,
     rating: 4.8,
@@ -116,70 +130,86 @@ export const COURSES = [
     image: "/banner_faa_1784991724685.png",
     tags: ["FAA", "Part 107", "UAS", "USA"],
     modules: [
-      {
-            "title": "Module 1: Introduction to FAA Drone Regulations",
+        {
+            "title": "Module 1: FAA & Part 107 Fundamentals",
             "items": [
-                  "United States drone regulatory framework",
-                  "Role of the Federal Aviation Administration",
-                  "Introduction to the National Airspace System",
-                  "General pilot and operator responsibilities"
+                "What Part 107 covers and when it applies",
+                "Part 107 versus recreational flying — simple comparison",
+                "Key roles: Remote Pilot in Command, visual observer and operator",
+                "Small-UAS eligibility, registration and basic operating responsibility"
             ]
-      },
-      {
-            "title": "Module 2: Recreational and Part 107 Operations",
+        },
+        {
+            "title": "Module 2: Remote Pilot Requirements",
             "items": [
-                  "Recreational drone-flying requirements",
-                  "Introduction to the TRUST safety test",
-                  "Purpose and scope of FAA Part 107",
-                  "Basic remote-pilot eligibility awareness"
+                "Remote Pilot Certificate eligibility and knowledge-test route",
+                "Recurrent training and keeping knowledge current",
+                "Pilot-in-command responsibilities and crew coordination",
+                "Pre-flight inspection, risk assessment and go/no-go decisions"
             ]
-      },
-      {
-            "title": "Module 3: Drone Registration and Remote ID",
+        },
+        {
+            "title": "Module 3: Airspace & Operating Rules",
             "items": [
-                  "FAA registration requirements",
-                  "Introduction to FAA DroneZone",
-                  "Purpose of Remote Identification",
-                  "Basic compliance responsibilities"
+                "Basic US airspace classes for drone pilots",
+                "400-ft rule, VLOS and common operating limitations",
+                "Operations at night and over people — awareness level",
+                "Weather, visibility, emergencies and accident-reporting basics"
             ]
-      },
-      {
-            "title": "Module 4: Airspace and Flight Authorisation",
+        },
+        {
+            "title": "Module 4: LAANC & Airspace Authorization",
             "items": [
-                  "Controlled and uncontrolled airspace",
-                  "Checking airspace before a flight",
-                  "Introduction to LAANC and DroneZone authorisations",
-                  "Airports, restricted areas and temporary restrictions"
+                "What LAANC is and when it is used",
+                "UAS Facility Maps and altitude grids",
+                "Near-real-time authorization versus further coordination",
+                "Manual authorization and the difference between authorization and waiver"
             ]
-      },
-      {
-            "title": "Module 5: Safe Drone Operating Practices",
+        },
+        {
+            "title": "Module 5: Remote ID, Registration & Compliance",
             "items": [
-                  "Pre-flight planning and inspection",
-                  "Visual line-of-sight and altitude awareness",
-                  "Operations near people and vehicles",
-                  "Night operations and emergency awareness"
+                "Drone registration and marking basics",
+                "Standard Remote ID and broadcast-module concepts",
+                "Records, inspections and operational documentation",
+                "Common compliance mistakes and how to avoid them"
             ]
-      },
-      {
-            "title": "Module 6: Pilot Responsibilities and Compliance",
+        },
+        {
+            "title": "Module 6: Waivers, Scenarios & Final Review",
             "items": [
-                  "Remote pilot in command responsibilities",
-                  "Required certificates and operating records",
-                  "Overview of waivers and special authorisations",
-                  "Common violations and compliance examples"
+                "What a Part 107 waiver is and when it may be needed",
+                "Simple controlled-airspace mission-planning example",
+                "Night / people / special-operation scenario discussion",
+                "Final Part 107 compliance checklist and review"
             ]
-      }
-],
+        }
+    ],
     topics: [
-      "Introduction to UAS regulations in the United States",
-      "FAA framework and operator responsibilities",
-      "Recreational vs commercial drone operations",
-      "FAA Part 107 awareness",
-      "Registration and Remote ID basics",
-      "Airspace awareness and flight authorization overview",
-      "Safe operating practices",
-      "Risk, liability, and common operational mistakes",
+        "What Part 107 covers and when it applies",
+        "Part 107 versus recreational flying — simple comparison",
+        "Key roles: Remote Pilot in Command, visual observer and operator",
+        "Small-UAS eligibility, registration and basic operating responsibility",
+        "Remote Pilot Certificate eligibility and knowledge-test route",
+        "Recurrent training and keeping knowledge current",
+        "Pilot-in-command responsibilities and crew coordination",
+        "Pre-flight inspection, risk assessment and go/no-go decisions",
+        "Basic US airspace classes for drone pilots",
+        "400-ft rule, VLOS and common operating limitations",
+        "Operations at night and over people — awareness level",
+        "Weather, visibility, emergencies and accident-reporting basics",
+        "What LAANC is and when it is used",
+        "UAS Facility Maps and altitude grids",
+        "Near-real-time authorization versus further coordination",
+        "Manual authorization and the difference between authorization and waiver",
+        "Drone registration and marking basics",
+        "Standard Remote ID and broadcast-module concepts",
+        "Records, inspections and operational documentation",
+        "Common compliance mistakes and how to avoid them",
+        "What a Part 107 waiver is and when it may be needed",
+        "Simple controlled-airspace mission-planning example",
+        "Night / people / special-operation scenario discussion",
+        "Final Part 107 compliance checklist and review"
     ],
     eligibility: "Beginners interested in UAS operations in the USA, aspiring FAA remote pilots, drone business owners, and professionals using drones commercially.",
     outcome: "Basic understanding of FAA UAS compliance and safe flight practices for responsible drone operations in the United States.",
@@ -188,10 +218,9 @@ export const COURSES = [
     id: "easa-drone-regulations",
     title: "EASA Drone Regulations",
     category: "Compliance & Regulations",
-    description:
-      "Overview of UAS rules and compliance under the European aviation safety framework. Covers Open, Specific, and Certified category awareness with NAA roles.",
+    description: "Understand the European UAS framework and how the Open, Specific and Certified categories affect drone operations.",
     duration: "6 weeks",
-    lessons: 20,
+    lessons: 24,
     level: "Beginner" as const,
     price: 1999,
     rating: 4.7,
@@ -199,70 +228,86 @@ export const COURSES = [
     image: "/banner_easa.png",
     tags: ["EASA", "Europe", "UAS", "Compliance"],
     modules: [
-      {
-            "title": "Module 1: Introduction to EASA Drone Regulations",
+        {
+            "title": "Module 1: European UAS Regulatory Framework",
             "items": [
-                  "European drone regulatory framework",
-                  "Role of EASA and National Aviation Authorities",
-                  "Difference between a drone operator and remote pilot",
-                  "General responsibilities and terminology"
+                "How the EASA risk-based UAS framework is organised",
+                "Open, Specific and Certified categories — big-picture comparison",
+                "UAS operator versus remote pilot responsibilities",
+                "Class identification, registration and remote-ID awareness"
             ]
-      },
-      {
-            "title": "Module 2: EASA Drone Operation Categories",
+        },
+        {
+            "title": "Module 2: Open Category Fundamentals",
             "items": [
-                  "Open, Specific and Certified categories",
-                  "Risk-based approach to drone operations",
-                  "Selecting the appropriate operating category",
-                  "Authorisation and certification awareness"
+                "Main Open-category limitations and basic operating conditions",
+                "VLOS, 120-m height concept and safe operation around people",
+                "Operator registration and remote-pilot competency awareness",
+                "Class-marked and legacy / privately built UAS — foundation view"
             ]
-      },
-      {
-            "title": "Module 3: Open Category and Subcategories",
+        },
+        {
+            "title": "Module 3: A1, A2 & A3 Operations",
             "items": [
-                  "A1, A2 and A3 subcategories",
-                  "Drone class-identification labels",
-                  "Basic operating limitations",
-                  "Visual line-of-sight and altitude awareness"
+                "What A1, A2 and A3 are designed for",
+                "People, distance and operating-area considerations",
+                "Remote-pilot competency differences across subcategories",
+                "Choosing A1/A2/A3 for simple example missions"
             ]
-      },
-      {
-            "title": "Module 4: Registration and Pilot Requirements",
+        },
+        {
+            "title": "Module 4: Specific Category",
             "items": [
-                  "Drone operator registration",
-                  "Remote-pilot competency requirements",
-                  "Training and examination awareness",
-                  "Certificate and record-keeping responsibilities"
+                "When an operation moves beyond the Open category",
+                "Operational authorisation — concept and purpose",
+                "Standard scenarios and declarations — awareness level",
+                "SORA and risk assessment — introduction only"
             ]
-      },
-      {
-            "title": "Module 5: Geographical Zones and Safe Operations",
+        },
+        {
+            "title": "Module 5: Certified & Higher-Risk Operations",
             "items": [
-                  "Understanding UAS geographical zones",
-                  "Checking national airspace restrictions",
-                  "Operations near airports and restricted locations",
-                  "Geo-awareness and basic emergency procedures"
+                "What the Certified category is for",
+                "Higher-risk operations and why additional approvals are needed",
+                "Aircraft, operator and pilot certification concepts",
+                "Comparing Open, Specific and Certified using examples"
             ]
-      },
-      {
-            "title": "Module 6: Specific Category and Compliance",
+        },
+        {
+            "title": "Module 6: Practical Compliance Scenarios",
             "items": [
-                  "Introduction to the Specific category",
-                  "Operational authorisations and standard scenarios",
-                  "Basic risk-assessment awareness",
-                  "Cross-border and compliance considerations"
+                "Classifying a simple drone mission",
+                "Geographical zones and local-rule awareness",
+                "Basic operating documentation and pre-flight checks",
+                "How to find current EASA rules + final review"
             ]
-      }
-],
+        }
+    ],
     topics: [
-      "Introduction to UAS regulations in Europe",
-      "EASA and National Aviation Authority overview",
-      "Open, Specific, and Certified category awareness",
-      "Operator registration and pilot responsibility",
-      "Airspace and geographical zone awareness",
-      "Equipment and operational compliance basics",
-      "Safe operating practices",
-      "Risk, privacy, and common compliance mistakes",
+        "How the EASA risk-based UAS framework is organised",
+        "Open, Specific and Certified categories — big-picture comparison",
+        "UAS operator versus remote pilot responsibilities",
+        "Class identification, registration and remote-ID awareness",
+        "Main Open-category limitations and basic operating conditions",
+        "VLOS, 120-m height concept and safe operation around people",
+        "Operator registration and remote-pilot competency awareness",
+        "Class-marked and legacy / privately built UAS — foundation view",
+        "What A1, A2 and A3 are designed for",
+        "People, distance and operating-area considerations",
+        "Remote-pilot competency differences across subcategories",
+        "Choosing A1/A2/A3 for simple example missions",
+        "When an operation moves beyond the Open category",
+        "Operational authorisation — concept and purpose",
+        "Standard scenarios and declarations — awareness level",
+        "SORA and risk assessment — introduction only",
+        "What the Certified category is for",
+        "Higher-risk operations and why additional approvals are needed",
+        "Aircraft, operator and pilot certification concepts",
+        "Comparing Open, Specific and Certified using examples",
+        "Classifying a simple drone mission",
+        "Geographical zones and local-rule awareness",
+        "Basic operating documentation and pre-flight checks",
+        "How to find current EASA rules + final review"
     ],
     eligibility: "Beginners interested in UAS operations in Europe, aspiring remote pilots, drone service providers, and professionals from photography, surveying, and inspection.",
     outcome: "Clear foundation in EASA UAS rules and basic compliance approach for safe drone operations in Europe.",
@@ -271,10 +316,9 @@ export const COURSES = [
     id: "aerospace-fundamentals",
     title: "Aerospace Engineering Fundamentals",
     category: "Technical Foundation",
-    description:
-      "Foundation in aerospace engineering concepts including aircraft basics, flight principles, structures, propulsion, materials, and industry applications.",
+    description: "Build a clear foundation in how aircraft fly, how they are built and how the main aerospace engineering areas work together.",
     duration: "6 weeks",
-    lessons: 28,
+    lessons: 24,
     level: "Beginner" as const,
     price: 1499,
     rating: 4.9,
@@ -282,81 +326,86 @@ export const COURSES = [
     image: "/banner_pixhawk_1784992045334.png",
     tags: ["Aerospace", "Aviation", "Engineering", "Fundamentals"],
     modules: [
-      {
-            "title": "Module 1: Introduction to Aerospace Engineering",
+        {
+            "title": "Module 1: Aircraft & Aerospace Basics",
             "items": [
-                  "Aeronautical and astronautical engineering",
-                  "Development of aviation and space technology",
-                  "Aircraft, spacecraft and unmanned aerial systems",
-                  "Major aerospace branches and applications"
+                "Major types of aircraft, UAVs and spacecraft — overview",
+                "Main aircraft parts and what each part does",
+                "Aerospace engineering disciplines and how they connect",
+                "Aircraft axes, basic motion and control surfaces"
             ]
-      },
-      {
-            "title": "Module 2: Atmosphere and Principles of Flight",
+        },
+        {
+            "title": "Module 2: Principles of Flight",
             "items": [
-                  "Atmospheric pressure, temperature and density",
-                  "Lift, weight, thrust and drag",
-                  "Basic aircraft motion and flight conditions",
-                  "Effect of atmospheric conditions on flight"
+                "Lift, weight, thrust and drag",
+                "Why wings create lift — simple explanation",
+                "Angle of attack, stall and basic flight conditions",
+                "Stability, control and basic aircraft performance"
             ]
-      },
-      {
-            "title": "Module 3: Fundamentals of Aerodynamics",
+        },
+        {
+            "title": "Module 3: Aircraft Structures",
             "items": [
-                  "Airflow around aircraft",
-                  "Airfoil and wing terminology",
-                  "Angle of attack, lift and drag",
-                  "Stall and aerodynamic efficiency"
+                "Loads acting on wings, fuselage and landing gear",
+                "Basic structural members: spars, ribs, frames and skin",
+                "Tension, compression, bending, shear and torsion — concept level",
+                "Why stiffness, strength and weight all matter"
             ]
-      },
-      {
-            "title": "Module 4: Aircraft Performance and Flight Mechanics",
+        },
+        {
+            "title": "Module 4: Aerospace Materials & Manufacturing",
             "items": [
-                  "Take-off, climb, cruise and landing phases",
-                  "Speed, altitude, range and endurance",
-                  "Weight, balance and centre of gravity",
-                  "Basic performance limitations"
+                "Aluminium, steel, titanium and where they are used",
+                "Composite materials and sandwich structures",
+                "Material properties: strength, stiffness, density and fatigue awareness",
+                "Basic aerospace manufacturing and joining methods"
             ]
-      },
-      {
-            "title": "Module 5: Aircraft Structures and Materials",
+        },
+        {
+            "title": "Module 5: Propulsion & Aircraft Systems",
             "items": [
-                  "Major aircraft structural components",
-                  "Basic structural loads and arrangements",
-                  "Common aerospace materials",
-                  "Fatigue, corrosion and structural awareness"
+                "Piston, turboprop, turbofan, jet and electric propulsion — overview",
+                "Fuel, electrical and hydraulic systems — overview",
+                "Avionics, navigation and flight-control systems — overview",
+                "How aircraft systems are integrated around the mission"
             ]
-      },
-      {
-            "title": "Module 6: Aerospace Propulsion Systems",
+        },
+        {
+            "title": "Module 6: Aircraft Development & Industry",
             "items": [
-                  "Piston and propeller systems",
-                  "Gas-turbine engine types",
-                  "Basic rocket propulsion",
-                  "Electric and hybrid-electric propulsion"
+                "From mission requirement to aircraft concept",
+                "Design trade-offs: weight, range, speed, cost and safety",
+                "Testing, certification and documentation — foundation view",
+                "Aerospace project lifecycle, roles and career pathways"
             ]
-      },
-      {
-            "title": "Module 7: Stability, Control, Avionics and Spaceflight Basics",
-            "items": [
-                  "Pitch, roll and yaw",
-                  "Aircraft stability and flight controls",
-                  "Basic instruments, sensors and navigation",
-                  "Introductory spacecraft and orbital concepts"
-            ]
-      }
-],
+        }
+    ],
     topics: [
-      "Introduction to aerospace engineering",
-      "Aircraft, spacecraft, and UAS overview",
-      "Basic flight principles",
-      "Aircraft structures and materials awareness",
-      "Propulsion system basics",
-      "Flight control and stability awareness",
-      "Introduction to avionics and aircraft systems",
-      "Aerospace manufacturing and quality awareness",
-      "Industry applications and career pathways",
-      "Emerging trends in aerospace and drone technology",
+        "Major types of aircraft, UAVs and spacecraft — overview",
+        "Main aircraft parts and what each part does",
+        "Aerospace engineering disciplines and how they connect",
+        "Aircraft axes, basic motion and control surfaces",
+        "Lift, weight, thrust and drag",
+        "Why wings create lift — simple explanation",
+        "Angle of attack, stall and basic flight conditions",
+        "Stability, control and basic aircraft performance",
+        "Loads acting on wings, fuselage and landing gear",
+        "Basic structural members: spars, ribs, frames and skin",
+        "Tension, compression, bending, shear and torsion — concept level",
+        "Why stiffness, strength and weight all matter",
+        "Aluminium, steel, titanium and where they are used",
+        "Composite materials and sandwich structures",
+        "Material properties: strength, stiffness, density and fatigue awareness",
+        "Basic aerospace manufacturing and joining methods",
+        "Piston, turboprop, turbofan, jet and electric propulsion — overview",
+        "Fuel, electrical and hydraulic systems — overview",
+        "Avionics, navigation and flight-control systems — overview",
+        "How aircraft systems are integrated around the mission",
+        "From mission requirement to aircraft concept",
+        "Design trade-offs: weight, range, speed, cost and safety",
+        "Testing, certification and documentation — foundation view",
+        "Aerospace project lifecycle, roles and career pathways"
     ],
     eligibility: "Students interested in aerospace or aeronautical engineering, beginners exploring aviation or drone technology, and professionals seeking aerospace domain awareness.",
     outcome: "Clear understanding of aerospace engineering fundamentals and ability to identify major aerospace systems, basic flight concepts, and engineering applications.",
@@ -365,92 +414,96 @@ export const COURSES = [
     id: "aerodynamics",
     title: "Aerodynamics",
     category: "Technical Foundation",
-    description:
-      "Foundation in aerodynamics with focus on airflow behavior, lift, drag, pressure, stability, and performance concepts for aircraft, drones, and wings.",
+    description: "Learn how air moves around wings and aircraft, how lift and drag are produced, and how simple aerodynamic choices affect stability and performance.",
     duration: "6 weeks",
-    lessons: 26,
+    lessons: 24,
     level: "Beginner" as const,
     price: 1999,
-    rating: 4.9,
+    rating: 4.8,
     students: 1580,
     image: "/banner_aerodynamics_1784991955683.png",
     tags: ["Aerodynamics", "Airfoil", "Lift", "Drag"],
     modules: [
-      {
-            "title": "Module 1: Aerodynamics and the Atmosphere",
+        {
+            "title": "Module 1: Airflow & Aerodynamic Forces",
             "items": [
-                  "Applications of aerodynamics",
-                  "Properties of air and atmospheric conditions",
-                  "Steady, unsteady and compressibility awareness",
-                  "Effect of altitude on aerodynamic behaviour"
+                "Air properties: pressure, density, temperature and speed",
+                "Relative airflow, velocity and basic flow terminology",
+                "The four forces acting on an aircraft",
+                "Pressure and momentum as simple ways to understand aerodynamic force"
             ]
-      },
-      {
-            "title": "Module 2: Airflow and Aerodynamic Forces",
+        },
+        {
+            "title": "Module 2: Airfoils, Pressure & Angle of Attack",
             "items": [
-                  "Flow patterns and streamlines",
-                  "Pressure and velocity relationships",
-                  "Lift, drag, thrust and weight",
-                  "Reynolds number and Mach number awareness"
+                "Airfoil geometry: chord, camber, thickness and leading/trailing edge",
+                "How airflow and pressure change around an airfoil",
+                "Angle of attack and how it changes lift",
+                "Flow separation and stall — what happens and why"
             ]
-      },
-      {
-            "title": "Module 3: Airfoils and Lift Generation",
+        },
+        {
+            "title": "Module 3: Lift, Drag & Aerodynamic Coefficients",
             "items": [
-                  "Airfoil geometry and terminology",
-                  "Pressure distribution and lift generation",
-                  "Angle of attack and lift behaviour",
-                  "Centre of pressure and airfoil selection"
+                "Lift equation and simple use of lift coefficient",
+                "Parasite, induced and total drag",
+                "Drag coefficient and simple drag-polar awareness",
+                "Lift-to-drag ratio and what it tells us about efficiency"
             ]
-      },
-      {
-            "title": "Module 4: Drag and Aerodynamic Efficiency",
+        },
+        {
+            "title": "Module 4: Real Wings & High-Lift Effects",
             "items": [
-                  "Major forms of aerodynamic drag",
-                  "Induced and parasite drag",
-                  "Lift-to-drag ratio",
-                  "Shape, surface and speed effects"
+                "From a 2D airfoil to a finite wing",
+                "Aspect ratio, wing planform and wing loading",
+                "Wingtip vortices and induced drag",
+                "Flaps and simple high-lift-device effects"
             ]
-      },
-      {
-            "title": "Module 5: Wing Aerodynamics and Stall",
+        },
+        {
+            "title": "Module 5: Stability & Performance Basics",
             "items": [
-                  "Wing geometry and aspect ratio",
-                  "Finite-wing effects and wingtip vortices",
-                  "Stall and flow separation",
-                  "High-lift devices and ground effect"
+                "Centre of gravity, aerodynamic centre and centre of pressure — concept level",
+                "Longitudinal, lateral and directional stability",
+                "How control surfaces create pitching, rolling and yawing moments",
+                "How aerodynamics affects take-off, climb, cruise and glide"
             ]
-      },
-      {
-            "title": "Module 6: Stability, Control and Performance",
+        },
+        {
+            "title": "Module 6: Aircraft & UAV Applications",
             "items": [
-                  "Pitch, roll and yaw",
-                  "Static stability and control surfaces",
-                  "Trim and control effects",
-                  "Aerodynamics across flight phases"
+                "Reynolds number — simple awareness for small UAVs",
+                "Wind, gusts and why small drones are more sensitive",
+                "Choosing a wing / airfoil for a simple mission",
+                "Final aircraft/UAV aerodynamic trade-off case study"
             ]
-      },
-      {
-            "title": "Module 7: Propeller, Rotor and Applied Aerodynamics",
-            "items": [
-                  "Propeller thrust and efficiency",
-                  "Rotor and multirotor aerodynamic principles",
-                  "Wind-tunnel testing awareness",
-                  "Introduction to CFD and applied case studies"
-            ]
-      }
-],
+        }
+    ],
     topics: [
-      "Introduction to aerodynamics",
-      "Airflow, pressure, velocity, and forces",
-      "Lift, drag, thrust, and weight concepts",
-      "Airfoil and wing basics",
-      "Angle of attack and stall awareness",
-      "Basic aircraft stability and control awareness",
-      "Propeller and rotor aerodynamic awareness",
-      "Aerodynamics in drones, aircraft, and vehicles",
-      "Introduction to performance improvement concepts",
-      "Connection between aerodynamics, CFD, and design validation",
+        "Air properties: pressure, density, temperature and speed",
+        "Relative airflow, velocity and basic flow terminology",
+        "The four forces acting on an aircraft",
+        "Pressure and momentum as simple ways to understand aerodynamic force",
+        "Airfoil geometry: chord, camber, thickness and leading/trailing edge",
+        "How airflow and pressure change around an airfoil",
+        "Angle of attack and how it changes lift",
+        "Flow separation and stall — what happens and why",
+        "Lift equation and simple use of lift coefficient",
+        "Parasite, induced and total drag",
+        "Drag coefficient and simple drag-polar awareness",
+        "Lift-to-drag ratio and what it tells us about efficiency",
+        "From a 2D airfoil to a finite wing",
+        "Aspect ratio, wing planform and wing loading",
+        "Wingtip vortices and induced drag",
+        "Flaps and simple high-lift-device effects",
+        "Centre of gravity, aerodynamic centre and centre of pressure — concept level",
+        "Longitudinal, lateral and directional stability",
+        "How control surfaces create pitching, rolling and yawing moments",
+        "How aerodynamics affects take-off, climb, cruise and glide",
+        "Reynolds number — simple awareness for small UAVs",
+        "Wind, gusts and why small drones are more sensitive",
+        "Choosing a wing / airfoil for a simple mission",
+        "Final aircraft/UAV aerodynamic trade-off case study"
     ],
     eligibility: "Aerospace, aeronautical, and mechanical engineering students, UAS and aviation learners, CAD/FEA/CFD learners seeking aerodynamic understanding.",
     outcome: "Clear foundation in aerodynamic principles and understanding of how airflow affects design, stability, performance, and efficiency in aircraft and drones.",
@@ -459,101 +512,122 @@ export const COURSES = [
     id: "drone-components",
     title: "Drone Components & Applications",
     category: "Technical Foundation",
-    description:
-      "Foundation in UAS technology covering major drone components, basic aerodynamics, industry applications, and R&D awareness for practical drone solutions.",
+    description: "Understand the main drone components, how they work together and how to select a sensible combination for different missions.",
     duration: "8 weeks",
     lessons: 32,
     level: "Beginner" as const,
-    price: 2499,
-    rating: 4.8,
+    price: 2999,
+    rating: 4.6,
     students: 1120,
     image: "/banner_components_1784991954912.png",
     tags: ["UAS", "Drone", "Components", "R&D"],
     modules: [
-      {
-            "title": "Module 1: Introduction to Drone Technology",
+        {
+            "title": "Module 1: UAV Types & System Architecture",
             "items": [
-                  "Drones, UAVs and UAS terminology",
-                  "Development of drone technology",
-                  "Remote, automated and autonomous operation",
-                  "Overview of a complete drone system"
+                "Multirotor, fixed-wing and VTOL configurations",
+                "Main drone subsystems and how they connect",
+                "Mission requirements: payload, range, endurance and environment",
+                "Basic safety and system-level design thinking"
             ]
-      },
-      {
-            "title": "Module 2: Drone Types and Configurations",
+        },
+        {
+            "title": "Module 2: Frames & Structures",
             "items": [
-                  "Fixed-wing, multirotor and hybrid platforms",
-                  "Quadcopter, hexacopter and octocopter layouts",
-                  "Advantages and limitations of configurations",
-                  "Mission-based platform selection"
+                "Frame layouts and structural load paths",
+                "Common materials: plastics, aluminium and composites",
+                "Weight, balance and centre-of-gravity awareness",
+                "Vibration, landing loads and payload mounting"
             ]
-      },
-      {
-            "title": "Module 3: Frames and Flight Principles",
+        },
+        {
+            "title": "Module 3: Motors & Propellers",
             "items": [
-                  "Frame purpose, layouts and materials",
-                  "Weight distribution and centre of gravity",
-                  "Lift, thrust, drag and weight",
-                  "Pitch, roll, yaw and stability"
+                "Brushless-motor basics and KV rating",
+                "Propeller diameter, pitch and blade-count basics",
+                "Matching motor and propeller to thrust requirement",
+                "Simple thrust-to-weight selection exercise"
             ]
-      },
-      {
-            "title": "Module 4: Propulsion and Power Systems",
+        },
+        {
+            "title": "Module 4: ESCs, Batteries & Power Systems",
             "items": [
-                  "Motors, ESCs and propellers",
-                  "Battery types and power distribution",
-                  "Component compatibility",
-                  "Thrust-to-weight and flight-time awareness"
+                "ESC purpose, current rating and control signals",
+                "LiPo battery voltage, capacity and C-rating",
+                "Power distribution, connectors and electrical safety",
+                "Simple energy / endurance and power-budget exercise"
             ]
-      },
-      {
-            "title": "Module 5: Flight Controllers and Navigation",
+        },
+        {
+            "title": "Module 5: Flight Controllers & Sensors",
             "items": [
-                  "Flight-controller functions",
-                  "IMU, compass and barometer sensors",
-                  "GPS and satellite navigation",
-                  "Flight modes and waypoint awareness"
+                "What a flight controller does",
+                "IMU sensors: accelerometer and gyroscope",
+                "Magnetometer, barometer and sensor calibration",
+                "PID / control-loop awareness — concept level"
             ]
-      },
-      {
-            "title": "Module 6: Communication and Payload Systems",
+        },
+        {
+            "title": "Module 6: Communication, Navigation & Payloads",
             "items": [
-                  "Radio control and telemetry",
-                  "Ground-control stations",
-                  "Cameras, gimbals and imaging payloads",
-                  "Specialised sensors and payload integration"
+                "RC control links and frequencies — overview",
+                "Telemetry and ground-control communication",
+                "GNSS/GPS, positioning and navigation basics",
+                "Cameras, mapping sensors and other payloads"
             ]
-      },
-      {
-            "title": "Module 7: Drone Applications and System Selection",
+        },
+        {
+            "title": "Module 7: Drone Applications",
             "items": [
-                  "Photography, mapping and surveying",
-                  "Agriculture and infrastructure inspection",
-                  "Public safety, logistics and environmental uses",
-                  "Selecting systems for mission requirements"
+                "Surveying and mapping",
+                "Agriculture, inspection and monitoring",
+                "Delivery, public-safety and research applications",
+                "How mission environment changes component needs"
             ]
-      },
-      {
-            "title": "Module 8: Integration, Testing and Development",
+        },
+        {
+            "title": "Module 8: Component Selection Project",
             "items": [
-                  "Component compatibility and basic integration",
-                  "Pre-flight inspection and system testing",
-                  "Performance evaluation and troubleshooting",
-                  "Concept-to-prototype development awareness"
+                "Turn mission needs into design requirements",
+                "Select frame, motor, propeller, ESC and battery",
+                "Check weight, power, endurance and payload trade-offs",
+                "Create a simple bill of materials and explain the final selection"
             ]
-      }
-],
+        }
+    ],
     topics: [
-      "UAS terminology and basic concepts",
-      "Major drone components and system overview",
-      "Basic aerodynamics and flight principles",
-      "Drone types, configurations, and use cases",
-      "Payload, sensor, battery, propulsion, and control system awareness",
-      "Industry applications of drones",
-      "Introduction to drone R&D and innovation process",
-      "Concept-to-prototype awareness",
-      "Component selection and payload integration basics",
-      "Testing, validation, and performance improvement awareness",
+        "Multirotor, fixed-wing and VTOL configurations",
+        "Main drone subsystems and how they connect",
+        "Mission requirements: payload, range, endurance and environment",
+        "Basic safety and system-level design thinking",
+        "Frame layouts and structural load paths",
+        "Common materials: plastics, aluminium and composites",
+        "Weight, balance and centre-of-gravity awareness",
+        "Vibration, landing loads and payload mounting",
+        "Brushless-motor basics and KV rating",
+        "Propeller diameter, pitch and blade-count basics",
+        "Matching motor and propeller to thrust requirement",
+        "Simple thrust-to-weight selection exercise",
+        "ESC purpose, current rating and control signals",
+        "LiPo battery voltage, capacity and C-rating",
+        "Power distribution, connectors and electrical safety",
+        "Simple energy / endurance and power-budget exercise",
+        "What a flight controller does",
+        "IMU sensors: accelerometer and gyroscope",
+        "Magnetometer, barometer and sensor calibration",
+        "PID / control-loop awareness — concept level",
+        "RC control links and frequencies — overview",
+        "Telemetry and ground-control communication",
+        "GNSS/GPS, positioning and navigation basics",
+        "Cameras, mapping sensors and other payloads",
+        "Surveying and mapping",
+        "Agriculture, inspection and monitoring",
+        "Delivery, public-safety and research applications",
+        "How mission environment changes component needs",
+        "Turn mission needs into design requirements",
+        "Select frame, motor, propeller, ESC and battery",
+        "Check weight, power, endurance and payload trade-offs",
+        "Create a simple bill of materials and explain the final selection"
     ],
     eligibility: "Students and beginners interested in drone technology, aspiring drone pilots, entrepreneurs exploring drone-based ideas, professionals from agriculture, surveying, and inspection.",
     outcome: "Clear understanding of UAS components, applications, terminology, basic aerodynamics, and R&D basics with awareness of how drone ideas move toward practical solutions.",
@@ -562,100 +636,96 @@ export const COURSES = [
     id: "matlab-programming",
     title: "MATLAB Programming",
     category: "Technical Foundation",
-    description:
-      "Foundation in MATLAB programming for engineering, data analysis, mathematical modeling, and technical problem-solving in aerospace and simulation applications.",
+    description: "Learn MATLAB from the basics and use it for engineering calculations, plots, data handling and simple aerospace applications.",
     duration: "6 weeks",
     lessons: 24,
     level: "Beginner" as const,
     price: 2499,
-    rating: 4.7,
+    rating: 4.9,
     students: 750,
     image: "/banner_matlab_1784991967948.png",
     tags: ["MATLAB", "Programming", "Engineering", "Data"],
     modules: [
-      {
-            "title": "Module 1: Introduction to MATLAB",
+        {
+            "title": "Module 1: MATLAB Environment & Variables",
             "items": [
-                  "MATLAB environment and engineering applications",
-                  "Variables, data types and expressions",
-                  "Files, commands and built-in help",
-                  "Basic mathematical operations"
+                "MATLAB interface, Command Window, Workspace and Editor",
+                "Variables, data types and naming rules",
+                "Operators, units and basic engineering calculations",
+                "Using help, documentation and simple built-in functions"
             ]
-      },
-      {
-            "title": "Module 2: Arrays and Matrix Operations",
+        },
+        {
+            "title": "Module 2: Vectors, Matrices & Operations",
             "items": [
-                  "Vectors, matrices and indexing",
-                  "Matrix and element-wise operations",
-                  "Array reshaping and built-in functions",
-                  "Engineering applications of matrices"
+                "Creating vectors and matrices",
+                "Indexing, slicing and array operations",
+                "Matrix multiplication and element-wise operations",
+                "Useful mathematical functions for engineering work"
             ]
-      },
-      {
-            "title": "Module 3: Programming Fundamentals",
+        },
+        {
+            "title": "Module 3: Scripts & Programming Logic",
             "items": [
-                  "Scripts and input-output commands",
-                  "Relational and logical operations",
-                  "Conditional statements",
-                  "For and while loops"
+                "Writing and running scripts",
+                "Logical expressions and if/else statements",
+                "For and while loops",
+                "Debugging simple errors and checking outputs"
             ]
-      },
-      {
-            "title": "Module 4: Functions and Code Organisation",
+        },
+        {
+            "title": "Module 4: Functions & Engineering Data",
             "items": [
-                  "User-defined functions",
-                  "Inputs, outputs and variable scope",
-                  "Reusable code organisation",
-                  "Debugging and error correction"
+                "Creating reusable functions",
+                "Function inputs, outputs and local variables",
+                "Importing CSV / spreadsheet data",
+                "Tables, data cleaning and simple data organisation"
             ]
-      },
-      {
-            "title": "Module 5: Data Visualisation",
+        },
+        {
+            "title": "Module 5: Plotting & Numerical Analysis",
             "items": [
-                  "Two-dimensional engineering plots",
-                  "Multiple data sets and plot formatting",
-                  "Basic three-dimensional plotting",
-                  "Figure customisation and export"
+                "2D plots, labels, legends and engineering presentation",
+                "Multiple data series and simple 3D-plot awareness",
+                "Interpolation and simple curve fitting",
+                "Basic numerical solving and result checking"
             ]
-      },
-      {
-            "title": "Module 6: Data Import and Analysis",
+        },
+        {
+            "title": "Module 6: Aerospace Applications",
             "items": [
-                  "Importing spreadsheet and text data",
-                  "Tables and structured data",
-                  "Filtering and basic statistics",
-                  "Exporting processed results"
+                "Plotting aerodynamic coefficient data",
+                "Simple trajectory / motion calculation",
+                "Solving a small system of engineering equations",
+                "Mini-project: analyse and present a small aerospace dataset"
             ]
-      },
-      {
-            "title": "Module 7: Numerical Problem-Solving",
-            "items": [
-                  "Linear equations and polynomials",
-                  "Interpolation and curve fitting",
-                  "Numerical differentiation and integration",
-                  "Root-finding and engineering models"
-            ]
-      },
-      {
-            "title": "Module 8: Engineering Applications",
-            "items": [
-                  "Aircraft and drone data analysis",
-                  "Motion and trajectory calculations",
-                  "Sensor and flight-test data processing",
-                  "Final engineering programming project"
-            ]
-      }
-],
+        }
+    ],
     topics: [
-      "Introduction to MATLAB environment",
-      "Basic programming concepts",
-      "Variables, arrays, matrices, and functions",
-      "Mathematical operations and plotting",
-      "Data handling and visualization basics",
-      "Engineering problem-solving using MATLAB",
-      "Introduction to scripts and functions",
-      "Basic simulation and modeling awareness",
-      "Applications in aerospace, drones, and engineering analysis",
+        "MATLAB interface, Command Window, Workspace and Editor",
+        "Variables, data types and naming rules",
+        "Operators, units and basic engineering calculations",
+        "Using help, documentation and simple built-in functions",
+        "Creating vectors and matrices",
+        "Indexing, slicing and array operations",
+        "Matrix multiplication and element-wise operations",
+        "Useful mathematical functions for engineering work",
+        "Writing and running scripts",
+        "Logical expressions and if/else statements",
+        "For and while loops",
+        "Debugging simple errors and checking outputs",
+        "Creating reusable functions",
+        "Function inputs, outputs and local variables",
+        "Importing CSV / spreadsheet data",
+        "Tables, data cleaning and simple data organisation",
+        "2D plots, labels, legends and engineering presentation",
+        "Multiple data series and simple 3D-plot awareness",
+        "Interpolation and simple curve fitting",
+        "Basic numerical solving and result checking",
+        "Plotting aerodynamic coefficient data",
+        "Simple trajectory / motion calculation",
+        "Solving a small system of engineering equations",
+        "Mini-project: analyse and present a small aerospace dataset"
     ],
     eligibility: "Engineering students and graduates, aerospace, mechanical, electrical learners, and professionals who want to improve engineering computation skills.",
     outcome: "Clear foundation in MATLAB programming for basic engineering calculations, data visualization, problem-solving, and technical project support.",
@@ -664,92 +734,148 @@ export const COURSES = [
     id: "catia-design",
     title: "CATIA Design",
     category: "Design Foundation",
-    description:
-      "Practical foundation in 3D design using CATIA with an aircraft-oriented approach. Covers part modeling, assembly basics, drafting, and professional CAD workflow.",
+    description: "Learn a structured CATIA CAD workflow and apply the main tools to practical aerospace and UAV modelling tasks.",
     duration: "10 weeks",
     lessons: 40,
     level: "Intermediate" as const,
-    price: 3999,
-    rating: 4.9,
+    price: 4999,
+    rating: 4.7,
     students: 1580,
     image: "/banner_aero_1784991736912.png",
     tags: ["CATIA", "CAD", "Aircraft", "3D Design"],
     modules: [
-      {
-            "title": "Module 1: Engineering Drawing and GD&T Basics",
+        {
+            "title": "Module 1: CATIA Interface & CAD Fundamentals",
             "items": [
-                  "Orthographic, isometric and sectional views",
-                  "Engineering dimensions and drawing conventions",
-                  "Limits, fits and tolerances",
-                  "Introductory GD&T symbols, datums and feature-control frames"
+                "CATIA interface, workbenches and file types",
+                "Units, standards and model organisation",
+                "Sketcher basics and reference planes",
+                "Basic geometric and dimensional constraints"
             ]
-      },
-      {
-            "title": "Module 2: CATIA V5 and Sketcher",
+        },
+        {
+            "title": "Module 2: Sketching & Design Intent",
             "items": [
-                  "CATIA interface and workbenches",
-                  "Creating and editing sketches",
-                  "Geometrical and dimensional constraints",
-                  "Applying design intent"
+                "Fully constrained sketches",
+                "Construction geometry and reference elements",
+                "Editing dimensions and design intent",
+                "Sketch practice using simple aerospace profiles"
             ]
-      },
-      {
-            "title": "Module 3: CATIA Part Design",
+        },
+        {
+            "title": "Module 3: Part Design Fundamentals",
             "items": [
-                  "Core solid-modelling features",
-                  "Fillets, chamfers, ribs and patterns",
-                  "Reference geometry and feature management",
-                  "Aircraft and mechanical component modelling"
+                "Pad, pocket and shaft / revolve features",
+                "Holes, ribs and grooves",
+                "Patterns, mirrors and feature repetition",
+                "Editing feature order and parent-child relationships"
             ]
-      },
-      {
-            "title": "Module 4: CATIA Assembly Design",
+        },
+        {
+            "title": "Module 4: Advanced Part Modelling",
             "items": [
-                  "Creating products and inserting components",
-                  "Applying assembly constraints",
-                  "Managing parts and subassemblies",
-                  "Clash and interference checking"
+                "Fillets, chamfers and edge treatment",
+                "Shell / thickness and draft features",
+                "Multi-body design awareness",
+                "Modelling a practical bracket or structural part"
             ]
-      },
-      {
-            "title": "Module 5: CATIA Drafting and Documentation",
+        },
+        {
+            "title": "Module 5: Robust Parametric Modelling",
             "items": [
-                  "Generating drawing views",
-                  "Dimensions, tolerances and annotations",
-                  "Section and detail views",
-                  "Bills of materials and production drawings"
+                "Datums, planes, axes and reference geometry",
+                "Parameters and simple formulas",
+                "Design-table awareness and controlled variations",
+                "Model cleanup, naming and robust-feature practices"
             ]
-      },
-      {
-            "title": "Module 6: Wireframe and Surface Design",
+        },
+        {
+            "title": "Module 6: Assembly Design",
             "items": [
-                  "Curves, planes and reference geometry",
-                  "Swept and multi-section surfaces",
-                  "Joining, trimming and splitting surfaces",
-                  "Applications to aerodynamic components"
+                "Creating and managing an assembly",
+                "Positioning and constraining components",
+                "Interference / clash checks",
+                "Basic assembly structure and bill-of-material awareness"
             ]
-      },
-      {
-            "title": "Module 7: Aircraft Component Design Project",
+        },
+        {
+            "title": "Module 7: Surface Modelling",
             "items": [
-                  "Aircraft-design workflow awareness",
-                  "Modelling a selected structural component",
-                  "Assembly and engineering drawing preparation",
-                  "Basic GD&T and project assessment"
+                "Wireframe and surface-workbench basics",
+                "Extrude, sweep and multi-section surfaces",
+                "Trim, split, join and boundary operations",
+                "Simple aerodynamic surface / fairing practice"
             ]
-      }
-],
+        },
+        {
+            "title": "Module 8: Drafting & Engineering Drawings",
+            "items": [
+                "Creating standard drawing views",
+                "Dimensions, sections and detail views",
+                "GD&T awareness and drawing notes",
+                "Title block, sheet setup and export"
+            ]
+        },
+        {
+            "title": "Module 9: Aerospace Component Modelling",
+            "items": [
+                "Model an aircraft/UAV structural component",
+                "Create a simple wing / fairing surface",
+                "Combine solid and surface techniques",
+                "Check geometry quality and manufacturability awareness"
+            ]
+        },
+        {
+            "title": "Module 10: Final CAD Project",
+            "items": [
+                "Define project requirements and modelling plan",
+                "Create the final part / assembly",
+                "Prepare drawing and presentation views",
+                "Design review, corrections and portfolio-ready submission"
+            ]
+        }
+    ],
     topics: [
-      "Introduction to CATIA and CAD design workflow",
-      "Basic sketching and part design concepts",
-      "Aircraft-oriented component design awareness",
-      "General mechanical and product design approach",
-      "3D modeling, constraints, features, and design intent",
-      "Assembly design basics",
-      "Drafting and drawing generation awareness",
-      "Design modification and error correction basics",
-      "Introduction to manufacturability and design documentation",
-      "Professional CAD practices and file management awareness",
+        "CATIA interface, workbenches and file types",
+        "Units, standards and model organisation",
+        "Sketcher basics and reference planes",
+        "Basic geometric and dimensional constraints",
+        "Fully constrained sketches",
+        "Construction geometry and reference elements",
+        "Editing dimensions and design intent",
+        "Sketch practice using simple aerospace profiles",
+        "Pad, pocket and shaft / revolve features",
+        "Holes, ribs and grooves",
+        "Patterns, mirrors and feature repetition",
+        "Editing feature order and parent-child relationships",
+        "Fillets, chamfers and edge treatment",
+        "Shell / thickness and draft features",
+        "Multi-body design awareness",
+        "Modelling a practical bracket or structural part",
+        "Datums, planes, axes and reference geometry",
+        "Parameters and simple formulas",
+        "Design-table awareness and controlled variations",
+        "Model cleanup, naming and robust-feature practices",
+        "Creating and managing an assembly",
+        "Positioning and constraining components",
+        "Interference / clash checks",
+        "Basic assembly structure and bill-of-material awareness",
+        "Wireframe and surface-workbench basics",
+        "Extrude, sweep and multi-section surfaces",
+        "Trim, split, join and boundary operations",
+        "Simple aerodynamic surface / fairing practice",
+        "Creating standard drawing views",
+        "Dimensions, sections and detail views",
+        "GD&T awareness and drawing notes",
+        "Title block, sheet setup and export",
+        "Model an aircraft/UAV structural component",
+        "Create a simple wing / fairing surface",
+        "Combine solid and surface techniques",
+        "Check geometry quality and manufacturability awareness",
+        "Define project requirements and modelling plan",
+        "Create the final part / assembly",
+        "Prepare drawing and presentation views",
+        "Design review, corrections and portfolio-ready submission"
     ],
     eligibility: "Students and beginners in CAD design, mechanical, aerospace, aeronautical learners, UAS and aircraft design enthusiasts, and engineering graduates.",
     outcome: "Foundation in CATIA-based design — create basic 3D parts, understand assembly structure, read design intent, and apply CAD concepts to aircraft and product design.",
@@ -758,92 +884,148 @@ export const COURSES = [
     id: "nx-cad-design",
     title: "NX CAD Design",
     category: "Design Foundation",
-    description:
-      "Practical foundation in 3D design using Siemens NX CAD with aircraft-oriented and general product design approach. Covers part modeling, assembly, and drafting.",
+    description: "Learn Siemens NX through a complete CAD workflow covering sketching, parts, assemblies, surfaces, drawings and an aerospace project.",
     duration: "10 weeks",
-    lessons: 38,
+    lessons: 40,
     level: "Intermediate" as const,
-    price: 3999,
+    price: 4999,
     rating: 4.8,
     students: 920,
     image: "/banner_siemens_1784991985646.png",
     tags: ["NX CAD", "Siemens", "CAD", "3D Modeling"],
     modules: [
-      {
-            "title": "Module 1: Engineering Drawing and GD&T Basics",
+        {
+            "title": "Module 1: NX Interface & CAD Fundamentals",
             "items": [
-                  "Orthographic, isometric and sectional views",
-                  "Engineering dimensions and drawing conventions",
-                  "Limits, fits and tolerances",
-                  "Introductory GD&T symbols, datums and feature-control frames"
+                "NX interface, roles and Part Navigator",
+                "Units, files and model organisation",
+                "Sketch creation and datum planes",
+                "Basic geometric and dimensional constraints"
             ]
-      },
-      {
-            "title": "Module 2: Siemens NX Interface and Sketching",
+        },
+        {
+            "title": "Module 2: Sketching & Design Intent",
             "items": [
-                  "NX interface and design applications",
-                  "Creating and editing sketches",
-                  "Geometric and dimensional constraints",
-                  "Reference geometry and design intent"
+                "Fully constrained sketches",
+                "Construction geometry and references",
+                "Expressions and parameter-driven dimensions",
+                "Aerospace-profile sketch practice"
             ]
-      },
-      {
-            "title": "Module 3: NX Part Modelling",
+        },
+        {
+            "title": "Module 3: Part Modelling Fundamentals",
             "items": [
-                  "Core solid-modelling features",
-                  "Fillets, chamfers, shells and patterns",
-                  "Feature management and model modification",
-                  "Introduction to synchronous modelling"
+                "Extrude, revolve and hole features",
+                "Boolean operations",
+                "Patterns and mirror features",
+                "Feature editing and model-history awareness"
             ]
-      },
-      {
-            "title": "Module 4: NX Assembly Design",
+        },
+        {
+            "title": "Module 4: Advanced Part Modelling",
             "items": [
-                  "Creating and positioning components",
-                  "Applying assembly constraints",
-                  "Managing parts and subassemblies",
-                  "Exploded views and interference checking"
+                "Sweeps and loft-style features",
+                "Blends, chamfers, shell and draft",
+                "Synchronous-modelling awareness",
+                "Practical structural-component exercise"
             ]
-      },
-      {
-            "title": "Module 5: NX Drafting and Documentation",
+        },
+        {
+            "title": "Module 5: Parametric & Robust Modelling",
             "items": [
-                  "Generating model-based drawing views",
-                  "Section and detail views",
-                  "Dimensions, tolerances and GD&T annotations",
-                  "Parts lists and technical documentation"
+                "Datum geometry and reference control",
+                "Expressions and simple design parameters",
+                "Feature dependencies and editing strategy",
+                "Model cleanup and geometry-check habits"
             ]
-      },
-      {
-            "title": "Module 6: NX Surface Modelling",
+        },
+        {
+            "title": "Module 6: Assemblies",
             "items": [
-                  "Curves and reference geometry",
-                  "Swept and through-curve surfaces",
-                  "Trimming, joining and modifying surfaces",
-                  "Applications to aerodynamic components"
+                "Assembly structure and component positioning",
+                "Assembly constraints",
+                "Interference / clearance checks",
+                "Basic parts-list and assembly documentation awareness"
             ]
-      },
-      {
-            "title": "Module 7: Aircraft Component Design Project",
+        },
+        {
+            "title": "Module 7: Surface Modelling",
             "items": [
-                  "Aircraft-design workflow awareness",
-                  "Modelling a selected aircraft component",
-                  "Assembly and engineering drawing preparation",
-                  "Basic GD&T and project assessment"
+                "Curve creation and surface fundamentals",
+                "Swept / through-curve surfaces",
+                "Trim, extend and sew operations",
+                "Simple aerodynamic surface practice"
             ]
-      }
-],
+        },
+        {
+            "title": "Module 8: Drafting",
+            "items": [
+                "Standard views and section views",
+                "Dimensions and annotations",
+                "GD&T awareness and drawing standards",
+                "Sheet setup and export"
+            ]
+        },
+        {
+            "title": "Module 9: Aerospace Modelling Exercise",
+            "items": [
+                "Model an aircraft/UAV component",
+                "Create a simple wing / fairing geometry",
+                "Apply parametric changes",
+                "Review geometry quality and design intent"
+            ]
+        },
+        {
+            "title": "Module 10: Final NX Project",
+            "items": [
+                "Define requirements and modelling approach",
+                "Complete part / assembly modelling",
+                "Create drawings and presentation views",
+                "Final design review and portfolio submission"
+            ]
+        }
+    ],
     topics: [
-      "Introduction to NX CAD and design workflow",
-      "Basic sketching and feature-based modeling",
-      "Aircraft-oriented component design awareness",
-      "General mechanical and product design approach",
-      "3D part modeling and design modification basics",
-      "Assembly design fundamentals",
-      "Drafting and technical drawing awareness",
-      "Design validation and model review basics",
-      "Introduction to manufacturability and documentation",
-      "Professional CAD practices and organized design workflow",
+        "NX interface, roles and Part Navigator",
+        "Units, files and model organisation",
+        "Sketch creation and datum planes",
+        "Basic geometric and dimensional constraints",
+        "Fully constrained sketches",
+        "Construction geometry and references",
+        "Expressions and parameter-driven dimensions",
+        "Aerospace-profile sketch practice",
+        "Extrude, revolve and hole features",
+        "Boolean operations",
+        "Patterns and mirror features",
+        "Feature editing and model-history awareness",
+        "Sweeps and loft-style features",
+        "Blends, chamfers, shell and draft",
+        "Synchronous-modelling awareness",
+        "Practical structural-component exercise",
+        "Datum geometry and reference control",
+        "Expressions and simple design parameters",
+        "Feature dependencies and editing strategy",
+        "Model cleanup and geometry-check habits",
+        "Assembly structure and component positioning",
+        "Assembly constraints",
+        "Interference / clearance checks",
+        "Basic parts-list and assembly documentation awareness",
+        "Curve creation and surface fundamentals",
+        "Swept / through-curve surfaces",
+        "Trim, extend and sew operations",
+        "Simple aerodynamic surface practice",
+        "Standard views and section views",
+        "Dimensions and annotations",
+        "GD&T awareness and drawing standards",
+        "Sheet setup and export",
+        "Model an aircraft/UAV component",
+        "Create a simple wing / fairing geometry",
+        "Apply parametric changes",
+        "Review geometry quality and design intent",
+        "Define requirements and modelling approach",
+        "Complete part / assembly modelling",
+        "Create drawings and presentation views",
+        "Final design review and portfolio submission"
     ],
     eligibility: "Students and beginners in NX CAD, mechanical, aerospace, aeronautical learners, UAS and aircraft enthusiasts, and professionals strengthening CAD skills.",
     outcome: "Foundation in NX CAD-based design — create basic 3D models, understand assembly concepts, apply design modifications for aircraft and product design.",
@@ -852,73 +1034,96 @@ export const COURSES = [
     id: "mathematics-fea-cfd",
     title: "Mathematics for FEA & CFD",
     category: "Engineering Mathematics",
-    description:
-      "Essential mathematical foundation for understanding Finite Element Analysis and Computational Fluid Dynamics — vectors, matrices, calculus, and numerical methods.",
+    description: "Build the practical mathematics needed to understand FEA and CFD without turning the course into a pure mathematics class.",
     duration: "6 weeks",
     lessons: 24,
     level: "Intermediate" as const,
     price: 2499,
-    rating: 4.7,
+    rating: 4.9,
     students: 540,
     image: "/banner_math_1784991995091.png",
     tags: ["Mathematics", "FEA", "CFD", "Simulation"],
     modules: [
-      {
-            "title": "Module 1: Engineering Mathematics and Linear Algebra",
+        {
+            "title": "Module 1: Engineering Algebra & Functions",
             "items": [
-                  "Engineering functions and equations",
-                  "Scalars, vectors and coordinate systems",
-                  "Matrices and systems of equations",
-                  "Eigenvalue and eigenvector awareness"
+                "Units, dimensions and scientific notation",
+                "Algebraic manipulation and engineering equations",
+                "Functions, graphs and common engineering relationships",
+                "Exponents, logarithms and simple scaling relationships"
             ]
-      },
-      {
-            "title": "Module 2: Calculus for Engineering Analysis",
+        },
+        {
+            "title": "Module 2: Vectors & Coordinate Systems",
             "items": [
-                  "Differentiation and engineering rates",
-                  "Partial derivatives and multivariable functions",
-                  "Integration and area-based calculations",
-                  "Gradient, divergence and curl awareness"
+                "Vector magnitude and direction",
+                "Vector addition and component form",
+                "Dot product and cross product",
+                "Coordinate systems and simple transformations"
             ]
-      },
-      {
-            "title": "Module 3: Differential Equations and Physical Variables",
+        },
+        {
+            "title": "Module 3: Matrices & Linear Systems",
             "items": [
-                  "Ordinary and partial differential equations",
-                  "Initial and boundary conditions",
-                  "Steady and transient behaviour",
-                  "Structural and fluid-field variables"
+                "Matrix notation and basic operations",
+                "Determinants and inverse — practical use",
+                "Solving simultaneous linear equations",
+                "Eigenvalue / eigenvector awareness and why they appear in engineering"
             ]
-      },
-      {
-            "title": "Module 4: Numerical Methods and Approximation",
+        },
+        {
+            "title": "Module 4: Calculus for Engineering",
             "items": [
-                  "Need for numerical solutions",
-                  "Root-finding and interpolation",
-                  "Numerical differentiation and integration",
-                  "Error, accuracy and convergence"
+                "Derivative as a rate of change",
+                "Partial derivatives and multivariable functions",
+                "Gradient and directional-change awareness",
+                "Integration and physical meaning in engineering"
             ]
-      },
-      {
-            "title": "Module 5: Mathematical Foundations of FEA and CFD",
+        },
+        {
+            "title": "Module 5: Differential Equations & Field Variables",
             "items": [
-                  "Continuous and discretised models",
-                  "Nodes, elements, grids and meshes",
-                  "Loads, constraints and boundary conditions",
-                  "Matrix and conservation concepts in simulation"
+                "Ordinary versus partial differential equations",
+                "Initial and boundary conditions",
+                "Conservation equations — concept level",
+                "How temperature, displacement, pressure and velocity vary through a domain"
             ]
-      }
-],
+        },
+        {
+            "title": "Module 6: Numerical Methods for Simulation",
+            "items": [
+                "Discretisation: turning a continuous problem into points/elements",
+                "Finite-difference / finite-element idea — simple comparison",
+                "Interpolation, iteration and numerical solving",
+                "Error, convergence and why simulation results must be checked"
+            ]
+        }
+    ],
     topics: [
-      "Engineering mathematics overview for simulation",
-      "Vectors, matrices, and basic field concepts",
-      "Calculus and differential equation awareness",
-      "Stress, strain, load, displacement, pressure, velocity, and flow variables",
-      "Boundary conditions and constraints",
-      "Numerical methods and approximation awareness",
-      "Meshing, discretization, error, and convergence basics",
-      "Mathematical understanding of structural and fluid behavior",
-      "Application of mathematics in FEA and CFD result interpretation",
+        "Units, dimensions and scientific notation",
+        "Algebraic manipulation and engineering equations",
+        "Functions, graphs and common engineering relationships",
+        "Exponents, logarithms and simple scaling relationships",
+        "Vector magnitude and direction",
+        "Vector addition and component form",
+        "Dot product and cross product",
+        "Coordinate systems and simple transformations",
+        "Matrix notation and basic operations",
+        "Determinants and inverse — practical use",
+        "Solving simultaneous linear equations",
+        "Eigenvalue / eigenvector awareness and why they appear in engineering",
+        "Derivative as a rate of change",
+        "Partial derivatives and multivariable functions",
+        "Gradient and directional-change awareness",
+        "Integration and physical meaning in engineering",
+        "Ordinary versus partial differential equations",
+        "Initial and boundary conditions",
+        "Conservation equations — concept level",
+        "How temperature, displacement, pressure and velocity vary through a domain",
+        "Discretisation: turning a continuous problem into points/elements",
+        "Finite-difference / finite-element idea — simple comparison",
+        "Interpolation, iteration and numerical solving",
+        "Error, convergence and why simulation results must be checked"
     ],
     eligibility: "Engineering students and graduates, CAD learners moving toward simulation, mechanical, aerospace, civil, and automotive engineering learners.",
     outcome: "Clear foundation in the mathematical concepts behind FEA and CFD — prepared to understand simulation workflows, structural analysis, and result interpretation.",
@@ -927,91 +1132,148 @@ export const COURSES = [
     id: "fea-analysis",
     title: "FEA Analysis",
     category: "Simulation & Analysis",
-    description:
-      "Foundation in Finite Element Analysis for engineering design and product validation. Study structural behavior, stress, deformation, and design improvement in aerospace products.",
+    description: "Learn the complete FEA workflow from engineering assumptions and meshing to loads, results, verification and an aerospace structural project.",
     duration: "10 weeks",
-    lessons: 38,
+    lessons: 40,
     level: "Advanced" as const,
-    price: 4499,
-    rating: 4.8,
+    price: 4999,
+    rating: 4.7,
     students: 680,
     image: "/banner_fea_1784992005177.png",
     tags: ["FEA", "Structural", "Simulation", "CAE"],
     modules: [
-      {
-            "title": "Module 1: Introduction to FEA and Structural Analysis",
+        {
+            "title": "Module 1: FEA Fundamentals",
             "items": [
-                  "Finite Element Analysis fundamentals",
-                  "Aerospace and mechanical applications",
-                  "Stress, strain and deformation",
-                  "Overview of the simulation workflow"
+                "What FEA is and where it is useful",
+                "The FEA workflow from geometry to results",
+                "Assumptions, units and idealisation",
+                "Common reasons an FEA result can be wrong"
             ]
-      },
-      {
-            "title": "Module 2: Geometry Preparation and Materials",
+        },
+        {
+            "title": "Module 2: Mechanics Refresher",
             "items": [
-                  "Importing and preparing CAD geometry",
-                  "Model simplification and defeaturing",
-                  "Assigning engineering materials",
-                  "Basic material-property awareness"
+                "Stress, strain and deformation",
+                "Young’s modulus, Poisson’s ratio and Hooke’s law",
+                "Tension, compression, bending and shear",
+                "Free-body diagrams and simple structural checks"
             ]
-      },
-      {
-            "title": "Module 3: Meshing Fundamentals",
+        },
+        {
+            "title": "Module 3: Elements & Meshing",
             "items": [
-                  "Nodes, elements and mesh types",
-                  "Element size and local refinement",
-                  "Mesh-quality checks",
-                  "Mesh-convergence awareness"
+                "1D, 2D and 3D element types",
+                "Mesh size and local refinement",
+                "Element quality and distorted elements",
+                "Mesh-convergence concept"
             ]
-      },
-      {
-            "title": "Module 4: Loads and Boundary Conditions",
+        },
+        {
+            "title": "Module 4: Materials & Properties",
             "items": [
-                  "Forces, pressures and moments",
-                  "Fixed, displacement and symmetry conditions",
-                  "Realistic supports and constraints",
-                  "Common setup errors"
+                "Linear-elastic material model",
+                "Isotropic versus orthotropic awareness",
+                "Entering material properties with correct units",
+                "Temperature-dependent / nonlinear material awareness"
             ]
-      },
-      {
-            "title": "Module 5: Static Structural Analysis",
+        },
+        {
+            "title": "Module 5: Loads, Constraints & Contacts",
             "items": [
-                  "Basic simulation setup",
-                  "Components and simple assemblies",
-                  "Stress, strain and deformation results",
-                  "Factor-of-safety awareness"
+                "Forces, pressures, moments and gravity",
+                "Fixed, pinned and symmetry constraints",
+                "Contact / connection concepts",
+                "Avoiding over-constraint and unrealistic boundary conditions"
             ]
-      },
-      {
-            "title": "Module 6: Results, Validation and Design Improvement",
+        },
+        {
+            "title": "Module 6: Static Structural Analysis",
             "items": [
-                  "Contour plots and result interpretation",
-                  "Stress concentrations",
-                  "Accuracy and convergence checks",
-                  "Design comparison and improvement"
+                "Set up a simple static structural model",
+                "Solve and check solver messages",
+                "Deformation and reaction-force results",
+                "Basic stress results and load-path interpretation"
             ]
-      },
-      {
-            "title": "Module 7: Applied FEA Project",
+        },
+        {
+            "title": "Module 7: Reading FEA Results",
             "items": [
-                  "Preparing an engineering component",
-                  "Creating the mesh and simulation setup",
-                  "Evaluating and documenting results",
-                  "Final project review and assessment"
+                "Von Mises and principal stress — simple interpretation",
+                "Stress concentration versus singularity",
+                "Deformed shape and displacement checks",
+                "Using probes, paths and result plots"
             ]
-      }
-],
+        },
+        {
+            "title": "Module 8: Verification & Mesh Independence",
+            "items": [
+                "Run a mesh-independence study",
+                "Compare against a simple hand calculation",
+                "Check reactions, units and energy / balance where relevant",
+                "Document assumptions, checks and model limitations"
+            ]
+        },
+        {
+            "title": "Module 9: Aerospace Structural Case Study",
+            "items": [
+                "Define loads for a bracket / rib / panel",
+                "Build a sensible mesh and boundary conditions",
+                "Evaluate stress, deformation and critical regions",
+                "Suggest a simple design improvement and re-check"
+            ]
+        },
+        {
+            "title": "Module 10: Final FEA Project",
+            "items": [
+                "Define problem and analysis plan",
+                "Build and solve the model",
+                "Verify and interpret the results",
+                "Prepare a short engineering report and review"
+            ]
+        }
+    ],
     topics: [
-      "Introduction to FEA and CAE workflow",
-      "Basic concepts of stress, strain, load, and deformation",
-      "Geometry preparation and model simplification awareness",
-      "Material properties and boundary condition basics",
-      "Meshing concepts and result interpretation",
-      "Structural analysis awareness",
-      "Design validation and improvement approach",
-      "Common errors and best practices in FEA",
-      "Applications in aircraft, drones, and general product design",
+        "What FEA is and where it is useful",
+        "The FEA workflow from geometry to results",
+        "Assumptions, units and idealisation",
+        "Common reasons an FEA result can be wrong",
+        "Stress, strain and deformation",
+        "Young’s modulus, Poisson’s ratio and Hooke’s law",
+        "Tension, compression, bending and shear",
+        "Free-body diagrams and simple structural checks",
+        "1D, 2D and 3D element types",
+        "Mesh size and local refinement",
+        "Element quality and distorted elements",
+        "Mesh-convergence concept",
+        "Linear-elastic material model",
+        "Isotropic versus orthotropic awareness",
+        "Entering material properties with correct units",
+        "Temperature-dependent / nonlinear material awareness",
+        "Forces, pressures, moments and gravity",
+        "Fixed, pinned and symmetry constraints",
+        "Contact / connection concepts",
+        "Avoiding over-constraint and unrealistic boundary conditions",
+        "Set up a simple static structural model",
+        "Solve and check solver messages",
+        "Deformation and reaction-force results",
+        "Basic stress results and load-path interpretation",
+        "Von Mises and principal stress — simple interpretation",
+        "Stress concentration versus singularity",
+        "Deformed shape and displacement checks",
+        "Using probes, paths and result plots",
+        "Run a mesh-independence study",
+        "Compare against a simple hand calculation",
+        "Check reactions, units and energy / balance where relevant",
+        "Document assumptions, checks and model limitations",
+        "Define loads for a bracket / rib / panel",
+        "Build a sensible mesh and boundary conditions",
+        "Evaluate stress, deformation and critical regions",
+        "Suggest a simple design improvement and re-check",
+        "Define problem and analysis plan",
+        "Build and solve the model",
+        "Verify and interpret the results",
+        "Prepare a short engineering report and review"
     ],
     eligibility: "Engineering students and graduates, mechanical, aerospace, aeronautical learners, CAD designers moving toward simulation, UAS and aircraft enthusiasts.",
     outcome: "Clear foundation in FEA concepts and simulation workflow — understand how structural analysis supports design decisions, product improvement, and engineering validation.",
@@ -1020,91 +1282,148 @@ export const COURSES = [
     id: "cfd-analysis",
     title: "CFD Analysis",
     category: "Simulation & Analysis",
-    description:
-      "Foundation in Computational Fluid Dynamics for understanding airflow, fluid behavior, and aerodynamic performance in aircraft, drones, and engineering applications.",
+    description: "Learn the CFD workflow from geometry and mesh to solver setup, convergence, results, validation and an aircraft/UAV case study.",
     duration: "10 weeks",
     lessons: 40,
     level: "Advanced" as const,
     price: 4999,
-    rating: 4.9,
+    rating: 4.8,
     students: 720,
     image: "/banner_cfd_1784992023667.png",
     tags: ["CFD", "Aerodynamics", "Simulation", "Fluids"],
     modules: [
-      {
-            "title": "Module 1: CFD and Fluid-Flow Fundamentals",
+        {
+            "title": "Module 1: CFD Fundamentals",
             "items": [
-                  "Computational Fluid Dynamics applications",
-                  "Pressure, velocity, density and viscosity",
-                  "Laminar, turbulent and compressibility awareness",
-                  "Overview of the CFD workflow"
+                "What CFD is and where it is used",
+                "The CFD workflow from geometry to results",
+                "Domains, assumptions, units and reference conditions",
+                "Common reasons a CFD result can look believable but be wrong"
             ]
-      },
-      {
-            "title": "Module 2: Geometry and Computational Domain",
+        },
+        {
+            "title": "Module 2: Fluid Mechanics Refresher",
             "items": [
-                  "Preparing CAD geometry",
-                  "Model cleanup and simplification",
-                  "Internal and external fluid domains",
-                  "Inlets, outlets, walls and symmetry regions"
+                "Pressure, density, viscosity and velocity",
+                "Reynolds number and flow-regime awareness",
+                "Boundary layers, separation and wakes",
+                "Incompressible versus compressible flow — concept level"
             ]
-      },
-      {
-            "title": "Module 3: CFD Meshing",
+        },
+        {
+            "title": "Module 3: Governing Equations & Discretisation",
             "items": [
-                  "Surface and volume meshes",
-                  "Element sizing and local refinement",
-                  "Boundary-layer mesh awareness",
-                  "Mesh quality and grid independence"
+                "Conservation of mass — concept level",
+                "Momentum / Navier-Stokes idea — concept level",
+                "Energy equation and when it matters",
+                "Discretisation, residuals and numerical convergence"
             ]
-      },
-      {
-            "title": "Module 4: Physics Setup and Boundary Conditions",
+        },
+        {
+            "title": "Module 4: Geometry & Domain Preparation",
             "items": [
-                  "Fluid materials and flow models",
-                  "Inlet, outlet and wall conditions",
-                  "Steady and transient simulation awareness",
-                  "Solver settings and convergence monitoring"
+                "Clean and simplify geometry for CFD",
+                "Create internal / external fluid domains",
+                "Far-field size and domain boundaries",
+                "Symmetry and simplification where appropriate"
             ]
-      },
-      {
-            "title": "Module 5: Turbulence and Heat-Flow Basics",
+        },
+        {
+            "title": "Module 5: Meshing",
             "items": [
-                  "Purpose of turbulence models",
-                  "Near-wall flow awareness",
-                  "Basic model-selection considerations",
-                  "Introduction to heat-transfer simulations"
+                "Structured versus unstructured mesh awareness",
+                "Local refinement and surface sizing",
+                "Inflation layers near walls",
+                "Mesh quality and mesh-independence checks"
             ]
-      },
-      {
-            "title": "Module 6: CFD Results and Validation",
+        },
+        {
+            "title": "Module 6: Boundary Conditions & Solver Setup",
             "items": [
-                  "Pressure, velocity and temperature contours",
-                  "Streamlines and flow patterns",
-                  "Lift, drag and aerodynamic coefficients",
-                  "Convergence and common setup errors"
+                "Velocity / mass-flow inlets and pressure outlets",
+                "Wall, symmetry and far-field boundaries",
+                "Reference values and basic solver settings",
+                "Initialization, monitors and convergence setup"
             ]
-      },
-      {
-            "title": "Module 7: Aerospace CFD Project",
+        },
+        {
+            "title": "Module 7: Turbulence Models — Practical Selection",
             "items": [
-                  "Aircraft, airfoil or drone geometry",
-                  "Domain, mesh and flow setup",
-                  "Aerodynamic performance evaluation",
-                  "Final report and project assessment"
+                "Why turbulence modelling is needed",
+                "Laminar versus turbulent setup",
+                "k-epsilon and k-omega SST — practical awareness",
+                "Choosing a reasonable model without overcomplicating it"
             ]
-      }
-],
+        },
+        {
+            "title": "Module 8: Results, Verification & Validation",
+            "items": [
+                "Residuals and monitor histories",
+                "Pressure, velocity, streamline and contour plots",
+                "Lift, drag and coefficient extraction",
+                "Sanity checks, verification and comparison with known / simple data"
+            ]
+        },
+        {
+            "title": "Module 9: Aircraft / UAV Aerodynamics Case Study",
+            "items": [
+                "Prepare a simple wing or UAV geometry",
+                "Create domain, mesh and boundary conditions",
+                "Run the case and monitor convergence",
+                "Interpret lift, drag, pressure and flow features"
+            ]
+        },
+        {
+            "title": "Module 10: Final CFD Project",
+            "items": [
+                "Define the problem and simulation plan",
+                "Build, mesh and solve the case",
+                "Check convergence and validate the result",
+                "Prepare a concise engineering report and review"
+            ]
+        }
+    ],
     topics: [
-      "Introduction to CFD and simulation workflow",
-      "Basic fluid flow and aerodynamic concepts",
-      "Geometry preparation and domain awareness",
-      "Boundary conditions and material setup basics",
-      "Meshing concepts for CFD",
-      "Airflow, pressure, velocity, and turbulence awareness",
-      "Result interpretation and performance understanding",
-      "Common CFD errors and best practices",
-      "Applications in aircraft, drones, and general engineering systems",
+        "What CFD is and where it is used",
+        "The CFD workflow from geometry to results",
+        "Domains, assumptions, units and reference conditions",
+        "Common reasons a CFD result can look believable but be wrong",
+        "Pressure, density, viscosity and velocity",
+        "Reynolds number and flow-regime awareness",
+        "Boundary layers, separation and wakes",
+        "Incompressible versus compressible flow — concept level",
+        "Conservation of mass — concept level",
+        "Momentum / Navier-Stokes idea — concept level",
+        "Energy equation and when it matters",
+        "Discretisation, residuals and numerical convergence",
+        "Clean and simplify geometry for CFD",
+        "Create internal / external fluid domains",
+        "Far-field size and domain boundaries",
+        "Symmetry and simplification where appropriate",
+        "Structured versus unstructured mesh awareness",
+        "Local refinement and surface sizing",
+        "Inflation layers near walls",
+        "Mesh quality and mesh-independence checks",
+        "Velocity / mass-flow inlets and pressure outlets",
+        "Wall, symmetry and far-field boundaries",
+        "Reference values and basic solver settings",
+        "Initialization, monitors and convergence setup",
+        "Why turbulence modelling is needed",
+        "Laminar versus turbulent setup",
+        "k-epsilon and k-omega SST — practical awareness",
+        "Choosing a reasonable model without overcomplicating it",
+        "Residuals and monitor histories",
+        "Pressure, velocity, streamline and contour plots",
+        "Lift, drag and coefficient extraction",
+        "Sanity checks, verification and comparison with known / simple data",
+        "Prepare a simple wing or UAV geometry",
+        "Create domain, mesh and boundary conditions",
+        "Run the case and monitor convergence",
+        "Interpret lift, drag, pressure and flow features",
+        "Define the problem and simulation plan",
+        "Build, mesh and solve the case",
+        "Check convergence and validate the result",
+        "Prepare a concise engineering report and review"
     ],
     eligibility: "Engineering students and graduates, mechanical, aerospace, aeronautical learners, CAD designers moving toward fluid simulation, and performance analysis professionals.",
     outcome: "Clear foundation in CFD concepts and simulation workflow — understand how fluid analysis supports aerodynamic study, design improvement, and performance-based decisions.",
@@ -1113,92 +1432,380 @@ export const COURSES = [
     id: "as9100d-quality",
     title: "AS9100D Quality Management",
     category: "Quality & Industry Standards",
-    description:
-      "Practical foundation in aerospace quality management with AS9100D awareness. Covers quality policy, documentation, traceability, risk management, and continual improvement.",
+    description: "Understand AS9100D in practical language and see how aerospace quality requirements are applied through processes, documents and evidence.",
     duration: "8 weeks",
-    lessons: 36,
+    lessons: 32,
     level: "Intermediate" as const,
     price: 2999,
-    rating: 4.7,
+    rating: 4.6,
     students: 650,
     image: "/banner_as9100d_1784992034263.png",
     tags: ["AS9100D", "Quality", "Aerospace", "Compliance"],
     modules: [
-      {
-            "title": "Module 1: Introduction to AS9100D",
+        {
+            "title": "Module 1: Aerospace Quality Fundamentals",
             "items": [
-                  "Overview of aerospace quality management systems",
-                  "Relationship between ISO 9001 and AS9100D",
-                  "Structure and purpose of the standard",
-                  "Applications in aviation, space and defence"
+                "Why aerospace quality systems are stricter than normal business processes",
+                "ISO 9001 and AS9100D — relationship and purpose",
+                "Process approach and PDCA thinking",
+                "Customer, statutory and regulatory requirements — overview"
             ]
-      },
-      {
-            "title": "Module 2: Quality Planning and Organisational Responsibilities",
+        },
+        {
+            "title": "Module 2: AS9100D Structure & Requirements",
             "items": [
-                  "Organisational context and interested parties",
-                  "Quality policy, objectives and responsibilities",
-                  "Risk-based thinking and quality planning",
-                  "Competence, awareness and documented information"
+                "How the standard is organised — simple overview",
+                "Context, leadership and planning",
+                "Support and operational controls",
+                "Performance evaluation and improvement"
             ]
-      },
-      {
-            "title": "Module 3: Aerospace Operational Requirements",
+        },
+        {
+            "title": "Module 3: QMS Documentation & Records",
             "items": [
-                  "Customer and regulatory requirements",
-                  "Design, production and service controls",
-                  "Product identification and traceability",
-                  "Configuration and change-management awareness"
+                "Quality-manual / process-document hierarchy — practical view",
+                "Procedures, work instructions, forms and records",
+                "Document approval, revision and change control",
+                "Record retention, traceability and evidence"
             ]
-      },
-      {
-            "title": "Module 4: Aerospace-Specific Quality Controls",
+        },
+        {
+            "title": "Module 4: Risk, Product Safety & Change",
             "items": [
-                  "Product safety and operational risk",
-                  "Counterfeit-part prevention",
-                  "Critical items and key characteristics",
-                  "Supplier selection and quality monitoring"
+                "Risk-based thinking in a quality system",
+                "Operational risk management — foundation view",
+                "Product safety and human-factor awareness",
+                "Planning and controlling changes"
             ]
-      },
-      {
-            "title": "Module 5: Performance Evaluation and Improvement",
+        },
+        {
+            "title": "Module 5: Configuration, Traceability & Critical Items",
             "items": [
-                  "Process monitoring and measurement",
-                  "Internal audit and management-review awareness",
-                  "Nonconformity and corrective action",
-                  "Root-cause analysis and continual improvement"
+                "Configuration-management basics",
+                "Identification and traceability",
+                "Special requirements and critical-item awareness",
+                "Counterfeit-parts prevention awareness"
             ]
-      },
-      {
-            "title": "Module 6: Implementation and Certification Awareness",
+        },
+        {
+            "title": "Module 6: Supplier & Production Quality",
             "items": [
-                  "Overview of QMS documentation",
-                  "Process mapping and gap-assessment awareness",
-                  "Basic implementation planning",
-                  "Certification-process awareness and final assessment"
+                "Supplier approval and monitoring",
+                "Purchase requirements and supplier communication",
+                "Incoming inspection and verification",
+                "Production / service controls and nonconforming output awareness"
             ]
-      }
-],
+        },
+        {
+            "title": "Module 7: Non-Conformance, CAPA & Audits",
+            "items": [
+                "Identifying and controlling nonconformity",
+                "Root-cause analysis basics",
+                "Corrective action and effectiveness checks",
+                "Internal audits and management review"
+            ]
+        },
+        {
+            "title": "Module 8: Practical AS9100D Implementation",
+            "items": [
+                "Simple gap-assessment exercise",
+                "Process mapping and responsibility matrix",
+                "Building an evidence / documentation checklist",
+                "Mock implementation case and final review"
+            ]
+        }
+    ],
     topics: [
-      "Introduction to quality management in aerospace and UAS industries",
-      "Overview of AS9100D and aerospace quality standards",
-      "Basic understanding of ISO 9001 and AS9100D relationship",
-      "Quality policy, objectives, and process-based thinking",
-      "Documentation, records, and traceability awareness",
-      "Risk-based thinking and operational risk awareness",
-      "Product safety, conformity, and reliability concepts",
-      "Supplier quality and purchase control awareness",
-      "Inspection, verification, and nonconformity basics",
-      "Corrective action and continual improvement awareness",
-      "Audit readiness and compliance mindset",
-      "Role of quality culture in aerospace and drone industries",
+        "Why aerospace quality systems are stricter than normal business processes",
+        "ISO 9001 and AS9100D — relationship and purpose",
+        "Process approach and PDCA thinking",
+        "Customer, statutory and regulatory requirements — overview",
+        "How the standard is organised — simple overview",
+        "Context, leadership and planning",
+        "Support and operational controls",
+        "Performance evaluation and improvement",
+        "Quality-manual / process-document hierarchy — practical view",
+        "Procedures, work instructions, forms and records",
+        "Document approval, revision and change control",
+        "Record retention, traceability and evidence",
+        "Risk-based thinking in a quality system",
+        "Operational risk management — foundation view",
+        "Product safety and human-factor awareness",
+        "Planning and controlling changes",
+        "Configuration-management basics",
+        "Identification and traceability",
+        "Special requirements and critical-item awareness",
+        "Counterfeit-parts prevention awareness",
+        "Supplier approval and monitoring",
+        "Purchase requirements and supplier communication",
+        "Incoming inspection and verification",
+        "Production / service controls and nonconforming output awareness",
+        "Identifying and controlling nonconformity",
+        "Root-cause analysis basics",
+        "Corrective action and effectiveness checks",
+        "Internal audits and management review",
+        "Simple gap-assessment exercise",
+        "Process mapping and responsibility matrix",
+        "Building an evidence / documentation checklist",
+        "Mock implementation case and final review"
     ],
     eligibility: "Students and beginners in aerospace quality, UAS, aviation, and aerospace technology learners, quality and production professionals, and entrepreneurs with drone/aerospace products.",
     outcome: "Clear foundation in aerospace quality management and AS9100D awareness — understand quality terms, documentation, traceability, compliance mindset, and continual improvement.",
   },
+  {
+    id: "jet-engine-fundamentals",
+    title: "Jet Engine Fundamentals",
+    category: "Technical Foundation",
+    description: "Understand how jet engines create thrust, what the main engine components do, and how common gas-turbine engine types differ.",
+    duration: "8 weeks",
+    lessons: 32,
+    level: "Beginner" as const,
+    price: 2999,
+    rating: 4.8,
+    students: 500,
+    image: "/jet_engine_banner.png",
+    tags: ["Aviation", "Engineering"],
+    modules: [
+        {
+            "title": "Module 1: Propulsion, Thrust & Jet Engine Basics",
+            "items": [
+                "What propulsion and thrust mean",
+                "Newton’s laws as used in propulsion",
+                "Main airflow path through a gas-turbine engine",
+                "Basic thrust equation and mass-flow idea — concept level"
+            ]
+        },
+        {
+            "title": "Module 2: Gas Turbine Cycle & Engine Stations",
+            "items": [
+                "The gas-turbine engine as one complete system",
+                "Intake–compress–burn–expand–exhaust sequence",
+                "Pressure and temperature changes through the engine",
+                "Brayton cycle and engine-station numbering — visual introduction"
+            ]
+        },
+        {
+            "title": "Module 3: Inlets & Compressors",
+            "items": [
+                "Purpose of the inlet / diffuser",
+                "Centrifugal and axial compressors",
+                "Compressor stages, rotors, stators and pressure rise",
+                "Compressor stall and surge — awareness level"
+            ]
+        },
+        {
+            "title": "Module 4: Combustion Chambers",
+            "items": [
+                "Purpose of the combustor and fuel system",
+                "Can, annular and can-annular combustor awareness",
+                "Ignition, flame stability and airflow distribution",
+                "Efficiency, pressure loss, temperature and emissions — simple design goals"
+            ]
+        },
+        {
+            "title": "Module 5: Turbines, Shafts & Accessories",
+            "items": [
+                "How turbines extract energy from hot gas",
+                "Turbine stages, blades and vanes",
+                "Single-spool and multi-spool engines",
+                "Accessory gearbox and turbine-blade cooling — awareness level"
+            ]
+        },
+        {
+            "title": "Module 6: Exhaust Nozzles & Thrust Production",
+            "items": [
+                "Purpose of the exhaust nozzle",
+                "Turning pressure / thermal energy into jet velocity",
+                "Convergent and convergent-divergent nozzle awareness",
+                "Choked flow and thrust augmentation / afterburner — awareness only"
+            ]
+        },
+        {
+            "title": "Module 7: Gas-Turbine Engine Types",
+            "items": [
+                "Turbojet and where it is useful",
+                "Turbofan and bypass-ratio concept",
+                "Turboprop and propulsive efficiency",
+                "Turboshaft / APU applications and engine-type comparison"
+            ]
+        },
+        {
+            "title": "Module 8: Performance, Operation & Case Study",
+            "items": [
+                "Thrust, specific fuel consumption and efficiency — simple view",
+                "Effect of altitude and flight speed — concept level",
+                "Starting, EGT / speed limits and common operating concerns — awareness",
+                "Final aircraft-engine selection and comparison case study"
+            ]
+        }
+    ],
+    topics: [
+        "What propulsion and thrust mean",
+        "Newton’s laws as used in propulsion",
+        "Main airflow path through a gas-turbine engine",
+        "Basic thrust equation and mass-flow idea — concept level",
+        "The gas-turbine engine as one complete system",
+        "Intake–compress–burn–expand–exhaust sequence",
+        "Pressure and temperature changes through the engine",
+        "Brayton cycle and engine-station numbering — visual introduction",
+        "Purpose of the inlet / diffuser",
+        "Centrifugal and axial compressors",
+        "Compressor stages, rotors, stators and pressure rise",
+        "Compressor stall and surge — awareness level",
+        "Purpose of the combustor and fuel system",
+        "Can, annular and can-annular combustor awareness",
+        "Ignition, flame stability and airflow distribution",
+        "Efficiency, pressure loss, temperature and emissions — simple design goals",
+        "How turbines extract energy from hot gas",
+        "Turbine stages, blades and vanes",
+        "Single-spool and multi-spool engines",
+        "Accessory gearbox and turbine-blade cooling — awareness level",
+        "Purpose of the exhaust nozzle",
+        "Turning pressure / thermal energy into jet velocity",
+        "Convergent and convergent-divergent nozzle awareness",
+        "Choked flow and thrust augmentation / afterburner — awareness only",
+        "Turbojet and where it is useful",
+        "Turbofan and bypass-ratio concept",
+        "Turboprop and propulsive efficiency",
+        "Turboshaft / APU applications and engine-type comparison",
+        "Thrust, specific fuel consumption and efficiency — simple view",
+        "Effect of altitude and flight speed — concept level",
+        "Starting, EGT / speed limits and common operating concerns — awareness",
+        "Final aircraft-engine selection and comparison case study"
+    ],
+    eligibility: "Engineering students and beginners.",
+    outcome: "Clear foundation in Jet Engine Fundamentals."
+  },
+  {
+    id: "aircraft-hydraulic-systems",
+    title: "Aircraft Hydraulic Systems",
+    category: "Technical Foundation",
+    description: "Learn how aircraft hydraulic systems create, control and use fluid pressure to operate brakes, landing gear, flight controls and other systems.",
+    duration: "6 weeks",
+    lessons: 24,
+    level: "Beginner" as const,
+    price: 2499,
+    rating: 4.9,
+    students: 500,
+    image: "/hydraulic_systems_banner.png",
+    tags: ["Aviation", "Engineering"],
+    modules: [
+        {
+            "title": "Module 1: Hydraulic Principles & Aircraft Applications",
+            "items": [
+                "Why aircraft use hydraulic power",
+                "Pascal’s law and force multiplication",
+                "Pressure, flow, force and basic hydraulic work",
+                "Typical aircraft uses: brakes, gear, flaps and flight controls"
+            ]
+        },
+        {
+            "title": "Module 2: Fluids, Lines, Seals & Safety",
+            "items": [
+                "Purpose and properties of hydraulic fluid",
+                "Common aviation hydraulic-fluid families — awareness level",
+                "Rigid lines, flexible hoses, fittings and seals",
+                "Contamination, leaks, pressure hazards and safety awareness"
+            ]
+        },
+        {
+            "title": "Module 3: Reservoirs, Pumps, Filters & Accumulators",
+            "items": [
+                "Reservoir purpose, pressurisation and basic layout",
+                "Gear / gerotor / piston pump awareness + engine/electric drive",
+                "Filters, indicators and contamination control",
+                "Accumulators, stored energy and pressure smoothing"
+            ]
+        },
+        {
+            "title": "Module 4: Valves, Pressure Control & Actuators",
+            "items": [
+                "Check, selector and shutoff valves",
+                "Relief, pressure-regulating and priority-valve concepts",
+                "Linear actuators / hydraulic cylinders and rotary-actuator awareness",
+                "Tracing pressure and return flow through a simple circuit"
+            ]
+        },
+        {
+            "title": "Module 5: Aircraft Hydraulic Applications",
+            "items": [
+                "Hydraulic wheel brakes and anti-skid awareness",
+                "Landing-gear extension, retraction and locking concepts",
+                "Flaps, spoilers and powered flight-control applications",
+                "Redundancy, backup pumps and power-transfer-unit awareness"
+            ]
+        },
+        {
+            "title": "Module 6: Schematics, Fault Awareness & Review",
+            "items": [
+                "Common hydraulic symbols and line types",
+                "Tracing a complete simple aircraft hydraulic schematic",
+                "Recognising low pressure, leaks, contamination and overheating symptoms",
+                "Final system-tracing / fault-awareness exercise and review"
+            ]
+        }
+    ],
+    topics: [
+        "Why aircraft use hydraulic power",
+        "Pascal’s law and force multiplication",
+        "Pressure, flow, force and basic hydraulic work",
+        "Typical aircraft uses: brakes, gear, flaps and flight controls",
+        "Purpose and properties of hydraulic fluid",
+        "Common aviation hydraulic-fluid families — awareness level",
+        "Rigid lines, flexible hoses, fittings and seals",
+        "Contamination, leaks, pressure hazards and safety awareness",
+        "Reservoir purpose, pressurisation and basic layout",
+        "Gear / gerotor / piston pump awareness + engine/electric drive",
+        "Filters, indicators and contamination control",
+        "Accumulators, stored energy and pressure smoothing",
+        "Check, selector and shutoff valves",
+        "Relief, pressure-regulating and priority-valve concepts",
+        "Linear actuators / hydraulic cylinders and rotary-actuator awareness",
+        "Tracing pressure and return flow through a simple circuit",
+        "Hydraulic wheel brakes and anti-skid awareness",
+        "Landing-gear extension, retraction and locking concepts",
+        "Flaps, spoilers and powered flight-control applications",
+        "Redundancy, backup pumps and power-transfer-unit awareness",
+        "Common hydraulic symbols and line types",
+        "Tracing a complete simple aircraft hydraulic schematic",
+        "Recognising low pressure, leaks, contamination and overheating symptoms",
+        "Final system-tracing / fault-awareness exercise and review"
+    ],
+    eligibility: "Engineering students and beginners.",
+    outcome: "Clear foundation in Aircraft Hydraulic Systems."
+  },
 ];
 
 export const COURSE_BUNDLES = [
+  {
+    id: "aeronautics-and-systems-bundle",
+    title: "Aeronautics & Systems Engineering Master Bundle",
+    description: "Master Aeronautics, Aerodynamics, Engines, Hydraulics, CAD & Simulation",
+    includes: [
+      "Aeronautics & Aviation Fundamentals",
+      "Aerodynamics",
+      "Jet Engine Fundamentals",
+      "Aircraft Hydraulic Systems",
+      "CATIA Design",
+      "NX CAD Design",
+      "FEA Analysis",
+      "CFD Analysis"
+    ],
+    courseIds: [
+      "aeronautics-aviation",
+      "aerodynamics",
+      "jet-engine-fundamentals",
+      "aircraft-hydraulic-systems",
+      "catia-design",
+      "nx-cad-design",
+      "fea-analysis",
+      "cfd-analysis"
+    ],
+    price: 16999,
+    savings: 6493,
+    color: "amber",
+  },
+
   {
     id: "drone-regulations-bundle",
     title: "Drone Regulations Bundle",
@@ -1422,4 +2029,5 @@ export const TESTIMONIALS = [
     avatar: "/avatars/arjun.jpg",
     rating: 5,
   },
+,
 ];

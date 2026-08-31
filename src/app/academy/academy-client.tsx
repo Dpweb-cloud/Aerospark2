@@ -31,18 +31,18 @@ const categories = ["All", ...Array.from(new Set(COURSES.map((c) => c.category))
 const levels = ["All", "Beginner", "Intermediate", "Advanced"];
 
 const bundleColors: Record<string, string> = {
-  blue: "from-blue-500/10 to-blue-600/5 border-blue-500/20",
-  green: "from-green-500/10 to-green-600/5 border-green-500/20",
-  purple: "from-purple-500/10 to-purple-600/5 border-purple-500/20",
-  orange: "from-orange-500/10 to-orange-600/5 border-orange-500/20",
-  red: "from-aero-red/10 to-aero-red/5 border-aero-red/20",
+  blue: "border-[#062B49]/10 bg-white",
+  green: "border-[#062B49]/10 bg-white",
+  purple: "border-[#062B49]/10 bg-white",
+  orange: "border-[#FF6600]/10 bg-white",
+  red: "border-aero-red/20 bg-white",
 };
 
 const bundleAccents: Record<string, string> = {
-  blue: "text-blue-400",
-  green: "text-green-400",
-  purple: "text-purple-400",
-  orange: "text-orange-400",
+  blue: "text-[#062B49]",
+  green: "text-[#062B49]",
+  purple: "text-[#062B49]",
+  orange: "text-[#FF6600]",
   red: "text-aero-red",
 };
 
@@ -248,11 +248,7 @@ export default function AcademyClient() {
                     <motion.div key={course.id} variants={staggerItem} layout>
                       <div
                         onClick={() => router.push(`/academy/course/${course.id}`)}
-                        className={`group cursor-pointer rounded-[24px] border ${
-                          course.id === 'catia-design'
-                            ? 'border-[#2F80ED] shadow-[0_0_15px_-3px_rgba(47,128,237,0.3)]'
-                            : 'border-[#D9E4EE]'
-                        } bg-white shadow-[0_4px_20px_rgba(16,42,67,0.04)] hover:shadow-[0_8px_30px_rgba(16,42,67,0.08)] hover:border-[#2F80ED]/40 hover:-translate-y-1 transition-all duration-300 ease-out overflow-hidden flex flex-col relative h-full`}
+                        className="group cursor-pointer rounded-[24px] border border-border-default/40 bg-surface-elevated/40 backdrop-blur-md hover:bg-surface-elevated/80 hover:border-aero-blue/40 hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(47,128,237,0.15)] transition-all duration-300 ease-out overflow-hidden flex flex-col relative h-full"
                       >
                         {/* Image Header */}
                         <div className="relative w-full aspect-[1.85] shrink-0 bg-slate-100 overflow-hidden rounded-t-[24px]">
@@ -264,56 +260,56 @@ export default function AcademyClient() {
                             />
                           )}
                           <div className="absolute top-4 left-4 z-20">
-                            <span className="bg-[#062B49] text-white px-2.5 py-1 rounded-md text-[10px] font-semibold uppercase tracking-wider shadow-sm">
+                            <span className="bg-[#062B49] text-white px-2.5 py-1 rounded-md text-[10px] font-semibold uppercase tracking-wider shadow-sm backdrop-blur-md">
                               {course.tags[0] || course.category}
                             </span>
                           </div>
                         </div>
 
                         {/* Body */}
-                        <div className="flex flex-col flex-1 px-6 pb-6 pt-5 bg-white">
-                          <h3 className="text-[19px] font-bold text-[#FF6B00] hover:text-[#e65c00] transition-colors mb-2 line-clamp-2">
+                        <div className="flex flex-col flex-1 px-6 pb-6 pt-5 bg-white rounded-b-[24px]">
+                          <h3 className="text-[19px] font-bold text-[#062B49] group-hover:text-[#FF6600] transition-colors mb-2 line-clamp-2 leading-tight">
                             {course.title}
                           </h3>
 
-                          <p className="text-[13px] text-[#52677D] line-clamp-2 overflow-hidden mb-3 font-medium leading-relaxed">
+                          <p className="text-[13px] text-[#52677D] line-clamp-2 overflow-hidden mb-4 font-medium leading-relaxed">
                             {course.description}
                           </p>
 
-                          <div className="flex items-center gap-3 mb-2">
-                            <div className="flex items-center gap-1.5 text-sm font-bold text-[#102A43]">
-                              <Star className="w-4 h-4 text-[#FF6B00] fill-[#FF6B00]" />
+                          <div className="flex items-center gap-3 mb-4">
+                            <div className="flex items-center gap-1.5 text-sm font-bold text-[#062B49]">
+                              <Star className="w-4 h-4 text-[#FF6600] fill-[#FF6600]" />
                               {course.rating}
                             </div>
-                            <div className="w-px h-4 bg-[#D9E4EE]" />
+                            <div className="w-px h-4 bg-slate-200" />
                             <div className="flex items-center gap-1.5 text-[12px] font-bold text-[#52677D] truncate">
                               <BarChart2 className="w-3.5 h-3.5 text-[#52677D]" />
-                              <span className="truncate">{course.level} • {course.tags[1] || course.tags[0]}</span>
+                              <span className="truncate">{course.level}</span>
                             </div>
                           </div>
 
-                          <div className="w-full h-px bg-[#D9E4EE]/50 my-2.5" />
+                          <div className="w-full h-px bg-slate-100 mb-4" />
 
                           {/* Duration & Content */}
-                          <div className="flex items-center justify-between mb-3">
+                          <div className="flex items-center justify-between mb-4">
                             <div className="flex flex-col">
-                              <div className="flex items-center gap-1.5 text-[#52677D] text-[11px] font-medium">
+                              <div className="flex items-center gap-1.5 text-[#52677D] text-[11px] font-medium mb-1">
                                 <Clock className="w-3.5 h-3.5 text-[#52677D] stroke-[2]" />
                                 <span>Duration</span>
                               </div>
-                              <span className="text-sm font-bold text-[#102A43] mt-1">{course.duration}</span>
+                              <span className="text-sm font-bold text-[#062B49]">{course.duration}</span>
                             </div>
                             <div className="flex flex-col items-end">
-                              <div className="flex items-center gap-1.5 text-[#52677D] text-[11px] font-medium">
+                              <div className="flex items-center gap-1.5 text-[#52677D] text-[11px] font-medium mb-1">
                                 <BookOpen className="w-3.5 h-3.5 text-[#52677D] stroke-[2]" />
                                 <span>Content</span>
                               </div>
-                              <span className="text-sm font-bold text-[#102A43] mt-1">{course.lessons} lessons</span>
+                              <span className="text-sm font-bold text-[#062B49]">{course.lessons} lessons</span>
                             </div>
                           </div>
 
                           {/* Footer Stats & Price */}
-                          <div className="flex items-center justify-between mt-auto pt-3 relative z-10">
+                          <div className="flex items-center justify-between mt-auto pt-1 relative z-10">
                             <div className="flex flex-col gap-0.5">
                               <div className="flex items-center gap-1.5">
                                 <span className="text-[11px] text-[#52677D] line-through font-medium leading-none">₹{Math.floor(course.price * 1.6).toLocaleString()}</span>
@@ -323,9 +319,9 @@ export default function AcademyClient() {
                             </div>
                             <button
                               onClick={(e) => handleApplyClick(e, course.id)}
-                              className="relative overflow-hidden h-[50px] bg-[#062B49] hover:bg-[#0B3558] text-white px-5 rounded-[14px] text-sm font-bold transition-all duration-300 shadow-md flex items-center justify-center min-w-[130px] gap-2 cursor-pointer border-none group/btn"
+                              className="relative overflow-hidden h-[40px] bg-[#062B49] hover:bg-[#FF6600] text-white px-5 rounded-[10px] text-sm font-bold transition-all duration-300 flex items-center justify-center min-w-[120px] gap-2 cursor-pointer border-none group/btn shadow-[0_4px_14px_rgba(6,43,73,0.2)] hover:shadow-[0_6px_20px_rgba(255,102,0,0.4)] hover:-translate-y-0.5"
                             >
-                              View Course <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover/btn:translate-x-1" />
+                              Apply Now <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover/btn:translate-x-1" />
                             </button>
                           </div>
                         </div>
@@ -380,49 +376,52 @@ export default function AcademyClient() {
                     className={isComplete ? "md:col-span-2 xl:col-span-1" : ""}
                   >
                     <div
-                      className={`relative rounded-2xl border bg-gradient-to-br p-6 h-full flex flex-col transition-all duration-500 hover:scale-[1.02] overflow-hidden group ${bundleColors[bundle.color] || bundleColors["blue"]
-                        } ${isComplete ? "ring-2 ring-aero-red/40 shadow-[0_0_40px_-10px_rgba(255,87,87,0.3)]" : "hover:shadow-2xl"}`}
+                      className={`relative rounded-[24px] border border-[#062B49]/10 bg-white p-6 md:p-8 h-full flex flex-col transition-all duration-500 hover:-translate-y-1 hover:border-[#062B49]/20 hover:shadow-[0_8px_30px_rgba(6,43,73,0.08)] overflow-hidden group ${
+                        isComplete ? "ring-2 ring-[#FF6600]/40 shadow-[0_0_40px_-10px_rgba(255,102,0,0.15)]" : ""
+                      }`}
                     >
-                      <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
                       {isComplete && (
-                        <div className="inline-flex items-center gap-1.5 bg-aero-red/10 border border-aero-red/20 text-aero-red text-[10px] font-bold tracking-wider px-2.5 py-1 rounded-full mb-4 self-start">
+                        <div className="inline-flex items-center gap-1.5 bg-[#FF6600]/10 border border-[#FF6600]/20 text-[#FF6600] text-[10px] font-bold tracking-wider px-2.5 py-1 rounded-full mb-5 self-start">
                           <Zap className="w-3 h-3" />
                           BEST VALUE
                         </div>
                       )}
 
-                      <h3 className={`text-lg font-bold mb-1 ${bundleAccents[bundle.color]}`}>
+                      <h3 className="text-xl md:text-2xl font-bold mb-2 text-[#062B49]">
                         {bundle.title}
                       </h3>
-                      <p className="text-sm text-text-secondary mb-4 leading-relaxed">
+                      <p className="text-sm text-[#52677D] mb-6 leading-relaxed border-b border-[#062B49]/5 pb-5">
                         {bundle.description}
                       </p>
 
                       {/* Included courses */}
-                      <div className="flex-1 mb-5 space-y-2">
+                      <div className="flex-1 mb-8 space-y-3.5">
                         {bundle.includes.map((item, i) => (
-                          <div key={i} className="flex items-center gap-2 text-sm text-text-secondary">
-                            <CheckCircle2 className={`w-3.5 h-3.5 flex-shrink-0 ${bundleAccents[bundle.color]}`} />
-                            {item}
+                          <div key={i} className="flex items-start gap-3 text-sm font-medium text-[#062B49]">
+                            <CheckCircle2 className="w-4 h-4 mt-0.5 flex-shrink-0 text-[#FF6600]" />
+                            <span className="leading-tight">{item}</span>
                           </div>
                         ))}
                       </div>
 
-                      {/* Pricing */}
-                      <div className="pt-4 border-t border-white/5">
-                        <div className="flex items-end justify-between mb-3">
-                          <div>
-                            <p className="text-2xl font-bold text-foreground">
-                              ₹{bundle.price.toLocaleString()}
-                            </p>
-                            <p className={`text-xs font-medium mt-0.5 ${bundleAccents[bundle.color]}`}>
-                              Save ₹{bundle.savings.toLocaleString()} vs individual
-                            </p>
+                      {/* Bundle Footer */}
+                      <div className="pt-5 border-t border-[#062B49]/5 mt-auto">
+                        <div className="flex items-end justify-between mb-5">
+                          <div className="flex flex-col gap-1">
+                            <span className="text-xs text-[#52677D] font-medium">Bundle Price</span>
+                            <div className="flex items-baseline gap-2">
+                              <span className="text-3xl font-extrabold text-[#062B49] tracking-tight">₹{bundle.price.toLocaleString()}</span>
+                            </div>
+                            <span className="text-[11px] text-[#FF6600] font-semibold tracking-wide">
+                              {bundle.savings}
+                            </span>
                           </div>
                         </div>
-                        <Button variant="primary" size="md" href="/contact" className="w-full">
+
+                        <button className="w-full relative overflow-hidden h-[48px] bg-[#062B49] hover:bg-[#062B49]/90 text-white rounded-[12px] text-sm font-bold transition-all duration-300 shadow-md flex items-center justify-center gap-2 group/btn">
                           Enroll in Bundle
-                        </Button>
+                          <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover/btn:translate-x-1" />
+                        </button>
                       </div>
                     </div>
                   </motion.div>

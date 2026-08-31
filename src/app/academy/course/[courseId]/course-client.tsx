@@ -1,11 +1,11 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
-import { GlassCard } from "@/components/ui/cards";
+import { GlassCard, SectionHeader, Badge } from "@/components/ui/cards";
 import { COURSES } from "@/lib/constants";
 import {
   Clock,
@@ -348,7 +348,6 @@ export default function CourseClient({ courseId }: { courseId: string }) {
       q: "Are the sessions live?",
       a: "Yes, our academy programs feature live interactive training sessions with engineering instructors to discuss concepts and ask questions.",
     },
-
     {
       q: "Is this an official DGCA / FAA / EASA certification?",
       a: course.category.toLowerCase().includes("compliance")
@@ -365,272 +364,363 @@ export default function CourseClient({ courseId }: { courseId: string }) {
     },
   ];
 
+  // Animation variants
+  const staggerContainer = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const fadeUp: any = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 24 } }
+  };
+
   return (
     <>
       <Navbar />
       <main className="min-h-screen pb-20 bg-background overflow-x-hidden relative">
-        {/* Background Grids */}
+        {/* Background Grids & Orbs */}
         <div className="absolute inset-0 radar-grid opacity-30 pointer-events-none" />
-        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-aero-blue/5 rounded-full blur-[120px] pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-aero-red/5 rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-aero-blue/10 rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-aero-red/10 rounded-full blur-[120px] pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pt-28">
           {/* Back link */}
-          <div className="mb-8">
+          <motion.div 
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+            className="mb-8"
+          >
             <Link
               href="/academy"
-              className="inline-flex items-center gap-2 text-sm text-text-muted hover:text-aero-blue transition-colors group"
+              className="inline-flex items-center gap-2 text-sm text-text-muted hover:text-[#FF6600] transition-colors group"
             >
               <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
               Back to Academy
             </Link>
-          </div>
+          </motion.div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
             {/* Left Column */}
-            <div className="lg:col-span-2 space-y-12">
+            <motion.div 
+              variants={staggerContainer}
+              initial="hidden"
+              animate="show"
+              className="lg:col-span-2 space-y-12"
+            >
               
-              {/* Top Summary */}
-              <div className="space-y-6">
-                <span className="text-[#FF6600] font-bold text-xs uppercase tracking-widest block">
-                  {course.category}
-                </span>
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground tracking-tight leading-tight">
+              {/* Top Summary / Hero */}
+              <motion.div variants={fadeUp} className="space-y-6 relative">
+                {/* Decorative background glow behind title */}
+                <div className="absolute -inset-4 bg-gradient-to-r from-[#FF6600]/10 to-transparent blur-2xl -z-10 rounded-full" />
+                
+                
+                
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-foreground tracking-tight leading-tight">
                   {course.title}
                 </h1>
                 <p className="text-lg md:text-xl text-text-secondary leading-relaxed">
                   {enrich.intro}
                 </p>
-                <div className="flex flex-wrap items-center gap-6 pt-4 border-t border-border-subtle">
-                  <div className="flex items-center gap-2">
-                    <div className="p-2 rounded-lg bg-surface-elevated">
-                      <Clock className="w-4 h-4 text-aero-blue" />
+                
+                <div className="flex flex-wrap items-center gap-6 pt-6 border-t border-border-subtle/50">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2.5 rounded-xl bg-aero-blue/10 border border-aero-blue/20">
+                      <Clock className="w-5 h-5 text-aero-blue" />
                     </div>
                     <div>
-                      <p className="text-[10px] text-text-muted uppercase tracking-wider">Duration</p>
-                      <p className="text-xs font-semibold text-foreground">{course.duration}</p>
+                      <p className="text-[10px] text-text-muted uppercase tracking-wider font-semibold">Duration</p>
+                      <p className="text-sm font-bold text-foreground">{course.duration}</p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <div className="p-2 rounded-lg bg-surface-elevated">
-                      <BookOpen className="w-4 h-4 text-aero-blue" />
+                  <div className="flex items-center gap-3">
+                    <div className="p-2.5 rounded-xl bg-aero-blue/10 border border-aero-blue/20">
+                      <BookOpen className="w-5 h-5 text-aero-blue" />
                     </div>
                     <div>
-                      <p className="text-[10px] text-text-muted uppercase tracking-wider">Content</p>
-                      <p className="text-xs font-semibold text-foreground">{course.lessons} lessons</p>
+                      <p className="text-[10px] text-text-muted uppercase tracking-wider font-semibold">Content</p>
+                      <p className="text-sm font-bold text-foreground">{course.lessons} lessons</p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <div className="p-2 rounded-lg bg-surface-elevated">
-                      <Star className="w-4 h-4 text-aero-red fill-aero-red" />
+                  <div className="flex items-center gap-3">
+                    <div className="p-2.5 rounded-xl bg-aero-red/10 border border-aero-red/20">
+                      <Star className="w-5 h-5 text-aero-red fill-aero-red" />
                     </div>
                     <div>
-                      <p className="text-[10px] text-text-muted uppercase tracking-wider">Rating</p>
-                      <p className="text-xs font-semibold text-foreground">{course.rating} ★</p>
+                      <p className="text-[10px] text-text-muted uppercase tracking-wider font-semibold">Rating</p>
+                      <p className="text-sm font-bold text-foreground">{course.rating} ★</p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <div className="p-2 rounded-lg bg-surface-elevated">
-                      <Zap className="w-4 h-4 text-aero-blue" />
+                  <div className="flex items-center gap-3">
+                    <div className="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
+                      <Zap className="w-5 h-5 text-emerald-400" />
                     </div>
                     <div>
-                      <p className="text-[10px] text-text-muted uppercase tracking-wider">Level</p>
-                      <p className="text-xs font-semibold text-foreground">{course.level}</p>
+                      <p className="text-[10px] text-text-muted uppercase tracking-wider font-semibold">Level</p>
+                      <p className="text-sm font-bold text-foreground">{course.level}</p>
                     </div>
                   </div>
                 </div>
 
-                <div className="flex flex-col sm:flex-row items-center gap-4 pt-4">
-                  <Button variant="primary" size="lg" href={`/contact?subject=Enrollment%20Inquiry%20-%20${encodeURIComponent(course.title)}`} className="bg-[#FF6600] text-white hover:bg-[#e65c00] border-none shadow-lg">
+                <div className="flex flex-col sm:flex-row items-center gap-4 pt-6">
+                  <Button variant="primary" size="lg" href={`/contact?subject=Enrollment%20Inquiry%20-%20${encodeURIComponent(course.title)}`} className="bg-gradient-to-r from-[#FF6600] to-[#FF8C00] text-white hover:from-[#e65c00] hover:to-[#FF6600] border-none shadow-[0_0_20px_rgba(255,102,0,0.3)] transition-all">
                     Enroll in Course
-                    <ChevronRight className="w-4 h-4" />
+                    <ChevronRight className="w-4 h-4 ml-1" />
                   </Button>
-                  <button onClick={scrollToCurriculum} className="text-sm font-semibold text-aero-blue hover:underline">
-                    View Curriculum ↓
+                  <button onClick={scrollToCurriculum} className="text-sm font-semibold text-text-secondary hover:text-[#FF6600] transition-colors flex items-center gap-1">
+                    View Curriculum <ChevronDown className="w-4 h-4" />
                   </button>
                 </div>
-              </div>
+              </motion.div>
 
               {/* Course Overview */}
-              <GlassCard padding="lg" className="space-y-4">
-                <h2 className="text-2xl font-bold text-foreground">Course Overview</h2>
-                <p className="text-text-secondary text-sm md:text-base leading-relaxed">
-                  {enrich.overview}
-                </p>
-              </GlassCard>
+              <motion.div variants={fadeUp}>
+                <GlassCard padding="lg" glow="blue" className="space-y-4 border-l-4 border-l-aero-blue">
+                  <h2 className="text-2xl font-bold text-foreground flex items-center gap-2">
+                    <Globe className="w-6 h-6 text-aero-blue" />
+                    Course Overview
+                  </h2>
+                  <p className="text-text-secondary text-base leading-relaxed">
+                    {enrich.overview}
+                  </p>
+                </GlassCard>
+              </motion.div>
 
               {/* What You'll Learn */}
-              <GlassCard padding="lg" className="space-y-4">
-                <h2 className="text-2xl font-bold text-foreground">What You&apos;ll Learn</h2>
-                <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {enrich.whatYoullLearn.map((item, idx) => (
-                    <li key={idx} className="flex items-start gap-2.5 text-sm text-text-secondary">
-                      <CheckCircle2 className="w-4 h-4 text-aero-blue mt-0.5 shrink-0" />
-                      <span className="leading-relaxed">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </GlassCard>
+              <motion.div variants={fadeUp}>
+                <GlassCard padding="lg" glow="blue" className="space-y-6">
+                  <h2 className="text-2xl font-bold text-foreground flex items-center gap-2">
+                    <Award className="w-6 h-6 text-[#FF6600]" />
+                    What You&apos;ll Learn
+                  </h2>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+                    {enrich.whatYoullLearn.map((item, idx) => (
+                      <motion.div 
+                        key={idx} 
+                        whileHover={{ x: 5 }}
+                        className="flex items-start gap-3 text-sm text-text-secondary group"
+                      >
+                        <div className="w-5 h-5 rounded-full bg-aero-blue/10 flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-aero-blue/20 transition-colors">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-aero-blue" />
+                        </div>
+                        <span className="leading-relaxed group-hover:text-foreground transition-colors">{item}</span>
+                      </motion.div>
+                    ))}
+                  </div>
+                </GlassCard>
+              </motion.div>
 
               {/* Course Curriculum */}
-              <div ref={curriculumRef} className="space-y-4 scroll-mt-28">
-                <h2 className="text-2xl font-bold text-foreground">Course Curriculum</h2>
-                <div className="flex flex-col gap-3">
+              <motion.div variants={fadeUp} ref={curriculumRef} className="space-y-6 scroll-mt-28">
+                <SectionHeader align="left" title="Course Curriculum" description="Detailed breakdown of all modules and practical lessons covered in this program." />
+                
+                <div className="flex flex-col gap-4">
                   {course.modules.map((module, idx) => {
                     const isOpen = openModule === idx;
                     return (
-                      <div key={idx} className="flex flex-col bg-surface/50 border border-border-subtle rounded-xl overflow-hidden">
+                      <motion.div 
+                        key={idx} 
+                        initial={false}
+                        animate={{ backgroundColor: isOpen ? "rgba(255,255,255,0.03)" : "rgba(255,255,255,0.01)" }}
+                        className="flex flex-col border border-border-subtle rounded-2xl overflow-hidden backdrop-blur-sm transition-colors duration-300"
+                      >
                         <button
                           onClick={() => setOpenModule(isOpen ? null : idx)}
-                          className="flex items-start gap-3 p-4 w-full text-left hover:bg-surface-hover/20 transition-all"
+                          className="flex items-center gap-4 p-5 w-full text-left hover:bg-surface-hover/30 transition-all group"
                         >
-                          <div className="w-6 h-6 rounded-full bg-aero-blue/10 border border-aero-blue/20 flex items-center justify-center text-xs text-aero-blue shrink-0 font-mono mt-0.5">
-                            {idx + 1}
+                          <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-colors ${isOpen ? 'bg-[#FF6600] text-white shadow-[0_0_15px_rgba(255,102,0,0.4)]' : 'bg-surface-elevated text-text-muted border border-border-subtle group-hover:border-[#FF6600]/50 group-hover:text-[#FF6600]'}`}>
+                            <span className="font-mono text-sm font-bold">{idx + 1}</span>
                           </div>
                           <div className="flex-1 flex items-center justify-between">
-                            <span className="text-sm font-semibold text-foreground">{module.title}</span>
-                            <ChevronDown className={`w-4 h-4 text-text-muted transition-transform ${isOpen ? "rotate-180" : ""}`} />
+                            <span className={`text-base font-semibold transition-colors ${isOpen ? 'text-foreground' : 'text-text-secondary group-hover:text-foreground'}`}>
+                              {module.title}
+                            </span>
+                            <motion.div
+                              animate={{ rotate: isOpen ? 180 : 0 }}
+                              transition={{ duration: 0.3 }}
+                              className="w-6 h-6 rounded-full bg-surface flex items-center justify-center shrink-0 ml-4 border border-border-subtle"
+                            >
+                              <ChevronDown className="w-4 h-4 text-text-muted" />
+                            </motion.div>
                           </div>
                         </button>
-                        {isOpen && (
-                          <div className="px-4 pb-4 pt-1 pl-[3.25rem] border-t border-border-subtle/50 bg-surface/20">
-                            <ul className="space-y-2.5">
-                              {module.items.map((item, itemIdx) => (
-                                <li key={itemIdx} className="text-xs md:text-sm text-text-secondary flex items-start gap-2">
-                                  <span className="w-1 h-1 rounded-full bg-aero-blue/50 mt-2 shrink-0" />
-                                  <span className="leading-relaxed">{item}</span>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        )}
-                      </div>
+                        <AnimatePresence>
+                          {isOpen && (
+                            <motion.div
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: "auto", opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              transition={{ duration: 0.3, ease: "easeInOut" }}
+                              className="overflow-hidden"
+                            >
+                              <div className="px-5 pb-5 pt-2 pl-[4.5rem] border-t border-border-subtle/30">
+                                <ul className="space-y-4">
+                                  {module.items.map((item, itemIdx) => (
+                                    <motion.li 
+                                      initial={{ opacity: 0, x: -10 }}
+                                      animate={{ opacity: 1, x: 0 }}
+                                      transition={{ delay: itemIdx * 0.05 }}
+                                      key={itemIdx} 
+                                      className="text-sm text-text-secondary flex items-start gap-3"
+                                    >
+                                      <div className="w-1.5 h-1.5 rounded-full bg-aero-blue/40 mt-2 shrink-0 shadow-[0_0_8px_rgba(var(--primary-glow),0.5)]" />
+                                      <span className="leading-relaxed hover:text-foreground transition-colors cursor-default">{item}</span>
+                                    </motion.li>
+                                  ))}
+                                </ul>
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </motion.div>
                     );
                   })}
                 </div>
-              </div>
-
-
-
-
+              </motion.div>
 
               {/* FAQs */}
-              <div className="space-y-4">
-                <h2 className="text-2xl font-bold text-foreground">Frequently Asked Questions</h2>
-                <div className="flex flex-col gap-3">
+              <motion.div variants={fadeUp} className="space-y-6 pt-8">
+                <SectionHeader align="left" title="Frequently Asked Questions" />
+                <div className="flex flex-col gap-4">
                   {faqs.map((faq, idx) => {
                     const isOpen = openFaq === idx;
                     return (
-                      <div key={idx} className="flex flex-col bg-surface/50 border border-border-subtle rounded-xl overflow-hidden">
+                      <motion.div 
+                        key={idx} 
+                        className="flex flex-col bg-surface/30 border border-border-subtle rounded-2xl overflow-hidden backdrop-blur-sm"
+                      >
                         <button
                           onClick={() => setOpenFaq(isOpen ? null : idx)}
-                          className="flex items-center justify-between p-4 w-full text-left hover:bg-surface-hover/20 transition-all gap-4"
+                          className="flex items-center justify-between p-5 w-full text-left hover:bg-surface-hover/20 transition-all gap-4 group"
                         >
-                          <span className="text-sm font-semibold text-foreground leading-snug">{faq.q}</span>
-                          <ChevronDown className={`w-4 h-4 text-text-muted transition-transform shrink-0 ${isOpen ? "rotate-180" : ""}`} />
+                          <span className={`text-sm md:text-base font-semibold leading-snug transition-colors ${isOpen ? 'text-[#FF6600]' : 'text-foreground group-hover:text-aero-blue'}`}>
+                            {faq.q}
+                          </span>
+                          <motion.div
+                            animate={{ rotate: isOpen ? 180 : 0 }}
+                            className="shrink-0"
+                          >
+                            <ChevronDown className="w-5 h-5 text-text-muted" />
+                          </motion.div>
                         </button>
-                        {isOpen && (
-                          <div className="px-4 pb-4 pt-1 pl-4 border-t border-border-subtle/50 text-sm text-text-secondary leading-relaxed">
-                            {faq.a}
-                          </div>
-                        )}
-                      </div>
+                        <AnimatePresence>
+                          {isOpen && (
+                            <motion.div
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: "auto", opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              transition={{ duration: 0.3 }}
+                              className="overflow-hidden"
+                            >
+                              <div className="px-5 pb-5 pt-2 text-sm text-text-secondary leading-relaxed border-t border-border-subtle/30">
+                                {faq.a}
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </motion.div>
                     );
                   })}
                 </div>
-                <div className="pt-4 flex justify-center">
-                  <Button variant="outline" href="/contact?subject=Question%20about%20a%20course" className="text-xs">
-                    Ask About This Course
+                <div className="pt-6 flex">
+                  <Button variant="outline" href="/contact?subject=Question%20about%20a%20course" className="text-sm bg-surface-elevated hover:bg-surface-hover">
+                    <Mail className="w-4 h-4 mr-2" /> Ask About This Course
                   </Button>
                 </div>
-              </div>
+              </motion.div>
 
-            </div>
+            </motion.div>
 
-            {/* Right Sidebar */}
-            <div className="lg:col-span-1">
+            {/* Right Sidebar (Sticky) */}
+            <motion.div 
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.7, delay: 0.2 }}
+              className="lg:col-span-1"
+            >
               <div className="sticky top-32 space-y-6">
-                <div className="glass-panel rounded-3xl p-8 border border-border-default shadow-2xl bg-surface-elevated/40">
-                  <div className="mb-6 relative rounded-xl overflow-hidden aspect-[1.8] bg-surface-elevated border border-border-subtle">
+                
+                {/* Main Pricing Card */}
+                <div className="glass-panel rounded-3xl p-6 md:p-8 border border-border-default/80 shadow-[0_8px_32px_rgba(0,0,0,0.2)] bg-gradient-to-b from-surface/80 to-surface-elevated/60 backdrop-blur-2xl relative overflow-hidden group">
+                  {/* Subtle animated background gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#FF6600]/5 to-aero-blue/5 opacity-50 group-hover:opacity-100 transition-opacity duration-700" />
+                  
+                  <div className="mb-6 relative rounded-2xl overflow-hidden aspect-[1.7] bg-surface-elevated border border-border-subtle/50 shadow-inner">
                     {course.image ? (
-                      <img
+                      <motion.img
+                        whileHover={{ scale: 1.05 }}
+                        transition={{ duration: 0.6 }}
                         src={course.image}
                         alt={course.title}
                         className="absolute inset-0 w-full h-full object-cover"
                       />
                     ) : (
-                      <div className="absolute inset-0 bg-gradient-to-br from-aero-blue/15 to-aero-red/15 flex items-center justify-center">
-                        <Zap className="w-12 h-12 text-aero-blue opacity-55" />
+                      <div className="absolute inset-0 bg-gradient-to-br from-[#FF6600]/10 to-aero-blue/10 flex items-center justify-center">
+                        <Zap className="w-12 h-12 text-[#FF6600] opacity-40" />
                       </div>
                     )}
                   </div>
 
-                  <div className="space-y-6">
+                  <div className="space-y-6 relative z-10">
                     <div>
-                      <span className="text-[28px] font-extrabold text-foreground tracking-tight block">₹{course.price.toLocaleString()}</span>
+                      <p className="text-xs text-text-muted font-medium uppercase tracking-widest mb-1">Total Fee</p>
+                      <span className="text-4xl font-extrabold text-foreground tracking-tight block">
+                        ₹{course.price.toLocaleString()}
+                      </span>
                     </div>
 
-                    <Button variant="primary" size="lg" href={`/contact?subject=Enrollment%20Request%20-%20${encodeURIComponent(course.title)}`} className="w-full text-base group h-14 bg-[#FF6600] text-white hover:bg-[#e65c00] border-none shadow-lg">
-                      Enroll in Course
-                      <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    <Button 
+                      variant="primary" 
+                      size="lg" 
+                      href={`/contact?subject=Enrollment%20Request%20-%20${encodeURIComponent(course.title)}`} 
+                      className="w-full text-base group h-14 bg-gradient-to-r from-[#FF6600] to-[#FF8C00] text-white hover:from-[#e65c00] hover:to-[#FF6600] border-none shadow-[0_0_25px_rgba(255,102,0,0.35)] transition-all overflow-hidden relative"
+                    >
+                      <div className="absolute inset-0 bg-white/20 w-0 group-hover:w-full transition-all duration-300 ease-out" />
+                      <span className="relative z-10 flex items-center justify-center">
+                        Enroll in Course
+                        <ChevronRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                      </span>
                     </Button>
 
-                    <div className="pt-6 border-t border-border-subtle space-y-4">
-                      <div className="flex items-start gap-3 text-text-secondary text-sm">
-                        <Clock className="w-5 h-5 text-aero-blue shrink-0 mt-0.5" />
-                        <div>
-                          <p className="text-[10px] text-text-muted uppercase tracking-wider font-semibold">Duration</p>
-                          <p className="font-semibold text-foreground">{course.duration}</p>
-                        </div>
+                    <div className="pt-6 border-t border-border-subtle/60 grid grid-cols-2 gap-4">
+                      <div className="flex flex-col gap-1">
+                        <p className="text-[10px] text-text-muted uppercase tracking-wider font-semibold">Duration</p>
+                        <p className="font-semibold text-foreground text-sm flex items-center gap-1.5"><Clock className="w-3.5 h-3.5 text-[#FF6600]" /> {course.duration}</p>
                       </div>
-                      <div className="flex items-start gap-3 text-text-secondary text-sm">
-                        <BookOpen className="w-5 h-5 text-aero-blue shrink-0 mt-0.5" />
-                        <div>
-                          <p className="text-[10px] text-text-muted uppercase tracking-wider font-semibold">Lessons</p>
-                          <p className="font-semibold text-foreground">{course.lessons} lessons</p>
-                        </div>
+                      <div className="flex flex-col gap-1">
+                        <p className="text-[10px] text-text-muted uppercase tracking-wider font-semibold">Lessons</p>
+                        <p className="font-semibold text-foreground text-sm flex items-center gap-1.5"><BookOpen className="w-3.5 h-3.5 text-aero-blue" /> {course.lessons} lessons</p>
                       </div>
                     </div>
                   </div>
                 </div>
 
                 {/* Audience & Prerequisites */}
-                <div className="space-y-6">
-                  <GlassCard padding="md" className="space-y-3 border-border-default/60 shadow-md">
-                    <h3 className="text-lg font-bold text-foreground">Who This Course Is For</h3>
+                <div className="space-y-4">
+                  <GlassCard padding="md" hover glow="blue" className="space-y-3 border-border-default/40 bg-surface/30 backdrop-blur-md">
+                    <h3 className="text-sm uppercase tracking-widest font-bold text-foreground flex items-center gap-2">
+                      <ShieldCheck className="w-4 h-4 text-emerald-400" /> Who This Is For
+                    </h3>
                     <p className="text-sm text-text-secondary leading-relaxed">
                       {course.eligibility}
                     </p>
                   </GlassCard>
-                  <GlassCard padding="md" className="space-y-3 border-border-default/60 shadow-md">
-                    <h3 className="text-lg font-bold text-foreground">Prerequisites</h3>
-                    <p className="text-sm text-text-secondary leading-relaxed">
-                      {enrich.prerequisites}
-                    </p>
-                  </GlassCard>
+                  
+                  
                 </div>
 
-                {/* Tools & Topics Covered */}
-                <GlassCard padding="md" className="space-y-3 border-border-default/60 shadow-md">
-                  <h3 className="text-lg font-bold text-foreground">Tools & Topics Covered</h3>
-                  <div className="flex flex-wrap gap-2 pt-1">
-                    {enrich.tools.map((tool, idx) => (
-                      <span key={idx} className="text-xs bg-surface-elevated border border-border-subtle text-foreground px-3 py-1 rounded-full">
-                        {tool}
-                      </span>
-                    ))}
-                    {course.topics.slice(0, 5).map((topic, idx) => (
-                      <span key={idx} className="text-xs bg-aero-blue/10 border border-aero-blue/20 text-aero-blue px-3 py-1 rounded-full">
-                        {topic}
-                      </span>
-                    ))}
-                  </div>
-                </GlassCard>
+                
 
                 {/* Course Inclusions */}
-                <GlassCard padding="md" className="space-y-3 border-border-default/60 shadow-md">
-                  <h3 className="text-lg font-bold text-foreground">What&apos;s Included</h3>
-                  <div className="grid grid-cols-1 gap-3 pl-1">
+                <GlassCard padding="md" className="space-y-4 border-border-default/40 bg-surface/30 backdrop-blur-md">
+                  <h3 className="text-sm uppercase tracking-widest font-bold text-foreground">What&apos;s Included</h3>
+                  <div className="grid grid-cols-1 gap-3">
                     {[
                       "Live instructor-led sessions",
                       "Structured course lessons",
@@ -638,41 +728,52 @@ export default function CourseClient({ courseId }: { courseId: string }) {
                       "Practical engineering examples",
                       "Doubt-solving & guidance support",
                     ].map((inc, idx) => (
-                      <div key={idx} className="flex items-center gap-2 text-sm text-text-secondary">
-                        <CheckCircle2 className="w-4 h-4 text-aero-blue shrink-0" />
+                      <div key={idx} className="flex items-center gap-2.5 text-sm text-text-secondary">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 shadow-[0_0_10px_rgba(16,185,129,0.3)] rounded-full" />
                         <span>{inc}</span>
                       </div>
                     ))}
                   </div>
                 </GlassCard>
               </div>
-            </div>
+            </motion.div>
 
           </div>
         </div>
 
         {/* Bottom Enrollment CTA */}
-        <section className="py-20 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center mt-12">
-          <div className="glass-panel rounded-2xl p-12 relative overflow-hidden">
-            <span className="text-[#FF6600] font-bold text-xs uppercase tracking-widest block mb-4">
-              READY TO START?
-            </span>
-            <h2 className="text-3xl font-bold text-foreground mb-4 tracking-tight">
-              Take the Next Step in Your Aerospace Learning.
+        <motion.section 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="py-24 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center mt-12 relative z-10"
+        >
+          <div className="glass-panel rounded-[2rem] p-10 md:p-16 relative overflow-hidden shadow-2xl border border-border-default bg-surface/40 backdrop-blur-3xl">
+            {/* Animated Glow in CTA */}
+            <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#FF6600]/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-aero-blue/10 rounded-full blur-[100px] translate-y-1/3 -translate-x-1/3 pointer-events-none" />
+            
+            <Badge variant="orange" className="mb-6 px-4 py-1.5 font-bold tracking-widest uppercase">
+              Ready to Start?
+            </Badge>
+            <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-6 tracking-tight relative z-10">
+              Take the Next Step in Your Aerospace Career.
             </h2>
-            <p className="text-text-secondary mb-8 max-w-lg mx-auto">
+            <p className="text-text-secondary text-base md:text-lg mb-10 max-w-2xl mx-auto leading-relaxed relative z-10">
               Build your technical understanding through structured learning, practical engineering examples, and focused guidance from AeroSpark Academy.
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Button variant="primary" size="lg" href={`/contact?subject=Enrollment%20Request%20-%20${encodeURIComponent(course.title)}`} className="bg-[#FF6600] text-white hover:bg-[#e65c00] border-none shadow-lg">
-                Enroll in Course
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 relative z-10">
+              <Button variant="primary" size="lg" href={`/contact?subject=Enrollment%20Request%20-%20${encodeURIComponent(course.title)}`} className="bg-gradient-to-r from-[#FF6600] to-[#FF8C00] text-white hover:from-[#e65c00] hover:to-[#FF6600] border-none shadow-[0_0_25px_rgba(255,102,0,0.4)] w-full sm:w-auto h-14 px-8 text-lg">
+                Enroll Now
+                <ChevronRight className="w-5 h-5 ml-1" />
               </Button>
-              <Button variant="secondary" size="lg" href="/academy">
+              <Button variant="outline" size="lg" href="/academy" className="w-full sm:w-auto h-14 px-8 text-lg bg-surface-elevated hover:bg-surface-hover">
                 Explore Other Courses
               </Button>
             </div>
           </div>
-        </section>
+        </motion.section>
       </main>
       <Footer />
     </>
