@@ -7,6 +7,7 @@ import { GlassCard, StatCard, Badge } from "@/components/ui/cards";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { cn, ensureAbsoluteUrl } from "@/lib/utils";
+import { COURSES } from "@/lib/constants";
 import {
   getAdminDashboardData,
   adminAddUserAction,
@@ -15,7 +16,8 @@ import {
   adminUpdatePaymentStatusAction,
   checkNoteAction,
   deleteResourceAction,
-  deleteClassAction
+  deleteClassAction,
+  issueCertificateAction
 } from "@/app/actions/dashboardActions";
 import {
   Users,
@@ -61,7 +63,12 @@ function AdminDashboardContent() {
   const [schedulingClass, setSchedulingClass] = useState(false);
 
   // Modal control states
-  const [activeModal, setActiveModal] = useState<"student" | "teacher" | "course" | null>(null);
+  const [activeModal, setActiveModal] = useState<"student" | "teacher" | "course" | "certificate" | null>(null);
+  const [certTitle, setCertTitle] = useState("");
+  const [certStudentId, setCertStudentId] = useState<number | "">("");
+  const [certFilePath, setCertFilePath] = useState("");
+  const [issuingCert, setIssuingCert] = useState(false);
+  const [courseSubject, setCourseSubject] = useState("");
   
   // User Form States
   const [formName, setFormName] = useState("");
@@ -214,6 +221,31 @@ function AdminDashboardContent() {
     }
   };
 
+  const handleIssueCertificate = async () => {
+    if (!certTitle || !certStudentId || !certFilePath) {
+      toast.error("Please fill in all required fields.");
+      return;
+    }
+    setIssuingCert(true);
+    try {
+      const res = await issueCertificateAction(certTitle, Number(certStudentId), certFilePath);
+      if (res.success) {
+        toast.success("Certificate issued successfully!");
+        setActiveModal(null);
+        setCertTitle("");
+        setCertStudentId("");
+        setCertFilePath("");
+        fetchAdminData();
+      } else {
+        toast.error(res.error || "Failed to issue certificate.");
+      }
+    } catch (err: any) {
+      toast.error("Error: " + err.message);
+    } finally {
+      setIssuingCert(false);
+    }
+  };
+
   const handleCreateCourse = async () => {
     if (!courseTitle || !courseDate || !courseTeacherId) {
       toast.error("Please fill out all class requirements.");
@@ -225,7 +257,8 @@ function AdminDashboardContent() {
         courseTitle,
         courseDate,
         courseDuration,
-        Number(courseTeacherId)
+        Number(courseTeacherId),
+        courseSubject
       );
       if (res.success) {
         toast.success("New class course scheduled successfully!");
@@ -1088,13 +1121,14 @@ function AdminDashboardContent() {
                       <label className="block text-xs font-mono font-bold text-text-muted uppercase tracking-wider mb-2">
                         Subject / Course Field
                       </label>
-                      <input
-                        type="text"
-                        placeholder={activeModal === "student" ? "e.g. Drone Piloting" : "e.g. Aerodynamics"}
+                      <select
                         value={formSubject}
                         onChange={(e) => setFormSubject(e.target.value)}
-                        className="w-full px-3 py-2.5 bg-surface border border-border-default rounded-xl text-sm text-foreground focus:outline-none focus:border-aero-blue"
-                      />
+                        className="w-full px-3 py-2.5 bg-surface border border-border-default rounded-xl text-sm text-foreground focus:outline-none focus:border-aero-blue outline-none"
+                      >
+                        <option value="">No specific subject</option>
+                        {COURSES.map(c => <option key={c.id} value={c.title}>{c.title}</option>)}
+                      </select>
                     </div>
                   </div>
                   <div className="flex gap-3 justify-end pt-3">
@@ -1148,6 +1182,19 @@ function AdminDashboardContent() {
                     </div>
                     <div>
                       <label className="block text-xs font-mono font-bold text-text-muted uppercase tracking-wider mb-2">
+                        Course / Subject
+                      </label>
+                      <select
+                        value={courseSubject}
+                        onChange={(e) => setCourseSubject(e.target.value)}
+                        className="w-full px-3 py-2.5 bg-surface border border-border-default rounded-xl text-sm text-foreground focus:outline-none focus:border-aero-blue outline-none"
+                      >
+                        <option value="">Select a course...</option>
+                        {COURSES.map(c => <option key={c.id} value={c.title}>{c.title}</option>)}
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-xs font-mono font-bold text-text-muted uppercase tracking-wider mb-2">
                         Duration
                       </label>
                       <input
@@ -1194,6 +1241,71 @@ function AdminDashboardContent() {
                   </div>
                 </>
               )}
+              {/* Issue Certificate Modal */}
+              {activeModal === "certificate" && (
+                <>
+                  <h3 className="text-lg font-bold text-foreground">Issue Certificate</h3>
+                  <div className="space-y-3">
+                    <div>
+                      <label className="block text-xs font-mono font-bold text-text-muted uppercase tracking-wider mb-2">
+                        Certificate Title
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="e.g. AeroSpark Remote Pilot License"
+                        value={certTitle}
+                        onChange={(e) => setCertTitle(e.target.value)}
+                        className="w-full px-3 py-2.5 bg-surface border border-border-default rounded-xl text-sm text-foreground focus:outline-none focus:border-aero-blue"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-mono font-bold text-text-muted uppercase tracking-wider mb-2">
+                        Student
+                      </label>
+                      <select
+                        value={certStudentId}
+                        onChange={(e) => setCertStudentId(Number(e.target.value))}
+                        className="w-full px-3 py-2.5 bg-surface border border-border-default rounded-xl text-sm text-foreground focus:outline-none focus:border-aero-blue outline-none"
+                      >
+                        <option value="">Choose Student...</option>
+                        {students.map((s: any) => (
+                          <option key={s.id} value={s.id}>{s.name} ({s.email})</option>
+                        ))}
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-xs font-mono font-bold text-text-muted uppercase tracking-wider mb-2">
+                        Certificate File URL
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="e.g. /IMAGE/certificate.pdf"
+                        value={certFilePath}
+                        onChange={(e) => setCertFilePath(e.target.value)}
+                        className="w-full px-3 py-2.5 bg-surface border border-border-default rounded-xl text-sm text-foreground focus:outline-none focus:border-aero-blue"
+                      />
+                    </div>
+                  </div>
+                  <div className="flex gap-3 justify-end pt-3">
+                     <Button variant="outline" onClick={() => setActiveModal(null)} disabled={issuingCert}>Cancel</Button>
+                     <Button
+                       variant="primary"
+                       onClick={handleIssueCertificate}
+                       disabled={issuingCert}
+                       className="flex items-center gap-1.5"
+                     >
+                       {issuingCert ? (
+                         <>
+                           <div className="w-3.5 h-3.5 border-2 border-t-white border-r-transparent border-b-transparent border-l-transparent rounded-full animate-spin" />
+                           <span>Issuing...</span>
+                         </>
+                       ) : (
+                         "Issue Certificate"
+                       )}
+                     </Button>
+                  </div>
+                </>
+              )}
             </motion.div>
           </div>
         )}
@@ -1216,3 +1328,5 @@ export default function AdminDashboard() {
     </Suspense>
   );
 }
+
+

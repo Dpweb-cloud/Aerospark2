@@ -178,12 +178,12 @@ export default function AS9100DQualityPage() {
       <Navbar />
       <main className="pb-16">
         {/* Hero */}
-        <section className="pt-28 pb-32 relative overflow-hidden">
+        <section className="mt-16 lg:mt-20 pt-16 lg:pt-20 pb-32 relative overflow-hidden">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-aero-blue/10 blur-[120px] rounded-[100%] pointer-events-none z-0" />
           {/* Background Image */}
           <div className="absolute inset-0 z-0">
             <img
-              src="/service-quality.png"
+              src="/IMAGE/Quality.png"
               alt="Quality Background"
               className="w-full h-full object-cover opacity-35 dark:opacity-45"
             />
@@ -457,3 +457,4 @@ export default function AS9100DQualityPage() {
     </>
   );
 }
+

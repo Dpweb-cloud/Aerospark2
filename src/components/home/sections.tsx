@@ -437,7 +437,7 @@ export function ConsultingSection() {
       badgeBg: "bg-[#FF6600]/10",
       hoverTitleColor: "group-hover:text-[#FF6600]",
       hoverClass: "hover:border-[#FF6600]/40 hover:shadow-[0_15px_35px_rgba(255,102,0,0.06)]",
-      title: "Drone Certification Support",
+      title: "Drone Type Certification Services",
       description: "Get structured support across certification planning, technical documentation, compliance reviews, test readiness, and the UAS certification process.",
       href: "/consultation/uas-certification",
       btnText: "Explore Certification Support",
@@ -460,7 +460,7 @@ export function ConsultingSection() {
       badgeBg: "bg-purple-500/10",
       hoverTitleColor: "group-hover:text-purple-600 dark:group-hover:text-purple-400",
       hoverClass: "hover:border-purple-500/40 hover:shadow-[0_15px_35px_rgba(147,51,234,0.06)]",
-      title: "UAV Design & Product Development",
+      title: "Drone R&D and Product Development Services",
       description: "Engineering support for UAV configuration, airframe design, payload integration, subsystem selection, performance analysis, prototyping, and design refinement.",
       href: "/consultation/drone-rd",
       btnText: "Explore UAV Engineering",
@@ -482,7 +482,7 @@ export function ConsultingSection() {
       badgeBg: "bg-blue-500/10",
       hoverTitleColor: "group-hover:text-blue-600 dark:group-hover:text-blue-400",
       hoverClass: "hover:border-blue-500/40 hover:shadow-[0_15px_35px_rgba(59,130,246,0.06)]",
-      title: "Design, CFD & Simulation",
+      title: "Engineering Design & Simulation Services",
       description: "Use CAD/CAE, CFD, aerodynamic analysis, and engineering simulation to evaluate designs, understand performance, and make better technical decisions.",
       href: "/consultation/design-simulation",
       btnText: "Explore Design & Simulation",
@@ -503,7 +503,7 @@ export function ConsultingSection() {
       badgeBg: "bg-emerald-500/10",
       hoverTitleColor: "group-hover:text-emerald-600 dark:group-hover:text-emerald-400",
       hoverClass: "hover:border-emerald-500/40 hover:shadow-[0_15px_35px_rgba(16,185,129,0.06)]",
-      title: "Aerospace Quality Systems",
+      title: "Quality Management System Services",
       description: "Build stronger aerospace processes with support across quality management systems, documentation, risk management, process control, corrective actions, and audit readiness.",
       href: "/consultation/as9100d-quality",
       btnText: "Explore Quality Services",
@@ -762,7 +762,7 @@ export function TestimonialsSection() {
               What Engineers & Teams Say
             </h2>
             <p className="text-text-secondary text-base md:text-lg leading-relaxed">
-              Real feedback from learners, engineers, and teams who have worked with AeroSpark across aerospace education, UAV engineering, and technical consulting.
+              Don't just take our word for it—here's what the students, engineers, and teams we've worked with have to say about their experience at AeroSpark.
             </p>
           </div>
           
@@ -789,24 +789,28 @@ export function TestimonialsSection() {
           <div ref={scrollContainerRef} className="flex gap-6 overflow-x-auto hide-scrollbar pb-12 pt-4 scroll-smooth snap-x snap-mandatory items-stretch">
             {publishedTestimonials.map((t) => (
               <motion.div key={t.id} variants={staggerItem} className="h-auto flex flex-col snap-start shrink-0 w-[85vw] md:w-[450px]">
-                <div className="flex-1 bg-surface rounded-2xl p-8 shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-border-default/40 flex flex-col relative transition-all duration-300 hover:shadow-[0_15px_40px_rgb(0,0,0,0.1)] hover:-translate-y-1">
-                  <div className="flex gap-4 mb-4">
-                    <Quote className="w-10 h-10 text-border-default/70 shrink-0 fill-current opacity-50" />
-                    <h4 className="text-xl font-bold text-foreground mt-1">
-                      {t.title}
-                    </h4>
+                <div className="flex-1 bg-white dark:bg-surface-elevated/50 rounded-[24px] p-8 md:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)] border border-border-default/50 flex flex-col relative transition-all duration-500 hover:-translate-y-2 overflow-hidden group cursor-default">
+                  
+                  {/* Huge Watermark Quote */}
+                  <div className="absolute top-6 right-6 text-[#FF6600]/10 group-hover:text-[#FF6600]/20 transition-colors duration-500">
+                    <Quote className="w-16 h-16 fill-current" />
                   </div>
-                  <p className="text-sm text-text-secondary leading-relaxed flex-1 mb-8 italic">
-                    {t.content}
-                  </p>
-                  <div className="flex items-center justify-end gap-3 mt-auto">
-                    {/* Profile Picture Avatar */}
-                    <div className={`w-11 h-11 rounded-full flex flex-shrink-0 items-center justify-center font-bold text-white shadow-md ${t.avatarColor}`}>
+
+                  {/* Content */}
+                  <div className="relative z-10 flex-1 mb-8">
+                    <p className="text-[16px] md:text-[17px] text-foreground/80 leading-relaxed font-medium">
+                      "{t.content}"
+                    </p>
+                  </div>
+                  
+                  {/* Bottom User Info */}
+                  <div className="flex items-center gap-4 relative z-10 mt-auto pt-6 border-t border-border-subtle/50">
+                    <div className={`w-12 h-12 rounded-full flex flex-shrink-0 items-center justify-center text-lg font-bold text-white shadow-lg ${t.avatarColor}`}>
                       {t.name.charAt(0)}
                     </div>
-                    <div className="text-left">
-                      <p className="text-sm font-bold text-foreground leading-tight">{t.name}</p>
-                      <p className="text-xs text-text-muted">{t.role}</p>
+                    <div className="flex flex-col">
+                      <p className="text-[15px] font-extrabold text-foreground leading-tight">{t.name}</p>
+                      <p className="text-[13px] text-text-muted font-medium mt-0.5">{t.role}</p>
                     </div>
                   </div>
                 </div>

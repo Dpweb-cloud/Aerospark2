@@ -166,19 +166,28 @@ export default function AboutClient() {
                   Learning and Engineering
                 </motion.h1>
 
+                <motion.p
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.3 }}
+                  className="text-lg text-text-secondary leading-relaxed max-w-xl"
+                >
+                  AeroSpark combines practical engineering, advanced simulation, and structured technical training to solve real-world aerospace challenges. We are dedicated to building the next generation of flight technologies.
+                </motion.p>
+
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.35 }}
-                  className="flex flex-wrap gap-4"
+                  transition={{ duration: 0.6, delay: 0.4 }}
+                  className="flex flex-wrap gap-3 pt-2"
                 >
-                  <Button variant="primary" size="lg" href="/consultation" className="bg-[#FF6600] text-white hover:bg-[#e65c00] border-none shadow-lg shadow-[#FF6600]/20">
-                    Discuss Your Project <ArrowRight className="w-4 h-4" />
-                  </Button>
-                  <Button variant="secondary" size="lg" href="/academy">
-                    Explore Academy
-                  </Button>
+                  {['UAV Design', 'CFD Analysis', 'Technical Training', 'Aerospace Consulting'].map((tag, idx) => (
+                    <span key={idx} className="px-4 py-2 rounded-full text-xs font-bold bg-surface-elevated/50 border border-border-subtle/60 text-text-secondary shadow-sm hover:border-[#FF6600]/40 hover:text-foreground transition-colors cursor-default backdrop-blur-sm">
+                      {tag}
+                    </span>
+                  ))}
                 </motion.div>
+
               </div>
 
               {/* IMAGE */}
@@ -201,20 +210,7 @@ export default function AboutClient() {
                 </div>
 
                 {/* Floating tags */}
-                <motion.div
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.9 }}
-                  className="absolute -bottom-5 left-0 bg-white dark:bg-surface border border-border-default/60 shadow-xl rounded-2xl px-4 py-3 flex items-center gap-3"
-                >
-                  <div className="w-8 h-8 rounded-xl bg-[#FF6600]/15 flex items-center justify-center text-[#FF6600]">
-                    <Rocket className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <p className="text-[10px] text-text-muted font-bold uppercase tracking-wider">Founded</p>
-                    <p className="text-sm font-bold text-foreground">Since 2020</p>
-                  </div>
-                </motion.div>
+
 
                 <motion.div
                   initial={{ opacity: 0, y: -12 }}

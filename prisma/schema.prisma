@@ -57,6 +57,7 @@ model VerificationCode {
 model Class {
   id          Int          @id @default(autoincrement())
   title       String
+  subject     String?
   date        DateTime
   duration    String
   teacherId   Int

@@ -29,7 +29,7 @@ export const COURSES = [
     price: 1499,
     rating: 4.9,
     students: 1240,
-    image: "/banner_dgca_1784991714820.png",
+    image: "/IMAGE/DGCA rules and Regulations.png",
     tags: ["DGCA", "UAS", "Compliance", "India"],
     modules: [
         {
@@ -127,7 +127,7 @@ export const COURSES = [
     price: 1999,
     rating: 4.8,
     students: 890,
-    image: "/banner_faa_1784991724685.png",
+    image: "/IMAGE/FAA rules and Regulations.png",
     tags: ["FAA", "Part 107", "UAS", "USA"],
     modules: [
         {
@@ -225,7 +225,7 @@ export const COURSES = [
     price: 1999,
     rating: 4.7,
     students: 620,
-    image: "/banner_easa.png",
+    image: "/IMAGE/EASA rules and Regulations.png",
     tags: ["EASA", "Europe", "UAS", "Compliance"],
     modules: [
         {
@@ -323,7 +323,7 @@ export const COURSES = [
     price: 1499,
     rating: 4.9,
     students: 2100,
-    image: "/banner_pixhawk_1784992045334.png",
+    image: "/IMAGE/Aerospace Engineering Fundamentals.png",
     tags: ["Aerospace", "Aviation", "Engineering", "Fundamentals"],
     modules: [
         {
@@ -421,7 +421,7 @@ export const COURSES = [
     price: 1999,
     rating: 4.8,
     students: 1580,
-    image: "/banner_aerodynamics_1784991955683.png",
+    image: "/IMAGE/Aerodynamics.png",
     tags: ["Aerodynamics", "Airfoil", "Lift", "Drag"],
     modules: [
         {
@@ -741,7 +741,7 @@ export const COURSES = [
     price: 4999,
     rating: 4.7,
     students: 1580,
-    image: "/banner_aero_1784991736912.png",
+    image: "/IMAGE/CATIA V.png",
     tags: ["CATIA", "CAD", "Aircraft", "3D Design"],
     modules: [
         {
@@ -891,7 +891,7 @@ export const COURSES = [
     price: 4999,
     rating: 4.8,
     students: 920,
-    image: "/banner_siemens_1784991985646.png",
+    image: "/IMAGE/NX Cad.png",
     tags: ["NX CAD", "Siemens", "CAD", "3D Modeling"],
     modules: [
         {
@@ -1041,7 +1041,7 @@ export const COURSES = [
     price: 2499,
     rating: 4.9,
     students: 540,
-    image: "/banner_math_1784991995091.png",
+    image: "/IMAGE/Mathematics.png",
     tags: ["Mathematics", "FEA", "CFD", "Simulation"],
     modules: [
         {
@@ -1139,7 +1139,7 @@ export const COURSES = [
     price: 4999,
     rating: 4.7,
     students: 680,
-    image: "/banner_fea_1784992005177.png",
+    image: "/IMAGE/FEA.png",
     tags: ["FEA", "Structural", "Simulation", "CAE"],
     modules: [
         {
@@ -1289,7 +1289,7 @@ export const COURSES = [
     price: 4999,
     rating: 4.8,
     students: 720,
-    image: "/banner_cfd_1784992023667.png",
+    image: "/IMAGE/CFD.png",
     tags: ["CFD", "Aerodynamics", "Simulation", "Fluids"],
     modules: [
         {
@@ -1439,7 +1439,7 @@ export const COURSES = [
     price: 2999,
     rating: 4.6,
     students: 650,
-    image: "/banner_as9100d_1784992034263.png",
+    image: "/IMAGE/Quality.png",
     tags: ["AS9100D", "Quality", "Aerospace", "Compliance"],
     modules: [
         {
@@ -1563,7 +1563,7 @@ export const COURSES = [
     price: 2999,
     rating: 4.8,
     students: 500,
-    image: "/jet_engine_banner.png",
+    image: "/IMAGE/Jet Engine.png",
     tags: ["Aviation", "Engineering"],
     modules: [
         {
@@ -1687,7 +1687,7 @@ export const COURSES = [
     price: 2499,
     rating: 4.9,
     students: 500,
-    image: "/hydraulic_systems_banner.png",
+    image: "/IMAGE/Hydraulic.png",
     tags: ["Aviation", "Engineering"],
     modules: [
         {
@@ -1960,7 +1960,7 @@ export const BLOG_POSTS = [
     author: "Vikram Rao",
     date: "2026-04-18",
     readTime: "10 min",
-    image: "/banner_as9100d_1784992034263.png",
+    image: "/IMAGE/Quality.png",
   },
   {
     id: "digital-twin",
@@ -2031,3 +2031,5 @@ export const TESTIMONIALS = [
   },
 ,
 ];
+
+

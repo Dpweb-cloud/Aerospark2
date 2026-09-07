@@ -20,17 +20,17 @@ const services = [
   {
     id: "uas-certification",
     tag: "CERTIFICATION",
-    title: "Drone Certification Support",
+    title: "Drone Type Certification Services",
     description: "Get structured support across certification planning, technical documentation, compliance reviews, test readiness, and the UAS certification process.",
     btnText: "Explore Certification Support →",
     href: "/consultation/uas-certification",
     glow: "blue" as const,
-    image: "/service-cert.png",
+    image: "/IMAGE/DGCA type Certification.png",
   },
   {
     id: "drone-rd",
     tag: "DESIGN & DEVELOPMENT",
-    title: "UAV Design & Product Development",
+    title: "Drone R&D and Product Development Services",
     description: "Engineering support for UAV configuration, airframe design, payload integration, subsystem selection, performance analysis, prototyping, and design refinement.",
     btnText: "Explore UAV Engineering →",
     href: "/consultation/drone-rd",
@@ -40,22 +40,22 @@ const services = [
   {
     id: "design-simulation",
     tag: "ANALYSIS & SIMULATION",
-    title: "Design, CFD & Simulation",
+    title: "Engineering Design & Simulation Services",
     description: "Use CAD/CAE, CFD, aerodynamic analysis, and engineering simulation to evaluate designs, understand performance, and make better technical decisions.",
     btnText: "Explore Design & Simulation →",
     href: "/consultation/design-simulation",
     glow: "blue" as const,
-    image: "/service-sim.png",
+    image: "/IMAGE/Design, Simulation.png",
   },
   {
     id: "as9100d-quality",
     tag: "QUALITY & COMPLIANCE",
-    title: "Aerospace Quality Systems",
+    title: "Quality Management System Services",
     description: "Build stronger aerospace processes with support across quality management systems, documentation, risk management, process control, corrective actions, and audit readiness.",
     btnText: "Explore Quality Services →",
     href: "/consultation/as9100d-quality",
     glow: "red" as const,
-    image: "/service-quality.png",
+    image: "/IMAGE/Quality.png",
   },
 ];
 
@@ -490,8 +490,8 @@ export default function ConsultationClient() {
                         <option value="" className="bg-surface text-text-muted">
                           Select a service
                         </option>
-                        <option value="Drone Certification Support" className="bg-surface">
-                          Drone Certification Support
+                        <option value="Drone Type Certification Services" className="bg-surface">
+                          Drone Type Certification Services
                         </option>
                         <option value="UAV Design & Development" className="bg-surface">
                           UAV Design & Development
@@ -577,3 +577,4 @@ export default function ConsultationClient() {
     </>
   );
 }
+

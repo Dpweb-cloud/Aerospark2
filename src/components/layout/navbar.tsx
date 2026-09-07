@@ -85,9 +85,60 @@ export function Navbar() {
             </Link>
 
             {/* Desktop Nav */}
-            <nav className="hidden lg:flex items-center gap-1">
+            <nav className="hidden lg:flex items-center gap-6">
               {NAV_LINKS.map((link) => {
-                const isActive = mounted && pathname === link.href;
+                const isConsultation = link.href === "/consultation";
+                const isActive = mounted && (pathname === link.href || (isConsultation && pathname.startsWith("/consultation/")));
+
+                if (isConsultation) {
+                  return (
+                    <div key={link.href} className="relative group">
+                      <Link
+                        href={link.href}
+                        className={cn(
+                          "relative px-4 py-2 text-sm font-bold rounded-xl transition-all duration-300 flex items-center justify-center gap-1.5",
+                          isActive
+                            ? "text-white shadow-md shadow-[#FF6600]/25"
+                            : "text-text-secondary hover:text-foreground font-medium"
+                        )}
+                      >
+                        <span className="relative z-10">{link.label}</span>
+                        <svg className={cn("w-3.5 h-3.5 relative z-10 transition-transform duration-300 group-hover:-rotate-180", isActive ? "text-white" : "text-text-secondary group-hover:text-foreground")} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" /></svg>
+                        
+                        {isActive && (
+                          <motion.div
+                            layoutId="navbar-indicator"
+                            className="absolute inset-0 bg-[#FF6600] rounded-xl z-0"
+                            transition={{
+                              type: "spring",
+                              stiffness: 400,
+                              damping: 30,
+                            }}
+                          />
+                        )}
+                      </Link>
+                      
+                      {/* Dropdown Menu */}
+                      <div className="absolute top-full left-1/2 -translate-x-1/2 mt-1 w-[260px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top scale-95 group-hover:scale-100 z-50">
+                        <div className="bg-surface-elevated/95 dark:bg-surface-elevated/95 backdrop-blur-xl border border-border-default/60 shadow-xl rounded-2xl p-2 flex flex-col gap-1">
+                          <Link href="/consultation/uas-certification" className="block px-4 py-3 text-[13.5px] rounded-xl hover:bg-background/80 hover:text-[#FF6600] transition-colors font-semibold text-text-secondary">
+                            Drone Type Certification Services
+                          </Link>
+                          <Link href="/consultation/drone-rd" className="block px-4 py-3 text-[13.5px] rounded-xl hover:bg-background/80 hover:text-[#FF6600] transition-colors font-semibold text-text-secondary">
+                            Drone R&D and Product Development
+                          </Link>
+                          <Link href="/consultation/design-simulation" className="block px-4 py-3 text-[13.5px] rounded-xl hover:bg-background/80 hover:text-[#FF6600] transition-colors font-semibold text-text-secondary">
+                            Engineering Design & Simulation
+                          </Link>
+                          <Link href="/consultation/as9100d-quality" className="block px-4 py-3 text-[13.5px] rounded-xl hover:bg-background/80 hover:text-[#FF6600] transition-colors font-semibold text-text-secondary">
+                            Quality Management System Services
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                }
+
                 return (
                   <Link
                     key={link.href}

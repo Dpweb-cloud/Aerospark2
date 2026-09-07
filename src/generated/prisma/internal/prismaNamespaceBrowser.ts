@@ -112,6 +112,7 @@ export type VerificationCodeScalarFieldEnum = (typeof VerificationCodeScalarFiel
 export const ClassScalarFieldEnum = {
   id: 'id',
   title: 'title',
+  subject: 'subject',
   date: 'date',
   duration: 'duration',
   teacherId: 'teacherId'
@@ -227,6 +228,7 @@ export type VerificationCodeOrderByRelevanceFieldEnum = (typeof VerificationCode
 
 export const ClassOrderByRelevanceFieldEnum = {
   title: 'title',
+  subject: 'subject',
   duration: 'duration'
 } as const
 

@@ -7,6 +7,7 @@ import { GlassCard, StatCard, Badge } from "@/components/ui/cards";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { cn, ensureAbsoluteUrl } from "@/lib/utils";
+import { COURSES } from "@/lib/constants";
 import {
   getTeacherDashboardData,
   scheduleClassAction,
@@ -52,6 +53,7 @@ function TeacherDashboardContent() {
   const [classDate, setClassDate] = useState("");
   const [classTime, setClassTime] = useState("");
   const [classDuration, setClassDuration] = useState("");
+  const [classSubject, setClassSubject] = useState("");
   const [scheduling, setScheduling] = useState(false);
 
   // New Resource Form State
@@ -102,7 +104,7 @@ function TeacherDashboardContent() {
     setScheduling(true);
     try {
       const combinedDateTime = `${classDate}T${classTime}`;
-      const res = await scheduleClassAction(classTitle, combinedDateTime, classDuration);
+      const res = await scheduleClassAction(classTitle, combinedDateTime, classDuration, classSubject);
       if (res.success) {
         toast.success("Class scheduled successfully!");
         setClassTitle("");
@@ -447,6 +449,20 @@ function TeacherDashboardContent() {
                       className="w-full px-3 py-2 bg-surface border border-border-default rounded-xl text-sm text-foreground focus:outline-none focus:border-aero-blue"
                       required
                     />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-mono font-bold text-text-muted uppercase tracking-wider mb-2">
+                      Course / Subject
+                    </label>
+                    <select
+                      value={classSubject}
+                      onChange={(e) => setClassSubject(e.target.value)}
+                      className="w-full px-3 py-2 bg-surface border border-border-default rounded-xl text-sm text-foreground focus:outline-none focus:border-aero-blue"
+                      required
+                    >
+                      <option value="">Select a course...</option>
+                      {COURSES.map(c => <option key={c.id} value={c.title}>{c.title}</option>)}
+                    </select>
                   </div>
                   <div>
                     <label className="block text-xs font-mono font-bold text-text-muted uppercase tracking-wider mb-2">
@@ -1029,3 +1045,5 @@ export default function TeacherDashboard() {
     </Suspense>
   );
 }
+
+

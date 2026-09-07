@@ -39,6 +39,7 @@ export type ClassSumAggregateOutputType = {
 export type ClassMinAggregateOutputType = {
   id: number | null
   title: string | null
+  subject: string | null
   date: Date | null
   duration: string | null
   teacherId: number | null
@@ -47,6 +48,7 @@ export type ClassMinAggregateOutputType = {
 export type ClassMaxAggregateOutputType = {
   id: number | null
   title: string | null
+  subject: string | null
   date: Date | null
   duration: string | null
   teacherId: number | null
@@ -55,6 +57,7 @@ export type ClassMaxAggregateOutputType = {
 export type ClassCountAggregateOutputType = {
   id: number
   title: number
+  subject: number
   date: number
   duration: number
   teacherId: number
@@ -75,6 +78,7 @@ export type ClassSumAggregateInputType = {
 export type ClassMinAggregateInputType = {
   id?: true
   title?: true
+  subject?: true
   date?: true
   duration?: true
   teacherId?: true
@@ -83,6 +87,7 @@ export type ClassMinAggregateInputType = {
 export type ClassMaxAggregateInputType = {
   id?: true
   title?: true
+  subject?: true
   date?: true
   duration?: true
   teacherId?: true
@@ -91,6 +96,7 @@ export type ClassMaxAggregateInputType = {
 export type ClassCountAggregateInputType = {
   id?: true
   title?: true
+  subject?: true
   date?: true
   duration?: true
   teacherId?: true
@@ -186,6 +192,7 @@ export type ClassGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
 export type ClassGroupByOutputType = {
   id: number
   title: string
+  subject: string | null
   date: Date
   duration: string
   teacherId: number
@@ -217,6 +224,7 @@ export type ClassWhereInput = {
   NOT?: Prisma.ClassWhereInput | Prisma.ClassWhereInput[]
   id?: Prisma.IntFilter<"Class"> | number
   title?: Prisma.StringFilter<"Class"> | string
+  subject?: Prisma.StringNullableFilter<"Class"> | string | null
   date?: Prisma.DateTimeFilter<"Class"> | Date | string
   duration?: Prisma.StringFilter<"Class"> | string
   teacherId?: Prisma.IntFilter<"Class"> | number
@@ -228,6 +236,7 @@ export type ClassWhereInput = {
 export type ClassOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  subject?: Prisma.SortOrderInput | Prisma.SortOrder
   date?: Prisma.SortOrder
   duration?: Prisma.SortOrder
   teacherId?: Prisma.SortOrder
@@ -243,6 +252,7 @@ export type ClassWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.ClassWhereInput[]
   NOT?: Prisma.ClassWhereInput | Prisma.ClassWhereInput[]
   title?: Prisma.StringFilter<"Class"> | string
+  subject?: Prisma.StringNullableFilter<"Class"> | string | null
   date?: Prisma.DateTimeFilter<"Class"> | Date | string
   duration?: Prisma.StringFilter<"Class"> | string
   teacherId?: Prisma.IntFilter<"Class"> | number
@@ -254,6 +264,7 @@ export type ClassWhereUniqueInput = Prisma.AtLeast<{
 export type ClassOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  subject?: Prisma.SortOrderInput | Prisma.SortOrder
   date?: Prisma.SortOrder
   duration?: Prisma.SortOrder
   teacherId?: Prisma.SortOrder
@@ -270,6 +281,7 @@ export type ClassScalarWhereWithAggregatesInput = {
   NOT?: Prisma.ClassScalarWhereWithAggregatesInput | Prisma.ClassScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"Class"> | number
   title?: Prisma.StringWithAggregatesFilter<"Class"> | string
+  subject?: Prisma.StringNullableWithAggregatesFilter<"Class"> | string | null
   date?: Prisma.DateTimeWithAggregatesFilter<"Class"> | Date | string
   duration?: Prisma.StringWithAggregatesFilter<"Class"> | string
   teacherId?: Prisma.IntWithAggregatesFilter<"Class"> | number
@@ -277,6 +289,7 @@ export type ClassScalarWhereWithAggregatesInput = {
 
 export type ClassCreateInput = {
   title: string
+  subject?: string | null
   date: Date | string
   duration: string
   teacher: Prisma.UserCreateNestedOneWithoutTeacherClassesInput
@@ -287,6 +300,7 @@ export type ClassCreateInput = {
 export type ClassUncheckedCreateInput = {
   id?: number
   title: string
+  subject?: string | null
   date: Date | string
   duration: string
   teacherId: number
@@ -296,6 +310,7 @@ export type ClassUncheckedCreateInput = {
 
 export type ClassUpdateInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   duration?: Prisma.StringFieldUpdateOperationsInput | string
   teacher?: Prisma.UserUpdateOneRequiredWithoutTeacherClassesNestedInput
@@ -306,6 +321,7 @@ export type ClassUpdateInput = {
 export type ClassUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   duration?: Prisma.StringFieldUpdateOperationsInput | string
   teacherId?: Prisma.IntFieldUpdateOperationsInput | number
@@ -316,6 +332,7 @@ export type ClassUncheckedUpdateInput = {
 export type ClassCreateManyInput = {
   id?: number
   title: string
+  subject?: string | null
   date: Date | string
   duration: string
   teacherId: number
@@ -323,6 +340,7 @@ export type ClassCreateManyInput = {
 
 export type ClassUpdateManyMutationInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   duration?: Prisma.StringFieldUpdateOperationsInput | string
 }
@@ -330,6 +348,7 @@ export type ClassUpdateManyMutationInput = {
 export type ClassUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   duration?: Prisma.StringFieldUpdateOperationsInput | string
   teacherId?: Prisma.IntFieldUpdateOperationsInput | number
@@ -354,6 +373,7 @@ export type ClassOrderByRelevanceInput = {
 export type ClassCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  subject?: Prisma.SortOrder
   date?: Prisma.SortOrder
   duration?: Prisma.SortOrder
   teacherId?: Prisma.SortOrder
@@ -367,6 +387,7 @@ export type ClassAvgOrderByAggregateInput = {
 export type ClassMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  subject?: Prisma.SortOrder
   date?: Prisma.SortOrder
   duration?: Prisma.SortOrder
   teacherId?: Prisma.SortOrder
@@ -375,6 +396,7 @@ export type ClassMaxOrderByAggregateInput = {
 export type ClassMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  subject?: Prisma.SortOrder
   date?: Prisma.SortOrder
   duration?: Prisma.SortOrder
   teacherId?: Prisma.SortOrder
@@ -488,6 +510,7 @@ export type ClassUpdateOneWithoutAttendanceNestedInput = {
 
 export type ClassCreateWithoutStudentsInput = {
   title: string
+  subject?: string | null
   date: Date | string
   duration: string
   teacher: Prisma.UserCreateNestedOneWithoutTeacherClassesInput
@@ -497,6 +520,7 @@ export type ClassCreateWithoutStudentsInput = {
 export type ClassUncheckedCreateWithoutStudentsInput = {
   id?: number
   title: string
+  subject?: string | null
   date: Date | string
   duration: string
   teacherId: number
@@ -510,6 +534,7 @@ export type ClassCreateOrConnectWithoutStudentsInput = {
 
 export type ClassCreateWithoutTeacherInput = {
   title: string
+  subject?: string | null
   date: Date | string
   duration: string
   students?: Prisma.UserCreateNestedManyWithoutStudentClassesInput
@@ -519,6 +544,7 @@ export type ClassCreateWithoutTeacherInput = {
 export type ClassUncheckedCreateWithoutTeacherInput = {
   id?: number
   title: string
+  subject?: string | null
   date: Date | string
   duration: string
   students?: Prisma.UserUncheckedCreateNestedManyWithoutStudentClassesInput
@@ -557,6 +583,7 @@ export type ClassScalarWhereInput = {
   NOT?: Prisma.ClassScalarWhereInput | Prisma.ClassScalarWhereInput[]
   id?: Prisma.IntFilter<"Class"> | number
   title?: Prisma.StringFilter<"Class"> | string
+  subject?: Prisma.StringNullableFilter<"Class"> | string | null
   date?: Prisma.DateTimeFilter<"Class"> | Date | string
   duration?: Prisma.StringFilter<"Class"> | string
   teacherId?: Prisma.IntFilter<"Class"> | number
@@ -580,6 +607,7 @@ export type ClassUpdateManyWithWhereWithoutTeacherInput = {
 
 export type ClassCreateWithoutAttendanceInput = {
   title: string
+  subject?: string | null
   date: Date | string
   duration: string
   teacher: Prisma.UserCreateNestedOneWithoutTeacherClassesInput
@@ -589,6 +617,7 @@ export type ClassCreateWithoutAttendanceInput = {
 export type ClassUncheckedCreateWithoutAttendanceInput = {
   id?: number
   title: string
+  subject?: string | null
   date: Date | string
   duration: string
   teacherId: number
@@ -613,6 +642,7 @@ export type ClassUpdateToOneWithWhereWithoutAttendanceInput = {
 
 export type ClassUpdateWithoutAttendanceInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   duration?: Prisma.StringFieldUpdateOperationsInput | string
   teacher?: Prisma.UserUpdateOneRequiredWithoutTeacherClassesNestedInput
@@ -622,6 +652,7 @@ export type ClassUpdateWithoutAttendanceInput = {
 export type ClassUncheckedUpdateWithoutAttendanceInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   duration?: Prisma.StringFieldUpdateOperationsInput | string
   teacherId?: Prisma.IntFieldUpdateOperationsInput | number
@@ -631,12 +662,14 @@ export type ClassUncheckedUpdateWithoutAttendanceInput = {
 export type ClassCreateManyTeacherInput = {
   id?: number
   title: string
+  subject?: string | null
   date: Date | string
   duration: string
 }
 
 export type ClassUpdateWithoutStudentsInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   duration?: Prisma.StringFieldUpdateOperationsInput | string
   teacher?: Prisma.UserUpdateOneRequiredWithoutTeacherClassesNestedInput
@@ -646,6 +679,7 @@ export type ClassUpdateWithoutStudentsInput = {
 export type ClassUncheckedUpdateWithoutStudentsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   duration?: Prisma.StringFieldUpdateOperationsInput | string
   teacherId?: Prisma.IntFieldUpdateOperationsInput | number
@@ -655,6 +689,7 @@ export type ClassUncheckedUpdateWithoutStudentsInput = {
 export type ClassUncheckedUpdateManyWithoutStudentsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   duration?: Prisma.StringFieldUpdateOperationsInput | string
   teacherId?: Prisma.IntFieldUpdateOperationsInput | number
@@ -662,6 +697,7 @@ export type ClassUncheckedUpdateManyWithoutStudentsInput = {
 
 export type ClassUpdateWithoutTeacherInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   duration?: Prisma.StringFieldUpdateOperationsInput | string
   students?: Prisma.UserUpdateManyWithoutStudentClassesNestedInput
@@ -671,6 +707,7 @@ export type ClassUpdateWithoutTeacherInput = {
 export type ClassUncheckedUpdateWithoutTeacherInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   duration?: Prisma.StringFieldUpdateOperationsInput | string
   students?: Prisma.UserUncheckedUpdateManyWithoutStudentClassesNestedInput
@@ -680,6 +717,7 @@ export type ClassUncheckedUpdateWithoutTeacherInput = {
 export type ClassUncheckedUpdateManyWithoutTeacherInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   duration?: Prisma.StringFieldUpdateOperationsInput | string
 }
@@ -727,6 +765,7 @@ export type ClassCountOutputTypeCountAttendanceArgs<ExtArgs extends runtime.Type
 export type ClassSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   title?: boolean
+  subject?: boolean
   date?: boolean
   duration?: boolean
   teacherId?: boolean
@@ -741,12 +780,13 @@ export type ClassSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
 export type ClassSelectScalar = {
   id?: boolean
   title?: boolean
+  subject?: boolean
   date?: boolean
   duration?: boolean
   teacherId?: boolean
 }
 
-export type ClassOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "date" | "duration" | "teacherId", ExtArgs["result"]["class"]>
+export type ClassOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "subject" | "date" | "duration" | "teacherId", ExtArgs["result"]["class"]>
 export type ClassInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   teacher?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   students?: boolean | Prisma.Class$studentsArgs<ExtArgs>
@@ -764,6 +804,7 @@ export type $ClassPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     title: string
+    subject: string | null
     date: Date
     duration: string
     teacherId: number
@@ -1141,6 +1182,7 @@ export interface Prisma__ClassClient<T, Null = never, ExtArgs extends runtime.Ty
 export interface ClassFieldRefs {
   readonly id: Prisma.FieldRef<"Class", 'Int'>
   readonly title: Prisma.FieldRef<"Class", 'String'>
+  readonly subject: Prisma.FieldRef<"Class", 'String'>
   readonly date: Prisma.FieldRef<"Class", 'DateTime'>
   readonly duration: Prisma.FieldRef<"Class", 'String'>
   readonly teacherId: Prisma.FieldRef<"Class", 'Int'>

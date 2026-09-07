@@ -264,6 +264,7 @@ export async function getTeacherDashboardData() {
         classes: classes.map(c => ({
           id: c.id,
           title: c.title,
+          subject: c.subject,
           date: c.date,
           duration: c.duration,
           students: c.students.map(s => {
@@ -300,17 +301,25 @@ export async function getTeacherDashboardData() {
   }
 }
 
-export async function scheduleClassAction(title: string, dateStr: string, duration: string) {
+export async function scheduleClassAction(title: string, dateStr: string, duration: string, subject: string) {
   try {
     const session = await getVerifiedSession(["TEACHER"]);
     const teacherId = session.id as number;
 
+    const students = await prisma.user.findMany({
+      where: { role: "STUDENT", subject }
+    });
+
     const newClass = await prisma.class.create({
       data: {
         title,
+        subject,
         date: new Date(dateStr),
         duration,
-        teacherId
+        teacherId,
+        students: {
+          connect: students.map(s => ({ id: s.id }))
+        }
       }
     });
 
@@ -450,6 +459,11 @@ export async function getAdminDashboardData() {
       orderBy: { date: "desc" }
     });
 
+    const certificates = await prisma.certificate.findMany({
+      include: { student: { select: { name: true } } },
+      orderBy: { date: "desc" }
+    });
+
     const resources = await prisma.resource.findMany({
       include: { teacher: { select: { name: true } } },
       orderBy: { createdAt: "desc" }
@@ -488,9 +502,17 @@ export async function getAdminDashboardData() {
         classesList: classes.map(c => ({
           id: c.id,
           title: c.title,
+          subject: c.subject,
           date: c.date,
           duration: c.duration,
           teacherName: c.teacher?.name || "Instructor"
+        })),
+        certificatesList: certificates.map(cert => ({
+          id: cert.id,
+          title: cert.title,
+          date: cert.date,
+          filePath: cert.filePath,
+          studentName: cert.student?.name || "Student"
         })),
         resourcesList: resources.map(r => ({
           id: r.id,
@@ -705,6 +727,22 @@ export async function adminAddUserAction(
       }
     });
 
+    if (role === "STUDENT" && subject) {
+      const existingClasses = await prisma.class.findMany({
+        where: { subject }
+      });
+      if (existingClasses.length > 0) {
+        await prisma.user.update({
+          where: { id: user.id },
+          data: {
+            studentClasses: {
+              connect: existingClasses.map(c => ({ id: c.id }))
+            }
+          }
+        });
+      }
+    }
+
     return { success: true, data: user };
   } catch (error: any) {
     if (error.message.includes("Can't reach database") || error.message.includes("DATABASE_URL") || error.message.includes("PrismaClient")) {
@@ -739,16 +777,24 @@ export async function adminDeleteUserAction(userId: number) {
   }
 }
 
-export async function adminCreateClassAction(title: string, dateStr: string, duration: string, teacherId: number) {
+export async function adminCreateClassAction(title: string, dateStr: string, duration: string, teacherId: number, subject: string) {
   try {
     await getVerifiedSession(["ADMIN"]);
+
+    const students = await prisma.user.findMany({
+      where: { role: "STUDENT", subject }
+    });
 
     const newClass = await prisma.class.create({
       data: {
         title,
+        subject,
         date: new Date(dateStr),
         duration,
-        teacherId
+        teacherId,
+        students: {
+          connect: students.map(s => ({ id: s.id }))
+        }
       }
     });
 
@@ -811,7 +857,6 @@ export async function deleteResourceAction(resourceId: number) {
     return { success: false, error: sanitizeError(error) };
   }
 }
-
 export async function deleteClassAction(classId: number) {
   try {
     const session = await getVerifiedSession(["TEACHER", "ADMIN"]);
@@ -837,3 +882,23 @@ export async function deleteClassAction(classId: number) {
     return { success: false, error: sanitizeError(error) };
   }
 }
+
+export async function issueCertificateAction(title: string, studentId: number, filePath: string) {
+  try {
+    await getVerifiedSession(["ADMIN", "TEACHER"]);
+    
+    const certificate = await prisma.certificate.create({
+      data: {
+        title,
+        studentId,
+        filePath,
+        date: new Date()
+      }
+    });
+
+    return { success: true, data: certificate };
+  } catch (error: any) {
+    return { success: false, error: sanitizeError(error) };
+  }
+}
+

@@ -67,7 +67,7 @@ const contacts = [
 
 export function FloatingContact() {
   return (
-    <div className="fixed right-4 md:right-6 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-3 pointer-events-none">
+    <div className="fixed right-4 md:right-6 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-3 pointer-events-none print:hidden">
       {contacts.map((c, idx) => (
         <a
           key={idx}
