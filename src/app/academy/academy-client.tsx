@@ -245,83 +245,71 @@ export default function AcademyClient() {
                   className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6"
                 >
                   {filteredCourses.map((course) => (
-                    <motion.div key={course.id} variants={staggerItem} layout>
+                    <motion.div key={course.id} variants={staggerItem} layout className="h-full">
                       <div
                         onClick={() => router.push(`/academy/course/${course.id}`)}
-                        className="group cursor-pointer rounded-[24px] border border-border-default/40 bg-surface-elevated/40 backdrop-blur-md hover:bg-surface-elevated/80 hover:border-aero-blue/40 hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(47,128,237,0.15)] transition-all duration-300 ease-out overflow-hidden flex flex-col relative h-full"
+                        className="group cursor-pointer rounded-[24px] border border-slate-200/80 bg-white p-5 hover:border-slate-300 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col h-full"
                       >
-                        {/* Image Header */}
-                        <div className="relative w-full aspect-[1.85] shrink-0 bg-slate-100 overflow-hidden rounded-t-[24px]">
+                        {/* Image */}
+                        <div className="relative w-full rounded-2xl overflow-hidden mb-4 bg-slate-100 shrink-0 border border-slate-100" style={{aspectRatio: "1.7"}}>
                           {course.image && (
                             <img
                               src={course.image}
                               alt={course.title}
-                              className="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500 ease-out"
+                              className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                             />
                           )}
-                          <div className="absolute top-4 left-4 z-20">
-                            <span className="bg-[#062B49] text-white px-2.5 py-1 rounded-md text-[10px] font-semibold uppercase tracking-wider shadow-sm backdrop-blur-md">
-                              {course.tags[0] || course.category}
-                            </span>
-                          </div>
+                          {/* Category badge */}
+                          <span className="absolute top-3 left-3 bg-white/95 backdrop-blur-sm text-[#062B49] px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider shadow-sm">
+                            {course.tags[0] || course.category}
+                          </span>
+                          {/* Rating badge */}
+                          <span className="absolute top-3 right-3 flex items-center gap-1 bg-white/95 backdrop-blur-sm px-2.5 py-1 rounded-lg text-[11px] font-bold text-[#062B49] shadow-sm">
+                            <Star className="w-3 h-3 fill-amber-400 text-amber-400" />{course.rating}
+                          </span>
                         </div>
 
                         {/* Body */}
-                        <div className="flex flex-col flex-1 px-6 pb-6 pt-5 bg-white rounded-b-[24px]">
-                          <h3 className="text-[19px] font-bold text-[#062B49] group-hover:text-[#FF6600] transition-colors mb-2 line-clamp-2 leading-tight">
+                        <div className="flex flex-col flex-1">
+                          {/* Title */}
+                          <h3 className="text-[17px] font-bold text-[#062B49] group-hover:text-[#FF6600] transition-colors duration-200 line-clamp-2 leading-snug mb-2">
                             {course.title}
                           </h3>
 
-                          <p className="text-[13px] text-[#52677D] line-clamp-2 overflow-hidden mb-4 font-medium leading-relaxed">
+                          {/* Description */}
+                          <p className="text-[13px] text-slate-500 line-clamp-2 leading-relaxed mb-4">
                             {course.description}
                           </p>
 
-                          <div className="flex items-center gap-3 mb-4">
-                            <div className="flex items-center gap-1.5 text-sm font-bold text-[#062B49]">
-                              <Star className="w-4 h-4 text-[#FF6600] fill-[#FF6600]" />
-                              {course.rating}
+                          {/* Meta Bar */}
+                          <div className="flex items-center justify-between text-[12px] text-slate-500 font-medium py-2 px-3 rounded-xl bg-slate-50 border border-slate-100 mb-5">
+                            <div className="flex items-center gap-1.5">
+                              <Clock className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                              <span>{course.duration}</span>
                             </div>
-                            <div className="w-px h-4 bg-slate-200" />
-                            <div className="flex items-center gap-1.5 text-[12px] font-bold text-[#52677D] truncate">
-                              <BarChart2 className="w-3.5 h-3.5 text-[#52677D]" />
-                              <span className="truncate">{course.level}</span>
+                            <span className="w-1 h-1 rounded-full bg-slate-300" />
+                            <div className="flex items-center gap-1.5">
+                              <BookOpen className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                              <span>{course.lessons} lessons</span>
                             </div>
+                            <span className="w-1 h-1 rounded-full bg-slate-300" />
+                            <span className="text-slate-600 font-semibold">{course.level}</span>
                           </div>
 
-                          <div className="w-full h-px bg-slate-100 mb-4" />
-
-                          {/* Duration & Content */}
-                          <div className="flex items-center justify-between mb-4">
-                            <div className="flex flex-col">
-                              <div className="flex items-center gap-1.5 text-[#52677D] text-[11px] font-medium mb-1">
-                                <Clock className="w-3.5 h-3.5 text-[#52677D] stroke-[2]" />
-                                <span>Duration</span>
+                          {/* Footer */}
+                          <div className="flex items-center justify-between mt-auto pt-4 border-t border-slate-100">
+                            <div>
+                              <div className="flex items-center gap-1.5 mb-0.5">
+                                <span className="text-[11px] text-slate-400 line-through">₹{Math.floor(course.price * 1.6).toLocaleString()}</span>
+                                <span className="bg-emerald-50 text-emerald-600 px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wide">37% off</span>
                               </div>
-                              <span className="text-sm font-bold text-[#062B49]">{course.duration}</span>
-                            </div>
-                            <div className="flex flex-col items-end">
-                              <div className="flex items-center gap-1.5 text-[#52677D] text-[11px] font-medium mb-1">
-                                <BookOpen className="w-3.5 h-3.5 text-[#52677D] stroke-[2]" />
-                                <span>Content</span>
-                              </div>
-                              <span className="text-sm font-bold text-[#062B49]">{course.lessons} lessons</span>
-                            </div>
-                          </div>
-
-                          {/* Footer Stats & Price */}
-                          <div className="flex items-center justify-between mt-auto pt-1 relative z-10">
-                            <div className="flex flex-col gap-0.5">
-                              <div className="flex items-center gap-1.5">
-                                <span className="text-[11px] text-[#52677D] line-through font-medium leading-none">₹{Math.floor(course.price * 1.6).toLocaleString()}</span>
-                                <span className="bg-[#FF6B00]/10 text-[#FF6B00] px-1 py-0.5 rounded-[4px] text-[8px] font-bold uppercase tracking-wider">37% OFF</span>
-                              </div>
-                              <span className="text-[22px] font-bold text-[#062B49] tracking-tight leading-none">₹{course.price.toLocaleString()}</span>
+                              <span className="text-xl font-extrabold text-[#062B49] leading-none">₹{course.price.toLocaleString()}</span>
                             </div>
                             <button
                               onClick={(e) => handleApplyClick(e, course.id)}
-                              className="relative overflow-hidden h-[40px] bg-[#062B49] hover:bg-[#FF6600] text-white px-5 rounded-[10px] text-sm font-bold transition-all duration-300 flex items-center justify-center min-w-[120px] gap-2 cursor-pointer border-none group/btn shadow-[0_4px_14px_rgba(6,43,73,0.2)] hover:shadow-[0_6px_20px_rgba(255,102,0,0.4)] hover:-translate-y-0.5"
+                              className="shrink-0 h-10 px-4 bg-[#062B49] hover:bg-[#FF6600] text-white rounded-xl text-xs font-bold transition-colors duration-200 flex items-center gap-1.5 shadow-sm group/btn"
                             >
-                              Apply Now <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover/btn:translate-x-1" />
+                              Enroll <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-0.5 transition-transform" />
                             </button>
                           </div>
                         </div>
@@ -412,9 +400,7 @@ export default function AcademyClient() {
                             <div className="flex items-baseline gap-2">
                               <span className="text-3xl font-extrabold text-[#062B49] tracking-tight">₹{bundle.price.toLocaleString()}</span>
                             </div>
-                            <span className="text-[11px] text-[#FF6600] font-semibold tracking-wide">
-                              {bundle.savings}
-                            </span>
+
                           </div>
                         </div>
 

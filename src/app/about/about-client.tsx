@@ -212,20 +212,7 @@ export default function AboutClient() {
                 {/* Floating tags */}
 
 
-                <motion.div
-                  initial={{ opacity: 0, y: -12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 1.1 }}
-                  className="absolute -top-5 right-0 bg-[#062B49] border border-white/10 shadow-xl rounded-2xl px-4 py-3 flex items-center gap-3"
-                >
-                  <div className="w-8 h-8 rounded-xl bg-[#FF6600]/20 flex items-center justify-center text-[#FF6600]">
-                    <Plane className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <p className="text-[10px] text-white/40 font-bold uppercase tracking-wider">Focus</p>
-                    <p className="text-sm font-bold text-white">UAV Engineering</p>
-                  </div>
-                </motion.div>
+
               </motion.div>
             </div>
 
