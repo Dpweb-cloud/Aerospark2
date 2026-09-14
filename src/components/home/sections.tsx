@@ -126,61 +126,63 @@ export function FeaturedCourses() {
             <div
               key={course.id}
               onClick={() => router.push(`/academy/course/${course.id}`)}
-              className="snap-start shrink-0 w-[85vw] sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] group cursor-pointer rounded-[24px] border border-slate-200/80 bg-white p-5 hover:border-slate-300 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col"
+              className="snap-start shrink-0 w-[85vw] sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] group cursor-pointer rounded-[24px] border border-slate-200/80 dark:border-border-default bg-white dark:bg-surface-elevated p-5 hover:border-slate-300 dark:hover:border-aero-blue/40 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col"
             >
               {/* Image */}
-              <div className="relative w-full rounded-2xl overflow-hidden mb-4 bg-slate-100 shrink-0 border border-slate-100" style={{aspectRatio: "1.7"}}>
+              <div className="relative w-full rounded-2xl overflow-hidden mb-4 bg-slate-100 dark:bg-surface shrink-0 border border-slate-100 dark:border-border-subtle" style={{aspectRatio: "1.7"}}>
                 {course.image && (
                   <img
                     src={course.image}
                     alt={course.title}
+                    loading="lazy"
+                    decoding="async"
                     className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                 )}
-                <span className="absolute top-3 left-3 bg-white/95 backdrop-blur-sm text-[#062B49] px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider shadow-sm">
+                <span className="absolute top-3 left-3 bg-white/95 dark:bg-slate-900/90 backdrop-blur-sm text-[#062B49] dark:text-white px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider shadow-sm">
                   {course.tags[0] || course.category}
                 </span>
-                <span className="absolute top-3 right-3 flex items-center gap-1 bg-white/95 backdrop-blur-sm px-2.5 py-1 rounded-lg text-[11px] font-bold text-[#062B49] shadow-sm">
+                <span className="absolute top-3 right-3 flex items-center gap-1 bg-white/95 dark:bg-slate-900/90 backdrop-blur-sm px-2.5 py-1 rounded-lg text-[11px] font-bold text-[#062B49] dark:text-white shadow-sm">
                   <Star className="w-3 h-3 fill-amber-400 text-amber-400" />{course.rating}
                 </span>
               </div>
 
               {/* Body */}
               <div className="flex flex-col flex-1">
-                <h3 className="text-[17px] font-bold text-[#062B49] group-hover:text-[#FF6600] transition-colors duration-200 line-clamp-2 leading-snug mb-2">
+                <h3 className="text-[17px] font-bold text-[#062B49] dark:text-foreground group-hover:text-[#FF6600] transition-colors duration-200 line-clamp-2 leading-snug mb-2">
                   {course.title}
                 </h3>
-                <p className="text-[13px] text-slate-500 line-clamp-2 leading-relaxed mb-4">
+                <p className="text-[13px] text-slate-500 dark:text-text-secondary line-clamp-2 leading-relaxed mb-4">
                   {course.description}
                 </p>
 
                 {/* Meta Bar */}
-                <div className="flex items-center justify-between text-[12px] text-slate-500 font-medium py-2 px-3 rounded-xl bg-slate-50 border border-slate-100 mb-5">
+                <div className="flex items-center justify-between text-[12px] text-slate-500 dark:text-text-muted font-medium py-2 px-3 rounded-xl bg-slate-50 dark:bg-surface border border-slate-100 dark:border-border-subtle mb-5">
                   <div className="flex items-center gap-1.5">
                     <Clock className="w-3.5 h-3.5 text-slate-400 shrink-0" />
                     <span>{course.duration}</span>
                   </div>
-                  <span className="w-1 h-1 rounded-full bg-slate-300" />
+                  <span className="w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-600" />
                   <div className="flex items-center gap-1.5">
                     <BookOpen className="w-3.5 h-3.5 text-slate-400 shrink-0" />
                     <span>{course.lessons} lessons</span>
                   </div>
-                  <span className="w-1 h-1 rounded-full bg-slate-300" />
-                  <span className="text-slate-600 font-semibold">{course.level}</span>
+                  <span className="w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-600" />
+                  <span className="text-slate-600 dark:text-text-secondary font-semibold">{course.level}</span>
                 </div>
 
                 {/* Footer */}
-                <div className="flex items-center justify-between mt-auto pt-4 border-t border-slate-100">
+                <div className="flex items-center justify-between mt-auto pt-4 border-t border-slate-100 dark:border-border-subtle">
                   <div>
                     <div className="flex items-center gap-1.5 mb-0.5">
-                      <span className="text-[11px] text-slate-400 line-through">₹{Math.floor(course.price * 1.6).toLocaleString()}</span>
-                      <span className="bg-emerald-50 text-emerald-600 px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wide">37% off</span>
+                      <span className="text-[11px] text-slate-400 dark:text-text-muted line-through">₹{Math.floor(course.price * 1.6).toLocaleString()}</span>
+                      <span className="bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wide">37% off</span>
                     </div>
-                    <span className="text-xl font-extrabold text-[#062B49] leading-none">₹{course.price.toLocaleString()}</span>
+                    <span className="text-xl font-extrabold text-[#062B49] dark:text-foreground leading-none">₹{course.price.toLocaleString()}</span>
                   </div>
                   <button
                     onClick={(e) => handleApplyClick(e, course.id)}
-                    className="relative overflow-hidden shrink-0 h-10 px-4 bg-[#062B49] hover:bg-[#FF6600] text-white rounded-xl text-xs font-bold transition-colors duration-200 flex items-center gap-1.5 shadow-sm group/btn"
+                    className="relative overflow-hidden shrink-0 h-10 px-4 bg-[#062B49] dark:bg-[#FF6600] hover:bg-[#FF6600] text-white rounded-xl text-xs font-bold transition-colors duration-200 flex items-center gap-1.5 shadow-sm group/btn"
                   >
                     <span className={animatingCard === course.id ? "opacity-0" : "flex items-center gap-1.5"}>
                       Enroll <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-0.5 transition-transform" />
@@ -510,7 +512,7 @@ export function ConsultingSection() {
           <span className="text-[#FF6600] font-bold text-xs uppercase tracking-widest block mb-3">
             From Concept to Certified Flight.
           </span>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-[#062B49] tracking-tight mb-6">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-[#062B49] dark:text-white tracking-tight mb-6">
             Aerospace Engineering & Consulting
           </h2>
           <p className="text-text-secondary text-base md:text-lg leading-relaxed">
@@ -529,7 +531,7 @@ export function ConsultingSection() {
           {consultingServices.map((service) => (
             <motion.div key={service.title} variants={staggerItem} className="h-full">
               <div
-                className={`h-full flex flex-col justify-between relative overflow-hidden group rounded-[24px] border border-[#D9E4EE] bg-white shadow-[0_4px_25px_rgba(16,42,67,0.03)] hover:-translate-y-1.5 transition-all duration-500 ease-out p-6 md:p-8 ${service.hoverClass}`}
+                className={`h-full flex flex-col justify-between relative overflow-hidden group rounded-[24px] border border-[#D9E4EE] dark:border-border-default bg-white dark:bg-surface-elevated/70 shadow-[0_4px_25px_rgba(16,42,67,0.03)] hover:-translate-y-1.5 transition-all duration-500 ease-out p-6 md:p-8 ${service.hoverClass}`}
               >
                 {/* Background Vector Art SVG */}
                 <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
@@ -541,11 +543,11 @@ export function ConsultingSection() {
                     <span className={`inline-block px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider mb-4 ${service.badgeBg} ${service.tagColor}`}>
                       {service.tag}
                     </span>
-                    <h3 className={`text-xl md:text-[23px] font-bold text-[#062B49] tracking-tight transition-colors duration-300 leading-snug ${service.hoverTitleColor}`}>
+                    <h3 className={`text-xl md:text-[23px] font-bold text-[#062B49] dark:text-white tracking-tight transition-colors duration-300 leading-snug ${service.hoverTitleColor}`}>
                       {service.title}
                     </h3>
                   </div>
-                  <p className="text-[#52677D] text-[13.5px] leading-relaxed font-medium mt-3 mb-6 max-w-[85%] flex-1">
+                  <p className="text-[#52677D] dark:text-text-secondary text-[13.5px] leading-relaxed font-medium mt-3 mb-6 max-w-[85%] flex-1">
                     {service.description}
                   </p>
 

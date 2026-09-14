@@ -25,8 +25,10 @@ export function HeroSection() {
         {/* Background Image (Original transparent/themed) */}
         <div className="absolute inset-0 z-0">
           <img
-            src="/hero-bg.png"
+            src="/hero-bg.webp"
             alt="Aerospace Background"
+            loading="eager"
+            decoding="async"
             className="w-full h-full object-cover opacity-10 dark:opacity-20"
           />
           <div className="absolute inset-0 bg-background/40 backdrop-blur-[2px]" />
@@ -36,41 +38,31 @@ export function HeroSection() {
         <div className="absolute inset-0 bg-gradient-to-b from-background via-surface-elevated/20 to-background z-[2]" />
         <div className="absolute inset-0 bg-gradient-to-r from-background/40 via-transparent to-background/40 z-[2]" />
 
-
-
         {/* Main Content */}
         <div className="relative z-10 w-full max-w-7xl mx-auto px-4 pr-16 sm:pr-6 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center gap-8 lg:gap-12 pt-24 lg:pt-16 lg:pb-0">
 
           {/* Left Text Content */}
           <div className="flex-1 text-left w-full">
-            {/* Heading */}
-            <motion.h1
+            {/* Heading - Immediate Paint for LCP optimization */}
+            <h1
               id="hero-heading"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
               className="text-[32px] min-[400px]:text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-[1.1] mb-6 break-words"
             >
               <span className="text-foreground">Engineering the</span>
               <br />
               <span className="gradient-text">Future of Skies</span>
-            </motion.h1>
+            </h1>
 
             {/* Subheading */}
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.7, duration: 0.6 }}
-              className="text-text-secondary text-base sm:text-lg max-w-xl mb-8 leading-relaxed text-left"
-            >
+            <p className="text-text-secondary text-base sm:text-lg max-w-xl mb-8 leading-relaxed text-left">
               From UAVs development and drone certification to aerospace consulting and professional training, AeroSpark helps businesses and engineers turn ideas into real-world aviation solutions.
-            </motion.p>
+            </p>
 
             {/* CTAs */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.9, duration: 0.6 }}
+              transition={{ delay: 0.1, duration: 0.4 }}
               className="flex flex-row items-center gap-2 sm:gap-4 w-full sm:w-auto"
             >
               <Button 
@@ -98,7 +90,7 @@ export function HeroSection() {
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.8, duration: 0.8 }}
+            transition={{ delay: 0.1, duration: 0.5 }}
             className="flex-1 w-full"
           >
             <AnimeHeroAnimation />

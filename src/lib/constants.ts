@@ -29,7 +29,7 @@ export const COURSES = [
     price: 1499,
     rating: 4.9,
     students: 1240,
-    image: "/IMAGE/DGCA rules and Regulations.png",
+    image: "/IMAGE/DGCA rules and Regulations.webp",
     tags: ["DGCA", "UAS", "Compliance", "India"],
     modules: [
         {
@@ -127,7 +127,7 @@ export const COURSES = [
     price: 1999,
     rating: 4.8,
     students: 890,
-    image: "/IMAGE/FAA rules and Regulations.png",
+    image: "/IMAGE/FAA rules and Regulations.webp",
     tags: ["FAA", "Part 107", "UAS", "USA"],
     modules: [
         {
@@ -225,7 +225,7 @@ export const COURSES = [
     price: 1999,
     rating: 4.7,
     students: 620,
-    image: "/IMAGE/EASA rules and Regulations.png",
+    image: "/IMAGE/EASA rules and Regulations.webp",
     tags: ["EASA", "Europe", "UAS", "Compliance"],
     modules: [
         {
@@ -323,7 +323,7 @@ export const COURSES = [
     price: 1499,
     rating: 4.9,
     students: 2100,
-    image: "/IMAGE/Aerospace Engineering Fundamentals.png",
+    image: "/IMAGE/Aerospace Engineering Fundamentals.webp",
     tags: ["Aerospace", "Aviation", "Engineering", "Fundamentals"],
     modules: [
         {
@@ -421,7 +421,7 @@ export const COURSES = [
     price: 1999,
     rating: 4.8,
     students: 1580,
-    image: "/IMAGE/Aerodynamics.png",
+    image: "/IMAGE/Aerodynamics.webp",
     tags: ["Aerodynamics", "Airfoil", "Lift", "Drag"],
     modules: [
         {
@@ -519,7 +519,7 @@ export const COURSES = [
     price: 2999,
     rating: 4.6,
     students: 1120,
-    image: "/banner_components_1784991954912.png",
+    image: "/banner_components_1784991954912.webp",
     tags: ["UAS", "Drone", "Components", "R&D"],
     modules: [
         {
@@ -643,7 +643,7 @@ export const COURSES = [
     price: 2499,
     rating: 4.9,
     students: 750,
-    image: "/banner_matlab_1784991967948.png",
+    image: "/banner_matlab_1784991967948.webp",
     tags: ["MATLAB", "Programming", "Engineering", "Data"],
     modules: [
         {
@@ -741,7 +741,7 @@ export const COURSES = [
     price: 4999,
     rating: 4.7,
     students: 1580,
-    image: "/IMAGE/CATIA V.png",
+    image: "/IMAGE/CATIA V.webp",
     tags: ["CATIA", "CAD", "Aircraft", "3D Design"],
     modules: [
         {
@@ -891,7 +891,7 @@ export const COURSES = [
     price: 4999,
     rating: 4.8,
     students: 920,
-    image: "/IMAGE/NX Cad.png",
+    image: "/IMAGE/NX Cad.webp",
     tags: ["NX CAD", "Siemens", "CAD", "3D Modeling"],
     modules: [
         {
@@ -1041,7 +1041,7 @@ export const COURSES = [
     price: 2499,
     rating: 4.9,
     students: 540,
-    image: "/IMAGE/Mathematics.png",
+    image: "/IMAGE/Mathematics.webp",
     tags: ["Mathematics", "FEA", "CFD", "Simulation"],
     modules: [
         {
@@ -1139,7 +1139,7 @@ export const COURSES = [
     price: 4999,
     rating: 4.7,
     students: 680,
-    image: "/IMAGE/FEA.png",
+    image: "/IMAGE/FEA.webp",
     tags: ["FEA", "Structural", "Simulation", "CAE"],
     modules: [
         {
@@ -1289,7 +1289,7 @@ export const COURSES = [
     price: 4999,
     rating: 4.8,
     students: 720,
-    image: "/IMAGE/CFD.png",
+    image: "/IMAGE/CFD.webp",
     tags: ["CFD", "Aerodynamics", "Simulation", "Fluids"],
     modules: [
         {
@@ -1439,7 +1439,7 @@ export const COURSES = [
     price: 2999,
     rating: 4.6,
     students: 650,
-    image: "/IMAGE/Quality.png",
+    image: "/IMAGE/Quality.webp",
     tags: ["AS9100D", "Quality", "Aerospace", "Compliance"],
     modules: [
         {
@@ -1563,7 +1563,7 @@ export const COURSES = [
     price: 2999,
     rating: 4.8,
     students: 500,
-    image: "/IMAGE/Jet Engine.png",
+    image: "/IMAGE/Jet Engine.webp",
     tags: ["Aviation", "Engineering"],
     modules: [
         {
@@ -1687,7 +1687,7 @@ export const COURSES = [
     price: 2499,
     rating: 4.9,
     students: 500,
-    image: "/IMAGE/Hydraulic.png",
+    image: "/IMAGE/Hydraulic.webp",
     tags: ["Aviation", "Engineering"],
     modules: [
         {
@@ -1960,7 +1960,7 @@ export const BLOG_POSTS = [
     author: "Vikram Rao",
     date: "2026-04-18",
     readTime: "10 min",
-    image: "/IMAGE/Quality.png",
+    image: "/IMAGE/Quality.webp",
   },
   {
     id: "digital-twin",

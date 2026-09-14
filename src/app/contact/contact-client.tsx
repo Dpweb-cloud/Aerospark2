@@ -125,7 +125,7 @@ export default function ContactClient() {
                 {
                   icon: <Phone className="w-5 h-5" />,
                   title: "Call Us",
-                  detail: "+91 98765 43210",
+                  detail: "+91 97125 42713",
                   sub: "Mon–Fri, 9AM–6PM IST",
                 },
                 {

@@ -12,8 +12,13 @@ import {
   CTASection,
 } from "@/components/home/sections";
 
-import { FullPageFlightPath } from "@/components/home/full-page-flight-path";
+import dynamic from "next/dynamic";
 import { Outfit } from "next/font/google";
+
+const FullPageFlightPath = dynamic(
+  () => import("@/components/home/full-page-flight-path").then((m) => m.FullPageFlightPath),
+  { ssr: false }
+);
 
 const outfit = Outfit({
   subsets: ["latin"],

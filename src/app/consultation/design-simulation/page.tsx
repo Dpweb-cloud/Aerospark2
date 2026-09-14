@@ -154,7 +154,7 @@ export default function DesignSimulationPage() {
           {/* Background Image */}
           <div className="absolute inset-0 z-0">
             <img
-              src="/IMAGE/Design, Simulation.png"
+              src="/IMAGE/Design, Simulation.webp"
               alt="Simulation Background"
               className="w-full h-full object-cover opacity-35 dark:opacity-45"
             />
@@ -273,7 +273,7 @@ export default function DesignSimulationPage() {
                                   STEP {item.step}
                                 </span>
                               </div>
-                              <h3 className="text-lg font-bold text-[#062B49] mb-2 group-hover:text-[#FF6B00] transition-colors">
+                              <h3 className="text-lg font-bold text-[#062B49] dark:text-foreground mb-2 group-hover:text-[#FF6B00] transition-colors">
                                 {item.title}
                               </h3>
                               <p className="text-sm text-text-secondary leading-relaxed">
@@ -343,17 +343,17 @@ export default function DesignSimulationPage() {
         {/* Why Choose Us Section */}
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-[#062B49] tracking-tight">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-[#062B49] dark:text-foreground tracking-tight">
               Why Choose AeroSpark?
             </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {whyChooseUs.map((feature, idx) => (
-              <div key={idx} className="flex flex-col gap-3 p-5 rounded-2xl bg-white border border-[#D9E4EE] shadow-sm">
+              <div key={idx} className="flex flex-col gap-3 p-5 rounded-2xl bg-white dark:bg-surface-elevated border border-[#D9E4EE] dark:border-border-default shadow-sm">
                 <CheckCircle2 className="w-5 h-5 text-[#2F80ED] flex-shrink-0 mt-0.5" />
                 <div>
-                  <h4 className="font-bold text-[#062B49] mb-1.5 text-base">{feature.title}</h4>
-                  <p className="text-xs text-[#52677D] leading-relaxed">{feature.desc}</p>
+                  <h4 className="font-bold text-[#062B49] dark:text-foreground mb-1.5 text-base">{feature.title}</h4>
+                  <p className="text-xs text-[#52677D] dark:text-text-secondary leading-relaxed">{feature.desc}</p>
                 </div>
               </div>
             ))}
@@ -363,18 +363,18 @@ export default function DesignSimulationPage() {
         {/* FAQs Section */}
         <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-[#062B49] tracking-tight">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-[#062B49] dark:text-foreground tracking-tight">
               Frequently Asked Questions
             </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {faqs.map((faq, idx) => (
-              <div key={idx} className="p-5 border border-[#D9E4EE] rounded-2xl bg-white shadow-sm flex flex-col gap-2">
-                <h4 className="text-[15px] font-bold text-[#062B49] flex gap-2.5 items-start">
+              <div key={idx} className="p-5 border border-[#D9E4EE] dark:border-border-default rounded-2xl bg-white dark:bg-surface-elevated shadow-sm flex flex-col gap-2">
+                <h4 className="text-[15px] font-bold text-[#062B49] dark:text-foreground flex gap-2.5 items-start">
                   <HelpCircle className="text-[#2F80ED] w-4.5 h-4.5 flex-shrink-0 mt-0.5" />
                   {faq.q}
                 </h4>
-                <p className="text-xs text-[#52677D] pl-7 leading-relaxed">
+                <p className="text-xs text-[#52677D] dark:text-text-secondary pl-7 leading-relaxed">
                   {faq.a}
                 </p>
               </div>

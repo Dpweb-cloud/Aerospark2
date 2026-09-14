@@ -33,6 +33,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "sonner";
 import { CookieConsent } from "@/components/layout/cookie-consent";
 import { FloatingContact } from "@/components/layout/floating-contact";
+import { PostHogProvider } from "@/components/posthog-provider";
 
 export default function RootLayout({
   children,
@@ -62,14 +63,16 @@ export default function RootLayout({
         />
       </head>
       <body className="bg-background text-foreground antialiased min-h-screen relative" suppressHydrationWarning>
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
-          <GlobalBackground />
-          <div className="scan-line" />
-          {children}
-          <FloatingContact />
-          <Toaster position="top-center" richColors closeButton />
-          <CookieConsent />
-        </ThemeProvider>
+        <PostHogProvider>
+          <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
+            <GlobalBackground />
+            <div className="scan-line" />
+            {children}
+            <FloatingContact />
+            <Toaster position="top-center" richColors closeButton />
+            <CookieConsent />
+          </ThemeProvider>
+        </PostHogProvider>
       </body>
     </html>
   );

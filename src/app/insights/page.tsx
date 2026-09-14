@@ -106,6 +106,8 @@ function ArticleCard({
                 <img
                   src={article.image}
                   alt={article.title}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-64 lg:h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   onError={() => setImgError(true)}
                 />
@@ -168,6 +170,8 @@ function ArticleCard({
           <img
             src={article.image}
             alt={article.title}
+            loading="lazy"
+            decoding="async"
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             onError={() => setImgError(true)}
           />
@@ -230,6 +234,8 @@ function NasaApodCard({ image, index }: { image: NasaImage; index: number }) {
           <img
             src={image.url}
             alt={image.title}
+            loading="lazy"
+            decoding="async"
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-surface/85 via-surface/20 to-transparent" />

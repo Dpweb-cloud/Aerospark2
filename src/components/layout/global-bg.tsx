@@ -20,55 +20,56 @@ export function GlobalBackground() {
     resize();
     window.addEventListener("resize", resize);
 
-    // Particle Constellation Network
+    // Particle Constellation Network (Optimized)
     const particles: { x: number; y: number; vx: number; vy: number; radius: number }[] = [];
-    const numParticles = 80;
+    const numParticles = 30; // Lightweight and smooth
 
     for (let i = 0; i < numParticles; i++) {
       particles.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 0.5, // Very slow movement
-        vy: (Math.random() - 0.5) * 0.5,
+        vx: (Math.random() - 0.5) * 0.4,
+        vy: (Math.random() - 0.5) * 0.4,
         radius: Math.random() * 1.5 + 0.5,
       });
     }
 
+    const maxDistance = 140;
+    const maxDistanceSq = maxDistance * maxDistance;
+
     const animate = () => {
-      // Clear canvas with very subtle motion blur
+      if (document.hidden) {
+        animationId = requestAnimationFrame(animate);
+        return;
+      }
+
       const isDark = document.documentElement.classList.contains('dark');
       ctx.fillStyle = isDark ? "rgba(0, 0, 0, 0.5)" : "rgba(255, 255, 255, 0.5)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-      
-      const maxDistance = 150;
 
-      // Update and draw particles
       particles.forEach((p, index) => {
         p.x += p.vx;
         p.y += p.vy;
 
-        // Bounce off edges smoothly
         if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
         if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
 
-        // Draw particle
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
         ctx.fillStyle = isDark ? "rgba(255, 255, 255, 0.4)" : "rgba(0, 0, 0, 0.2)";
         ctx.fill();
 
-        // Connect particles
         for (let j = index + 1; j < particles.length; j++) {
           const p2 = particles[j];
           const dx = p.x - p2.x;
           const dy = p.y - p2.y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
+          const distSq = dx * dx + dy * dy;
 
-          if (distance < maxDistance) {
+          if (distSq < maxDistanceSq) {
+            const distance = Math.sqrt(distSq);
             ctx.beginPath();
             ctx.moveTo(p.x, p.y);
             ctx.lineTo(p2.x, p2.y);
-            // Opacity decreases as distance increases
             const opacity = 1 - (distance / maxDistance);
             ctx.strokeStyle = isDark 
               ? `rgba(255, 255, 255, ${opacity * 0.15})` 

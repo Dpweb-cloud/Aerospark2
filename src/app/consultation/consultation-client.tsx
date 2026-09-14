@@ -25,7 +25,7 @@ const services = [
     btnText: "Explore Certification Support →",
     href: "/consultation/uas-certification",
     glow: "blue" as const,
-    image: "/IMAGE/DGCA type Certification.png",
+    image: "/IMAGE/DGCA type Certification.webp",
   },
   {
     id: "drone-rd",
@@ -35,7 +35,7 @@ const services = [
     btnText: "Explore UAV Engineering →",
     href: "/consultation/drone-rd",
     glow: "red" as const,
-    image: "/service-design.png",
+    image: "/service-design.webp",
   },
   {
     id: "design-simulation",
@@ -45,7 +45,7 @@ const services = [
     btnText: "Explore Design & Simulation →",
     href: "/consultation/design-simulation",
     glow: "blue" as const,
-    image: "/IMAGE/Design, Simulation.png",
+    image: "/IMAGE/Design, Simulation.webp",
   },
   {
     id: "as9100d-quality",
@@ -55,7 +55,7 @@ const services = [
     btnText: "Explore Quality Services →",
     href: "/consultation/as9100d-quality",
     glow: "red" as const,
-    image: "/IMAGE/Quality.png",
+    image: "/IMAGE/Quality.webp",
   },
 ];
 
@@ -161,6 +161,8 @@ export default function ConsultationClient() {
                       <img
                         src={service.image}
                         alt={service.title}
+                        loading="lazy"
+                        decoding="async"
                         className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
                     </div>
@@ -348,7 +350,7 @@ export default function ConsultationClient() {
                       <p className="text-xs text-text-muted uppercase tracking-wider">
                         Phone
                       </p>
-                      <p className="text-sm text-foreground">+91 98765 43210</p>
+                      <p className="text-sm text-foreground">+91 97125 42713</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-4">
@@ -449,7 +451,7 @@ export default function ConsultationClient() {
                             })
                           }
                           className="w-full px-4 py-2.5 bg-surface-elevated rounded-lg text-sm text-foreground border border-border-subtle focus:border-aero-blue/30 focus:outline-none focus:ring-1 focus:ring-aero-blue/20 transition-all"
-                          placeholder="+91 98765 43210"
+                          placeholder="+91 97125 42713"
                         />
                       </div>
 

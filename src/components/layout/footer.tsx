@@ -58,9 +58,9 @@ export function Footer() {
           {/* Brand Column */}
           <motion.div variants={staggerItem} className="lg:col-span-2 space-y-5">
             <Link href="/" className="flex items-center gap-2.5">
-              <img src="/logo1.png" alt="Logo" className="w-9 h-9 object-contain relative -top-[2px]" />
+              <img src="/logo1.webp" alt="Logo" className="w-9 h-9 object-contain relative -top-[2px]" />
               <span className="text-xl font-bold tracking-tight">
-                <span className="text-[#00008B]">Aero</span>
+                <span className="text-[#00008B] dark:text-white">Aero</span>
                 <span className="text-orange-500">Spark</span>
               </span>
             </Link>
@@ -74,7 +74,7 @@ export function Footer() {
               </div>
               <div className="flex items-center gap-2.5 text-text-secondary text-sm">
                 <Phone className="w-4 h-4 text-aero-blue/60" />
-                <span>+91 98765 43210</span>
+                <span>+91 97125 42713</span>
               </div>
               <div className="flex items-center gap-2.5 text-text-secondary text-sm">
                 <MapPin className="w-4 h-4 text-aero-blue/60" />

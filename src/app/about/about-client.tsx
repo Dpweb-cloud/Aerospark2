@@ -18,7 +18,7 @@ import {
   Award,
   Compass,
   Plane,
-  FlaskConical,
+  Wrench,
   BookOpen,
   Zap,
 } from "lucide-react";
@@ -31,7 +31,7 @@ const journeyTimeline = [
     title: "The Beginning",
     desc: "AeroSpark began with a small aerospace-focused team working around aircraft and UAV concepts, CAD, aerodynamics, engineering analysis and design development. The early focus was simple: build strong technical skills and create useful engineering work.",
     icon: <Rocket className="w-5 h-5" />,
-    image: "/service-design.png",
+    image: "/service-design.webp",
     accent: "#FF6600",
   },
   {
@@ -40,7 +40,7 @@ const journeyTimeline = [
     title: "Our First Student Batch",
     desc: "AeroSpark conducted its first student batch in 2021. The aim was to teach aerospace in a practical way, connecting classroom concepts with design tools, analysis and real engineering thinking. This became the foundation of AeroSpark Academy.",
     icon: <GraduationCap className="w-5 h-5" />,
-    image: "/acad_card.png",
+    image: "/acad_card.webp",
     accent: "#3B82F6",
   },
   {
@@ -49,7 +49,7 @@ const journeyTimeline = [
     title: "Our First Consultancy",
     desc: "In 2022, AeroSpark took on its first consultancy project — the next step in applying design, analysis, simulation, documentation and problem-solving skills to real client requirements.",
     icon: <Briefcase className="w-5 h-5" />,
-    image: "/eng_consulting_card.png",
+    image: "/eng_consulting_card.webp",
     accent: "#10B981",
   },
   {
@@ -58,7 +58,7 @@ const journeyTimeline = [
     title: "Specialised Engineering Services",
     desc: "From 2023 onward, AeroSpark developed a more structured engineering and consulting practice covering UAV design and development, CAD/CAE, CFD and simulation, drone certification support, aerospace quality systems, engineering documentation and technical training.",
     icon: <TrendingUp className="w-5 h-5" />,
-    image: "/service-cert.png",
+    image: "/service-cert.webp",
     accent: "#8B5CF6",
     items: [
       "UAV design and development",
@@ -80,7 +80,7 @@ const capabilities = [
     color: "#FF6600",
   },
   {
-    icon: <FlaskConical className="w-8 h-8" />,
+    icon: <Wrench className="w-8 h-8" />,
     title: "Simulation & Analysis",
     desc: "CFD, CAE, engineering analysis, documentation and design validation for aerospace and UAV projects.",
     href: "/consultation/design-simulation",
@@ -203,7 +203,7 @@ export default function AboutClient() {
 
                 <div className="relative rounded-[2.5rem] border border-white/10 shadow-2xl bg-[#062B49]/60 backdrop-blur-md p-4">
                   <img
-                    src="/about_hero.png"
+                    src="/about_hero.webp"
                     alt="AeroSpark Aerospace Engineering"
                     className="w-full max-w-[400px] h-auto object-contain rounded-[2rem]"
                   />
@@ -321,6 +321,8 @@ export default function AboutClient() {
                           <img
                             src={item.image}
                             alt={item.title}
+                            loading="lazy"
+                            decoding="async"
                             className="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-700"
                           />
                           <div className="absolute inset-0 bg-gradient-to-r from-surface/30 via-transparent to-transparent" />
@@ -457,7 +459,7 @@ export default function AboutClient() {
               {[
                 { word: "Learn", icon: <BookOpen className="w-7 h-7" />, sub: "Understand deeply." },
                 { word: "Design", icon: <Plane className="w-7 h-7" />, sub: "Think and model." },
-                { word: "Engineer", icon: <FlaskConical className="w-7 h-7" />, sub: "Analyse and build." },
+                { word: "Engineer", icon: <Wrench className="w-7 h-7" />, sub: "Analyse and build." },
                 { word: "Build", icon: <Rocket className="w-7 h-7" />, sub: "Deliver real work." },
               ].map((item, i) => (
                 <motion.div

@@ -72,14 +72,14 @@ export function Navbar() {
             <Link href="/" className="flex items-center gap-2.5 group">
               <div className="relative -top-[2px]">
                 <img
-                  src="/logo1.png"
+                  src="/logo1.webp"
                   alt="AeroSpark"
                   className="w-11 h-11 md:w-[48px] h-[48px] object-contain transition-transform duration-300 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-secondary/30 blur-lg rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </div>
               <span className="text-2xl md:text-[26px] font-bold tracking-tight">
-                <span className="text-[#00008B]">Aero</span>
+                <span className="text-[#00008B] dark:text-white">Aero</span>
                 <span className="text-[#FF6600]">Spark</span>
               </span>
             </Link>

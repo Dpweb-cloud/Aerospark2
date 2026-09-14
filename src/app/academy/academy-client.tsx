@@ -248,23 +248,25 @@ export default function AcademyClient() {
                     <motion.div key={course.id} variants={staggerItem} layout className="h-full">
                       <div
                         onClick={() => router.push(`/academy/course/${course.id}`)}
-                        className="group cursor-pointer rounded-[24px] border border-slate-200/80 bg-white p-5 hover:border-slate-300 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col h-full"
+                        className="group cursor-pointer rounded-[24px] border border-slate-200/80 dark:border-border-default bg-white dark:bg-surface-elevated p-5 hover:border-slate-300 dark:hover:border-aero-blue/40 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col h-full"
                       >
                         {/* Image */}
-                        <div className="relative w-full rounded-2xl overflow-hidden mb-4 bg-slate-100 shrink-0 border border-slate-100" style={{aspectRatio: "1.7"}}>
+                        <div className="relative w-full rounded-2xl overflow-hidden mb-4 bg-slate-100 dark:bg-surface shrink-0 border border-slate-100 dark:border-border-subtle" style={{aspectRatio: "1.7"}}>
                           {course.image && (
                             <img
                               src={course.image}
                               alt={course.title}
+                              loading="lazy"
+                              decoding="async"
                               className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                             />
                           )}
                           {/* Category badge */}
-                          <span className="absolute top-3 left-3 bg-white/95 backdrop-blur-sm text-[#062B49] px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider shadow-sm">
+                          <span className="absolute top-3 left-3 bg-white/95 dark:bg-slate-900/90 backdrop-blur-sm text-[#062B49] dark:text-white px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider shadow-sm">
                             {course.tags[0] || course.category}
                           </span>
                           {/* Rating badge */}
-                          <span className="absolute top-3 right-3 flex items-center gap-1 bg-white/95 backdrop-blur-sm px-2.5 py-1 rounded-lg text-[11px] font-bold text-[#062B49] shadow-sm">
+                          <span className="absolute top-3 right-3 flex items-center gap-1 bg-white/95 dark:bg-slate-900/90 backdrop-blur-sm px-2.5 py-1 rounded-lg text-[11px] font-bold text-[#062B49] dark:text-white shadow-sm">
                             <Star className="w-3 h-3 fill-amber-400 text-amber-400" />{course.rating}
                           </span>
                         </div>
@@ -272,42 +274,42 @@ export default function AcademyClient() {
                         {/* Body */}
                         <div className="flex flex-col flex-1">
                           {/* Title */}
-                          <h3 className="text-[17px] font-bold text-[#062B49] group-hover:text-[#FF6600] transition-colors duration-200 line-clamp-2 leading-snug mb-2">
+                          <h3 className="text-[17px] font-bold text-[#062B49] dark:text-foreground group-hover:text-[#FF6600] transition-colors duration-200 line-clamp-2 leading-snug mb-2">
                             {course.title}
                           </h3>
 
                           {/* Description */}
-                          <p className="text-[13px] text-slate-500 line-clamp-2 leading-relaxed mb-4">
+                          <p className="text-[13px] text-slate-500 dark:text-text-secondary line-clamp-2 leading-relaxed mb-4">
                             {course.description}
                           </p>
 
                           {/* Meta Bar */}
-                          <div className="flex items-center justify-between text-[12px] text-slate-500 font-medium py-2 px-3 rounded-xl bg-slate-50 border border-slate-100 mb-5">
+                          <div className="flex items-center justify-between text-[12px] text-slate-500 dark:text-text-muted font-medium py-2 px-3 rounded-xl bg-slate-50 dark:bg-surface border border-slate-100 dark:border-border-subtle mb-5">
                             <div className="flex items-center gap-1.5">
                               <Clock className="w-3.5 h-3.5 text-slate-400 shrink-0" />
                               <span>{course.duration}</span>
                             </div>
-                            <span className="w-1 h-1 rounded-full bg-slate-300" />
+                            <span className="w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-600" />
                             <div className="flex items-center gap-1.5">
                               <BookOpen className="w-3.5 h-3.5 text-slate-400 shrink-0" />
                               <span>{course.lessons} lessons</span>
                             </div>
-                            <span className="w-1 h-1 rounded-full bg-slate-300" />
-                            <span className="text-slate-600 font-semibold">{course.level}</span>
+                            <span className="w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-600" />
+                            <span className="text-slate-600 dark:text-text-secondary font-semibold">{course.level}</span>
                           </div>
 
                           {/* Footer */}
-                          <div className="flex items-center justify-between mt-auto pt-4 border-t border-slate-100">
+                          <div className="flex items-center justify-between mt-auto pt-4 border-t border-slate-100 dark:border-border-subtle">
                             <div>
                               <div className="flex items-center gap-1.5 mb-0.5">
-                                <span className="text-[11px] text-slate-400 line-through">₹{Math.floor(course.price * 1.6).toLocaleString()}</span>
-                                <span className="bg-emerald-50 text-emerald-600 px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wide">37% off</span>
+                                <span className="text-[11px] text-slate-400 dark:text-text-muted line-through">₹{Math.floor(course.price * 1.6).toLocaleString()}</span>
+                                <span className="bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wide">37% off</span>
                               </div>
-                              <span className="text-xl font-extrabold text-[#062B49] leading-none">₹{course.price.toLocaleString()}</span>
+                              <span className="text-xl font-extrabold text-[#062B49] dark:text-foreground leading-none">₹{course.price.toLocaleString()}</span>
                             </div>
                             <button
                               onClick={(e) => handleApplyClick(e, course.id)}
-                              className="shrink-0 h-10 px-4 bg-[#062B49] hover:bg-[#FF6600] text-white rounded-xl text-xs font-bold transition-colors duration-200 flex items-center gap-1.5 shadow-sm group/btn"
+                              className="shrink-0 h-10 px-4 bg-[#062B49] dark:bg-[#FF6600] hover:bg-[#FF6600] text-white rounded-xl text-xs font-bold transition-colors duration-200 flex items-center gap-1.5 shadow-sm group/btn"
                             >
                               Enroll <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-0.5 transition-transform" />
                             </button>
@@ -364,7 +366,7 @@ export default function AcademyClient() {
                     className={isComplete ? "md:col-span-2 xl:col-span-1" : ""}
                   >
                     <div
-                      className={`relative rounded-[24px] border border-[#062B49]/10 bg-white p-6 md:p-8 h-full flex flex-col transition-all duration-500 hover:-translate-y-1 hover:border-[#062B49]/20 hover:shadow-[0_8px_30px_rgba(6,43,73,0.08)] overflow-hidden group ${
+                      className={`relative rounded-[24px] border border-[#062B49]/10 dark:border-border-default bg-white dark:bg-surface-elevated p-6 md:p-8 h-full flex flex-col transition-all duration-500 hover:-translate-y-1 hover:border-[#062B49]/20 dark:hover:border-aero-blue/40 hover:shadow-[0_8px_30px_rgba(6,43,73,0.08)] overflow-hidden group ${
                         isComplete ? "ring-2 ring-[#FF6600]/40 shadow-[0_0_40px_-10px_rgba(255,102,0,0.15)]" : ""
                       }`}
                     >
@@ -375,17 +377,17 @@ export default function AcademyClient() {
                         </div>
                       )}
 
-                      <h3 className="text-xl md:text-2xl font-bold mb-2 text-[#062B49]">
+                      <h3 className="text-xl md:text-2xl font-bold mb-2 text-[#062B49] dark:text-foreground">
                         {bundle.title}
                       </h3>
-                      <p className="text-sm text-[#52677D] mb-6 leading-relaxed border-b border-[#062B49]/5 pb-5">
+                      <p className="text-sm text-[#52677D] dark:text-text-secondary mb-6 leading-relaxed border-b border-[#062B49]/5 dark:border-border-subtle pb-5">
                         {bundle.description}
                       </p>
 
                       {/* Included courses */}
                       <div className="flex-1 mb-8 space-y-3.5">
                         {bundle.includes.map((item, i) => (
-                          <div key={i} className="flex items-start gap-3 text-sm font-medium text-[#062B49]">
+                          <div key={i} className="flex items-start gap-3 text-sm font-medium text-[#062B49] dark:text-foreground">
                             <CheckCircle2 className="w-4 h-4 mt-0.5 flex-shrink-0 text-[#FF6600]" />
                             <span className="leading-tight">{item}</span>
                           </div>
@@ -393,18 +395,18 @@ export default function AcademyClient() {
                       </div>
 
                       {/* Bundle Footer */}
-                      <div className="pt-5 border-t border-[#062B49]/5 mt-auto">
+                      <div className="pt-5 border-t border-[#062B49]/5 dark:border-border-subtle mt-auto">
                         <div className="flex items-end justify-between mb-5">
                           <div className="flex flex-col gap-1">
-                            <span className="text-xs text-[#52677D] font-medium">Bundle Price</span>
+                            <span className="text-xs text-[#52677D] dark:text-text-muted font-medium">Bundle Price</span>
                             <div className="flex items-baseline gap-2">
-                              <span className="text-3xl font-extrabold text-[#062B49] tracking-tight">₹{bundle.price.toLocaleString()}</span>
+                              <span className="text-3xl font-extrabold text-[#062B49] dark:text-foreground tracking-tight">₹{bundle.price.toLocaleString()}</span>
                             </div>
 
                           </div>
                         </div>
 
-                        <button className="w-full relative overflow-hidden h-[48px] bg-[#062B49] hover:bg-[#062B49]/90 text-white rounded-[12px] text-sm font-bold transition-all duration-300 shadow-md flex items-center justify-center gap-2 group/btn">
+                        <button className="w-full relative overflow-hidden h-[48px] bg-[#062B49] dark:bg-[#FF6600] hover:bg-[#FF6600] text-white rounded-[12px] text-sm font-bold transition-all duration-300 shadow-md flex items-center justify-center gap-2 group/btn">
                           Enroll in Bundle
                           <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover/btn:translate-x-1" />
                         </button>

@@ -124,7 +124,7 @@ export default function LetterheadPage() {
         <div className="w-full px-14 pt-12 pb-6 flex justify-between items-end border-b border-gray-100">
           <div className="flex items-center gap-4">
             <Image
-              src="/logo.png"
+              src="/logo.webp"
               alt="AeroSpark Logo"
               width={65}
               height={65}
@@ -172,7 +172,7 @@ export default function LetterheadPage() {
         {/* WATERMARK */}
         <div className="absolute top-[50%] left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.02] pointer-events-none scale-150">
           <Image
-            src="/logo.png"
+            src="/logo.webp"
             alt="Watermark"
             width={800}
             height={800}
@@ -315,7 +315,7 @@ export default function LetterheadPage() {
             <div className="flex items-center gap-5 text-[11px] text-blue-100/90 font-semibold shrink-0 ml-4 tracking-wider uppercase">
               <div className="flex items-center gap-1.5 whitespace-nowrap">
                 <Phone size={13} className="text-[#FF6B00] shrink-0" />
-                <span>+91 98765 43210</span>
+                <span>+91 97125 42713</span>
               </div>
               
               <span className="text-white/20 text-xs">•</span>
