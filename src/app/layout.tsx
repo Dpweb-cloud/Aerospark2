@@ -49,7 +49,7 @@ export default function RootLayout({
                 try {
                   var theme = localStorage.getItem('theme');
                   if (!theme) {
-                    theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                    theme = 'light';
                   }
                   var accent = localStorage.getItem('accentColor');
                   if (!accent) {
@@ -64,7 +64,7 @@ export default function RootLayout({
       </head>
       <body className="bg-background text-foreground antialiased min-h-screen relative" suppressHydrationWarning>
         <PostHogProvider>
-          <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
+          <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
             <GlobalBackground />
             <div className="scan-line" />
             {children}

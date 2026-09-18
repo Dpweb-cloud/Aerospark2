@@ -361,7 +361,7 @@ export default function ConsultationClient() {
                       <p className="text-xs text-text-muted uppercase tracking-wider">
                         Email
                       </p>
-                      <p className="text-sm text-foreground">consult@aerospark.io</p>
+                      <p className="text-sm text-foreground">connect@aerospark.in</p>
                     </div>
                   </div>
                 </div>
